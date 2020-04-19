@@ -7,7 +7,7 @@ module.exports = {
   manifestThemeColor: '#a8e9dd',
   manifestDisplay: 'standalone',
   manifestIcon: 'src/assets/img/logo.png',
-  pathPrefix: `/`,
+  pathPrefix: `/ks-web`,
   heading: '¡Hola!',
   heading2: 'Somos Kimox Studio',
   subHeading: 'Desarrollamos soluciones a medida para tus problemas',
