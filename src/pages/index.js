@@ -17,11 +17,9 @@ const IndexPage = () => (
     <div id="main">
       <header className="major container medium">
         <h2>
-          We conduct experiments that
+          A problemas cotidianos
           <br />
-          may or may not seriously
-          <br />
-          break the universe
+          soluciones automáticas
         </h2>
       </header>
 

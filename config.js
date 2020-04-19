@@ -1,36 +1,31 @@
 module.exports = {
-  siteTitle: 'Gatsby Starter directive', // <title>
-  manifestName: 'directive',
-  manifestShortName: 'Landing', // max 12 characters
+  siteTitle: 'Kimox Studio',
+  manifestName: 'kimoxstudio',
+  manifestShortName: 'Landing',
   manifestStartUrl: '/',
-  manifestBackgroundColor: '#663399',
-  manifestThemeColor: '#663399',
+  manifestBackgroundColor: '#a8e9dd',
+  manifestThemeColor: '#a8e9dd',
   manifestDisplay: 'standalone',
-  manifestIcon: 'src/assets/img/website-icon.png',
-  pathPrefix: `/gatsby-starter-directive/`, // This path is subpath of your hosting https://domain/portfolio
-  heading: 'Hi! I am Anubhav Srivastava',
-  subHeading: 'Full time Web Developer. Part time Open source contributor  ',
-  // social
+  manifestIcon: 'src/assets/img/logo.png',
+  pathPrefix: `/`,
+  heading: '¡Hola!',
+  heading2: 'Somos Kimox Studio',
+  subHeading: 'Desarrollamos soluciones a medida para tus problemas',
   socialLinks: [
+    {
+      icon: 'fa-envelope-o',
+      name: 'Email',
+      url: 'mailto:kimoxstudio@gmail.com',
+    },
     {
       icon: 'fa-github',
       name: 'Github',
-      url: 'https://github.com/anubhavsrivastava',
+      url: 'https://github.com/kimoxstudio',
     },
     {
       icon: 'fa-twitter',
       name: 'Twitter',
-      url: 'https://twitter.com/onlyanubhav',
-    },
-    {
-      icon: 'fa-facebook',
-      name: 'Facebook',
-      url: 'https://facebook.com/theanubhav',
-    },
-    {
-      icon: 'fa-envelope-o',
-      name: 'Email',
-      url: 'mailto:anubhav.srivastava00@gmail.com',
+      url: 'https://twitter.com/kimoxstudio',
     },
   ],
 };
