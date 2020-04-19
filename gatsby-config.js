@@ -4,9 +4,11 @@ module.exports = {
   pathPrefix: config.pathPrefix,
   siteMetadata: {
     title: config.siteTitle,
+    siteUrl: config.siteUrl
   },
   plugins: [
     'gatsby-plugin-react-helmet',
+    'gatsby-plugin-cname',
     {
       resolve: `gatsby-plugin-manifest`,
       options: {

@@ -1,5 +1,6 @@
 module.exports = {
   siteTitle: 'Kimox Studio',
+  siteUrl: 'http://kimoxstudio.com',
   manifestName: 'kimoxstudio',
   manifestShortName: 'Landing',
   manifestStartUrl: '/',
