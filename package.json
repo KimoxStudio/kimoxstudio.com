@@ -1,14 +1,14 @@
 {
-  "name": "gatsby-starter-directive",
+  "name": "ks-web",
   "version": "0.0.1",
-  "description": "Gatsby.js V2 starter template based on Directive by HTML5 UP",
+  "description": "Web of Kimox Studio built with Gatsby",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anubhavsrivastava/gatsby-starter-directive.git"
+    "url": "git@github.com:KimoxStudio/ks-web.git"
   },
   "author": {
-    "name": "Anubhav Srivastava",
-    "email": "anubhav.srivastava00@gmail.com"
+    "name": "Kimox Studio",
+    "email": "kimoxstudio@gmail.com"
   },
   "dependencies": {
     "gatsby": "^2.20.2",
