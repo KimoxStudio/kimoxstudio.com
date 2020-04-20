@@ -2,14 +2,12 @@ import React from 'react';
 
 import Layout from '../components/Layout';
 
-import { Link } from 'gatsby';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 import pic1 from '../assets/images/pic01.jpg';
 import pic2 from '../assets/images/pic02.jpg';
 import pic3 from '../assets/images/pic03.jpg';
-import avatar from '../assets/images/avatar.png';
 
 const IndexPage = () => (
   <Layout>

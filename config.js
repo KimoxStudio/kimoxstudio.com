@@ -11,7 +11,7 @@ module.exports = {
   pathPrefix: `/`,
   heading: '¡Hola!',
   heading2: 'Somos Kimox Studio',
-  subHeading: 'Desarrollamos soluciones a medida para tus problemas',
+  subHeading: 'Desarrollamos soluciones adaptadas a ti',
   socialLinks: [
     {
       icon: 'fa-envelope-o',
