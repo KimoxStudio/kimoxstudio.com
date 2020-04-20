@@ -9,6 +9,7 @@ import Footer from '../components/Footer';
 import pic1 from '../assets/images/pic01.jpg';
 import pic2 from '../assets/images/pic02.jpg';
 import pic3 from '../assets/images/pic03.jpg';
+import avatar from '../assets/images/avatar.png';
 
 const IndexPage = () => (
   <Layout>
@@ -16,69 +17,52 @@ const IndexPage = () => (
 
     <div id="main">
       <header className="major container medium">
-        <h2>
-          A problemas cotidianos
-          <br />
-          soluciones automáticas
-        </h2>
+        <h2>Nosotros somos...</h2>
       </header>
 
       <div className="box alt container">
         <section className="feature left">
-          <a href="/#" className="image icon fa-signal">
+          <a href="/#" className="image icon fa-puzzle-piece">
             <img src={pic1} alt="" />
           </a>
           <div className="content">
-            <h3>The First Thing</h3>
+            <h3>Adaptativos</h3>
             <p>
-              Vitae natoque dictum etiam semper magnis enim feugiat amet
-              curabitur tempor orci penatibus. Tellus erat mauris ipsum
-              fermentum etiam vivamus eget. Nunc nibh morbi quis fusce lacus.
+              Tus necesidades son <b>nuestra prioridad</b> y nos amoldamos para
+              ofrecerte <b>la mejor solución.</b> Tanto en el proceso creativo como en
+              el proceso de desarrollo te acompañamos para hacer que el producto
+              luzca como te lo habías imaginado.
             </p>
           </div>
         </section>
         <section className="feature right">
-          <a href="/#" className="image icon fa-code">
-            <img src={pic2} alt="" />
-          </a>
-          <div className="content">
-            <h3>The Second Thing</h3>
-            <p>
-              Vitae natoque dictum etiam semper magnis enim feugiat amet
-              curabitur tempor orci penatibus. Tellus erat mauris ipsum
-              fermentum etiam vivamus eget. Nunc nibh morbi quis fusce lacus.
-            </p>
-          </div>
-        </section>
-        <section className="feature left">
           <a href="/#" className="image icon fa-mobile">
             <img src={pic3} alt="" />
           </a>
           <div className="content">
-            <h3>The Third Thing</h3>
+            <h3>Polifacéticos</h3>
             <p>
-              Vitae natoque dictum etiam semper magnis enim feugiat amet
-              curabitur tempor orci penatibus. Tellus erat mauris ipsum
-              fermentum etiam vivamus eget. Nunc nibh morbi quis fusce lacus.
+              Creamos soluciones de amplio aspectro ya sea para web, móvil o
+              escritorio, utilizando las <b>últimas tecnologías</b> y aplicando
+              técnicas de <b>desarrollo vanguardistas.</b>
+            </p>
+          </div>
+        </section>
+        <section className="feature left">
+          <a href="/#" className="image icon fa-code">
+            <img src={pic2} alt="" />
+          </a>
+          <div className="content">
+            <h3>Profesionales</h3>
+            <p>
+              Ante todo garantizamos que nuestros proyectos emanen
+              profesionalidad y calidad, cualidades que a veces quedan en
+              segundo plano y para nosotros son <b>indispensable.</b>
             </p>
           </div>
         </section>
       </div>
 
-      <footer className="major container medium">
-        <h3>Get shady with this starter</h3>
-        <p>
-          There is also elements page in this template. Click below button to
-          check
-        </p>
-        <ul className="actions special">
-          <li>
-            <Link to="/Elements" className="button">
-              View Elements
-            </Link>
-          </li>
-        </ul>
-      </footer>
     </div>
     <Footer />
   </Layout>

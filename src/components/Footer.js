@@ -6,10 +6,12 @@ export default function Footer() {
     <div id="footer">
       <div className="container medium">
         <header className="major last">
-          <h2>Questions or comments?</h2>
+          <h2>Contáctanos</h2>
         </header>
 
-        <p>Life will feel it is always a great time to chat</p>
+        <p>
+          <i>Siempre es un buen momento para materializar tus ideas</i>
+        </p>
 
         <ContactForm />
 
