@@ -1,8 +1,8 @@
 module.exports = {
   siteTitle: 'Kimox Studio',
-  siteUrl: 'http://kimoxstudio.com',
+  siteUrl: 'http://www.kimoxstudio.com',
   manifestName: 'kimoxstudio',
-  manifestShortName: 'Landing',
+  manifestShortName: 'Landing', 
   manifestStartUrl: '/',
   manifestBackgroundColor: '#a8e9dd',
   manifestThemeColor: '#a8e9dd',
