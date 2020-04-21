@@ -95,7 +95,7 @@ const IndexPage = () => (
                 <b>Apasionado.</b>
                 <br />
                 Tanto del código como de la música, lleva el ritmo a todas
-                partes, una pieza fundamental tomando decisiones arquitectonicas
+                partes, una pieza fundamental tomando decisiones arquitectónicas
                 y de lógica, aplicando la máxima creatividad y asertividad.
               </p>
             }
