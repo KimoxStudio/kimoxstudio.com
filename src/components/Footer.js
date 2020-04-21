@@ -20,7 +20,12 @@ export default function Footer() {
             const { icon, name, url } = social;
             return (
               <li key={url}>
-                <a href={url} className={`icon ${icon}`}>
+                <a
+                  href={url}
+                  className={`icon ${icon}`}
+                  target={'_blank'}
+                  rel={'noopener noreferrer'}
+                >
                   <span className="label">{name}</span>
                 </a>
               </li>
@@ -31,7 +36,14 @@ export default function Footer() {
         <ul className="copyright">
           <li>&copy; Directive. All rights reserved.</li>
           <li>
-            Design: <a href="http://html5up.net">HTML5 UP</a>
+            Design:
+            <a
+              href="http://html5up.net"
+              target={'_blank'}
+              rel={'noopener noreferrer'}
+            >
+              HTML5 UP
+            </a>
           </li>
         </ul>
       </div>
