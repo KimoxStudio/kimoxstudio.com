@@ -27,9 +27,9 @@ const IndexPage = () => (
             <h3>Adaptativos</h3>
             <p>
               Tus necesidades son <b>nuestra prioridad</b> y nos amoldamos para
-              ofrecerte <b>la mejor solución.</b> Tanto en el proceso creativo como en
-              el proceso de desarrollo te acompañamos para hacer que el producto
-              luzca como te lo habías imaginado.
+              ofrecerte <b>la mejor solución.</b> Tanto en el proceso creativo
+              como en el proceso de desarrollo te acompañamos para hacer que el
+              producto luzca como te lo habías imaginado.
             </p>
           </div>
         </section>
@@ -54,13 +54,12 @@ const IndexPage = () => (
             <h3>Profesionales</h3>
             <p>
               Ante todo garantizamos que nuestros proyectos emanen
-              profesionalidad y calidad, cualidades que a veces quedan en
-              segundo plano y para nosotros son <b>indispensable.</b>
+              <b> profesionalidad y calidad</b>, cualidades que a veces quedan
+              en segundo plano y para nosotros son <b>indispensables.</b>
             </p>
           </div>
         </section>
       </div>
-
     </div>
     <Footer />
   </Layout>
