@@ -12,6 +12,8 @@ $size: (
 // Font.
 $font: ();
 
+$primary: #73a9ba;
+
 // Palette.
 $palette: (
   bg: #ffffff,
@@ -19,10 +21,11 @@ $palette: (
   fg-light: #888888,
   fg-bold: #5b5b5b,
   border: rgba(224, 224, 224, 0.75),
+  border-secondary: rgba(1, 1, 1, 0.25),
   border-bg: rgba(224, 224, 224, 0.15),
   border-bg2: rgba(224, 224, 224, 0.35),
   accent1: (
-    bg: #73a9ba,
+    bg: $primary,
     fg: rgba(255, 255, 255, 0.8),
     fg-light: rgba(255, 255, 255, 0.5),
     fg-bold: #ffffff,

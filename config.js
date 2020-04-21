@@ -9,8 +9,8 @@ module.exports = {
   manifestDisplay: 'standalone',
   manifestIcon: 'src/assets/img/logo.png',
   pathPrefix: `/`,
-  heading: '¡Hola!',
-  heading2: 'Somos Kimox Studio',
+  heading: 'Kimox Studio',
+  heading2: '¡Hola!',
   subHeading: 'Desarrollamos soluciones adaptadas a ti',
   socialLinks: [
     {

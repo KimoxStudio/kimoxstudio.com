@@ -13,8 +13,8 @@ export default function Header() {
         <img src={avatar} alt="Logo" />
       </div>
       <div id="header">
-        <h1>{config.heading}</h1>
-        <h2>{config.heading2}</h2>
+        <h2>{config.heading}</h2>
+        <h1>{config.heading2}</h1>
         <p>{config.subHeading}</p>
       </div>
     </Fragment>

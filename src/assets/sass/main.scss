@@ -9,6 +9,7 @@
 
 // local imports
 @import 'header.scss';
+@import 'index.scss';
 
 /*
 	Directive by HTML5 UP
@@ -1007,6 +1008,7 @@ input[type='button'],
       display: block;
       min-height: 100%;
       min-width: 100%;
+      width: 100%;
       position: absolute;
     }
   }
@@ -1162,7 +1164,7 @@ input[type='button'],
 #footer {
   background-attachment: scroll;
   background-color: _palette(accent1, bg);
-  background-image: url('../images/bottom-3200.svg');
+  background-image: url('../images/bottom-3200-gray.png');
   background-position: top center;
   background-repeat: repeat-x;
   background-size: 3200px 460px;
@@ -1294,7 +1296,7 @@ input[type='button'],
     z-index: -1;
   }
 
-  header.major,
+  header.major:not(.gray-background),
   footer.major {
     background: _palette(bg);
   }
@@ -1436,9 +1438,9 @@ input[type='button'],
   /* Footer */
 
   #footer {
-    background-image: url('../images/bottom-1600.svg');
+    background-image: url('../images/bottom-1600-gray.png');
     background-size: 1600px 230px;
-    margin-top: -100px;
+    margin-top: -125px;
     padding: calc(230px + 4em) 0 6em 0;
 
     &:before {
@@ -1599,7 +1601,7 @@ input[type='button'],
   /* Footer */
 
   #footer {
-    background-image: url('../images/bottom-1280.svg');
+    background-image: url('../images/bottom-1280-gray.png');
     background-size: 1280px 184px;
     margin-top: -75px;
     padding: calc(184px + 2em) 0 2em 0;
@@ -1611,12 +1613,6 @@ input[type='button'],
     form {
       padding-bottom: 0;
     }
-  }
-
-  /* Main */
-
-  #main {
-    padding: 2em 0 2em 0;
   }
 }
 
@@ -1665,17 +1661,10 @@ input[type='button'],
     }
   }
 
-  /* Main */
-
-  #main {
-    padding-left: 1em;
-    padding-right: 1em;
-  }
-
   /* Footer */
 
   #footer {
-    margin-top: -100px;
+    margin-top: -125px;
     padding-left: 1em;
     padding-right: 1em;
 
