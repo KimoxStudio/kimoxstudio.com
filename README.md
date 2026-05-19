@@ -1,99 +1,104 @@
-# gatsby-starter-directive
+# kimoxstudio.com
 
-Gatsby.js V2 starter template based on Directive by HTML5 UP
+Sitio público del estudio: landing editorial, blog técnico y `/admin` para editar contenido sin tocar el repo a mano.
 
-For an overview of the project structure please refer to the [Gatsby documentation - Building with Components](https://www.gatsbyjs.org/docs/building-with-components/).
+**Stack:** Next.js 14 (App Router, SSG) + Decap CMS git-based + Markdown en `content/`. Sin base de datos, sin backend propio, sin servicios de pago. Despliegue exclusivo en **Vercel**.
 
-![Screenshot](./src/assets/img/screenshots.jpg)
+## Características
 
-Check online preview [here](https://anubhavsrivastava.github.io/gatsby-starter-directive/)
+- **Landing brutalist editorial** en tema oscuro (V3 Poster) — hero, manifiesto, servicios con precios, proyectos, proceso, testimonios, sección "Nosotros" con tarjetas de equipo (tilt 3D), formulario de contacto.
+- **Blog técnico** con la misma estética (Familjen Grotesk + IBM Plex Mono): índice con featured + filtros por categoría y detalle de post con `generateStaticParams` (un HTML pre-renderizado por slug).
+- **Tres idiomas** ES / EN / JA con conmutador persistido en `localStorage` y `<html lang>` sincronizado.
+- **Tema claro / oscuro** con detección automática de `prefers-color-scheme`, conmutador manual, sin flash (script inline antes del primer paint).
+- **Cursor custom** suave en landing y blog, deshabilitado en touch.
+- **Decap CMS** en `/admin/` que commitea Markdown directamente a GitHub.
 
-## Screenshot
+## Stack
 
-![Screenshot](./src/assets/img/demo.png)
+| Pieza | Por qué |
+|---|---|
+| Next.js 14 App Router | SSG real para landing y blog → cero coste de runtime en Vercel |
+| Decap CMS | Open source, edita Markdown en GitHub vía OAuth, no requiere DB |
+| Markdown + YAML frontmatter | Contenido versionado en git, portable a cualquier stack |
+| `js-yaml` | Parser de frontmatter en servidor (sin dependencias de Node Buffer en cliente) |
+| pnpm | Gestor de paquetes; `pnpm-lock.yaml` versionado |
 
-## Install
+## Develop
 
-Make sure that you have the Gatsby CLI program installed:
-
-```sh
-npm install --global gatsby-cli
+```bash
+pnpm install
+pnpm dev                 # http://localhost:5173
+pnpm dlx decap-server    # en otra terminal: backend local del CMS
 ```
 
-And run from your CLI:
+Con `decap-server` activo, abre <http://localhost:5173/admin/> y los cambios se escriben directos a `content/posts/*.md` y `content/site/studio.json`.
 
-```sh
-gatsby new <site-name> https://github.com/anubhavsrivastava/gatsby-starter-directive
+## Build
+
+```bash
+pnpm build               # genera .next/ + páginas estáticas
+pnpm start               # sirve la build de producción
 ```
 
-Then you can run it by:
+El build pre-renderiza la landing, el índice del blog y un HTML estático por cada post.
 
-```sh
-cd gatsby-example-site
-npm install
-gatsby develop
+## Deploy (Vercel)
+
+Es la **única plataforma de despliegue** del proyecto. No hay `netlify.toml`, `Dockerfile`, GitHub Actions ni cualquier otro pipeline. Vercel detecta Next.js solo — cero configuración.
+
+```bash
+vercel link              # ya hecho
+git push                 # despliegue automático
 ```
 
-### Personalization
+### CMS auth en producción
 
-Edit `config.js` to put up your details
+`public/admin/config.yml` usa el GitHub backend a través del proxy OAuth gratuito de Netlify (`api.netlify.com`). Esto es **solo para autenticar** al editor: el sitio entero sigue desplegándose y sirviéndose desde Vercel. Es la opción más simple y no añade infraestructura.
 
-```javascript
-module.exports = {
-  siteTitle: 'Gatsby Starter Directive', // <title>
-  ...
-  heading: 'Anubhav',
-  subHeading: 'Web Developer',
-  // social
-  socialLinks: [
-    {
-      icon: 'fa-github',
-      name: 'Github',
-      url: 'https://github.com/anubhavsrivastava',
-    }
-    ...
-  ],
-};
+Si en algún momento se prefiere quitar esa dependencia externa:
+
+1. **OAuth shim en Vercel:** una función serverless (3 endpoints: `/auth`, `/callback`, `/success`) que haga el handshake con GitHub. Apuntar `backend.base_url` a la URL de la función.
+2. **Decap Bridge** (servicio gestionado, gratuito hasta cierto tráfico): `backend.base_url: "https://oauth.decapbridge.com"`.
+
+## Estructura
 
 ```
+app/
+  layout.jsx              root layout — fuentes, cursor, script de tema
+  globals.css             tokens compartidos (dark + light), base, cursor
+  page.jsx                landing (importa landing.css)
+  landing.css             estilos específicos de la landing
+  blog/
+    page.jsx              índice del blog (server component → BlogClient)
+    blog.css              estilos específicos del blog (mismo lenguaje visual)
+    [slug]/page.jsx       detalle de post (SSG vía generateStaticParams)
+components/
+  LandingClient.jsx       todas las secciones de la landing
+  BlogClient.jsx          listado, filtros, featured
+  BlogPostClient.jsx      detalle de post + nav
+  ThemeToggle.jsx         botón de tema (sol / luna)
+lib/
+  posts.js                loader fs de markdown (server-only)
+  i18n.js                 strings compartidos ES/EN/JA
+  lang.js                 useLang hook + t() helper (client)
+  cursor.js               hooks de cursor (landing y blog)
+  theme.js                useTheme hook (client)
+content/
+  posts/*.md              entradas del blog (editables desde Decap)
+  site/studio.json        metadatos del estudio (editables desde Decap)
+public/
+  admin/                  shell de Decap CMS + config.yml
+  logos/                  variantes del logo (icon, wordmark, etc.)
+```
 
-### Deploying using Github page
+## Editar contenido
 
-`package.json` has a default script that uses `gh-pages` module to publish on Github pages. Simply running `npm run deploy` would publish the site on github pages.
+**Desde Decap (recomendado para no-devs):** ir a `/admin/`, login con GitHub, editar visualmente con campos ES/EN/JA, publicar (commit a `master`).
 
-Additionally, it also has [path-prefix](https://www.gatsbyjs.org/docs/path-prefix/) value set for gatsby config in `config.js`. Change `pathPrefix` to relevant path if your gatsby site is hosted on subpath of a domain, `https://theanubhav.com/somePath/`. If you are hosting it as root site, i.e, `https://theanubhav.com/` , remove the pathPrefix configuration.
+**Desde el editor (devs):** modificar `content/posts/*.md` directamente. El frontmatter es YAML con las claves `slug`, `date`, `read_time`, `glyph`, `featured`, `category` (es/en/ja), `title` (es/en/ja), `excerpt` (es/en/ja), `body` (es/en/ja). El cuerpo se renderiza con `white-space: pre-wrap`, así que los saltos de línea se preservan.
 
-### Checkout other similar starters
+## Notas de diseño
 
-- [gatsby-starter-casual](https://github.com/anubhavsrivastava/gatsby-starter-casual)
-- [gatsby-starter-grayscale](https://github.com/anubhavsrivastava/gatsby-starter-grayscale)
-- [gatsby-starter-resume](https://github.com/anubhavsrivastava/gatsby-starter-resume)
-- [gatsby-starter-spectral](https://github.com/anubhavsrivastava/gatsby-starter-spectral)
-- [gatsby-starter-newage](https://github.com/anubhavsrivastava/gatsby-starter-newage)
-- [gatsby-starter-stylish](https://github.com/anubhavsrivastava/gatsby-starter-stylish)
-- [gatsby-starter-solidstate](https://github.com/anubhavsrivastava/gatsby-starter-solidstate)
-- [gatsby-starter-readonly](https://github.com/anubhavsrivastava/gatsby-starter-readonly)
-- [gatsby-starter-prologue](https://github.com/anubhavsrivastava/gatsby-starter-prologue)
-- [gatsby-starter-phantom](https://github.com/anubhavsrivastava/gatsby-starter-phantom)
-- [gatsby-starter-paradigmshift](https://github.com/anubhavsrivastava/gatsby-starter-paradigmshift)
-- [gatsby-starter-overflow](https://github.com/anubhavsrivastava/gatsby-starter-overflow)
-- [gatsby-starter-multiverse](https://github.com/anubhavsrivastava/gatsby-starter-multiverse)
-- [gatsby-starter-identity](https://github.com/anubhavsrivastava/gatsby-starter-identity)
-- [gatsby-starter-highlights](https://github.com/anubhavsrivastava/gatsby-starter-highlights)
-- [gatsby-starter-fractal](https://github.com/anubhavsrivastava/gatsby-starter-fractal)
-- [gatsby-starter-eventually](https://github.com/anubhavsrivastava/gatsby-starter-eventually)
-- [gatsby-starter-directive](https://github.com/anubhavsrivastava/gatsby-starter-directive)
-- [gatsby-starter-creative](https://github.com/anubhavsrivastava/gatsby-starter-creative)
-- [gatsby-starter-aerial](https://github.com/anubhavsrivastava/gatsby-starter-aerial)
-
-### Contribution
-
-Suggestions and PRs are welcome!
-
-Please create issue or open PR request for contribution.
-
-### License
-
-[![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](LICENSE)
-
-refer `LICENSE` file in this repository.
+- Paleta y tipografía heredadas del prototipo aprobado (V3 Poster).
+- Naranja base `#ff5c28` en oscuro y `#e0461a` en claro para mantener contraste WCAG.
+- Sin imágenes en el equipo todavía — placeholders con caras estilizadas que reaccionan al cursor (tilt 3D, no eye-tracking, para que sea sustituible por fotos reales sin perder el efecto).
