@@ -1,4 +1,5 @@
 import './globals.css';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata = {
   title: 'Kimox Studio — Software con alma propia',
@@ -36,6 +37,7 @@ export default function RootLayout({ children }) {
         <div id="cursor" />
         <div id="cursor-trail" />
         {children}
+        <Analytics />
       </body>
     </html>
   );

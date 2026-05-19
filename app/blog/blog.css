@@ -299,6 +299,109 @@ nav.top .links a.active { color: var(--orange); }
 }
 .post:hover .read-more { color: var(--orange); transform: translateX(4px); }
 
+/* ── Post body (markdown) ── */
+.post-body p {
+  margin: 0 0 1.4em;
+  color: var(--ink-2);
+}
+.post-body p:last-child { margin-bottom: 0; }
+.post-body strong {
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: -0.005em;
+}
+.post-body em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: var(--orange);
+}
+.post-body a {
+  color: var(--orange);
+  border-bottom: 1px solid var(--orange);
+  transition: opacity .2s;
+}
+.post-body a:hover { opacity: .7; }
+.post-body code {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.88em;
+  padding: 2px 6px;
+  background: var(--bg-2);
+  border: 1px solid var(--rule);
+  color: var(--ink);
+  letter-spacing: 0;
+}
+.post-body pre {
+  font-family: 'IBM Plex Mono', monospace;
+  background: var(--bg-2);
+  border: 1px solid var(--rule);
+  padding: 18px 22px;
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 1.6em 0;
+}
+.post-body pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+.post-body ol, .post-body ul {
+  padding-left: 0;
+  margin: 1.4em 0;
+  list-style: none;
+  counter-reset: post-counter;
+}
+.post-body ol > li, .post-body ul > li {
+  position: relative;
+  padding-left: 56px;
+  margin-bottom: 1em;
+  color: var(--ink-2);
+}
+.post-body ol > li::before {
+  counter-increment: post-counter;
+  content: counter(post-counter, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7em;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--orange);
+}
+.post-body ul > li::before {
+  content: '+';
+  position: absolute;
+  left: 18px;
+  top: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--orange);
+  font-weight: 700;
+}
+.post-body h2, .post-body h3 {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 2em 0 0.8em;
+  line-height: 1;
+}
+.post-body h2 { font-size: 32px; }
+.post-body h3 { font-size: 22px; }
+.post-body blockquote {
+  margin: 1.6em 0;
+  padding: 4px 0 4px 24px;
+  border-left: 2px solid var(--orange);
+  color: var(--ink-2);
+  font-style: italic;
+}
+.post-body hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 2em 0;
+}
+
 /* ── Footer ── */
 footer.bot {
   border-top: 1px solid var(--rule);

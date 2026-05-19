@@ -2,10 +2,21 @@
 
 import React from 'react';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
 import { I18N as I } from '../lib/i18n';
 import { useLang, LANGS, t } from '../lib/lang';
 import { useBlogCursor } from '../lib/cursor';
 import ThemeToggle from './ThemeToggle';
+
+function dedent(s) {
+  if (!s) return '';
+  const lines = s.split('\n');
+  const indents = lines
+    .filter((l) => l.trim().length > 0)
+    .map((l) => l.match(/^ */)[0].length);
+  const min = indents.length ? Math.min(...indents) : 0;
+  return min > 0 ? lines.map((l) => l.slice(min)).join('\n') : s;
+}
 
 function Nav({ lang, setLang }) {
   return (
@@ -143,7 +154,9 @@ export default function BlogPostClient({ post }) {
           >
             {t(post.excerpt, lang)}
           </p>
-          <div style={{ whiteSpace: 'pre-wrap' }}>{t(post.body, lang) || post.content}</div>
+          <div className="post-body">
+            <ReactMarkdown>{dedent(t(post.body, lang) || post.content)}</ReactMarkdown>
+          </div>
         </section>
         <footer className="bot" style={{ marginTop: 100 }}>
           <div className="wrap">
