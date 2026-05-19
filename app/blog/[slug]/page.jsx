@@ -7,8 +7,9 @@ export function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }));
 }
 
-export function generateMetadata({ params }) {
-  const post = getPost(params.slug);
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const post = getPost(slug);
   if (!post) return {};
   return {
     title: `${post.title?.es || post.slug} — Kimox Studio`,
@@ -16,8 +17,9 @@ export function generateMetadata({ params }) {
   };
 }
 
-export default function Page({ params }) {
-  const post = getPost(params.slug);
+export default async function Page({ params }) {
+  const { slug } = await params;
+  const post = getPost(slug);
   if (!post) notFound();
   return <BlogPostClient post={post} />;
 }
