@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { I18N as I } from '../lib/i18n';
-import { useLang, LANGS, t } from '../lib/lang';
+import { useLang, t } from '../lib/lang';
 import { useBlogCursor } from '../lib/cursor';
-import ThemeToggle from './ThemeToggle';
+import Nav from './Nav';
 
 const BLOG = {
   hero: {
@@ -47,59 +47,6 @@ const BLOG = {
   readArticle: { es: 'Leer el artículo →', en: 'Read the article →', ja: '記事を読む →' },
 };
 
-function Nav({ lang, setLang }) {
-  return (
-    <nav className="top">
-      <div className="row">
-        <Link href="/" className="logo" data-hover>
-          <span className="dot">
-            <img src="/logos/icon.svg" alt="Kimox Studio" />
-          </span>
-          <span>
-            Kimox<span style={{ color: 'var(--orange)' }}>.</span>Studio
-          </span>
-        </Link>
-        <div className="links">
-          <Link href="/#work">{t(I.nav.work, lang)}</Link>
-          <Link href="/#services">{t(I.nav.services, lang)}</Link>
-          <Link href="/#process">{t(I.nav.process, lang)}</Link>
-          <Link href="/#about">{t(I.nav.about, lang)}</Link>
-          <Link href="/blog" className="active">
-            {t(I.nav.blog, lang)}
-          </Link>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <ThemeToggle />
-          <div className="lang-switch">
-            {LANGS.map((l) => (
-              <button
-                key={l.code}
-                className={lang === l.code ? 'active' : ''}
-                onClick={() => setLang(l.code)}
-              >
-                {l.label}
-              </button>
-            ))}
-          </div>
-          <Link
-            href="/#contact"
-            style={{
-              background: 'var(--ink)',
-              color: 'var(--bg)',
-              padding: '10px 18px',
-              borderRadius: 999,
-              fontSize: 13,
-              fontWeight: 500,
-            }}
-          >
-            {t(I.nav.contact, lang)} →
-          </Link>
-        </div>
-      </div>
-    </nav>
-  );
-}
-
 export default function BlogClient({ featured, others }) {
   const [lang, setLang] = useLang();
   const [cat, setCat] = useState(0);
@@ -111,7 +58,7 @@ export default function BlogClient({ featured, others }) {
 
   return (
     <>
-      <Nav lang={lang} setLang={setLang} />
+      <Nav lang={lang} setLang={setLang} mode="blog" activeBlog />
       <section className="hero">
         <div className="wrap">
           <span className="eyebrow">

@@ -2,56 +2,6 @@
    Aesthetic mirrors landing: Familjen Grotesk + IBM Plex Mono, big poster headings,
    thin rules and orange accents. */
 
-/* ── Nav (matches landing) ── */
-nav.top {
-  position: sticky; top: 0; z-index: 50;
-  background: var(--nav-bg);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--rule);
-}
-nav.top .row {
-  display: flex; align-items: center; justify-content: space-between;
-  height: 68px; padding: 0 40px;
-}
-nav.top .logo {
-  display: inline-flex; align-items: center; gap: 12px;
-  font-family: 'Familjen Grotesk', sans-serif;
-  font-weight: 700; font-size: 17px; letter-spacing: -0.01em;
-  color: var(--ink);
-}
-nav.top .logo .dot {
-  width: 30px; height: 30px;
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-}
-nav.top .logo .dot img { width: 100%; height: 100%; display: block; }
-nav.top .links { display: flex; gap: 6px; }
-nav.top .links a {
-  font-size: 12px; font-weight: 500;
-  font-family: 'IBM Plex Mono', monospace;
-  letter-spacing: .04em;
-  padding: 8px 12px;
-  color: var(--ink-2);
-  transition: color .2s;
-}
-nav.top .links a:hover { color: var(--orange); }
-nav.top .links a.active { color: var(--orange); }
-.lang-switch {
-  display: inline-flex;
-  font-family: 'IBM Plex Mono', monospace;
-  border: 1px solid var(--rule);
-}
-.lang-switch button {
-  padding: 6px 11px;
-  font-size: 10px; font-weight: 500; letter-spacing: .1em;
-  background: transparent; color: var(--ink-3);
-  transition: background .15s, color .15s;
-  border-right: 1px solid var(--rule);
-}
-.lang-switch button:last-child { border-right: 0; }
-.lang-switch button:hover { color: var(--ink); }
-.lang-switch button.active { background: var(--orange); color: var(--bg); }
-
 /* ── Hero ── */
 .hero {
   padding: 100px 0 60px;
@@ -329,6 +279,9 @@ nav.top .links a.active { color: var(--orange); }
   border: 1px solid var(--rule);
   color: var(--ink);
   letter-spacing: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 .post-body pre {
   font-family: 'IBM Plex Mono', monospace;
@@ -417,8 +370,25 @@ footer.bot a { transition: color .2s; }
 footer.bot a:hover { color: var(--orange); }
 
 @media (max-width: 1100px) {
-  .featured { grid-template-columns: 1fr; gap: 32px; }
-  .posts-grid { grid-template-columns: 1fr; }
-  nav.top .links { display: none; }
-  nav.top .row { padding: 0 24px; }
+  .featured { grid-template-columns: 1fr; gap: 32px; padding: 40px 0 48px; margin-bottom: 48px; }
+  .featured .visual { height: 220px; }
+  .featured .visual .glyph { font-size: 120px; }
+  .posts-grid { grid-template-columns: 1fr; gap: 48px; padding-bottom: 80px; }
+  .post .cover { height: 180px; }
+  .post .cover .pattern { font-size: 80px; }
+  .filters {
+    padding: 18px 0;
+    margin-bottom: 40px;
+  }
+  .filters .right {
+    margin-left: 0;
+    width: 100%;
+    padding-top: 4px;
+  }
+  .hero { padding: 80px 0 48px; }
+  .hero h1 { font-size: clamp(48px, 11vw, 96px); }
+  .post-body ol > li, .post-body ul > li { padding-left: 36px; }
+  .post-body ul > li::before { left: 10px; }
+  .post-body h2 { font-size: clamp(24px, 6vw, 32px); }
+  .post-body h3 { font-size: clamp(18px, 4.5vw, 22px); }
 }

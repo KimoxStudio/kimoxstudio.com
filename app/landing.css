@@ -1,75 +1,3 @@
-    /* ── Reused chrome ────────── */
-    .eyebrow {
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
-      color: var(--ink-3);
-      display: inline-flex; align-items: center; gap: 10px;
-    }
-    .eyebrow::before {
-      content: ""; width: 24px; height: 1px; background: var(--orange);
-    }
-
-    /* ── Nav ────────────────── */
-    nav.top {
-      position: sticky; top: 0; z-index: 50;
-      background: var(--nav-bg);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--rule);
-    }
-    nav.top .row {
-      display: flex; align-items: center; justify-content: space-between;
-      height: 68px; padding: 0 40px;
-    }
-    nav.top .logo {
-      display: inline-flex; align-items: center; gap: 12px;
-      font-family: "Familjen Grotesk", sans-serif;
-      font-weight: 700; font-size: 17px; letter-spacing: -0.01em;
-    }
-    nav.top .logo .glyph {
-      width: 30px; height: 30px;
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
-    }
-    nav.top .logo .glyph img { width: 100%; height: 100%; display: block; }
-    nav.top .links { display: flex; gap: 6px; }
-    nav.top .links a {
-      font-size: 12px; font-weight: 500;
-      font-family: "IBM Plex Mono", monospace;
-      letter-spacing: .04em;
-      padding: 8px 12px;
-      color: var(--ink-2);
-      transition: color .2s, background .2s;
-      position: relative;
-    }
-    nav.top .links a:hover { color: var(--orange); }
-    nav.top .links a.active { color: var(--orange); }
-    nav.top .right { display: flex; align-items: center; gap: 14px; }
-    .lang-switch {
-      display: inline-flex;
-      font-family: "IBM Plex Mono", monospace;
-      border: 1px solid var(--rule);
-    }
-    .lang-switch button {
-      padding: 6px 11px;
-      font-size: 10px; font-weight: 500; letter-spacing: .1em;
-      background: transparent; color: var(--ink-3);
-      transition: background .15s, color .15s;
-      border-right: 1px solid var(--rule);
-    }
-    .lang-switch button:last-child { border-right: 0; }
-    .lang-switch button:hover { color: var(--ink); }
-    .lang-switch button.active { background: var(--orange); color: var(--bg); }
-    .cta-pill {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--orange); color: var(--bg);
-      padding: 10px 18px;
-      font-size: 12px; font-weight: 600;
-      font-family: "IBM Plex Mono", monospace;
-      letter-spacing: .04em; text-transform: uppercase;
-      transition: background .2s;
-    }
-    .cta-pill:hover { background: var(--ink); }
-
     /* ── Hero ─────────── */
     .hero {
       padding: 80px 0 64px;
@@ -402,6 +330,16 @@
       font-size: 60px; font-weight: 700;
       letter-spacing: -0.04em;
     }
+    .proj-row .swatch.has-logo { background: var(--bg-2); }
+    .proj-row .swatch .logo {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 64%; height: 64%;
+      object-fit: contain;
+      z-index: 2;
+    }
+    .proj-row .swatch.has-logo .stripes { opacity: 0.4; }
     .proj-row:nth-child(1) .swatch .glyph { color: var(--bg); }
     .proj-row:nth-child(2) .swatch .glyph { color: var(--orange); }
     .proj-row:nth-child(3) .swatch .glyph { color: var(--bg); }
@@ -912,8 +850,12 @@
       .hero .bottom-grid { grid-template-columns: 1fr; gap: 28px; }
       .manifesto .grid { grid-template-columns: 1fr; gap: 40px; }
       .svc-row { grid-template-columns: 40px 1fr; gap: 14px; }
-      .svc-row .desc, .svc-row .price-cell, .svc-row .cta-cell { grid-column: 2 / -1; text-align: left; }
+      .svc-row > * { grid-column: 2 / -1; text-align: left; }
+      .svc-row > .n { grid-column: 1; }
+      .svc-row .price-cell { text-align: left; }
       .svc-row .price-cell .amount { font-size: 38px; }
+      .svc-row .cta-cell { justify-content: flex-start; }
+      .svc-extras { gap: 8px; }
       .proj-row { grid-template-columns: 40px 1fr; gap: 12px; padding: 24px 0; }
       .proj-row .col { padding: 0; }
       .proj-row .swatch { grid-column: 2; height: 100px; }
@@ -926,6 +868,11 @@
       .team-card { border-right: 0; }
       .contact .grid { grid-template-columns: 1fr; gap: 40px; }
       .form-row { grid-template-columns: 1fr; }
-      nav.top .links { display: none; }
-      nav.top .row { padding: 0 24px; }
+    }
+    @media (max-width: 640px) {
+      .steps { grid-template-columns: 1fr; }
+      .step { min-height: 0; padding: 28px 24px; }
+      .about .stats { grid-template-columns: 1fr 1fr; }
+      .svc-row .price-cell .amount { font-size: 32px; }
+      .hero .top-meta { grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 0; }
     }

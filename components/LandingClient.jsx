@@ -3,48 +3,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { I18N as I } from '../lib/i18n';
-import { useLang, LANGS, t } from '../lib/lang';
+import { useLang, t } from '../lib/lang';
 import { useSmoothCursor } from '../lib/cursor';
-import ThemeToggle from './ThemeToggle';
-
-function Nav({ lang, setLang }) {
-  return (
-    <nav className="top">
-      <div className="row">
-        <a href="#top" className="logo">
-          <span className="glyph">
-            <img src="/logos/icon.svg" alt="Kimox Studio" />
-          </span>
-          <span>KIMOX·STUDIO</span>
-        </a>
-        <div className="links">
-          <a href="#work">/{t(I.nav.work, lang).toLowerCase()}</a>
-          <a href="#services">/{t(I.nav.services, lang).toLowerCase()}</a>
-          <a href="#process">/{t(I.nav.process, lang).toLowerCase()}</a>
-          <a href="#about">/{t(I.nav.about, lang).toLowerCase()}</a>
-          <Link href="/blog">/{t(I.nav.blog, lang).toLowerCase()}</Link>
-        </div>
-        <div className="right">
-          <ThemeToggle />
-          <div className="lang-switch">
-            {LANGS.map((l) => (
-              <button
-                key={l.code}
-                className={lang === l.code ? 'active' : ''}
-                onClick={() => setLang(l.code)}
-              >
-                {l.label}
-              </button>
-            ))}
-          </div>
-          <a href="#contact" className="cta-pill">
-            {t(I.nav.contact, lang)} →
-          </a>
-        </div>
-      </div>
-    </nav>
-  );
-}
+import Nav from './Nav';
 
 function Hero({ lang }) {
   const lines = t(I.hero.h1, lang);
@@ -307,8 +268,12 @@ function WorkSec({ lang }) {
                     <span key={j}>{tg}</span>
                   ))}
                 </div>
-                <div className="swatch">
-                  <div className="glyph">{glyph}</div>
+                <div className={`swatch${p.logo ? ' has-logo' : ''}`}>
+                  {p.logo ? (
+                    <img className="logo" src={p.logo} alt={`${name} logo`} />
+                  ) : (
+                    <div className="glyph">{glyph}</div>
+                  )}
                   <div className="stripes"></div>
                 </div>
               </a>
@@ -692,7 +657,7 @@ export default function LandingClient() {
   useSmoothCursor();
   return (
     <>
-      <Nav lang={lang} setLang={setLang} />
+      <Nav lang={lang} setLang={setLang} mode="landing" />
       <Hero lang={lang} />
       <Marquee lang={lang} />
       <ManifestoSec lang={lang} />

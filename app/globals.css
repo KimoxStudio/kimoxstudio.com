@@ -40,14 +40,14 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
 body {
   background: var(--bg);
   color: var(--ink);
   font-family: 'Familjen Grotesk', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   cursor: none;
-  overflow-x: hidden;
+  overflow-x: clip;
   transition: background 0.3s ease, color 0.3s ease;
 }
 @media (hover: none), (pointer: coarse) {
@@ -96,6 +96,93 @@ button { font: inherit; cursor: none; border: 0; background: transparent; color:
 
 .wrap { max-width: 1480px; margin: 0 auto; padding: 0 56px; }
 @media (max-width: 1100px) { .wrap { padding: 0 28px; } }
+
+/* ── Eyebrow (small mono label with orange rule) ── */
+.eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink-3);
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.eyebrow::before {
+  content: ''; width: 24px; height: 1px; background: var(--orange);
+}
+
+/* ── Nav (shared across landing, blog, post) ── */
+nav.top {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--nav-bg);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--rule);
+}
+nav.top .row {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 68px; padding: 0 40px;
+}
+nav.top .logo {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-weight: 700; font-size: 17px; letter-spacing: -0.01em;
+  color: var(--ink);
+}
+nav.top .logo .glyph {
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+nav.top .logo .glyph img { width: 100%; height: 100%; display: block; }
+nav.top .links { display: flex; gap: 6px; }
+nav.top .links a {
+  font-size: 12px; font-weight: 500;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: .04em;
+  padding: 8px 12px;
+  color: var(--ink-2);
+  transition: color .2s;
+  position: relative;
+}
+nav.top .links a:hover { color: var(--orange); }
+nav.top .links a.active { color: var(--orange); }
+nav.top .right { display: flex; align-items: center; gap: 14px; }
+
+.lang-switch {
+  display: inline-flex;
+  font-family: 'IBM Plex Mono', monospace;
+  border: 1px solid var(--rule);
+}
+.lang-switch button {
+  padding: 6px 11px;
+  font-size: 10px; font-weight: 500; letter-spacing: .1em;
+  background: transparent; color: var(--ink-3);
+  transition: background .15s, color .15s;
+  border-right: 1px solid var(--rule);
+}
+.lang-switch button:last-child { border-right: 0; }
+.lang-switch button:hover { color: var(--ink); }
+.lang-switch button.active { background: var(--orange); color: var(--bg); }
+
+.cta-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--orange); color: var(--bg);
+  padding: 10px 18px;
+  font-size: 12px; font-weight: 600;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: .04em; text-transform: uppercase;
+  transition: background .2s;
+}
+.cta-pill:hover { background: var(--ink); }
+
+@media (max-width: 1100px) {
+  nav.top .links { display: none; }
+  nav.top .row { padding: 0 24px; }
+  nav.top .cta-pill { display: none; }
+}
+@media (max-width: 480px) {
+  nav.top .row { padding: 0 16px; gap: 8px; }
+  nav.top .right { gap: 8px; }
+  .lang-switch button { padding: 6px 8px; font-size: 10px; }
+  nav.top .logo span:last-child { display: none; }
+}
 
 /* ── Theme toggle button (sits inside nav) ── */
 .theme-toggle {

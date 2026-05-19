@@ -4,9 +4,9 @@ import React from 'react';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import { I18N as I } from '../lib/i18n';
-import { useLang, LANGS, t } from '../lib/lang';
+import { useLang, t } from '../lib/lang';
 import { useBlogCursor } from '../lib/cursor';
-import ThemeToggle from './ThemeToggle';
+import Nav from './Nav';
 
 function dedent(s) {
   if (!s) return '';
@@ -18,66 +18,13 @@ function dedent(s) {
   return min > 0 ? lines.map((l) => l.slice(min)).join('\n') : s;
 }
 
-function Nav({ lang, setLang }) {
-  return (
-    <nav className="top">
-      <div className="row">
-        <Link href="/" className="logo" data-hover>
-          <span className="dot">
-            <img src="/logos/icon.svg" alt="Kimox Studio" />
-          </span>
-          <span>
-            Kimox<span style={{ color: 'var(--orange)' }}>.</span>Studio
-          </span>
-        </Link>
-        <div className="links">
-          <Link href="/#work">{t(I.nav.work, lang)}</Link>
-          <Link href="/#services">{t(I.nav.services, lang)}</Link>
-          <Link href="/#process">{t(I.nav.process, lang)}</Link>
-          <Link href="/#about">{t(I.nav.about, lang)}</Link>
-          <Link href="/blog" className="active">
-            {t(I.nav.blog, lang)}
-          </Link>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <ThemeToggle />
-          <div className="lang-switch">
-            {LANGS.map((l) => (
-              <button
-                key={l.code}
-                className={lang === l.code ? 'active' : ''}
-                onClick={() => setLang(l.code)}
-              >
-                {l.label}
-              </button>
-            ))}
-          </div>
-          <Link
-            href="/#contact"
-            style={{
-              background: 'var(--ink)',
-              color: 'var(--bg)',
-              padding: '10px 18px',
-              borderRadius: 999,
-              fontSize: 13,
-              fontWeight: 500,
-            }}
-          >
-            {t(I.nav.contact, lang)} →
-          </Link>
-        </div>
-      </div>
-    </nav>
-  );
-}
-
 export default function BlogPostClient({ post }) {
   const [lang, setLang] = useLang();
   useBlogCursor();
 
   return (
     <>
-      <Nav lang={lang} setLang={setLang} />
+      <Nav lang={lang} setLang={setLang} mode="post" activeBlog />
       <article style={{ paddingBottom: 80 }}>
         <div className="wrap" style={{ paddingTop: 48, paddingBottom: 24 }}>
           <Link
