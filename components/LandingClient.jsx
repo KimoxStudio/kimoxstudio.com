@@ -373,7 +373,7 @@ function TestimonialsSec({ lang }) {
   );
 }
 
-function TeamCardPhoto({ initials, index, lang }) {
+function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun }) {
   const photoRef = useRef(null);
   useEffect(() => {
     const photo = photoRef.current;
@@ -389,10 +389,16 @@ function TeamCardPhoto({ initials, index, lang }) {
     const update = () => {
       rafId = null;
       const r = photo.getBoundingClientRect();
+      // Tilt (-1.4..1.4)
       const rx = Math.max(-1.4, Math.min(1.4, (pendingX - (r.left + r.width / 2)) / (r.width / 2)));
       const ry = Math.max(-1.4, Math.min(1.4, (pendingY - (r.top + r.height / 2)) / (r.height / 2)));
       photo.style.setProperty('--rx', rx.toFixed(3));
       photo.style.setProperty('--ry', ry.toFixed(3));
+      // Mask centre as % within the photo
+      const mx = Math.max(0, Math.min(100, ((pendingX - r.left) / r.width) * 100));
+      const my = Math.max(0, Math.min(100, ((pendingY - r.top) / r.height) * 100));
+      photo.style.setProperty('--mx', mx.toFixed(2) + '%');
+      photo.style.setProperty('--my', my.toFixed(2) + '%');
     };
 
     const onMove = (e) => {
@@ -401,45 +407,76 @@ function TeamCardPhoto({ initials, index, lang }) {
       pendingY = e.clientY;
       if (!rafId) rafId = requestAnimationFrame(update);
     };
-    const onEnter = () => {
+    const onStart = (e) => {
       hovering = true;
+      // Mark card as "actively touched" so CSS can keep the mask visible
+      // even when :hover wouldn't fire (touch devices).
+      card.setAttribute('data-active', 'true');
+      if (e && e.clientX != null) {
+        pendingX = e.clientX;
+        pendingY = e.clientY;
+        update();
+      }
     };
-    const onLeave = () => {
+    const onEnd = () => {
       hovering = false;
+      card.removeAttribute('data-active');
       if (rafId) {
         cancelAnimationFrame(rafId);
         rafId = null;
       }
       photo.style.setProperty('--rx', '0');
       photo.style.setProperty('--ry', '0');
+      photo.style.setProperty('--mx', '50%');
+      photo.style.setProperty('--my', '50%');
     };
 
-    card.addEventListener('mouseenter', onEnter);
-    card.addEventListener('mouseleave', onLeave);
-    document.addEventListener('mousemove', onMove);
+    // Pointer events unify mouse and touch:
+    //  - desktop: pointerenter / pointermove / pointerleave (like mouseenter etc.)
+    //  - touch: pointerdown on the photo / pointermove while finger down / pointerup
+    card.addEventListener('pointerenter', onStart);
+    card.addEventListener('pointerleave', onEnd);
+    card.addEventListener('pointerdown', onStart);
+    card.addEventListener('pointerup', onEnd);
+    card.addEventListener('pointercancel', onEnd);
+    document.addEventListener('pointermove', onMove);
     return () => {
-      card.removeEventListener('mouseenter', onEnter);
-      card.removeEventListener('mouseleave', onLeave);
-      document.removeEventListener('mousemove', onMove);
+      card.removeEventListener('pointerenter', onStart);
+      card.removeEventListener('pointerleave', onEnd);
+      card.removeEventListener('pointerdown', onStart);
+      card.removeEventListener('pointerup', onEnd);
+      card.removeEventListener('pointercancel', onEnd);
+      document.removeEventListener('pointermove', onMove);
       if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 
+  const hasPhotos = !!(photoSerious && photoFun);
+
   return (
-    <div className="photo" ref={photoRef}>
-      <span className="badge">
-        {lang === 'ja' ? '写真' : lang === 'en' ? 'PHOTO' : 'FOTO'} 0{index + 1}
-      </span>
-      <span className="index">REPLACE_ME.JPG</span>
-      <div className="stripes"></div>
-      <div className="face">
-        <div className="eyes">
-          <div className="eye"></div>
-          <div className="eye"></div>
-        </div>
-        <div className="mouth"></div>
-        <div className="initial">{initials}</div>
-      </div>
+    <div className={`photo${hasPhotos ? ' has-photos' : ''}`} ref={photoRef}>
+      {hasPhotos ? (
+        <>
+          <img className="photo-fun" src={photoFun} alt="" aria-hidden="true" />
+          <img className="photo-serious" src={photoSerious} alt={`Team member ${index + 1}`} />
+        </>
+      ) : (
+        <>
+          <span className="badge">
+            {lang === 'ja' ? '写真' : lang === 'en' ? 'PHOTO' : 'FOTO'} 0{index + 1}
+          </span>
+          <span className="index">REPLACE_ME.JPG</span>
+          <div className="stripes"></div>
+          <div className="face">
+            <div className="eyes">
+              <div className="eye"></div>
+              <div className="eye"></div>
+            </div>
+            <div className="mouth"></div>
+            <div className="initial">{initials}</div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -484,7 +521,13 @@ function AboutSec({ lang }) {
           <div className="team-grid">
             {I.about.team.map((p, i) => (
               <div className="team-card" key={i}>
-                <TeamCardPhoto initials={p.initials} index={i} lang={lang} />
+                <TeamCardPhoto
+                  initials={p.initials}
+                  index={i}
+                  lang={lang}
+                  photoSerious={p.photoSerious}
+                  photoFun={p.photoFun}
+                />
                 <div className="name-row">
                   <h4 className="name">{p.name}</h4>
                   <span className="num">

@@ -602,6 +602,58 @@
       position: absolute; inset: 0;
       background: repeating-linear-gradient(45deg, transparent 0 14px, rgba(255,92,40,.05) 14px 15px);
     }
+
+    /* ── Hover reveal: serious photo on top is "masked away" around the
+       cursor, exposing the fun photo underneath. The radial gradient hole
+       is centred on --mx/--my (set in JS, defaults to 50% 50%) and only
+       activates on hover. ── */
+    .team-card .photo.has-photos { background: var(--bg-2); }
+    .team-card .photo-fun,
+    .team-card .photo-serious {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      user-select: none;
+    }
+    .team-card .photo-fun { z-index: 1; }
+    .team-card .photo-serious {
+      z-index: 2;
+      --mx: 50%;
+      --my: 50%;
+      transition: -webkit-mask-image .35s ease, mask-image .35s ease;
+    }
+    .team-card:hover .photo-serious,
+    .team-card[data-active='true'] .photo-serious {
+      -webkit-mask-image: radial-gradient(
+        circle 110px at var(--mx) var(--my),
+        transparent 0%,
+        transparent 35%,
+        rgba(0,0,0,0.5) 70%,
+        rgba(0,0,0,1) 100%
+      );
+      mask-image: radial-gradient(
+        circle 110px at var(--mx) var(--my),
+        transparent 0%,
+        transparent 35%,
+        rgba(0,0,0,0.5) 70%,
+        rgba(0,0,0,1) 100%
+      );
+      transition: -webkit-mask-image .12s linear, mask-image .12s linear;
+    }
+    /* When .has-photos is set we don't want the orange tint overlay on hover */
+    .team-card .photo.has-photos::before { display: none; }
+    /* On touch, prevent default browser image dragging / context menu while
+       still allowing vertical scroll. */
+    .team-card.has-photos .photo,
+    .team-card .photo.has-photos {
+      touch-action: pan-y;
+      -webkit-user-drag: none;
+    }
+    .team-card .photo-fun,
+    .team-card .photo-serious { -webkit-user-drag: none; }
     /* Stylized placeholder face — static, no eye tracking
        (we keep eyes/mouth as a marker that this is a placeholder;
        real photos will replace the .face block entirely) */
