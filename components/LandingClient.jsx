@@ -411,9 +411,15 @@ function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFun
       schedule();
     };
     const onStart = (e) => {
-      // Block native image drag / text selection that would otherwise
-      // steal subsequent pointermove events.
-      if (e && e.preventDefault && e.type === 'pointerdown') e.preventDefault();
+      // For mouse pointers, pointerdown shouldn't toggle the reveal —
+      // it's already active from pointerenter (hover) and we want
+      // clicks to be a no-op. We still call preventDefault so the
+      // browser's native image drag doesn't hijack subsequent
+      // pointermove events.
+      if (e && e.type === 'pointerdown') {
+        if (e.preventDefault) e.preventDefault();
+        if (e.pointerType === 'mouse') return;
+      }
       state.hovering = true;
       card.setAttribute('data-active', 'true');
       if (e && e.clientX != null) {
@@ -423,7 +429,11 @@ function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFun
       }
     };
     const blockDrag = (e) => e.preventDefault();
-    const onEnd = () => {
+    const onEnd = (e) => {
+      // Mouse releases shouldn't end the reveal — the pointer is still
+      // hovering. Only end on pointerleave for mouse, or on
+      // pointerup/cancel for touch & pen.
+      if (e && e.type === 'pointerup' && e.pointerType === 'mouse') return;
       state.hovering = false;
       card.removeAttribute('data-active');
       if (state.rafId != null) {
