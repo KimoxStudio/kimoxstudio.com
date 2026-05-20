@@ -411,6 +411,9 @@ function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFun
       schedule();
     };
     const onStart = (e) => {
+      // Block native image drag / text selection that would otherwise
+      // steal subsequent pointermove events.
+      if (e && e.preventDefault && e.type === 'pointerdown') e.preventDefault();
       state.hovering = true;
       card.setAttribute('data-active', 'true');
       if (e && e.clientX != null) {
@@ -419,6 +422,7 @@ function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFun
         update();
       }
     };
+    const blockDrag = (e) => e.preventDefault();
     const onEnd = () => {
       state.hovering = false;
       card.removeAttribute('data-active');
@@ -437,6 +441,7 @@ function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFun
     card.addEventListener('pointerdown', onStart);
     card.addEventListener('pointerup', onEnd);
     card.addEventListener('pointercancel', onEnd);
+    card.addEventListener('dragstart', blockDrag);
     document.addEventListener('pointermove', onMove);
     return () => {
       card.removeEventListener('pointerenter', onStart);
@@ -444,6 +449,7 @@ function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFun
       card.removeEventListener('pointerdown', onStart);
       card.removeEventListener('pointerup', onEnd);
       card.removeEventListener('pointercancel', onEnd);
+      card.removeEventListener('dragstart', blockDrag);
       document.removeEventListener('pointermove', onMove);
       if (state.rafId != null) cancelAnimationFrame(state.rafId);
     };
@@ -460,6 +466,7 @@ function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFun
             src={photoFun}
             alt=""
             aria-hidden="true"
+            draggable={false}
             style={
               photoFunOffsetY
                 ? {
@@ -469,7 +476,12 @@ function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFun
                 : undefined
             }
           />
-          <img className="photo-serious" src={photoSerious} alt={`Team member ${index + 1}`} />
+          <img
+            className="photo-serious"
+            src={photoSerious}
+            alt={`Team member ${index + 1}`}
+            draggable={false}
+          />
         </>
       ) : (
         <>
