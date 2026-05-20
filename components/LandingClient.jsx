@@ -373,57 +373,58 @@ function TestimonialsSec({ lang }) {
   );
 }
 
-function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun }) {
+function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFunOffsetY }) {
   const photoRef = useRef(null);
+  const stateRef = useRef({ hovering: false, rafId: null, x: 0, y: 0 });
   useEffect(() => {
     const photo = photoRef.current;
     if (!photo) return;
     const card = photo.closest('.team-card');
     if (!card) return;
-
-    let hovering = false;
-    let rafId = null;
-    let pendingX = 0,
-      pendingY = 0;
+    const state = stateRef.current;
 
     const update = () => {
-      rafId = null;
+      state.rafId = null;
       const r = photo.getBoundingClientRect();
-      // Tilt (-1.4..1.4)
-      const rx = Math.max(-1.4, Math.min(1.4, (pendingX - (r.left + r.width / 2)) / (r.width / 2)));
-      const ry = Math.max(-1.4, Math.min(1.4, (pendingY - (r.top + r.height / 2)) / (r.height / 2)));
+      // Tilt (-1.4..1.4) — only used for placeholder cards (.has-photos
+      // disables the tilt in CSS so the mask coordinate space stays
+      // screen-aligned and the hole lands exactly under the cursor).
+      const rx = Math.max(-1.4, Math.min(1.4, (state.x - (r.left + r.width / 2)) / (r.width / 2)));
+      const ry = Math.max(-1.4, Math.min(1.4, (state.y - (r.top + r.height / 2)) / (r.height / 2)));
       photo.style.setProperty('--rx', rx.toFixed(3));
       photo.style.setProperty('--ry', ry.toFixed(3));
-      // Mask centre as % within the photo
-      const mx = Math.max(0, Math.min(100, ((pendingX - r.left) / r.width) * 100));
-      const my = Math.max(0, Math.min(100, ((pendingY - r.top) / r.height) * 100));
+      // Mask centre as % within the photo's bounding box
+      const mx = Math.max(0, Math.min(100, ((state.x - r.left) / r.width) * 100));
+      const my = Math.max(0, Math.min(100, ((state.y - r.top) / r.height) * 100));
       photo.style.setProperty('--mx', mx.toFixed(2) + '%');
       photo.style.setProperty('--my', my.toFixed(2) + '%');
     };
 
+    const schedule = () => {
+      if (state.rafId == null) state.rafId = requestAnimationFrame(update);
+    };
+
     const onMove = (e) => {
-      if (!hovering) return;
-      pendingX = e.clientX;
-      pendingY = e.clientY;
-      if (!rafId) rafId = requestAnimationFrame(update);
+      if (!state.hovering) return;
+      state.x = e.clientX;
+      state.y = e.clientY;
+      schedule();
     };
     const onStart = (e) => {
-      hovering = true;
-      // Mark card as "actively touched" so CSS can keep the mask visible
-      // even when :hover wouldn't fire (touch devices).
+      state.hovering = true;
       card.setAttribute('data-active', 'true');
       if (e && e.clientX != null) {
-        pendingX = e.clientX;
-        pendingY = e.clientY;
+        state.x = e.clientX;
+        state.y = e.clientY;
         update();
       }
     };
     const onEnd = () => {
-      hovering = false;
+      state.hovering = false;
       card.removeAttribute('data-active');
-      if (rafId) {
-        cancelAnimationFrame(rafId);
-        rafId = null;
+      if (state.rafId != null) {
+        cancelAnimationFrame(state.rafId);
+        state.rafId = null;
       }
       photo.style.setProperty('--rx', '0');
       photo.style.setProperty('--ry', '0');
@@ -431,9 +432,6 @@ function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun }) {
       photo.style.setProperty('--my', '50%');
     };
 
-    // Pointer events unify mouse and touch:
-    //  - desktop: pointerenter / pointermove / pointerleave (like mouseenter etc.)
-    //  - touch: pointerdown on the photo / pointermove while finger down / pointerup
     card.addEventListener('pointerenter', onStart);
     card.addEventListener('pointerleave', onEnd);
     card.addEventListener('pointerdown', onStart);
@@ -447,7 +445,7 @@ function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun }) {
       card.removeEventListener('pointerup', onEnd);
       card.removeEventListener('pointercancel', onEnd);
       document.removeEventListener('pointermove', onMove);
-      if (rafId) cancelAnimationFrame(rafId);
+      if (state.rafId != null) cancelAnimationFrame(state.rafId);
     };
   }, []);
 
@@ -457,7 +455,20 @@ function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun }) {
     <div className={`photo${hasPhotos ? ' has-photos' : ''}`} ref={photoRef}>
       {hasPhotos ? (
         <>
-          <img className="photo-fun" src={photoFun} alt="" aria-hidden="true" />
+          <img
+            className="photo-fun"
+            src={photoFun}
+            alt=""
+            aria-hidden="true"
+            style={
+              photoFunOffsetY
+                ? {
+                    transform: `translateY(${photoFunOffsetY}px)`,
+                    height: `calc(100% + ${Math.abs(photoFunOffsetY)}px)`,
+                  }
+                : undefined
+            }
+          />
           <img className="photo-serious" src={photoSerious} alt={`Team member ${index + 1}`} />
         </>
       ) : (
@@ -527,6 +538,7 @@ function AboutSec({ lang }) {
                   lang={lang}
                   photoSerious={p.photoSerious}
                   photoFun={p.photoFun}
+                  photoFunOffsetY={p.photoFunOffsetY}
                 />
                 <div className="name-row">
                   <h4 className="name">{p.name}</h4>

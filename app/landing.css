@@ -621,8 +621,6 @@
     .team-card .photo-fun { z-index: 1; }
     .team-card .photo-serious {
       z-index: 2;
-      --mx: 50%;
-      --my: 50%;
       transition: -webkit-mask-image .35s ease, mask-image .35s ease;
     }
     .team-card:hover .photo-serious,
