@@ -60,15 +60,20 @@ button { font: inherit; cursor: none; border: 0; background: transparent; color:
 .mono { font-family: 'IBM Plex Mono', ui-monospace, monospace; }
 .serif { font-family: 'Instrument Serif', serif; font-style: italic; }
 
-/* ── Custom cursor (used by landing) ── */
+/* ── Custom cursor (used by landing) ──
+   Cursors start off-screen and become visible after the first
+   pointermove (the JS hook adds `.ready`) so they don't sit parked
+   in the (0,0) corner before the user moves. */
 #cursor {
   position: fixed; top: 0; left: 0; width: 8px; height: 8px;
   background: var(--orange); border-radius: 50%;
-  transform: translate3d(0,0,0);
+  transform: translate3d(-100px,-100px,0);
   pointer-events: none; z-index: 9999;
-  transition: width .18s ease, height .18s ease, background .18s ease;
+  opacity: 0;
+  transition: width .18s ease, height .18s ease, background .18s ease, opacity .2s;
   will-change: transform;
 }
+#cursor.ready { opacity: 1; }
 #cursor.hover { width: 14px; height: 14px; }
 #cursor.click { width: 6px; height: 6px; background: var(--ink); }
 #cursor-ring {
@@ -76,11 +81,13 @@ button { font: inherit; cursor: none; border: 0; background: transparent; color:
   width: 36px; height: 36px;
   border: 1px solid var(--cursor-ring);
   border-radius: 50%;
-  transform: translate3d(0,0,0);
+  transform: translate3d(-100px,-100px,0);
   pointer-events: none; z-index: 9998;
+  opacity: 0;
   transition: width .25s cubic-bezier(.2,.7,.3,1), height .25s cubic-bezier(.2,.7,.3,1), border-color .2s, opacity .2s;
   will-change: transform;
 }
+#cursor-ring.ready { opacity: 1; }
 #cursor-ring.hover { width: 64px; height: 64px; border-color: var(--orange); }
 
 #cursor-trail {
@@ -88,11 +95,22 @@ button { font: inherit; cursor: none; border: 0; background: transparent; color:
   width: 36px; height: 36px;
   border: 1px solid var(--cursor-ring);
   border-radius: 50%;
-  transform: translate3d(0,0,0);
+  transform: translate3d(-100px,-100px,0);
   pointer-events: none; z-index: 9998;
+  opacity: 0;
   transition: width .25s cubic-bezier(.2,.7,.3,1), height .25s cubic-bezier(.2,.7,.3,1), border-color .2s, opacity .2s;
 }
+#cursor-trail.ready { opacity: 1; }
 #cursor-trail.hover { width: 64px; height: 64px; border-color: var(--orange); }
+
+/* Browser default cursors leak through on links and inputs even when
+   the body has cursor:none. Force every interactive element to hide the
+   native cursor on devices that support hover. */
+@media (hover: hover) {
+  a, button, input, textarea, select, label, [role='button'] {
+    cursor: none;
+  }
+}
 
 .wrap { max-width: 1480px; margin: 0 auto; padding: 0 56px; }
 @media (max-width: 1100px) { .wrap { padding: 0 28px; } }
