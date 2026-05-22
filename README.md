@@ -91,6 +91,39 @@ public/
   logos/                  variantes del logo (icon, wordmark, etc.)
 ```
 
+## Formulario de contacto
+
+El form en `/#contact` envía a un **Server Action** (`app/actions/contact.js`) que:
+
+1. Valida con `zod`.
+2. Comprueba un **honeypot** (campo `website` oculto) y un **time gate** (mínimo 2 s desde que se cargó la página).
+3. Aplica **rate limit por IP** (3/hora, 10/día) usando Upstash Ratelimit.
+4. Envía el email vía **Resend** (`replyTo` = email del visitante).
+
+Variables de entorno (ver `.env.example`):
+
+| Variable | Para qué | Requerida |
+|---|---|---|
+| `RESEND_API_KEY` | Clave API de Resend | sí (producción) |
+| `RESEND_FROM` | Remitente verificado en Resend | recomendada |
+| `RESEND_TO` | Destinatario, default `kimoxstudio@gmail.com` | opcional |
+| `UPSTASH_REDIS_REST_URL` | Endpoint REST de Upstash Redis | sí (producción) |
+| `UPSTASH_REDIS_REST_TOKEN` | Token REST | sí (producción) |
+
+En desarrollo, si faltan las variables, el server action **loguea el mensaje a la consola del servidor** en vez de enviar email, y el rate limit se salta. Útil para probar sin dar de alta nada.
+
+Setup productivo, una vez:
+
+```bash
+cp .env.example .env.local      # edita con tus credenciales locales
+# en Vercel:
+vercel env add RESEND_API_KEY production
+vercel env add RESEND_FROM production
+vercel env add RESEND_TO production
+vercel env add UPSTASH_REDIS_REST_URL production
+vercel env add UPSTASH_REDIS_REST_TOKEN production
+```
+
 ## Editar contenido
 
 **Desde Decap (recomendado para no-devs):** ir a `/admin/`, login con GitHub, editar visualmente con campos ES/EN/JA, publicar (commit a `master`).
