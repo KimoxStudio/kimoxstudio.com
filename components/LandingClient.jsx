@@ -705,13 +705,15 @@ function ContactSec({ lang }) {
 function Footer({ lang }) {
   return (
     <>
-      <div className="footer-big" aria-hidden="true">
-        <span className="row1">
-          KIMOX<span className="orange-bit">·</span>
-        </span>
-        <span className="row2">
-          STUDIO<span className="olive-bit">.</span>
-        </span>
+      <div className="wrap">
+        <div className="footer-big" aria-hidden="true">
+          <span className="row1">
+            KIMOX<span className="orange-bit">·</span>
+          </span>
+          <span className="row2">
+            STUDIO<span className="olive-bit">.</span>
+          </span>
+        </div>
       </div>
       <footer className="bot">
         <div className="wrap">

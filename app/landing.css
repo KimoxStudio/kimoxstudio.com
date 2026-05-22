@@ -880,7 +880,9 @@
     footer.bot a:hover { color: var(--orange); }
     .footer-big {
       font-family: "Familjen Grotesk", sans-serif;
-      font-size: clamp(72px, 18vw, 280px);
+      /* Size scales with viewport but caps lower so the type doesn't
+         swallow the screen on wide monitors. */
+      font-size: clamp(72px, 16vw, 220px);
       font-weight: 700;
       letter-spacing: -0.055em;
       line-height: 0.85;
