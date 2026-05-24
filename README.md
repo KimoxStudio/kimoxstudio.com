@@ -142,4 +142,4 @@ Local: `cp .env.example .env.local` y edita con tus credenciales.
 
 - Paleta y tipografía heredadas del prototipo aprobado (V3 Poster).
 - Naranja base `#ff5c28` en oscuro y `#e0461a` en claro para mantener contraste WCAG.
-- Sin imágenes en el equipo todavía — placeholders con caras estilizadas que reaccionan al cursor (tilt 3D, no eye-tracking, para que sea sustituible por fotos reales sin perder el efecto).
+- Fotos reales del equipo con tilt 3D y máscara de "revelar foto divertida" que sigue al cursor; las posiciones de encuadre se controlan con `objectPositionSerious` / `objectPositionFun` por miembro en `lib/i18n.js`.

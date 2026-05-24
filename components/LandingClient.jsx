@@ -374,7 +374,7 @@ function TestimonialsSec({ lang }) {
   );
 }
 
-function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFunOffsetY }) {
+function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFunOffsetY, objectPositionSerious, objectPositionFun }) {
   const photoRef = useRef(null);
   const stateRef = useRef({ hovering: false, rafId: null, x: 0, y: 0 });
   useEffect(() => {
@@ -491,20 +491,22 @@ function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFun
             alt=""
             aria-hidden="true"
             draggable={false}
-            style={
-              photoFunOffsetY
-                ? {
-                    transform: `translateY(${photoFunOffsetY}px)`,
-                    height: `calc(100% + ${Math.abs(photoFunOffsetY)}px)`,
-                  }
-                : undefined
-            }
+            style={(() => {
+              const s = {};
+              if (photoFunOffsetY) {
+                s.transform = `translateY(${photoFunOffsetY}px)`;
+                s.height = `calc(100% + ${Math.abs(photoFunOffsetY)}px)`;
+              }
+              if (objectPositionFun) s.objectPosition = objectPositionFun;
+              return Object.keys(s).length ? s : undefined;
+            })()}
           />
           <img
             className="photo-serious"
             src={photoSerious}
             alt={`Team member ${index + 1}`}
             draggable={false}
+            style={objectPositionSerious ? { objectPosition: objectPositionSerious } : undefined}
           />
         </>
       ) : (
@@ -575,6 +577,8 @@ function AboutSec({ lang }) {
                   photoSerious={p.photoSerious}
                   photoFun={p.photoFun}
                   photoFunOffsetY={p.photoFunOffsetY}
+                  objectPositionSerious={p.objectPositionSerious}
+                  objectPositionFun={p.objectPositionFun}
                 />
                 <div className="name-row">
                   <h4 className="name">{p.name}</h4>
