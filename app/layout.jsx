@@ -2,9 +2,25 @@ import './globals.css';
 import { Analytics } from '@vercel/analytics/next';
 
 export const metadata = {
+  metadataBase: new URL('https://www.kimoxstudio.com'),
   title: 'Kimox Studio — Software con alma propia',
   description: 'Estudio de software. Aplicaciones web y móviles a medida.',
   icons: { icon: '/logos/icon.svg' },
+  openGraph: {
+    title: 'Kimox Studio — Software con alma que habla tu idioma',
+    description:
+      'Estudio independiente. Diseñamos y desarrollamos aplicaciones web y móviles a medida. Sin plantillas, sin atajos.',
+    url: 'https://www.kimoxstudio.com',
+    siteName: 'Kimox Studio',
+    locale: 'es_ES',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Kimox Studio — Software con alma que habla tu idioma',
+    description:
+      'Estudio independiente. Aplicaciones web y móviles a medida.',
+  },
 };
 
 const themeInit = `
