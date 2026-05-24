@@ -1,0 +1,12 @@
+<svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="500" fill="#c5cf8e"/>
+  <rect x="80" y="320" width="240" height="200" fill="#ff5c28"/>
+  <circle cx="200" cy="200" r="100" fill="#f3efe4"/>
+  <path d="M 100 130 Q 200 70 300 130 L 300 195 Q 200 165 100 195 Z" fill="#ff5c28"/>
+  <ellipse cx="160" cy="200" rx="16" ry="20" fill="#0e0c0a"/>
+  <ellipse cx="240" cy="200" rx="16" ry="20" fill="#0e0c0a"/>
+  <path d="M 140 245 Q 200 305 260 245" stroke="#0e0c0a" stroke-width="10" fill="#161412" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 150 270 L 150 290" stroke="#ff5c28" stroke-width="6"/>
+  <path d="M 250 270 L 250 290" stroke="#ff5c28" stroke-width="6"/>
+  <text x="200" y="465" font-family="IBM Plex Mono, monospace" font-size="14" letter-spacing="2" fill="#0e0c0a" text-anchor="middle" font-weight="600">B · FUN</text>
+</svg>

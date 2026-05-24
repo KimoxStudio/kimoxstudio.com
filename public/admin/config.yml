@@ -1,0 +1,77 @@
+backend:
+  name: github
+  repo: kimoxstudio/kimoxstudio.com
+  branch: master
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+
+# Local backend for development. Run `npx decap-server` in another terminal and
+# Decap will write directly to the local filesystem.
+local_backend: true
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+publish_mode: editorial_workflow
+
+collections:
+  - name: "posts"
+    label: "Blog posts"
+    folder: "content/posts"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    identifier_field: "slug"
+    summary: "{{title.es}} — {{date}}"
+    sortable_fields: ["date", "title.es"]
+    fields:
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
+      - { label: "Read time", name: "read_time", widget: "string", hint: "e.g. 5 min", required: false }
+      - { label: "Glyph", name: "glyph", widget: "string", hint: "Small label on cover (e.g. SEO, API, ↗)" }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - label: "Category"
+        name: "category"
+        widget: "object"
+        fields:
+          - { label: "ES", name: "es", widget: "string" }
+          - { label: "EN", name: "en", widget: "string" }
+          - { label: "JA", name: "ja", widget: "string" }
+      - label: "Title"
+        name: "title"
+        widget: "object"
+        fields:
+          - { label: "ES", name: "es", widget: "string" }
+          - { label: "EN", name: "en", widget: "string" }
+          - { label: "JA", name: "ja", widget: "string" }
+      - label: "Excerpt"
+        name: "excerpt"
+        widget: "object"
+        fields:
+          - { label: "ES", name: "es", widget: "text" }
+          - { label: "EN", name: "en", widget: "text" }
+          - { label: "JA", name: "ja", widget: "text" }
+      - label: "Body"
+        name: "body"
+        widget: "object"
+        fields:
+          - { label: "ES", name: "es", widget: "text" }
+          - { label: "EN", name: "en", widget: "text" }
+          - { label: "JA", name: "ja", widget: "text" }
+
+  - name: "site"
+    label: "Site settings"
+    files:
+      - name: "studio"
+        label: "Studio info"
+        file: "content/site/studio.json"
+        fields:
+          - { label: "Email", name: "email", widget: "string" }
+          - label: "Location"
+            name: "location"
+            widget: "object"
+            fields:
+              - { label: "ES", name: "es", widget: "string" }
+              - { label: "EN", name: "en", widget: "string" }
+              - { label: "JA", name: "ja", widget: "string" }
