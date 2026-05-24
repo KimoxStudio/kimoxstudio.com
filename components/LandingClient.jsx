@@ -447,20 +447,33 @@ function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFun
       photo.style.setProperty('--my', '50%');
     };
 
-    card.addEventListener('pointerenter', onStart);
-    card.addEventListener('pointerleave', onEnd);
-    card.addEventListener('pointerdown', onStart);
-    card.addEventListener('pointerup', onEnd);
-    card.addEventListener('pointercancel', onEnd);
-    card.addEventListener('dragstart', blockDrag);
+    const safeEnd = (e) => {
+      // Document-level end listeners run for every pointer up on the
+      // page — guard so they only act when this card is currently active.
+      if (!state.hovering) return;
+      onEnd(e);
+    };
+
+    // Mouse hover / leave is scoped to the photo (not the whole card)
+    // so the mask doesn't keep tracking once the cursor moves over the
+    // name, role, bio or skills.
+    photo.addEventListener('pointerenter', onStart);
+    photo.addEventListener('pointerleave', onEnd);
+    // Touch starts when a finger lands on the photo specifically.
+    photo.addEventListener('pointerdown', onStart);
+    // End listeners are global so a touch that lifts (or is cancelled)
+    // outside the photo still clears the active state on mobile.
+    document.addEventListener('pointerup', safeEnd);
+    document.addEventListener('pointercancel', safeEnd);
+    photo.addEventListener('dragstart', blockDrag);
     document.addEventListener('pointermove', onMove);
     return () => {
-      card.removeEventListener('pointerenter', onStart);
-      card.removeEventListener('pointerleave', onEnd);
-      card.removeEventListener('pointerdown', onStart);
-      card.removeEventListener('pointerup', onEnd);
-      card.removeEventListener('pointercancel', onEnd);
-      card.removeEventListener('dragstart', blockDrag);
+      photo.removeEventListener('pointerenter', onStart);
+      photo.removeEventListener('pointerleave', onEnd);
+      photo.removeEventListener('pointerdown', onStart);
+      document.removeEventListener('pointerup', safeEnd);
+      document.removeEventListener('pointercancel', safeEnd);
+      photo.removeEventListener('dragstart', blockDrag);
       document.removeEventListener('pointermove', onMove);
       if (state.rafId != null) cancelAnimationFrame(state.rafId);
     };
