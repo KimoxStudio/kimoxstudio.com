@@ -231,7 +231,7 @@ function WorkSec({ lang }) {
         <SectionHead
           n="03"
           label={t(I.work.label, lang)}
-          meta={`12+ ${lang === 'ja' ? '出荷済 · 3件表示' : lang === 'en' ? 'shipped · 3 shown' : 'enviados · 3 mostrados'}`}
+          meta={`12+ ${lang === 'ja' ? '出荷済 · 4件表示' : lang === 'en' ? 'shipped · 4 shown' : 'enviados · 4 mostrados'}`}
           title={title}
         />
         <div className="proj-list">
