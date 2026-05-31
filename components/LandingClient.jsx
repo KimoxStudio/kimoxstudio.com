@@ -376,110 +376,192 @@ function TestimonialsSec({ lang }) {
 
 function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFunOffsetY, objectPositionSerious, objectPositionFun }) {
   const photoRef = useRef(null);
-  const stateRef = useRef({ hovering: false, rafId: null, x: 0, y: 0 });
+  const canvasRef = useRef(null);
+  const imgRef = useRef(null);
+  const stateRef = useRef({
+    erasing: false,
+    hovering: false,
+    lastX: null,
+    lastY: null,
+    rafId: null,
+    x: 0,
+    y: 0,
+  });
+  const [imgReady, setImgReady] = useState(false);
+  const [dirty, setDirty] = useState(false);
+
+  // Load the "serious" image into memory so we can paint it onto the canvas.
+  useEffect(() => {
+    if (!photoSerious) return;
+    const img = new Image();
+    img.decoding = 'async';
+    img.onload = () => {
+      imgRef.current = img;
+      setImgReady(true);
+    };
+    img.src = photoSerious;
+  }, [photoSerious]);
+
+  // Re-paint the serious image to fully cover the canvas (used for initial
+  // paint, after resize, and as the "reset" action).
+  const paint = React.useCallback(() => {
+    const canvas = canvasRef.current;
+    const img = imgRef.current;
+    if (!canvas || !img) return;
+    const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    const dpr = window.devicePixelRatio || 1;
+    const desiredW = Math.round(rect.width * dpr);
+    const desiredH = Math.round(rect.height * dpr);
+    if (canvas.width !== desiredW || canvas.height !== desiredH) {
+      canvas.width = desiredW;
+      canvas.height = desiredH;
+    }
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.clearRect(0, 0, rect.width, rect.height);
+
+    // Replicate CSS object-fit: cover + object-position.
+    let posX = 50;
+    let posY = 50;
+    if (objectPositionSerious) {
+      const m = objectPositionSerious.match(/(-?\d+(?:\.\d+)?)%\s+(-?\d+(?:\.\d+)?)%/);
+      if (m) {
+        posX = parseFloat(m[1]);
+        posY = parseFloat(m[2]);
+      }
+    }
+    const cw = rect.width;
+    const ch = rect.height;
+    const iw = img.naturalWidth;
+    const ih = img.naturalHeight;
+    const scale = Math.max(cw / iw, ch / ih);
+    const dw = iw * scale;
+    const dh = ih * scale;
+    const dx = (cw - dw) * (posX / 100);
+    const dy = (ch - dh) * (posY / 100);
+    ctx.drawImage(img, dx, dy, dw, dh);
+  }, [objectPositionSerious]);
+
+  useEffect(() => {
+    if (imgReady) paint();
+  }, [imgReady, paint]);
+
+  // Repaint when the photo box is resized (viewport changes, grid reflow).
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(() => paint());
+    ro.observe(canvas);
+    return () => ro.disconnect();
+  }, [paint]);
+
+  // Pointer-driven erase + 3D tilt + parallax highlight.
   useEffect(() => {
     const photo = photoRef.current;
     if (!photo) return;
-    const card = photo.closest('.team-card');
-    if (!card) return;
     const state = stateRef.current;
 
-    const update = () => {
+    const eraseSegment = (clientX, clientY) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      const px = clientX - rect.left;
+      const py = clientY - rect.top;
+      const ctx = canvas.getContext('2d');
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.lineWidth = 70;
+      ctx.strokeStyle = 'rgba(0,0,0,1)';
+      ctx.beginPath();
+      if (state.lastX != null) {
+        ctx.moveTo(state.lastX, state.lastY);
+      } else {
+        // Tiny offset so the very first move still strokes a dot.
+        ctx.moveTo(px - 0.01, py - 0.01);
+      }
+      ctx.lineTo(px, py);
+      ctx.stroke();
+      state.lastX = px;
+      state.lastY = py;
+      setDirty(true);
+    };
+
+    const updateTilt = () => {
       state.rafId = null;
       const r = photo.getBoundingClientRect();
-      // Tilt (-1.4..1.4) — only used for placeholder cards (.has-photos
-      // disables the tilt in CSS so the mask coordinate space stays
-      // screen-aligned and the hole lands exactly under the cursor).
       const rx = Math.max(-1.4, Math.min(1.4, (state.x - (r.left + r.width / 2)) / (r.width / 2)));
       const ry = Math.max(-1.4, Math.min(1.4, (state.y - (r.top + r.height / 2)) / (r.height / 2)));
       photo.style.setProperty('--rx', rx.toFixed(3));
       photo.style.setProperty('--ry', ry.toFixed(3));
-      // Mask centre as % within the photo's bounding box
-      const mx = Math.max(0, Math.min(100, ((state.x - r.left) / r.width) * 100));
-      const my = Math.max(0, Math.min(100, ((state.y - r.top) / r.height) * 100));
-      photo.style.setProperty('--mx', mx.toFixed(2) + '%');
-      photo.style.setProperty('--my', my.toFixed(2) + '%');
+    };
+    const scheduleTilt = () => {
+      if (state.rafId == null) state.rafId = requestAnimationFrame(updateTilt);
     };
 
-    const schedule = () => {
-      if (state.rafId == null) state.rafId = requestAnimationFrame(update);
-    };
-
-    const onMove = (e) => {
-      if (!state.hovering) return;
+    const onEnter = (e) => {
+      // Hover only powers the 3D tilt + parallax highlight. Erasing is
+      // gated on a button being held (pointerdown).
+      state.hovering = true;
       state.x = e.clientX;
       state.y = e.clientY;
-      schedule();
+      scheduleTilt();
     };
-    const onStart = (e) => {
-      // For mouse pointers, pointerdown shouldn't toggle the reveal —
-      // it's already active from pointerenter (hover) and we want
-      // clicks to be a no-op. We still call preventDefault so the
-      // browser's native image drag doesn't hijack subsequent
-      // pointermove events.
-      if (e && e.type === 'pointerdown') {
-        if (e.preventDefault) e.preventDefault();
-        if (e.pointerType === 'mouse') return;
-      }
-      state.hovering = true;
-      card.setAttribute('data-active', 'true');
-      if (e && e.clientX != null) {
-        state.x = e.clientX;
-        state.y = e.clientY;
-        update();
-      }
-    };
-    const blockDrag = (e) => e.preventDefault();
-    const onEnd = (e) => {
-      // Mouse releases shouldn't end the reveal — the pointer is still
-      // hovering. Only end on pointerleave for mouse, or on
-      // pointerup/cancel for touch & pen.
-      if (e && e.type === 'pointerup' && e.pointerType === 'mouse') return;
+    const onLeave = () => {
       state.hovering = false;
-      card.removeAttribute('data-active');
-      if (state.rafId != null) {
-        cancelAnimationFrame(state.rafId);
-        state.rafId = null;
-      }
+      state.erasing = false;
+      state.lastX = null;
       photo.style.setProperty('--rx', '0');
       photo.style.setProperty('--ry', '0');
-      photo.style.setProperty('--mx', '50%');
-      photo.style.setProperty('--my', '50%');
     };
-
-    const safeEnd = (e) => {
-      // Document-level end listeners run for every pointer up on the
-      // page — guard so they only act when this card is currently active.
-      if (!state.hovering) return;
-      onEnd(e);
+    const onMove = (e) => {
+      if (!state.hovering && !state.erasing) return;
+      state.x = e.clientX;
+      state.y = e.clientY;
+      scheduleTilt();
+      if (state.erasing) eraseSegment(e.clientX, e.clientY);
     };
+    const onDown = (e) => {
+      // Mouse: erase only while primary button is held. Touch / pen:
+      // erase while the contact is down.
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      state.erasing = true;
+      state.lastX = null;
+      state.x = e.clientX;
+      state.y = e.clientY;
+      eraseSegment(e.clientX, e.clientY);
+      if (e.preventDefault) e.preventDefault();
+    };
+    const onUp = () => {
+      state.erasing = false;
+      state.lastX = null;
+    };
+    const blockDrag = (e) => e.preventDefault();
 
-    // Mouse hover / leave is scoped to the photo (not the whole card)
-    // so the mask doesn't keep tracking once the cursor moves over the
-    // name, role, bio or skills.
-    photo.addEventListener('pointerenter', onStart);
-    photo.addEventListener('pointerleave', onEnd);
-    // Touch starts when a finger lands on the photo specifically.
-    photo.addEventListener('pointerdown', onStart);
-    // End listeners are global so a touch that lifts (or is cancelled)
-    // outside the photo still clears the active state on mobile.
-    document.addEventListener('pointerup', safeEnd);
-    document.addEventListener('pointercancel', safeEnd);
+    photo.addEventListener('pointerenter', onEnter);
+    photo.addEventListener('pointerleave', onLeave);
+    photo.addEventListener('pointermove', onMove);
+    photo.addEventListener('pointerdown', onDown);
+    document.addEventListener('pointerup', onUp);
+    document.addEventListener('pointercancel', onUp);
     photo.addEventListener('dragstart', blockDrag);
-    document.addEventListener('pointermove', onMove);
+
     return () => {
-      photo.removeEventListener('pointerenter', onStart);
-      photo.removeEventListener('pointerleave', onEnd);
-      photo.removeEventListener('pointerdown', onStart);
-      document.removeEventListener('pointerup', safeEnd);
-      document.removeEventListener('pointercancel', safeEnd);
+      photo.removeEventListener('pointerenter', onEnter);
+      photo.removeEventListener('pointerleave', onLeave);
+      photo.removeEventListener('pointermove', onMove);
+      photo.removeEventListener('pointerdown', onDown);
+      document.removeEventListener('pointerup', onUp);
+      document.removeEventListener('pointercancel', onUp);
       photo.removeEventListener('dragstart', blockDrag);
-      document.removeEventListener('pointermove', onMove);
       if (state.rafId != null) cancelAnimationFrame(state.rafId);
     };
   }, []);
 
   const hasPhotos = !!(photoSerious && photoFun);
+  const resetLabel = lang === 'ja' ? 'リセット' : lang === 'en' ? 'Reset' : 'Resetear';
 
   return (
     <div className={`photo${hasPhotos ? ' has-photos' : ''}`} ref={photoRef}>
@@ -501,13 +583,26 @@ function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFun
               return Object.keys(s).length ? s : undefined;
             })()}
           />
-          <img
-            className="photo-serious"
-            src={photoSerious}
-            alt={`Team member ${index + 1}`}
-            draggable={false}
-            style={objectPositionSerious ? { objectPosition: objectPositionSerious } : undefined}
-          />
+          <canvas className="photo-canvas" ref={canvasRef} aria-hidden="true" />
+          {dirty && (
+            <button
+              type="button"
+              className="photo-reset"
+              onClick={(e) => {
+                e.stopPropagation();
+                paint();
+                setDirty(false);
+              }}
+              onPointerDown={(e) => e.stopPropagation()}
+              aria-label={resetLabel}
+              title={resetLabel}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M3 12a9 9 0 1 0 3-6.7" />
+                <path d="M3 4v5h5" />
+              </svg>
+            </button>
+          )}
         </>
       ) : (
         <>
