@@ -200,7 +200,7 @@ function ServicesSec({ lang }) {
                   {typeof s.priceFrom === 'string' ? s.priceFrom : t(s.priceFrom, lang)}
                 </span>
                 <span className="iva">
-                  {lang === 'ja' ? '税抜' : lang === 'en' ? 'ex. VAT' : 'sin IVA'}
+                  {lang === 'ja' ? '税抜' : lang === 'en' ? 'ex. tax (IGIC)' : 'sin IGIC'}
                 </span>
               </div>
               <span className="cta-cell">
@@ -259,6 +259,9 @@ function WorkSec({ lang }) {
                   <div className="url">
                     {url} · {p.year}
                   </div>
+                  <span className="proj-cta" aria-hidden="true">
+                    {t(I.work.viewSite, lang)}
+                  </span>
                 </div>
                 <div className="desc col">
                   <span className="cat">{t(p.category, lang)}</span>
@@ -374,7 +377,7 @@ function TestimonialsSec({ lang }) {
   );
 }
 
-function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFunOffsetY, objectPositionSerious, objectPositionFun }) {
+function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFunOffsetY, photoFunScale, objectPositionSerious, objectPositionFun }) {
   const photoRef = useRef(null);
   const canvasRef = useRef(null);
   const imgRef = useRef(null);
@@ -575,10 +578,15 @@ function TeamCardPhoto({ initials, index, lang, photoSerious, photoFun, photoFun
             draggable={false}
             style={(() => {
               const s = {};
+              const transforms = [];
               if (photoFunOffsetY) {
-                s.transform = `translateY(${photoFunOffsetY}px)`;
+                transforms.push(`translateY(${photoFunOffsetY}px)`);
                 s.height = `calc(100% + ${Math.abs(photoFunOffsetY)}px)`;
               }
+              if (photoFunScale && photoFunScale !== 1) {
+                transforms.push(`scale(${photoFunScale})`);
+              }
+              if (transforms.length) s.transform = transforms.join(' ');
               if (objectPositionFun) s.objectPosition = objectPositionFun;
               return Object.keys(s).length ? s : undefined;
             })()}
@@ -672,6 +680,7 @@ function AboutSec({ lang }) {
                   photoSerious={p.photoSerious}
                   photoFun={p.photoFun}
                   photoFunOffsetY={p.photoFunOffsetY}
+                  photoFunScale={p.photoFunScale}
                   objectPositionSerious={p.objectPositionSerious}
                   objectPositionFun={p.objectPositionFun}
                 />

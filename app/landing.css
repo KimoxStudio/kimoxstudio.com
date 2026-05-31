@@ -312,6 +312,26 @@
       font-family: "IBM Plex Mono", monospace;
       font-size: 11px; color: var(--ink-3); letter-spacing: .04em;
     }
+    .proj-row .name-block .proj-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 8px 14px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink);
+      border: 1px solid var(--rule-2);
+      border-radius: 999px;
+      width: fit-content;
+      transition: background .2s, color .2s, border-color .2s, transform .2s;
+    }
+    .proj-row:hover .name-block .proj-cta {
+      background: var(--orange);
+      color: #0e0c0a;
+      border-color: var(--orange);
+      transform: translateX(4px);
+    }
     .proj-row .swatch {
       grid-column: 5;
       height: 132px; width: 100%;
@@ -932,7 +952,7 @@
       overflow: hidden;
       text-transform: uppercase;
     }
-    .footer-big .row1, .footer-big .row2 { display: block; white-space: nowrap; }
+    .footer-big .row { display: block; white-space: nowrap; }
     .footer-big .orange-bit { color: var(--orange); }
     .footer-big .olive-bit { color: var(--orange); }
 
@@ -968,4 +988,8 @@
       .about .stats { grid-template-columns: 1fr 1fr; }
       .svc-row .price-cell .amount { font-size: 32px; }
       .hero .top-meta { grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 0; }
+      .contact h2 { font-size: clamp(40px, 13vw, 72px); letter-spacing: -0.04em; }
+      .footer-big { font-size: clamp(56px, 16vw, 96px); padding: 64px 0 24px; }
+      .poster-section { padding: 56px 0 56px; }
+      .contact { padding: 64px 0 56px; }
     }
