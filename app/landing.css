@@ -337,7 +337,7 @@
       height: 132px; width: 100%;
       position: relative;
       overflow: hidden;
-      align-self: stretch;
+      align-self: center;
       transition: filter .25s;
     }
     .proj-row:nth-child(1) .swatch { background: var(--orange); }
@@ -355,7 +355,10 @@
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      width: 64%; height: 64%;
+      max-width: 68%;
+      max-height: 68%;
+      width: auto;
+      height: auto;
       object-fit: contain;
       z-index: 2;
     }
