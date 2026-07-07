@@ -1,0 +1,122 @@
+/* Kimox Content Studio — design tokens (scoped to /studio) */
+
+.studio-root {
+  --bg:        #0e0c0a;
+  --bg-2:      #131110;
+  --surface:   #17150f;
+  --surface-2: #1e1b16;
+  --surface-3: #272320;
+  --line:        rgba(243,239,228,0.09);
+  --line-strong: rgba(243,239,228,0.17);
+
+  --text:      #f3efe4;
+  --text-soft: #d8d2c4;
+  --text-mut:  #a49e90;
+  --text-dim:  #726c5f;
+
+  --accent:       #ff5c28;
+  --accent-ink:   #ff8a5e;
+  --accent-press: #e64a1a;
+  --accent-soft:  rgba(255,92,40,0.13);
+  --accent-line:  rgba(255,92,40,0.38);
+  --accent-glow:  rgba(255,92,40,0.30);
+  --on-accent:    #0e0c0a;
+
+  --olive:       #c5cf8e;
+  --warn:        #e0b341;
+  --warn-soft:   rgba(224,179,65,0.14);
+  --danger:      #ff6b5e;
+  --danger-soft: rgba(255,107,94,0.13);
+
+  --font-display: "Familjen Grotesk", system-ui, sans-serif;
+  --font-ui:      "Familjen Grotesk", system-ui, -apple-system, sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+  --font-serif:   "Instrument Serif", serif;
+
+  --r-xs: 8px; --r-sm: 10px; --r-md: 14px; --r-lg: 18px;
+  --r-xl: 24px; --r-pill: 999px;
+
+  --sh-1: 0 1px 2px rgba(0,0,0,0.4);
+  --sh-2: 0 4px 16px rgba(0,0,0,0.45);
+  --sh-3: 0 16px 44px rgba(0,0,0,0.6);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  color-scheme: dark;
+  font-family: var(--font-ui);
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.studio-root ::selection { background: var(--accent); color: var(--on-accent); }
+.studio-root .mono { font-family: var(--font-mono); }
+
+.studio-root .eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.studio-root .chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: var(--r-pill);
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.04em;
+  background: var(--surface-3); color: var(--text-mut);
+  white-space: nowrap;
+}
+.studio-root .chip--neutral { background: var(--surface-3); color: var(--text-mut); }
+.studio-root .chip--accent { background: var(--accent-soft); color: var(--accent-ink); }
+.studio-root .chip--warn { background: var(--warn-soft); color: var(--warn); }
+
+.studio-root .field {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  padding: 11px 13px;
+  outline: none;
+  transition: border-color .15s, background .15s;
+}
+.studio-root .field:focus { border-color: var(--accent-line); background: var(--surface-3); }
+.studio-root .field::placeholder { color: var(--text-dim); }
+.studio-root textarea.field { resize: vertical; }
+
+.studio-root .btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--font-ui); font-weight: 600;
+  border: 1px solid transparent; border-radius: var(--r-pill);
+  cursor: pointer; white-space: nowrap;
+  transition: background .15s, border-color .15s, transform .12s, color .15s;
+  user-select: none;
+}
+.studio-root .btn:active { transform: translateY(1px); }
+.studio-root .btn--primary { background: var(--accent); color: var(--on-accent); }
+.studio-root .btn--primary:hover { background: var(--accent-press); }
+.studio-root .btn--primary:disabled { background: var(--surface-3); color: var(--text-dim); cursor: default; }
+.studio-root .btn--secondary { background: var(--surface-2); color: var(--text); border-color: var(--line-strong); }
+.studio-root .btn--secondary:hover { background: var(--surface-3); }
+.studio-root .btn--secondary:disabled { color: var(--text-dim); cursor: default; }
+.studio-root .btn--sm { padding: 7px 13px; font-size: 12.5px; }
+.studio-root .btn--md { padding: 10px 18px; font-size: 14px; }
+.studio-root .btn--lg { padding: 14px 22px; font-size: 15px; }
+.studio-root .btn--block { width: 100%; }
+
+.studio-root .tap44 { display: inline-flex; align-items: center; justify-content: center; }
+
+.studio-root .scroll-area { scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; }
+.studio-root .scroll-area::-webkit-scrollbar { width: 8px; height: 8px; }
+.studio-root .scroll-area::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 4px; }
+.studio-root .scroll-area::-webkit-scrollbar-track { background: transparent; }
+
+@keyframes studio-spin { to { transform: rotate(360deg); } }
+@keyframes studio-pop-in { from { transform: scale(0.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes studio-drawer-in { from { transform: translateX(24px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes studio-fade-in { from { opacity: 0; } to { opacity: 1; } }
