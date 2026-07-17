@@ -1,11 +1,14 @@
+import "../landing.css";
 import { renderPageFromContent } from "@kx/nextjs";
 import { notFound } from "next/navigation";
 import { config as kx } from "@/kx/config";
 
-// Required catch-all ([...slug]) for now — it coexists with the root
-// app/page.jsx (which still renders the original landing). In the content
-// phase, app/page.jsx is deleted and this directory is renamed to the
-// optional catch-all [[...slug]] so it also serves "/" from a PageDocument.
+// Optional catch-all ([[...slug]]) — serves every migrated PageDocument,
+// including "/" (index.json). Explicit routes (islands: /blog, /studio,
+// /api/*, /opengraph-image, the Decap /admin rewrite, /kx-admin) still win.
+// landing.css was previously imported by the deleted app/page.jsx; it moves
+// here so the migrated landing keeps its styling (class-scoped; only loaded
+// on catch-all-served routes — islands keep their own stylesheets).
 interface RouteParams {
   params: Promise<{ slug?: string[] }>;
 }
