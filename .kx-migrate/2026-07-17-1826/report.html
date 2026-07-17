@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>kx-migrate report · kimoxstudio.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f7f6f1; --surface:#ffffff; --sunken:#f0eee8; --ink:#1a1a19; --ink-2:#4a4a47; --ink-3:#807e76;
+    --line:#e5e2d8; --line-2:#d8d4c7; --draft:#b0420a; --success:#1e6b3a; --danger:#a8261c; --warn:#8a5a00; --info:#1f4a8a;
+    --mono:"JetBrains Mono", ui-monospace, monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 "Inter Tight", system-ui, sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1000px;margin:0 auto;padding:40px 28px 96px}
+  .corner{position:fixed;top:0;left:0;width:34px;height:3px;background:var(--ink)}
+  h1{font-size:26px;font-weight:700;letter-spacing:-.01em;margin:0 0 4px}
+  h2{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:44px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  h3{font-size:15px;font-weight:600;margin:0 0 2px}
+  .mono{font-family:var(--mono);font-size:12.5px}
+  .sub{color:var(--ink-2);margin:0 0 20px}
+  a{color:var(--info);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .meta-grid{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;font-size:13px;margin:14px 0 22px}
+  .meta-grid dt{color:var(--ink-3)}
+  .meta-grid dd{margin:0;font-family:var(--mono);font-size:12px;color:var(--ink)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 8px}
+  .chip{background:var(--surface);border:1px solid var(--line-2);border-radius:999px;padding:6px 13px;font-size:12.5px;font-weight:500}
+  .chip b{font-weight:700}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:0 0 10px}
+  .card-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+  .badge{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:5px}
+  .b-mig{background:rgba(30,107,58,.12);color:var(--success)}
+  .b-isl{background:rgba(31,74,138,.12);color:var(--info)}
+  .b-drop{background:var(--sunken);color:var(--ink-3)}
+  .fid{font-size:11px;color:var(--ink-3);border:1px solid var(--line-2);border-radius:5px;padding:1px 7px}
+  .note{color:var(--ink-2);font-size:13px;margin:4px 0 0}
+  .pri{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:1px 6px;border-radius:4px}
+  .p-high{background:rgba(168,38,28,.12);color:var(--danger)}
+  .p-med{background:rgba(138,90,0,.14);color:var(--warn)}
+  .p-low{background:var(--sunken);color:var(--ink-3)}
+  .kind{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+  pre{background:var(--sunken);border:1px solid var(--line);border-radius:7px;padding:10px 12px;overflow-x:auto;font-family:var(--mono);font-size:11.5px;line-height:1.5;margin:8px 0 0}
+  ul{margin:6px 0 0;padding-left:18px}
+  li{margin:3px 0}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:680px){.two{grid-template-columns:1fr}}
+  .tmpl{background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+  .tag{display:inline-block;font-size:11px;color:var(--ink-3);font-family:var(--mono)}
+  .ok{color:var(--success);font-weight:600}
+  code{font-family:var(--mono);font-size:12px;background:var(--sunken);padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="corner"></div>
+<div class="wrap">
+
+  <h1>kx-migrate · kimoxstudio.com → kimox-fw</h1>
+  <p class="sub">Magazine-style trilingual (ES/EN/JA) studio landing, migrated to git-backed PageDocuments + project-local templates. App-like routes kept as islands.</p>
+
+  <dl class="meta-grid">
+    <dt>Project</dt><dd>/Users/jeseromeroarbelo/Projects/KimoxStudio/kimoxstudio.com</dd>
+    <dt>Branch</dt><dd>migrate/kimox-fw-v2 ← main</dd>
+    <dt>Framework</dt><dd>/Users/jeseromeroarbelo/Projects/KimoxStudio/kimox-fw (link: deps)</dd>
+    <dt>Stack</dt><dd>Next.js 16 App Router · JS→TS · pnpm · zod 3 · port 5173</dd>
+    <dt>Timestamp</dt><dd>2026-07-17-1826</dd>
+    <dt>Build</dt><dd><span class="ok">pnpm build ✓</span> · dev boots ✓ · all routes 200 · admin listPages ✓</dd>
+  </dl>
+
+  <div class="chips">
+    <span class="chip"><b>1</b> route migrated</span>
+    <span class="chip"><b>9</b> island routes/features</span>
+    <span class="chip"><b>11</b> templates added</span>
+    <span class="chip"><b>9</b> stock templates reused</span>
+    <span class="chip"><b>7</b> framework observations</span>
+  </div>
+
+  <h2>Routes</h2>
+
+  <div class="card">
+    <div class="card-h"><h3 class="mono">/</h3><span class="badge b-mig">migrated</span><span class="fid">fidelity: high</span></div>
+    <p class="note">The whole landing (<code>components/LandingClient.jsx</code>, 974 lines) → <code>content/pages/index.json</code>, an 11-node tree of project-local templates. Each bespoke section re-homed with its exact class names/DOM; content transcribed verbatim from <code>lib/i18n.js</code> into localized <code>{es,en,ja}</code> props. Nav (logo, anchors, /blog, CTA, theme toggle, language switch) and the smooth cursor re-homed via a <code>site-nav</code> node reusing the original <code>Nav</code> component. <code>app/page.jsx</code> deleted; catch-all made optional <code>[[...slug]]</code>; <code>landing.css</code> import moved there. Verified: all section markers render, ES/EN/JA switch drives every section, theme toggle flips, no console errors, no renderer fallback markers.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><h3 class="mono">/blog · /blog/[slug]</h3><span class="badge b-isl">island</span></div>
+    <p class="note">7 posts, each with <code>{es,en,ja}</code> markdown bodies rendered via <code>react-markdown</code>; index derives featured/others live from <code>lib/posts.js</code> plus a client category filter. Kept as the original dynamic routes — the trilingual markdown + featured/filter facets don't fit the framework's single-language <code>prose</code>/<code>collection-list</code> primitives losslessly (see F2/F3). Untouched.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><h3 class="mono">/studio · /api/studio/*</h3><span class="badge b-isl">island</span></div>
+    <p class="note">Password-gated internal CMS (social-post planner: kanban, calendar, PNG export) backed by Upstash Redis. Application behavior, not editorial content. Untouched — islands are a feature, not a compromise.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><h3 class="mono">app/actions/contact.js</h3><span class="badge b-isl">island</span></div>
+    <p class="note">The <code>submitContact</code> server action (zod validate + honeypot + timing gate + Upstash rate limit + Resend email, console-log fallback) is kept as-is and bound to the migrated <code>contact-section</code> template's client form — the stock <code>contact-form</code> (posts to a URL) can't express the budget chips, honeypot, or localized feedback.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><h3 class="mono">/opengraph-image · /admin (Decap CMS)</h3><span class="badge b-isl">island</span></div>
+    <p class="note"><code>/opengraph-image</code> is a <code>next/og</code> ImageResponse route (kept). <code>/admin</code> is the existing Decap CMS (CDN SPA, GitHub backend) that edits the blog markdown — <b>kept</b>. The kimox-fw admin was mounted at <code>/kx-admin</code> instead of clobbering it, because Decap still serves a purpose the kx admin does not (editing the island blog). See F5.</p>
+  </div>
+
+  <h2>Templates reused (stock, copied from example-app)</h2>
+  <p class="note mono">page · hero · carousel · card · stack · two-column · entry · entry-list · contact-form</p>
+  <p class="note">Registered as a base palette for the admin. The landing uses bespoke templates; <code>page</code>'s component was overridden so <code>chrome:"none"</code> emits a bare fragment (no <code>&lt;main&gt;</code> wrapper) — the original rendered sections directly under <code>&lt;body&gt;</code>.</p>
+
+  <h2>Templates added (project-local)</h2>
+  <div class="two">
+    <div class="tmpl"><h3>site-nav <span class="tag">chrome</span></h3><p class="note">Re-homes <code>Nav</code> (mode="landing") + inits smooth cursor.</p><pre>z.object({})  // chrome, no editable props</pre></div>
+    <div class="tmpl"><h3>masthead <span class="tag">marketing</span></h3><p class="note">Magazine hero: meta cells, multi-line h1, sub, CTAs.</p><pre>{ h1: localizedList, sub, cta1, cta2, location: localized }</pre></div>
+    <div class="tmpl"><h3>marquee <span class="tag">marketing</span></h3><p class="note">CSS-animated scrolling keyword strip.</p><pre>{ items: localizedList }</pre></div>
+    <div class="tmpl"><h3>manifesto <span class="tag">marketing</span></h3><p class="note">Section head + intro + numbered principle list.</p><pre>{ label, title, body: localized, bullets: localizedList }</pre></div>
+    <div class="tmpl"><h3>pricing-table <span class="tag">marketing</span></h3><p class="note">Service tiers with bullets, price, extras.</p><pre>{ label, title, fromLabel, extrasLabel: localized,
+  extras: localizedList,
+  items: [{ n, priceFrom, title, body: localized,
+            bullets: localizedList }] }</pre></div>
+    <div class="tmpl"><h3>project-list <span class="tag">collection</span></h3><p class="note">Work rows: name, url, tags, logo/glyph swatch.</p><pre>{ label, title, viewSite: localized,
+  items: [{ n, name, url, year, logo?,
+            category, body: localized, tags: string[] }] }</pre></div>
+    <div class="tmpl"><h3>process-steps <span class="tag">marketing</span></h3><p class="note">Numbered step cards.</p><pre>{ label, title: localized,
+  steps: [{ n, title, body: localized }] }</pre></div>
+    <div class="tmpl"><h3>testimonial-carousel <span class="tag">marketing</span></h3><p class="note">Interactive quote carousel (prev/next + pips).</p><pre>{ label: localized,
+  items: [{ quote, role: localized, name }] }</pre></div>
+    <div class="tmpl"><h3>team-grid <span class="tag">marketing</span></h3><p class="note">Intro + stat grid + team cards w/ canvas scratch-erase photo + 3D tilt. Per-card photo metadata as props.</p><pre>{ label, title, body, teamLabel, teamSub: localized,
+  stats: [{ n, label: localized }],
+  team: [{ initials, name, photoSerious?, photoFun?,
+           photoFunOffsetY?, photoFunScale?,
+           objectPosition*?, role, bio: localized,
+           skills: string[] }] }</pre></div>
+    <div class="tmpl"><h3>contact-section <span class="tag">form</span></h3><p class="note">Info column + form (budget chips, honeypot, timing, localized feedback). Binds <code>submitContact</code>.</p><pre>{ label, title, body, or, location, field*: localized,
+  email: string, budgets: localizedList }</pre></div>
+    <div class="tmpl"><h3>footer-wordmark <span class="tag">chrome</span></h3><p class="note">Giant wordmark + footer bar (rights, email, blog, back-to-top).</p><pre>{ rights, backToTop, blogLabel: localized, email: string }</pre></div>
+  </div>
+  <p class="note" style="margin-top:12px"><code>marquee</code>, <code>process-steps</code>, <code>testimonial-carousel</code>, <code>stat/team-grid</code> are generic shapes worth considering for promotion into the shared vocabulary (via kx-framework-adapter).</p>
+
+  <h2>Framework observations (F1–F7)</h2>
+
+  <div class="card"><div class="card-h"><h3>F1 · localization has no store/switcher or locale-aware preview</h3><span class="pri p-med">medium</span><span class="kind">framework-limit</span></div>
+    <p class="note">The framework <b>does</b> ship <code>localized()/localizedList()/resolveLocalized()</code> (@kx/registry) and <code>createClientStore()</code> (@kx/renderer/client) — those made the migration clean. What's still missing: a built-in language store + switcher, and a locale-aware admin preview. Each localized site must hand-wire its own lang store (here: <code>kx/stores.ts</code> + a rewritten <code>lib/lang.js</code>) and the admin shows all N language fields per text with no active-locale preview.</p></div>
+
+  <div class="card"><div class="card-h"><h3>F2 · collection-list derives from single-language meta only</h3><span class="pri p-med">medium</span><span class="kind">missing-props</span></div>
+    <p class="note"><code>collection-list</code> auto-derives rows from docs under a route prefix, reading each doc's <code>meta.title/description</code> — single-language, and with no featured/category facets. The trilingual blog with a featured split + client category filter can't use it losslessly, so <code>/blog</code> stayed an island. A localized-meta source + facet options would unblock it.</p></div>
+
+  <div class="card"><div class="card-h"><h3>F3 · prose takes one markdown string, no localized variant</h3><span class="pri p-med">medium</span><span class="kind">missing-props</span></div>
+    <p class="note">The <code>prose</code> template renders a single markdown body. The blog posts carry <code>{es,en,ja}</code> markdown bodies; without a localized-markdown prop they can't be represented in a document, so posts stayed islands. A <code>localizedMarkdown</code> field (resolve-then-render) would let posts migrate.</p></div>
+
+  <div class="card"><div class="card-h"><h3>F5 · admin base path collides with an existing /admin; not configurable</h3><span class="pri p-med">medium</span><span class="kind">framework-limit</span></div>
+    <p class="note">The chassis convention mounts the admin at <code>/admin</code>, which collides with the site's existing Decap CMS. There's no documented admin-base-path config; the migration mounted the SPA at <code>/kx-admin</code> manually (the API stays at <code>/api/kx/*</code>, which the admin client hardcodes — that part was fine). A first-class base-path option would remove the manual step.</p></div>
+
+  <div class="card"><div class="card-h"><h3>F4 · page chrome:"none" still emits a &lt;main&gt; wrapper</h3><span class="pri p-low">low</span><span class="kind">framework-limit</span></div>
+    <p class="note">The stock <code>page</code> template's <code>chrome:"none"</code> renders a bare <code>&lt;main&gt;</code>. A site whose original markup had no wrapper element (sections directly under body, fixed nav) needs the component overridden to a fragment (done here). A <code>chrome:"bare"</code> fragment mode would avoid the per-site override.</p></div>
+
+  <div class="card"><div class="card-h"><h3>F6 · document meta not surfaced to generateMetadata</h3><span class="pri p-low">low</span><span class="kind">missing-props</span></div>
+    <p class="note"><code>renderPageFromContent</code> exposes no way to read a loaded document's <code>meta</code>, so the catch-all can't set per-page <code>&lt;title&gt;/description</code> from the document — the root layout's metadata is the only lever. Fine here (layout title is correct) but a blocker for multi-page sites with distinct titles.</p></div>
+
+  <div class="card"><div class="card-h"><h3>F7 · @kx peers are ^14||^15; Next 16 needs --webpack</h3><span class="pri p-low">low</span><span class="kind">framework-limit</span></div>
+    <p class="note"><code>@kx/nextjs</code> declares peer <code>next ^14||^15</code>. On Next 16 the app builds/runs only with <code>--webpack</code> (Turbopack can't resolve <code>link:</code> deps), and <code>middleware.ts</code> warns (deprecated for <code>proxy.ts</code>). Both are handled (scripts pinned to webpack; warning noted) but the peer range and a proxy story should be updated.</p></div>
+
+  <h2>Decisions &amp; caveats</h2>
+  <ul>
+    <li><b>i18n strategy 1 (localized-leaf).</b> Chose the switcher-preserving path: <code>{es,en,ja}</code> props via the framework's <code>localized</code> helpers, resolved with the active language. Rebuilt <code>lib/lang.js</code>'s <code>useLang</code> over a shared external store (<code>kx/stores.ts</code> · <code>createClientStore</code>) so the nav switcher drives every independently-mounted section — the classic "useState trap" the skill warns about. Verified live: ES→EN→JA switches all sections.</li>
+    <li><b>Content transcribed verbatim.</b> <code>content/pages/index.json</code> was generated from the real <code>I18N</code> object (a one-off script) — no manual retyping, so the diff is a pure re-homing of content, typos and all. <code>lib/i18n.js</code> is retained (the blog island's <code>Nav</code> still reads <code>I.nav</code>/<code>I.meta</code>); the landing keys are now duplicated into the document.</li>
+    <li><b>Decap CMS kept; kx admin at <code>/kx-admin</code>.</b> Decap still edits the island blog markdown, so it was not removed. Log in to the kx admin with <code>admin</code>/<code>admin</code> (defaults; override via <code>KX_ADMIN_*</code>).</li>
+    <li><b>Stub git provider (in-memory, seeded from disk).</b> The admin reads/writes in process memory; <code>content/</code> files on disk are the source of truth and win after a dev restart. Publishing a variation does <b>not</b> write back to disk — swap <code>createStubGitProvider</code> for <code>createGitHubProvider</code> for production persistence.</li>
+    <li><b>zod 4 → 3.</b> Downgraded to <code>zod ^3.23</code> for the admin's AutoForm (v3 <code>_def</code> introspection). The project's only zod call site (<code>contact.js</code>) already used v3-compatible spelling — no code changes.</li>
+    <li><b>Env vars to set for production:</b> <code>KX_ADMIN_USER/PASSWORD</code>, <code>KX_SESSION_SECRET</code>, <code>KX_COOKIE_SECRET</code> (kx admin); existing <code>RESEND_*</code>, <code>UPSTASH_*</code>, <code>STUDIO_*</code> unchanged. All documented in <code>.env.example</code>; no real secrets written.</li>
+  </ul>
+
+  <h2>Suggested next steps</h2>
+  <ul>
+    <li>Review the branch diff: <code>git diff main...migrate/kimox-fw-v2</code> (three dots).</li>
+    <li>Open the running dev server: <a href="http://localhost:5173/">http://localhost:5173/</a> (landing) and <a href="http://localhost:5173/kx-admin">/kx-admin</a> (editor). PID 23626 — kill when done.</li>
+    <li>Run <code>kx-framework-adapter</code> on the F-tags — highest leverage: <b>F2</b> (localized collection source) + <b>F3</b> (localized markdown) together would let the trilingual blog migrate off islands; <b>F1</b> (built-in lang store/switcher) generalizes the store this migration hand-wired.</li>
+    <li>Production wiring: switch the stub git provider to the GitHub provider (<code>createGitHubProvider</code>) + the push/merge webhook, so admin edits persist and the production cache invalidates.</li>
+    <li>Optional: migrate the blog once F2/F3 land (per-slug documents + auto-derived index), retiring Decap and folding both admins into one.</li>
+  </ul>
+
+</div>
+</body>
+</html>

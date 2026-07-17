@@ -1,0 +1,118 @@
+{
+  "generated": "2026-07-17-1826",
+  "project_path": "/Users/jeseromeroarbelo/Projects/KimoxStudio/kimoxstudio.com",
+  "framework_path": "/Users/jeseromeroarbelo/Projects/KimoxStudio/kimox-fw",
+  "branch": "migrate/kimox-fw-v2",
+  "original_branch": "main",
+  "stack": {
+    "framework": "Next.js 16 App Router",
+    "language": "JavaScript (jsconfig.json, @/* alias); TypeScript to be added for kx chassis + templates",
+    "styling": "hand-authored CSS (globals.css tokens + [data-theme] theming, landing.css, blog.css, studio.css); Google Fonts; custom cursor",
+    "package_manager": "pnpm@10.33.4",
+    "dev_port": 5173
+  },
+  "i18n": {
+    "languages": ["es", "en", "ja"],
+    "default": "es",
+    "mechanism": "lib/i18n.js single I18N const; leaves are {es,en,ja} (strings, string[] for lists, and arrays-of-objects with mixed localized/plain fields). lib/lang.js useLang() is useState('es') + localStorage['kimox-lang'] — the useState trap.",
+    "strategy": "1 (localized-leaf schemas). Rebuild useLang as a module-level external store (useSyncExternalStore + localStorage + listener set, SAME public API [lang,setLang]) BEFORE porting sections, so the nav switcher drives every independently-mounted template. Define localized/localizedList Zod helpers. Transcribe values verbatim (typos and all).",
+    "gap": "F: kimox-fw has no first-class localization story (framework-limit)."
+  },
+  "routes": [
+    {
+      "route": "/",
+      "renderer": "app/page.jsx -> components/LandingClient.jsx",
+      "action": "migrate",
+      "document": "content/pages/index.json",
+      "confidence": "high",
+      "fidelity": "high",
+      "notes": "Custom magazine landing. ~10 bespoke sections, each ported as a project-local template emitting the original class names. Nav (lang switch + theme toggle) ported as site-nav node. Contact keeps the submitContact server action. app/page.jsx deleted in content phase; catch-all becomes optional [[...slug]]."
+    },
+    {
+      "route": "/blog",
+      "renderer": "app/blog/page.jsx -> components/BlogClient.jsx (server getFeaturedAndOthers -> client filter)",
+      "action": "island",
+      "fidelity": null,
+      "confidence": "high",
+      "notes": "Collection index derived live from posts.js (featured/others + client category filter). Hand-authored entry-list would desync from the .md source of truth. Kept as dynamic route. Gap: no collection/query primitive.",
+      "gap_kind": "missing-primitive",
+      "priority": "high"
+    },
+    {
+      "route": "/blog/[slug]",
+      "renderer": "app/blog/[slug]/page.jsx -> components/BlogPostClient.jsx",
+      "action": "island",
+      "fidelity": null,
+      "confidence": "high",
+      "notes": "7 posts, each with {es,en,ja} markdown bodies rendered via react-markdown. No markdown/prose template exists to hold them losslessly. Skill explicitly blesses island for rich per-language markdown. Gap: no markdown-body template.",
+      "gap_kind": "missing-template",
+      "priority": "medium"
+    },
+    {
+      "route": "/studio",
+      "renderer": "app/studio/page.jsx -> components/studio/StudioClient.jsx (auth-gated, Upstash Redis)",
+      "action": "island",
+      "fidelity": null,
+      "confidence": "high",
+      "notes": "Custom password-gated internal CMS (social-post planner: kanban, calendar, PNG export). Application behavior, not content. Untouched."
+    },
+    {
+      "route": "/api/studio/auth",
+      "action": "island",
+      "notes": "Password -> signed httpOnly cookie. Untouched."
+    },
+    {
+      "route": "/api/studio/posts",
+      "action": "island",
+      "notes": "GET/POST studio posts (Upstash Redis). Untouched."
+    },
+    {
+      "route": "/api/studio/posts/[id]",
+      "action": "island",
+      "notes": "PATCH/DELETE studio post by id. Untouched."
+    },
+    {
+      "route": "app/actions/contact.js",
+      "action": "island",
+      "notes": "'use server' submitContact: zod validate + honeypot + timing gate + upstash rate limit + Resend email (console fallback). Kept as server action, bound to the ported contact-section template's client form. Env: RESEND_API_KEY, RESEND_FROM, RESEND_TO, UPSTASH_*."
+    },
+    {
+      "route": "/opengraph-image",
+      "renderer": "app/opengraph-image.jsx (next/og ImageResponse, local TTF fonts)",
+      "action": "island",
+      "notes": "OG image route. Untouched."
+    },
+    {
+      "route": "/admin (Decap CMS)",
+      "renderer": "public/admin/* served via next.config rewrite",
+      "action": "island",
+      "notes": "Decap CMS (CDN SPA, GitHub backend) backing content/posts + studio.json. Live. Kept. NOTE: this /admin path collides with the kimox-fw admin SPA mount — mount the kx admin at a different path (e.g. /kx-admin) to avoid clobbering Decap. See chassis phase."
+    }
+  ],
+  "templates_reused": ["page", "hero", "carousel", "card", "stack", "two-column", "entry", "entry-list", "contact-form"],
+  "templates_added": [
+    { "name": "site-nav", "category": "chrome", "notes": "Top nav: logo, section anchors, /blog link, CTA pill, theme toggle, lang switch. Re-homes components/Nav.jsx." },
+    { "name": "masthead", "category": "marketing", "notes": "Magazine hero: meta cells, multi-line h1, sub, meta groups, 2 CTAs. Replaces stock hero for fidelity (.hero markup)." },
+    { "name": "marquee", "category": "marketing", "notes": "CSS-animated scrolling keyword strip. Candidate to promote to shared vocabulary." },
+    { "name": "manifesto", "category": "marketing", "notes": "Section head + intro paragraph + numbered principle list (2-col grid). .poster-section.manifesto." },
+    { "name": "pricing-table", "category": "marketing", "notes": "Service rows: title, bullets, priceFrom, CTA, extras tags. .poster-section.services." },
+    { "name": "project-list", "category": "collection", "notes": "Work rows: name, url, category, tags, logo/glyph swatch. .poster-section.work. Bespoke markup (not stock entry-list)." },
+    { "name": "process-steps", "category": "marketing", "notes": "Numbered step cards. .poster-section.process. Candidate to promote." },
+    { "name": "testimonial-carousel", "category": "marketing", "notes": "Interactive quote carousel (prev/next + pips). useState idx. Candidate to promote." },
+    { "name": "stat-grid", "category": "marketing", "notes": "About stats grid. Candidate to promote." },
+    { "name": "team-grid", "category": "marketing", "notes": "About section: intro body + stat-grid + team cards with per-card canvas scratch-erase photo + pointer tilt. 'use client'. Per-card object-position etc. as props." },
+    { "name": "contact-section", "category": "form", "notes": "Bespoke contact: info column + form with budget chips, honeypot, timing, useTransition, localized feedback. Binds submitContact server action (not stock contact-form)." },
+    { "name": "footer-wordmark", "category": "chrome", "notes": "Giant wordmark + footer bar (rights, email, blog link, back-to-top)." }
+  ],
+  "gaps_note": "Updated after discovering the framework already ships localization helpers (localized/localizedList/resolveLocalized), createClientStore, prose, and collection-list — so the phase-2 gaps were reframed to the REMAINING limitations. report.html is authoritative.",
+  "gaps": [
+    { "id": "F1", "gap_kind": "framework-limit", "priority": "medium", "notes": "Localization primitives exist (localized/localizedList/resolveLocalized + createClientStore) but there is no built-in language store/switcher or locale-aware admin preview; each site hand-wires its own lang store (here kx/stores.ts + rewritten lib/lang.js) and the admin shows all N language fields per text." },
+    { "id": "F2", "gap_kind": "missing-props", "priority": "medium", "notes": "collection-list auto-derives rows from docs under a route prefix but reads single-language meta.title/description only, with no featured/category facets — the trilingual blog with featured+filter can't use it losslessly, so /blog stayed an island." },
+    { "id": "F3", "gap_kind": "missing-props", "priority": "medium", "notes": "prose renders a single markdown string; no localized-markdown variant for {es,en,ja} bodies, so blog posts stayed islands." },
+    { "id": "F5", "gap_kind": "framework-limit", "priority": "medium", "notes": "Admin mount convention (/admin) collides with an existing Decap /admin; no documented admin-base-path config. Mounted kx admin at /kx-admin manually (API stays at /api/kx/* which the admin client hardcodes — fine)." },
+    { "id": "F4", "gap_kind": "framework-limit", "priority": "low", "notes": "page chrome:'none' still emits a <main> wrapper; a site whose original had no wrapper must override the page component to a bare fragment (done here)." },
+    { "id": "F6", "gap_kind": "missing-props", "priority": "low", "notes": "renderPageFromContent exposes no document meta to generateMetadata, so per-page <title>/description from the document aren't applied; layout metadata is the only lever." },
+    { "id": "F7", "gap_kind": "framework-limit", "priority": "low", "notes": "@kx/nextjs peers are next ^14||^15; Next 16 builds/runs only with --webpack (Turbopack can't resolve link: deps) and middleware.ts warns (deprecated for proxy.ts). Handled via webpack-pinned scripts." }
+  ],
+  "commit_plan": ["kx-migrate: install chassis", "kx-migrate: templates", "kx-migrate: content", "kx-migrate: cleanup + report"]
+}
