@@ -1,0 +1,39 @@
+"use client";
+import type { TemplateRenderProps } from "@kx/core";
+import { resolveLocalized } from "@kx/registry";
+import { useLang } from "@/lib/lang";
+import type { Lang } from "@/kx/langs";
+import Link from "next/link";
+import type { z } from "zod";
+import type { footerWordmarkSchema } from "./schema";
+
+type Props = z.infer<typeof footerWordmarkSchema>;
+
+function BreakOnDots({ text }: { text: string }) {
+  const segments = text.split(/(?<=[·.])/).filter(Boolean);
+  return segments.map((seg, i) => {
+    const m = seg.match(/^(.*?)([·.])$/);
+    const body = m ? m[1] : seg;
+    const dot = m ? m[2] : '';
+    return (<span className="row" key={i}>{body}{dot && <span className="dot-accent">{dot}</span>}</span>);
+  });
+}
+
+export function FooterWordmarkComponent({ props }: TemplateRenderProps<Props>) {
+  const [lang] = useLang() as [Lang, (next: Lang) => void];
+  return (
+    <>
+      <div className="wrap"><div className="footer-big" aria-hidden="true"><BreakOnDots text="KIMOX·STUDIO." /></div></div>
+      <footer className="bot">
+        <div className="wrap"><div className="row">
+          <div>{resolveLocalized(props.rights, lang, "es") ?? ""}</div>
+          <div style={{ display: 'flex', gap: 24 }}>
+            <a href={`mailto:${props.email}`}>{props.email}</a>
+            <Link href="/blog">{resolveLocalized(props.blogLabel, lang, "es") ?? ""}</Link>
+            <a href="#top">{resolveLocalized(props.backToTop, lang, "es") ?? ""}</a>
+          </div>
+        </div></div>
+      </footer>
+    </>
+  );
+}
