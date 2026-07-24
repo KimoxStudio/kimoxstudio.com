@@ -165,13 +165,78 @@ function ManifestoSec({ lang }) {
   );
 }
 
+function PlansSec({ lang }) {
+  // "cuide" / "tending" gets the serif-italic accent, matching the other heads.
+  const title = t(I.plans.title, lang).replace(
+    /(cuide|tending)/,
+    (m) => `<em>${m}</em>`
+  );
+  const perMonth = t(I.plans.perMonth, lang);
+  return (
+    <section className="poster-section plans" id="plans">
+      <div className="wrap">
+        <SectionHead
+          n="02"
+          label={t(I.plans.label, lang)}
+          meta={`3 ${lang === 'en' ? 'plans · monthly fee' : 'planes · cuota mensual'}`}
+          title={title}
+        />
+        <div className="plans-intro">
+          <span className="plans-badge">{t(I.plans.eyebrow, lang)}</span>
+          <p className="plans-sub">{t(I.plans.sub, lang)}</p>
+        </div>
+        <div className="plan-grid">
+          {I.plans.items.map((p, i) => (
+            <div className={`plan-card${p.featured ? ' featured' : ''}`} key={i}>
+              {p.featured && (
+                <span className="plan-flag">{t(I.plans.featured, lang)}</span>
+              )}
+              <div className="plan-top">
+                <span className="plan-n">{p.n}</span>
+                <h3 className="plan-name">{p.name}</h3>
+              </div>
+              <div className="plan-price">
+                <span className="amount">{p.price}</span>
+                <span className="cur">{p.currency}</span>
+                <span className="per">{perMonth}</span>
+              </div>
+              <span className="plan-perm">{t(p.permanence, lang)}</span>
+              <p className="plan-hook">{t(p.hook, lang)}</p>
+              <ul className="plan-feats">
+                {t(p.feats, lang).map((f, j) => {
+                  const [head, ...rest] = f.split('—');
+                  const body = rest.join('—').trim();
+                  return (
+                    <li key={j}>
+                      <b>{head.trim()}</b>
+                      {body ? <span> — {body}</span> : null}
+                    </li>
+                  );
+                })}
+              </ul>
+              <a href="#contact" className="plan-cta">
+                <span>{t(I.plans.ctaLabel, lang)}</span>
+                <span className="arr">↗</span>
+              </a>
+            </div>
+          ))}
+        </div>
+        <div className="plans-foot">
+          <span className="plans-bridge">{t(I.plans.bridge, lang)}</span>
+          <span className="plans-igic">{t(I.plans.igic, lang)}</span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ServicesSec({ lang }) {
   const title = t(I.services.title, lang).replace(/(construimos|build|作る)/, (m) => `<em>${m}</em>`);
   return (
     <section className="poster-section services" id="services">
       <div className="wrap">
         <SectionHead
-          n="02"
+          n="03"
           label={t(I.services.label, lang)}
           meta={`3 ${lang === 'ja' ? '種類 · 個別見積もり可' : lang === 'en' ? 'tiers · custom on request' : 'niveles · a medida disponible'}`}
           title={title}
@@ -229,7 +294,7 @@ function WorkSec({ lang }) {
     <section className="poster-section work" id="work">
       <div className="wrap">
         <SectionHead
-          n="03"
+          n="04"
           label={t(I.work.label, lang)}
           meta={`12+ ${lang === 'ja' ? '出荷済 · 4件表示' : lang === 'en' ? 'shipped · 4 shown' : 'enviados · 4 mostrados'}`}
           title={title}
@@ -298,7 +363,7 @@ function ProcessSec({ lang }) {
     <section className="poster-section process" id="process">
       <div className="wrap">
         <SectionHead
-          n="04"
+          n="05"
           label={t(I.process.label, lang)}
           meta={`4 ${lang === 'ja' ? 'ステップ' : lang === 'en' ? 'steps' : 'pasos'}`}
           title={title}
@@ -331,7 +396,7 @@ function TestimonialsSec({ lang }) {
     <section className="poster-section testimonials">
       <div className="wrap">
         <SectionHead
-          n="05"
+          n="06"
           label={t(I.testimonials.label, lang)}
           meta={`${items.length} ${lang === 'ja' ? '件' : lang === 'en' ? 'quotes' : 'citas'}`}
           title={lang === 'ja' ? '<em>声</em>' : lang === 'en' ? '<em>Voices.</em>' : '<em>Voces.</em>'}
@@ -639,7 +704,7 @@ function AboutSec({ lang }) {
     <section className="poster-section about" id="about">
       <div className="wrap">
         <SectionHead
-          n="06"
+          n="07"
           label={t(I.about.label, lang)}
           meta={lang === 'ja' ? '私たちについて' : lang === 'en' ? 'the studio' : 'el estudio'}
           title={title}
@@ -657,7 +722,7 @@ function AboutSec({ lang }) {
         <div className="team-block">
           <div className="head-row">
             <span className="label">
-              <b>§06.1</b> {t(I.about.teamLabel, lang)}
+              <b>§07.1</b> {t(I.about.teamLabel, lang)}
             </span>
             <span></span>
             <span className="label">
@@ -780,7 +845,7 @@ function ContactSec({ lang }) {
       <div className="wrap">
         <div className="head">
           <span className="label">
-            <b>§07</b> {t(I.contact.label, lang)}
+            <b>§08</b> {t(I.contact.label, lang)}
           </span>
           <span></span>
           <span className="meta">
@@ -962,6 +1027,7 @@ export default function LandingClient() {
       <Hero lang={lang} />
       <Marquee lang={lang} />
       <ManifestoSec lang={lang} />
+      <PlansSec lang={lang} />
       <ServicesSec lang={lang} />
       <WorkSec lang={lang} />
       <ProcessSec lang={lang} />
