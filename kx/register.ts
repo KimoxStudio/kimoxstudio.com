@@ -1,4 +1,4 @@
-import type { TemplateRegistry } from "@kx/core";
+import type { TemplateRegistry } from "@kimoxstudio/core";
 
 // Stock vocabulary (copied from example-app) — base palette for the admin.
 import { cardTemplate } from "./templates/card";

@@ -1,4 +1,4 @@
-import type { TemplateDefinition } from "@kx/core";
+import type { TemplateDefinition } from "@kimoxstudio/core";
 import { MastheadComponent } from "./component";
 import { mastheadSchema } from "./schema";
 

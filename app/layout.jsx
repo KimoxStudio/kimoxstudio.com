@@ -1,6 +1,6 @@
 import './globals.css';
 import { Analytics } from '@vercel/analytics/next';
-import { KxPreviewBridge } from '@kx/nextjs/preview';
+import { KxPreviewBridge } from '@kimoxstudio/nextjs/preview';
 
 export const metadata = {
   metadataBase: new URL('https://www.kimoxstudio.com'),

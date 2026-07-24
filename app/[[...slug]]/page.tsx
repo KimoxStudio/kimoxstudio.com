@@ -1,5 +1,5 @@
 import "../landing.css";
-import { renderPageFromContent } from "@kx/nextjs";
+import { renderPageFromContent } from "@kimoxstudio/nextjs";
 import { notFound } from "next/navigation";
 import { config as kx } from "@/kx/config";
 

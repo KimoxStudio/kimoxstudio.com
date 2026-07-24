@@ -1,4 +1,4 @@
-import type { TemplateDefinition } from "@kx/core";
+import type { TemplateDefinition } from "@kimoxstudio/core";
 import { StackComponent } from "./component";
 import { stackSchema } from "./schema";
 

@@ -1,5 +1,5 @@
 import "server-only";
-import { createAdminRouteHandlers } from "@kx/admin/server";
+import { createAdminRouteHandlers } from "@kimoxstudio/admin/server";
 import { config as kx } from "@/kx/config";
 
 /**

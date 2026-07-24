@@ -1,6 +1,6 @@
 "use client";
 
-import type { TemplateRenderProps } from "@kx/core";
+import type { TemplateRenderProps } from "@kimoxstudio/core";
 import type { z } from "zod";
 import Nav from "@/components/Nav";
 import { useLang } from "@/lib/lang";

@@ -1,5 +1,5 @@
-import type { TemplateRegistry } from "@kx/core";
-import { createRegistry } from "@kx/registry";
+import type { TemplateRegistry } from "@kimoxstudio/core";
+import { createRegistry } from "@kimoxstudio/registry";
 import { registerTemplates } from "./register";
 
 // Process-wide registry singleton. Only pulls React + Zod (via templates), so

@@ -1,4 +1,4 @@
-import { createKxMiddleware } from "@kx/nextjs/middleware";
+import { createKxMiddleware } from "@kimoxstudio/nextjs/middleware";
 import { config as kxConfig } from "@/kx/config";
 
 // Next 16 note: the `middleware.ts` convention is deprecated in favor of
@@ -19,5 +19,5 @@ export const config = {
   matcher: ["/((?!_next|api/kx/webhook|.*\\.).*)"],
 };
 
-// Node runtime: @kx/nextjs/middleware verifies the cookie with sync node crypto.
+// Node runtime: @kimoxstudio/nextjs/middleware verifies the cookie with sync node crypto.
 export const runtime = "nodejs";

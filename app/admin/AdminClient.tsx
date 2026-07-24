@@ -1,7 +1,7 @@
 "use client";
 
-import { AdminApp, LoginForm, createApiClient } from "@kx/admin";
-import type { AdminApiClient } from "@kx/admin";
+import { AdminApp, LoginForm, createApiClient } from "@kimoxstudio/admin";
+import type { AdminApiClient } from "@kimoxstudio/admin";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { registry } from "@/kx/registry";
 

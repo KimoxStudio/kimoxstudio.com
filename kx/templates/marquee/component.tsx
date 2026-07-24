@@ -1,6 +1,6 @@
 "use client";
-import type { TemplateRenderProps } from "@kx/core";
-import { resolveLocalized } from "@kx/registry";
+import type { TemplateRenderProps } from "@kimoxstudio/core";
+import { resolveLocalized } from "@kimoxstudio/registry";
 import { useLang } from "@/lib/lang";
 import type { Lang } from "@/kx/langs";
 import { Fragment } from "react";

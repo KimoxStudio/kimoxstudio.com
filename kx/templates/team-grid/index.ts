@@ -1,4 +1,4 @@
-import type { TemplateDefinition } from "@kx/core";
+import type { TemplateDefinition } from "@kimoxstudio/core";
 import { TeamGridComponent } from "./component";
 import { teamGridSchema } from "./schema";
 

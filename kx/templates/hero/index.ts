@@ -1,4 +1,4 @@
-import type { TemplateDefinition } from "@kx/core";
+import type { TemplateDefinition } from "@kimoxstudio/core";
 import { HeroComponent } from "./component";
 import { heroSchema } from "./schema";
 

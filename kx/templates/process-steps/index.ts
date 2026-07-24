@@ -1,4 +1,4 @@
-import type { TemplateDefinition } from "@kx/core";
+import type { TemplateDefinition } from "@kimoxstudio/core";
 import { ProcessStepsComponent } from "./component";
 import { processStepsSchema } from "./schema";
 

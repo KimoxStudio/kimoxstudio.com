@@ -1,4 +1,4 @@
-import { localizedList } from "@kx/registry";
+import { localizedList } from "@kimoxstudio/registry";
 import { z } from "zod";
 
 const LANGS = ["es", "en", "ja"] as const;

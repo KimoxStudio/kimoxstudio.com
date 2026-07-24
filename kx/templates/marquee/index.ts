@@ -1,4 +1,4 @@
-import type { TemplateDefinition } from "@kx/core";
+import type { TemplateDefinition } from "@kimoxstudio/core";
 import { MarqueeComponent } from "./component";
 import { marqueeSchema } from "./schema";
 

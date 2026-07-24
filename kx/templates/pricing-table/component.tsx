@@ -1,6 +1,6 @@
 "use client";
-import type { TemplateRenderProps } from "@kx/core";
-import { kxField, resolveLocalized } from "@kx/registry";
+import type { TemplateRenderProps } from "@kimoxstudio/core";
+import { kxField, resolveLocalized } from "@kimoxstudio/registry";
 import { useLang } from "@/lib/lang";
 import type { z } from "zod";
 import type { pricingTableSchema } from "./schema";

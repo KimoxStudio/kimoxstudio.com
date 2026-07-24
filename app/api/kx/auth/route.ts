@@ -1,6 +1,6 @@
 import { config as kx } from "@/kx/config";
 
-// `@kx/admin`'s API client posts the username/password JSON straight to
+// `@kimoxstudio/admin`'s API client posts the username/password JSON straight to
 // `/api/kx/auth` — there's no separate `/login` path. We forward the
 // request into the `login` method that `createCredentialsAuthProvider`
 // exposes; everything else (rate limit, set-cookie, etc.) is handled

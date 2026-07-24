@@ -1,4 +1,4 @@
-import { createVariationRouteHandler } from "@kx/nextjs";
+import { createVariationRouteHandler } from "@kimoxstudio/nextjs";
 import { config as kx } from "@/kx/config";
 
 // `secure: false` keeps the cookie usable over plain HTTP during local

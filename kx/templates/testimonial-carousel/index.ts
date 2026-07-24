@@ -1,4 +1,4 @@
-import type { TemplateDefinition } from "@kx/core";
+import type { TemplateDefinition } from "@kimoxstudio/core";
 import { TestimonialCarouselComponent } from "./component";
 import { testimonialCarouselSchema } from "./schema";
 

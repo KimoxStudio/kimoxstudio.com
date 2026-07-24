@@ -1,4 +1,4 @@
-import type { TemplateRenderProps } from "@kx/core";
+import type { TemplateRenderProps } from "@kimoxstudio/core";
 import { Children, Fragment, isValidElement } from "react";
 import type { z } from "zod";
 import type { entryListSchema } from "./schema";

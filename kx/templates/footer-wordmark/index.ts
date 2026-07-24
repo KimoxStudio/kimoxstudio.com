@@ -1,4 +1,4 @@
-import type { TemplateDefinition } from "@kx/core";
+import type { TemplateDefinition } from "@kimoxstudio/core";
 import { FooterWordmarkComponent } from "./component";
 import { footerWordmarkSchema } from "./schema";
 

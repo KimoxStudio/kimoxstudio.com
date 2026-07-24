@@ -1,5 +1,5 @@
-import { createWebhookRouteHandler } from "@kx/nextjs";
-import { parseWebhookEvent, verifyWebhookSignature } from "@kx/git-provider-github";
+import { createWebhookRouteHandler } from "@kimoxstudio/nextjs";
+import { parseWebhookEvent, verifyWebhookSignature } from "@kimoxstudio/git-provider-github";
 import { config as kx } from "@/kx/config";
 
 // Wired up against the GitHub-style verifier/parser even though the
