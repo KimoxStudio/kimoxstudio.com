@@ -1,6 +1,6 @@
 "use client";
 import type { TemplateRenderProps } from "@kx/core";
-import { resolveLocalized } from "@kx/registry";
+import { kxField, resolveLocalized } from "@kx/registry";
 import { useLang } from "@/lib/lang";
 import type { Lang } from "@/kx/langs";
 import type { z } from "zod";
@@ -36,7 +36,7 @@ export function ManifestoComponent({ props }: TemplateRenderProps<Props>) {
           </div>
           <ul className="bullets">
             {(resolveLocalized(props.bullets, lang, "es") ?? []).map((b, i) => (
-              <li key={i}><span className="n">0{i + 1}</span><span>{b}</span><span className="arr">↗</span></li>
+              <li key={i}><span className="n">0{i + 1}</span><span {...kxField(`bullets.${lang}.${i}`)}>{b}</span><span className="arr">↗</span></li>
             ))}
           </ul>
         </div>

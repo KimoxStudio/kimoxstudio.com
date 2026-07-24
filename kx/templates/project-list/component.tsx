@@ -1,6 +1,6 @@
 "use client";
 import type { TemplateRenderProps } from "@kx/core";
-import { resolveLocalized } from "@kx/registry";
+import { kxField, resolveLocalized } from "@kx/registry";
 import { useLang } from "@/lib/lang";
 import type { z } from "zod";
 import type { projectListSchema } from "./schema";
@@ -36,9 +36,9 @@ export function ProjectListComponent({ props }: TemplateRenderProps<Props>) {
                 <div className="name-block col">
                   <div className="name">{name}</div>
                   <div className="url">{url} · {p.year}</div>
-                  <span className="proj-cta" aria-hidden="true">{resolveLocalized(props.viewSite, lang, "es") ?? ""}</span>
+                  <span className="proj-cta" aria-hidden="true" {...kxField(`viewSite.${lang}`)}>{resolveLocalized(props.viewSite, lang, "es") ?? ""}</span>
                 </div>
-                <div className="desc col"><span className="cat">{resolveLocalized(p.category, lang, "es") ?? ""}</span>{resolveLocalized(p.body, lang, "es") ?? ""}</div>
+                <div className="desc col"><span className="cat" {...kxField(`items.${i}.category.${lang}`)}>{resolveLocalized(p.category, lang, "es") ?? ""}</span>{resolveLocalized(p.body, lang, "es") ?? ""}</div>
                 <div className="tags col">{p.tags.map((tg, j) => (<span key={j}>{tg}</span>))}</div>
                 <div className={`swatch${p.logo ? ' has-logo' : ''}`}>
                   {p.logo ? (<img className="logo" src={p.logo} alt={`${name} logo`} />) : (<div className="glyph">{glyph}</div>)}

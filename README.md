@@ -2,7 +2,7 @@
 
 Sitio público del estudio: landing editorial, blog técnico y `/admin` para editar contenido sin tocar el repo a mano.
 
-**Stack:** Next.js 14 (App Router, SSG) + Decap CMS git-based + Markdown en `content/`. Sin base de datos, sin backend propio, sin servicios de pago. Despliegue exclusivo en **Vercel**.
+**Stack:** Next.js (App Router) sobre el framework **kimox-fw** (contenido de páginas en JSON, editable desde `/admin` con vista previa en vivo) + Markdown en `content/posts` para el blog. Sin base de datos, sin backend propio, sin servicios de pago. Despliegue exclusivo en **Vercel**.
 
 ## Características
 
@@ -11,14 +11,14 @@ Sitio público del estudio: landing editorial, blog técnico y `/admin` para edi
 - **Tres idiomas** ES / EN / JA con conmutador persistido en `localStorage` y `<html lang>` sincronizado.
 - **Tema claro / oscuro** con detección automática de `prefers-color-scheme`, conmutador manual, sin flash (script inline antes del primer paint).
 - **Cursor custom** suave en landing y blog, deshabilitado en touch.
-- **Decap CMS** en `/admin/` que commitea Markdown directamente a GitHub.
+- **Admin de kimox-fw** en `/admin` para editar el contenido de las páginas (documentos JSON) con vista previa en vivo y edición de texto in-situ.
 
 ## Stack
 
 | Pieza | Por qué |
 |---|---|
-| Next.js 14 App Router | SSG real para landing y blog → cero coste de runtime en Vercel |
-| Decap CMS | Open source, edita Markdown en GitHub vía OAuth, no requiere DB |
+| Next.js App Router | landing y blog rápidos → bajo coste de runtime en Vercel |
+| kimox-fw | Framework propio: contenido de páginas en JSON versionado en git, admin con preview en vivo, sin DB |
 | Markdown + YAML frontmatter | Contenido versionado en git, portable a cualquier stack |
 | `js-yaml` | Parser de frontmatter en servidor (sin dependencias de Node Buffer en cliente) |
 | pnpm | Gestor de paquetes; `pnpm-lock.yaml` versionado |
@@ -28,10 +28,9 @@ Sitio público del estudio: landing editorial, blog técnico y `/admin` para edi
 ```bash
 pnpm install
 pnpm dev                 # http://localhost:5173
-pnpm dlx decap-server    # en otra terminal: backend local del CMS
 ```
 
-Con `decap-server` activo, abre <http://localhost:5173/admin/> y los cambios se escriben directos a `content/posts/*.md` y `content/site/studio.json`.
+El admin de contenido está en <http://localhost:5173/admin> (credenciales por defecto en dev: `admin` / `admin`). Edita el contenido de las páginas en documentos JSON bajo `content/pages/`.
 
 ## Build
 
@@ -51,14 +50,9 @@ vercel link              # ya hecho
 git push                 # despliegue automático
 ```
 
-### CMS auth en producción
+### Admin en producción
 
-`public/admin/config.yml` usa el GitHub backend a través del proxy OAuth gratuito de Netlify (`api.netlify.com`). Esto es **solo para autenticar** al editor: el sitio entero sigue desplegándose y sirviéndose desde Vercel. Es la opción más simple y no añade infraestructura.
-
-Si en algún momento se prefiere quitar esa dependencia externa:
-
-1. **OAuth shim en Vercel:** una función serverless (3 endpoints: `/auth`, `/callback`, `/success`) que haga el handshake con GitHub. Apuntar `backend.base_url` a la URL de la función.
-2. **Decap Bridge** (servicio gestionado, gratuito hasta cierto tráfico): `backend.base_url: "https://oauth.decapbridge.com"`.
+En dev el admin usa un proveedor git en memoria (stub) y credenciales `admin` / `admin`. Para producción, kimox-fw se conecta a un proveedor git de GitHub y persiste el contenido en el repo; configúralo con las variables `KX_*` (ver `.env.example`) — `KX_ADMIN_USER` / `KX_ADMIN_PASSWORD`, secretos de cookie/sesión, y las credenciales del GitHub App + webhook.
 
 ## Estructura
 
@@ -84,10 +78,11 @@ lib/
   cursor.js               hooks de cursor (landing y blog)
   theme.js                useTheme hook (client)
 content/
-  posts/*.md              entradas del blog (editables desde Decap)
-  site/studio.json        metadatos del estudio (editables desde Decap)
+  posts/*.md              entradas del blog (markdown)
+  pages/*.json            documentos de página de kimox-fw (editables desde /admin)
+  site/studio.json        metadatos del estudio
+kx/                       capa de kimox-fw: config, registro y templates del sitio
 public/
-  admin/                  shell de Decap CMS + config.yml
   logos/                  variantes del logo (icon, wordmark, etc.)
 ```
 
@@ -134,7 +129,7 @@ Local: `cp .env.example .env.local` y edita con tus credenciales.
 
 ## Editar contenido
 
-**Desde Decap (recomendado para no-devs):** ir a `/admin/`, login con GitHub, editar visualmente con campos ES/EN/JA, publicar (commit a `master`).
+**Desde el admin (recomendado para no-devs):** ir a `/admin`, crear una variación (borrador), editar el contenido de las páginas visualmente con vista previa en vivo y edición in-situ (incluidos los campos ES/EN/JA), y publicar.
 
 **Desde el editor (devs):** modificar `content/posts/*.md` directamente. El frontmatter es YAML con las claves `slug`, `date`, `read_time`, `glyph`, `featured`, `category` (es/en/ja), `title` (es/en/ja), `excerpt` (es/en/ja), `body` (es/en/ja). El cuerpo se renderiza con `white-space: pre-wrap`, así que los saltos de línea se preservan.
 

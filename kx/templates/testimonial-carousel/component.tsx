@@ -1,6 +1,6 @@
 "use client";
 import type { TemplateRenderProps } from "@kx/core";
-import { resolveLocalized } from "@kx/registry";
+import { kxField, resolveLocalized } from "@kx/registry";
 import { useLang } from "@/lib/lang";
 import { useState } from "react";
 import type { z } from "zod";
@@ -31,10 +31,10 @@ export function TestimonialCarouselComponent({ props }: TemplateRenderProps<Prop
         <div className="quote-wrap">
           <div>
             <div className="quote-mark">"</div>
-            <p className="t-quote">{resolveLocalized(cur.quote, lang, "es") ?? ""}</p>
+            <p className="t-quote" {...kxField(`items.${idx}.quote.${lang}`)}>{resolveLocalized(cur.quote, lang, "es") ?? ""}</p>
             <div className="t-meta">
               <span className="avatar">{cur.name[0]}</span>
-              <div><span className="name">{cur.name}</span><span className="role">{resolveLocalized(cur.role, lang, "es") ?? ""}</span></div>
+              <div><span className="name">{cur.name}</span><span className="role" {...kxField(`items.${idx}.role.${lang}`)}>{resolveLocalized(cur.role, lang, "es") ?? ""}</span></div>
             </div>
             <div className="t-nav">
               <button onClick={() => setIdx((idx - 1 + items.length) % items.length)}>←</button>
@@ -46,7 +46,7 @@ export function TestimonialCarouselComponent({ props }: TemplateRenderProps<Prop
             {items.map((it, i) => (
               <div key={i} className={`pip ${i === idx ? 'active' : ''}`} onClick={() => setIdx(i)} data-hover>
                 <span className="idx">0{i + 1}</span>
-                <div><div className="nm">{it.name}</div><div className="rl">{resolveLocalized(it.role, lang, "es") ?? ""}</div></div>
+                <div><div className="nm">{it.name}</div><div className="rl" {...kxField(`items.${i}.role.${lang}`)}>{resolveLocalized(it.role, lang, "es") ?? ""}</div></div>
               </div>
             ))}
           </div>

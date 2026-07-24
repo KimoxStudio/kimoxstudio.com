@@ -1,7 +1,7 @@
 "use client";
 
 import type { TemplateRenderProps } from "@kx/core";
-import { resolveLocalized } from "@kx/registry";
+import { kxField, resolveLocalized } from "@kx/registry";
 import { useLang } from "@/lib/lang";
 import type { Lang } from "@/kx/langs";
 import TeamCardPhoto from "@/components/TeamCardPhoto";
@@ -40,12 +40,12 @@ export function TeamGridComponent({ props }: TemplateRenderProps<Props>) {
           meta={lang === "ja" ? "私たちについて" : lang === "en" ? "the studio" : "el estudio"}
           title={title}
         />
-        <p>{resolveLocalized(props.body, lang, "es")}</p>
+        <p {...kxField(`body.${lang}`)}>{resolveLocalized(props.body, lang, "es")}</p>
         <div className="stats">
           {props.stats.map((s, i) => (
             <div className="stat" key={i}>
               <div className="num">{s.n}</div>
-              <div className="lbl">{resolveLocalized(s.label, lang, "es")}</div>
+              <div className="lbl" {...kxField(`stats.${i}.label.${lang}`)}>{resolveLocalized(s.label, lang, "es")}</div>
             </div>
           ))}
         </div>
@@ -64,7 +64,7 @@ export function TeamGridComponent({ props }: TemplateRenderProps<Props>) {
               <em>.</em>
             </h3>
           </div>
-          <p className="sub-line">{resolveLocalized(props.teamSub, lang, "es")}</p>
+          <p className="sub-line" {...kxField(`teamSub.${lang}`)}>{resolveLocalized(props.teamSub, lang, "es")}</p>
           <div className="team-grid">
             {props.team.map((p, i) => (
               <div className="team-card" key={i}>
@@ -85,8 +85,8 @@ export function TeamGridComponent({ props }: TemplateRenderProps<Props>) {
                     0{i + 1} / 0{props.team.length}
                   </span>
                 </div>
-                <div className="role">{resolveLocalized(p.role, lang, "es")}</div>
-                <p className="bio">{resolveLocalized(p.bio, lang, "es")}</p>
+                <div className="role" {...kxField(`team.${i}.role.${lang}`)}>{resolveLocalized(p.role, lang, "es")}</div>
+                <p className="bio" {...kxField(`team.${i}.bio.${lang}`)}>{resolveLocalized(p.bio, lang, "es")}</p>
                 <div className="skills">
                   {p.skills.map((sk, j) => (
                     <span key={j}>{sk}</span>

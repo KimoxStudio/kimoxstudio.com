@@ -1,6 +1,6 @@
 "use client";
 import type { TemplateRenderProps } from "@kx/core";
-import { resolveLocalized } from "@kx/registry";
+import { kxField, resolveLocalized } from "@kx/registry";
 import { useLang } from "@/lib/lang";
 import type { z } from "zod";
 import type { pricingTableSchema } from "./schema";
@@ -31,11 +31,11 @@ export function PricingTableComponent({ props }: TemplateRenderProps<Props>) {
               <span className="n">{s.n}</span>
               <h3>{resolveLocalized(s.title, lang, "es") ?? ""}<span className="small">{lang === 'ja' ? 'サービス' : lang === 'en' ? 'service' : 'servicio'} 0{i + 1}</span></h3>
               <div>
-                <p className="desc">{resolveLocalized(s.body, lang, "es") ?? ""}</p>
+                <p className="desc" {...kxField(`items.${i}.body.${lang}`)}>{resolveLocalized(s.body, lang, "es") ?? ""}</p>
                 <ul className="bullets">{(resolveLocalized(s.bullets, lang, "es") ?? []).map((b, j) => (<li key={j}>{b}</li>))}</ul>
               </div>
               <div className="price-cell">
-                <span className="from">{resolveLocalized(props.fromLabel, lang, "es") ?? ""}</span>
+                <span className="from" {...kxField(`fromLabel.${lang}`)}>{resolveLocalized(props.fromLabel, lang, "es") ?? ""}</span>
                 <span className="amount">{resolveLocalized(s.priceFrom, lang, "es") ?? ""}</span>
                 <span className="iva">{lang === 'ja' ? '税抜' : lang === 'en' ? 'ex. tax (IGIC)' : 'sin IGIC'}</span>
               </div>
@@ -45,7 +45,7 @@ export function PricingTableComponent({ props }: TemplateRenderProps<Props>) {
         </div>
         <div className="svc-extras">
           <span className="label">{resolveLocalized(props.extrasLabel, lang, "es") ?? ""} →</span>
-          {(resolveLocalized(props.extras, lang, "es") ?? []).map((it, i) => (<span className="tag" key={i}>{it}</span>))}
+          {(resolveLocalized(props.extras, lang, "es") ?? []).map((it, i) => (<span className="tag" key={i} {...kxField(`extras.${lang}.${i}`)}>{it}</span>))}
         </div>
       </div>
     </section>

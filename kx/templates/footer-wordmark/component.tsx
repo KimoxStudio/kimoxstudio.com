@@ -1,6 +1,6 @@
 "use client";
 import type { TemplateRenderProps } from "@kx/core";
-import { resolveLocalized } from "@kx/registry";
+import { kxField, resolveLocalized } from "@kx/registry";
 import { useLang } from "@/lib/lang";
 import type { Lang } from "@/kx/langs";
 import Link from "next/link";
@@ -26,11 +26,11 @@ export function FooterWordmarkComponent({ props }: TemplateRenderProps<Props>) {
       <div className="wrap"><div className="footer-big" aria-hidden="true"><BreakOnDots text="KIMOX·STUDIO." /></div></div>
       <footer className="bot">
         <div className="wrap"><div className="row">
-          <div>{resolveLocalized(props.rights, lang, "es") ?? ""}</div>
+          <div {...kxField(`rights.${lang}`)}>{resolveLocalized(props.rights, lang, "es") ?? ""}</div>
           <div style={{ display: 'flex', gap: 24 }}>
             <a href={`mailto:${props.email}`}>{props.email}</a>
-            <Link href="/blog">{resolveLocalized(props.blogLabel, lang, "es") ?? ""}</Link>
-            <a href="#top">{resolveLocalized(props.backToTop, lang, "es") ?? ""}</a>
+            <Link href="/blog" {...kxField(`blogLabel.${lang}`)}>{resolveLocalized(props.blogLabel, lang, "es") ?? ""}</Link>
+            <a href="#top" {...kxField(`backToTop.${lang}`)}>{resolveLocalized(props.backToTop, lang, "es") ?? ""}</a>
           </div>
         </div></div>
       </footer>

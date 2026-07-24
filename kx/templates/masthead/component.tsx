@@ -1,7 +1,7 @@
 "use client";
 
 import type { TemplateRenderProps } from "@kx/core";
-import { resolveLocalized } from "@kx/registry";
+import { kxField, resolveLocalized } from "@kx/registry";
 import { useLang } from "@/lib/lang";
 import type { Lang } from "@/kx/langs";
 import type { z } from "zod";
@@ -66,13 +66,15 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
         </div>
         <h1>
           {lines.map((ln, i) => (
-            <span className="line" key={i}>
+            <span className="line" key={i} {...kxField(`h1.${lang}.${i}`)}>
               {ln}
             </span>
           ))}
         </h1>
         <div className="bottom-grid">
-          <p className="sub">{resolveLocalized(props.sub, lang, "es")}</p>
+          <p className="sub" {...kxField(`sub.${lang}`)}>
+            {resolveLocalized(props.sub, lang, "es")}
+          </p>
           <div className="col-meta">
             {metaBlocks[lang].map((m, i) => (
               <div className="group" key={i}>
@@ -83,11 +85,11 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
           </div>
           <div className="ctas">
             <a className="btn-primary" href="#contact">
-              <span>{resolveLocalized(props.cta1, lang, "es")}</span>
+              <span {...kxField(`cta1.${lang}`)}>{resolveLocalized(props.cta1, lang, "es")}</span>
               <span className="arr">↗</span>
             </a>
             <a className="btn-secondary" href="#work">
-              <span>{resolveLocalized(props.cta2, lang, "es")}</span>
+              <span {...kxField(`cta2.${lang}`)}>{resolveLocalized(props.cta2, lang, "es")}</span>
               <span>→</span>
             </a>
           </div>

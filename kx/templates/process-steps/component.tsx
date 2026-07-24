@@ -1,6 +1,6 @@
 "use client";
 import type { TemplateRenderProps } from "@kx/core";
-import { resolveLocalized } from "@kx/registry";
+import { kxField, resolveLocalized } from "@kx/registry";
 import { useLang } from "@/lib/lang";
 import type { Lang } from "@/kx/langs";
 import type { z } from "zod";
@@ -30,8 +30,8 @@ export function ProcessStepsComponent({ props }: TemplateRenderProps<Props>) {
           {props.steps.map((s, i) => (
             <div className="step" key={i}>
               <div className="num">{s.n}</div>
-              <h3>{resolveLocalized(s.title, lang, "es") ?? ""}</h3>
-              <p>{resolveLocalized(s.body, lang, "es") ?? ""}</p>
+              <h3 {...kxField(`steps.${i}.title.${lang}`)}>{resolveLocalized(s.title, lang, "es") ?? ""}</h3>
+              <p {...kxField(`steps.${i}.body.${lang}`)}>{resolveLocalized(s.body, lang, "es") ?? ""}</p>
               <div className="tag"><span>{lang === 'ja' ? 'ステップ' : 'STEP'} {i + 1} / {props.steps.length}</span><span className="dot"></span></div>
             </div>
           ))}

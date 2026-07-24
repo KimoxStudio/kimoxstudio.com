@@ -1,7 +1,7 @@
 "use client";
 
 import type { TemplateRenderProps } from "@kx/core";
-import { resolveLocalized } from "@kx/registry";
+import { kxField, resolveLocalized } from "@kx/registry";
 import { useLang } from "@/lib/lang";
 import type { Lang } from "@/kx/langs";
 import { submitContact } from "@/app/actions/contact";
@@ -112,9 +112,9 @@ export function ContactSectionComponent({ props }: TemplateRenderProps<Props>) {
         </div>
         <div className="grid">
           <div>
-            <p className="body">{resolveLocalized(props.body, lang, "es")}</p>
+            <p className="body" {...kxField(`body.${lang}`)}>{resolveLocalized(props.body, lang, "es")}</p>
             <a href={`mailto:${props.email}`} className="email-big">
-              <span className="or">{resolveLocalized(props.or, lang, "es")}</span>
+              <span className="or" {...kxField(`or.${lang}`)}>{resolveLocalized(props.or, lang, "es")}</span>
               <span className="em">{props.email}</span>
             </a>
             <div className="info">
@@ -168,6 +168,7 @@ export function ContactSectionComponent({ props }: TemplateRenderProps<Props>) {
                     key={i}
                     className={budgetIdx === i ? "active" : ""}
                     onClick={() => setBudgetIdx(i)}
+                    {...kxField(`budgets.${lang}.${i}`)}
                   >
                     {b}
                   </button>
