@@ -133,6 +133,201 @@
         }
       },
       {
+        "id": "maintenance",
+        "template": "maintenance-plans",
+        "props": {
+          "label": {
+            "es": "Suscripción · Mantenimiento",
+            "en": "Subscription · Maintenance",
+            "ja": "Subscription · Maintenance"
+          },
+          "badge": {
+            "es": "Suscripción · Cuidado mensual",
+            "en": "Subscription · Monthly care",
+            "ja": "Subscription · Monthly care"
+          },
+          "title": {
+            "es": "Una web viva necesita quien la cuide.",
+            "en": "A living website needs tending.",
+            "ja": "A living website needs tending."
+          },
+          "subtitle": {
+            "es": "La construimos para que dure. Y para que dure, alguien tiene que cuidarla cada mes: actualizarla, vigilarla y hacerla mejorar. Elige cuánto la cuidamos nosotros.",
+            "en": "We build it to last. And to last, someone has to tend it every month: keep it updated, keep an eye on it, keep making it better. You choose how much of that is on us.",
+            "ja": "We build it to last. And to last, someone has to tend it every month: keep it updated, keep an eye on it, keep making it better. You choose how much of that is on us."
+          },
+          "plans": [
+            {
+              "n": "01",
+              "name": "Basic",
+              "price": "50 €",
+              "priceUnit": {
+                "es": "/mes",
+                "en": "/month",
+                "ja": "/month"
+              },
+              "term": {
+                "es": "Permanencia 6 meses",
+                "en": "6-month minimum",
+                "ja": "6-month minimum"
+              },
+              "hook": {
+                "es": "Lo justo para dormir tranquilo: tu web vigilada, al día y con quien la mire.",
+                "en": "Enough to sleep at night: your site watched, up to date, and with someone keeping an eye on it.",
+                "ja": "Enough to sleep at night: your site watched, up to date, and with someone keeping an eye on it."
+              },
+              "features": {
+                "es": [
+                  "SOPORTE — 30 min al mes",
+                  "CONTENIDO — corrección de errores leves",
+                  "COPIAS DE SEGURIDAD — mensuales",
+                  "MONITORIZACIÓN — uptime básico, te avisamos si se cae",
+                  "ACTUALIZACIONES — plugins, core y revisión de compatibilidades",
+                  "DESPLIEGUE — revisión de estado y estabilidad",
+                  "SEO — indexación y metadatos básicos",
+                  "ACCESIBILIDAD — contrastes y estructura básica"
+                ],
+                "en": [
+                  "SUPPORT — 30 min/month",
+                  "CONTENT — minor bug fixes",
+                  "BACKUPS — monthly",
+                  "MONITORING — basic uptime, we tell you if it goes down",
+                  "UPDATES — plugins, core and compatibility checks",
+                  "DEPLOYMENT — health and stability review",
+                  "SEO — indexing and basic metadata",
+                  "ACCESSIBILITY — contrast and basic structure"
+                ],
+                "ja": [
+                  "SUPPORT — 30 min/month",
+                  "CONTENT — minor bug fixes",
+                  "BACKUPS — monthly",
+                  "MONITORING — basic uptime, we tell you if it goes down",
+                  "UPDATES — plugins, core and compatibility checks",
+                  "DEPLOYMENT — health and stability review",
+                  "SEO — indexing and basic metadata",
+                  "ACCESSIBILITY — contrast and basic structure"
+                ]
+              }
+            },
+            {
+              "n": "02",
+              "name": "Pro",
+              "price": "150 €",
+              "priceUnit": {
+                "es": "/mes",
+                "en": "/month",
+                "ja": "/month"
+              },
+              "term": {
+                "es": "Permanencia 4 meses",
+                "en": "4-month minimum",
+                "ja": "4-month minimum"
+              },
+              "hook": {
+                "es": "Tu web deja de ser algo que se rompe y pasa a ser algo que mejora.",
+                "en": "Your site stops being something that breaks and becomes something that improves.",
+                "ja": "Your site stops being something that breaks and becomes something that improves."
+              },
+              "features": {
+                "es": [
+                  "SOPORTE — 2 h al mes",
+                  "CAMBIOS MENORES — 5 al mes",
+                  "COPIAS DE SEGURIDAD — quincenales",
+                  "MONITORIZACIÓN — avanzada",
+                  "MANTENIMIENTO TÉCNICO — optimización de plugins, seguridad ampliada y resolución de conflictos",
+                  "CÓDIGO — ajustes menores, optimización de carga y revisión de integraciones",
+                  "SEO — revisión técnica y ajustes menores",
+                  "ACCESIBILIDAD — revisión AA y 1 mejora de UX/UI al mes"
+                ],
+                "en": [
+                  "SUPPORT — 2 h/month",
+                  "MINOR CHANGES — 5/month",
+                  "BACKUPS — every two weeks",
+                  "MONITORING — advanced",
+                  "TECHNICAL UPKEEP — plugin optimization, extended security and conflict resolution",
+                  "CODE — minor tweaks, load optimization and integration review",
+                  "SEO — technical review and minor adjustments",
+                  "ACCESSIBILITY — AA review and 1 UX/UI improvement each month"
+                ],
+                "ja": [
+                  "SUPPORT — 2 h/month",
+                  "MINOR CHANGES — 5/month",
+                  "BACKUPS — every two weeks",
+                  "MONITORING — advanced",
+                  "TECHNICAL UPKEEP — plugin optimization, extended security and conflict resolution",
+                  "CODE — minor tweaks, load optimization and integration review",
+                  "SEO — technical review and minor adjustments",
+                  "ACCESSIBILITY — AA review and 1 UX/UI improvement each month"
+                ]
+              },
+              "recommended": true
+            },
+            {
+              "n": "03",
+              "name": "Premium",
+              "price": "220 €",
+              "priceUnit": {
+                "es": "/mes",
+                "en": "/month",
+                "ja": "/month"
+              },
+              "term": {
+                "es": "Permanencia 2 meses",
+                "en": "2-month minimum",
+                "ja": "2-month minimum"
+              },
+              "hook": {
+                "es": "Para webs que son parte del negocio y tienen que crecer con él.",
+                "en": "For sites that are part of the business and have to grow with it.",
+                "ja": "For sites that are part of the business and have to grow with it."
+              },
+              "features": {
+                "es": [
+                  "SOPORTE — prioritario, respuesta el mismo día",
+                  "CAMBIOS — los que necesites, dentro de lo razonable",
+                  "COPIAS DE SEGURIDAD — diarias",
+                  "MONITORIZACIÓN — proactiva, con alertas antes de que se note",
+                  "RENDIMIENTO — mejoras continuas de velocidad y Core Web Vitals",
+                  "SEO — trabajo continuo, no revisiones sueltas",
+                  "ACCESIBILIDAD — auditoría AA continua y mejoras de UX/UI cada mes",
+                  "EVOLUCIÓN — reunión mensual y un roadmap para decidir qué construimos después"
+                ],
+                "en": [
+                  "SUPPORT — priority, same-day reply",
+                  "CHANGES — as many as you need, within reason",
+                  "BACKUPS — daily",
+                  "MONITORING — proactive, alerts before anyone notices",
+                  "PERFORMANCE — continuous speed and Core Web Vitals improvements",
+                  "SEO — ongoing work, not one-off reviews",
+                  "ACCESSIBILITY — continuous AA audit and monthly UX/UI improvements",
+                  "EVOLUTION — monthly call and a roadmap to decide what we build next"
+                ],
+                "ja": [
+                  "SUPPORT — priority, same-day reply",
+                  "CHANGES — as many as you need, within reason",
+                  "BACKUPS — daily",
+                  "MONITORING — proactive, alerts before anyone notices",
+                  "PERFORMANCE — continuous speed and Core Web Vitals improvements",
+                  "SEO — ongoing work, not one-off reviews",
+                  "ACCESSIBILITY — continuous AA audit and monthly UX/UI improvements",
+                  "EVOLUTION — monthly call and a roadmap to decide what we build next"
+                ]
+              }
+            }
+          ],
+          "bridge": {
+            "es": "¿Prefieres no pagarla de golpe? Cuídala por una cuota al mes.",
+            "en": "Prefer not to pay it all at once? Have it cared for with a monthly fee.",
+            "ja": "Prefer not to pay it all at once? Have it cared for with a monthly fee."
+          },
+          "note": {
+            "es": "Precios sin IGIC.",
+            "en": "Prices exclude IGIC.",
+            "ja": "Prices exclude IGIC."
+          }
+        }
+      },
+      {
         "id": "services",
         "template": "pricing-table",
         "props": {

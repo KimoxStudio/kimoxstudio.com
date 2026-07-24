@@ -98,7 +98,7 @@ export function ContactSectionComponent({ props }: TemplateRenderProps<Props>) {
       <div className="wrap">
         <div className="head">
           <span className="label">
-            <b>§07</b> {resolveLocalized(props.label, lang, "es")}
+            <b>§08</b> {resolveLocalized(props.label, lang, "es")}
           </span>
           <span></span>
           <span className="meta">

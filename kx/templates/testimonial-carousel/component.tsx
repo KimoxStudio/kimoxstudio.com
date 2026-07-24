@@ -27,7 +27,7 @@ export function TestimonialCarouselComponent({ props }: TemplateRenderProps<Prop
   return (
     <section className="poster-section testimonials">
       <div className="wrap">
-        <SectionHead n="05" label={resolveLocalized(props.label, lang, "es") ?? ""} meta={`${items.length} ${lang === 'ja' ? '件' : lang === 'en' ? 'quotes' : 'citas'}`} title={lang === 'ja' ? '<em>声</em>' : lang === 'en' ? '<em>Voices.</em>' : '<em>Voces.</em>'} />
+        <SectionHead n="06" label={resolveLocalized(props.label, lang, "es") ?? ""} meta={`${items.length} ${lang === 'ja' ? '件' : lang === 'en' ? 'quotes' : 'citas'}`} title={lang === 'ja' ? '<em>声</em>' : lang === 'en' ? '<em>Voices.</em>' : '<em>Voces.</em>'} />
         <div className="quote-wrap">
           <div>
             <div className="quote-mark">"</div>

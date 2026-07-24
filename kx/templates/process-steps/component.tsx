@@ -25,7 +25,7 @@ export function ProcessStepsComponent({ props }: TemplateRenderProps<Props>) {
   return (
     <section className="poster-section process" id="process">
       <div className="wrap">
-        <SectionHead n="04" label={resolveLocalized(props.label, lang, "es") ?? ""} meta={`4 ${lang === 'ja' ? 'ステップ' : lang === 'en' ? 'steps' : 'pasos'}`} title={title} />
+        <SectionHead n="05" label={resolveLocalized(props.label, lang, "es") ?? ""} meta={`4 ${lang === 'ja' ? 'ステップ' : lang === 'en' ? 'steps' : 'pasos'}`} title={title} />
         <div className="steps">
           {props.steps.map((s, i) => (
             <div className="step" key={i}>

@@ -24,7 +24,7 @@ export function ProjectListComponent({ props }: TemplateRenderProps<Props>) {
   return (
     <section className="poster-section work" id="work">
       <div className="wrap">
-        <SectionHead n="03" label={resolveLocalized(props.label, lang, "es") ?? ""} meta={`12+ ${lang === 'ja' ? '出荷済 · 4件表示' : lang === 'en' ? 'shipped · 4 shown' : 'enviados · 4 mostrados'}`} title={title} />
+        <SectionHead n="04" label={resolveLocalized(props.label, lang, "es") ?? ""} meta={`12+ ${lang === 'ja' ? '出荷済 · 4件表示' : lang === 'en' ? 'shipped · 4 shown' : 'enviados · 4 mostrados'}`} title={title} />
         <div className="proj-list">
           {props.items.map((p, i) => {
             const name = p.name;

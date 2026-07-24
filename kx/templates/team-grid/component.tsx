@@ -35,7 +35,7 @@ export function TeamGridComponent({ props }: TemplateRenderProps<Props>) {
     <section className="poster-section about" id="about">
       <div className="wrap">
         <SectionHead
-          n="06"
+          n="07"
           label={resolveLocalized(props.label, lang, "es") ?? ""}
           meta={lang === "ja" ? "私たちについて" : lang === "en" ? "the studio" : "el estudio"}
           title={title}
@@ -53,7 +53,7 @@ export function TeamGridComponent({ props }: TemplateRenderProps<Props>) {
         <div className="team-block">
           <div className="head-row">
             <span className="label">
-              <b>§06.1</b> {resolveLocalized(props.teamLabel, lang, "es")}
+              <b>§07.1</b> {resolveLocalized(props.teamLabel, lang, "es")}
             </span>
             <span></span>
             <span className="label">
