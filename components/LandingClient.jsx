@@ -165,65 +165,52 @@ function ManifestoSec({ lang }) {
   );
 }
 
-function PlansSec({ lang }) {
-  // "cuide" / "tending" gets the serif-italic accent, matching the other heads.
-  const title = t(I.plans.title, lang).replace(
-    /(cuide|tending)/,
+function WebServiceSec({ lang }) {
+  // The emphasis word ("de golpe" / "all at once") gets the serif-italic
+  // orange accent, matching the rest of the poster heads.
+  const title = t(I.webService.title, lang).replace(
+    /(de golpe|all at once)/,
     (m) => `<em>${m}</em>`
   );
-  const perMonth = t(I.plans.perMonth, lang);
   return (
-    <section className="poster-section plans" id="plans">
+    <section className="poster-section web-service" id="web-service">
       <div className="wrap">
         <SectionHead
-          n="02"
-          label={t(I.plans.label, lang)}
-          meta={`3 ${lang === 'en' ? 'plans · monthly fee' : 'planes · cuota mensual'}`}
+          n="03"
+          label={t(I.webService.label, lang)}
+          meta={`1 ${lang === 'en' ? 'plan · monthly fee' : 'plan · cuota mensual'}`}
           title={title}
         />
-        <div className="plans-intro">
-          <span className="plans-badge">{t(I.plans.eyebrow, lang)}</span>
-          <p className="plans-sub">{t(I.plans.sub, lang)}</p>
-        </div>
-        <div className="plan-grid">
-          {I.plans.items.map((p, i) => (
-            <div className={`plan-card${p.featured ? ' featured' : ''}`} key={i}>
-              {p.featured && (
-                <span className="plan-flag">{t(I.plans.featured, lang)}</span>
-              )}
-              <div className="plan-top">
-                <span className="plan-n">{p.n}</span>
-                <h3 className="plan-name">{p.name}</h3>
-              </div>
-              <div className="plan-price">
-                <span className="amount">{p.price}</span>
-                <span className="cur">{p.currency}</span>
-                <span className="per">{perMonth}</span>
-              </div>
-              <span className="plan-perm">{t(p.permanence, lang)}</span>
-              <p className="plan-hook">{t(p.hook, lang)}</p>
-              <ul className="plan-feats">
-                {t(p.feats, lang).map((f, j) => {
-                  const [head, ...rest] = f.split('—');
-                  const body = rest.join('—').trim();
-                  return (
-                    <li key={j}>
-                      <b>{head.trim()}</b>
-                      {body ? <span> — {body}</span> : null}
-                    </li>
-                  );
-                })}
-              </ul>
-              <a href="#contact" className="plan-cta">
-                <span>{t(I.plans.ctaLabel, lang)}</span>
-                <span className="arr">↗</span>
-              </a>
+        <p className="ws-bridge">{t(I.webService.bridge, lang)}</p>
+        <div className="ws-panel">
+          <div className="ws-main">
+            <span className="ws-badge">{t(I.webService.eyebrow, lang)}</span>
+            <p className="ws-sub">{t(I.webService.sub, lang)}</p>
+            <div className="ws-price">
+              <span className="amount">{t(I.webService.price, lang)}</span>
+              <span className="iva">{t(I.webService.igic, lang)}</span>
             </div>
-          ))}
-        </div>
-        <div className="plans-foot">
-          <span className="plans-bridge">{t(I.plans.bridge, lang)}</span>
-          <span className="plans-igic">{t(I.plans.igic, lang)}</span>
+            <p className="ws-commit">{t(I.webService.commitment, lang)}</p>
+            <a href="#contact" className="ws-cta">
+              {t(I.webService.ctaLabel, lang)}
+            </a>
+          </div>
+          <div className="ws-includes">
+            <span className="ws-includes-label">{t(I.webService.includesLabel, lang)}</span>
+            <ul className="ws-feats">
+              {t(I.webService.feats, lang).map((f, j) => {
+                const [head, ...rest] = f.split('—');
+                const body = rest.join('—').trim();
+                return (
+                  <li key={j}>
+                    <b>{head.trim()}</b>
+                    {body ? <span> — {body}</span> : null}
+                  </li>
+                );
+              })}
+            </ul>
+            <p className="ws-closer">{t(I.webService.featsCloser, lang)}</p>
+          </div>
         </div>
       </div>
     </section>
@@ -236,7 +223,7 @@ function ServicesSec({ lang }) {
     <section className="poster-section services" id="services">
       <div className="wrap">
         <SectionHead
-          n="03"
+          n="02"
           label={t(I.services.label, lang)}
           meta={`3 ${lang === 'ja' ? '種類 · 個別見積もり可' : lang === 'en' ? 'tiers · custom on request' : 'niveles · a medida disponible'}`}
           title={title}
@@ -1027,8 +1014,8 @@ export default function LandingClient() {
       <Hero lang={lang} />
       <Marquee lang={lang} />
       <ManifestoSec lang={lang} />
-      <PlansSec lang={lang} />
       <ServicesSec lang={lang} />
+      <WebServiceSec lang={lang} />
       <WorkSec lang={lang} />
       <ProcessSec lang={lang} />
       <TestimonialsSec lang={lang} />
