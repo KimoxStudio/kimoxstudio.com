@@ -10,16 +10,16 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@kimoxstudio/admin": "link:../kimox-fw/packages/admin",
-    "@kimoxstudio/auth": "link:../kimox-fw/packages/auth",
-    "@kimoxstudio/cache-memory": "link:../kimox-fw/packages/cache-memory",
-    "@kimoxstudio/content": "link:../kimox-fw/packages/content",
-    "@kimoxstudio/core": "link:../kimox-fw/packages/core",
-    "@kimoxstudio/git-provider-github": "link:../kimox-fw/packages/git-provider-github",
-    "@kimoxstudio/git-provider-stub": "link:../kimox-fw/packages/git-provider-stub",
-    "@kimoxstudio/nextjs": "link:../kimox-fw/packages/nextjs",
-    "@kimoxstudio/registry": "link:../kimox-fw/packages/registry",
-    "@kimoxstudio/renderer": "link:../kimox-fw/packages/renderer",
+    "@kimoxstudio/admin": "file:./vendor/kimoxstudio/kimoxstudio-admin-0.2.0.tgz",
+    "@kimoxstudio/auth": "file:./vendor/kimoxstudio/kimoxstudio-auth-0.2.0.tgz",
+    "@kimoxstudio/cache-memory": "file:./vendor/kimoxstudio/kimoxstudio-cache-memory-0.2.0.tgz",
+    "@kimoxstudio/content": "file:./vendor/kimoxstudio/kimoxstudio-content-0.2.0.tgz",
+    "@kimoxstudio/core": "file:./vendor/kimoxstudio/kimoxstudio-core-0.2.0.tgz",
+    "@kimoxstudio/git-provider-github": "file:./vendor/kimoxstudio/kimoxstudio-git-provider-github-0.2.0.tgz",
+    "@kimoxstudio/git-provider-stub": "file:./vendor/kimoxstudio/kimoxstudio-git-provider-stub-0.2.0.tgz",
+    "@kimoxstudio/nextjs": "file:./vendor/kimoxstudio/kimoxstudio-nextjs-0.2.0.tgz",
+    "@kimoxstudio/registry": "file:./vendor/kimoxstudio/kimoxstudio-registry-0.2.0.tgz",
+    "@kimoxstudio/renderer": "file:./vendor/kimoxstudio/kimoxstudio-renderer-0.2.0.tgz",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.0",
     "@vercel/analytics": "^2.0.1",
@@ -39,5 +39,20 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "pnpm": {
+    "overrides": {
+      "@kimoxstudio/admin": "file:./vendor/kimoxstudio/kimoxstudio-admin-0.2.0.tgz",
+      "@kimoxstudio/auth": "file:./vendor/kimoxstudio/kimoxstudio-auth-0.2.0.tgz",
+      "@kimoxstudio/cache-memory": "file:./vendor/kimoxstudio/kimoxstudio-cache-memory-0.2.0.tgz",
+      "@kimoxstudio/cli": "file:./vendor/kimoxstudio/kimoxstudio-cli-0.2.0.tgz",
+      "@kimoxstudio/content": "file:./vendor/kimoxstudio/kimoxstudio-content-0.2.0.tgz",
+      "@kimoxstudio/core": "file:./vendor/kimoxstudio/kimoxstudio-core-0.2.0.tgz",
+      "@kimoxstudio/git-provider-github": "file:./vendor/kimoxstudio/kimoxstudio-git-provider-github-0.2.0.tgz",
+      "@kimoxstudio/git-provider-stub": "file:./vendor/kimoxstudio/kimoxstudio-git-provider-stub-0.2.0.tgz",
+      "@kimoxstudio/nextjs": "file:./vendor/kimoxstudio/kimoxstudio-nextjs-0.2.0.tgz",
+      "@kimoxstudio/registry": "file:./vendor/kimoxstudio/kimoxstudio-registry-0.2.0.tgz",
+      "@kimoxstudio/renderer": "file:./vendor/kimoxstudio/kimoxstudio-renderer-0.2.0.tgz"
+    }
   }
 }
