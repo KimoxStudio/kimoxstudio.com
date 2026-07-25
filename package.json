@@ -10,16 +10,16 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@kimoxstudio/admin": "file:./vendor/kimoxstudio/kimoxstudio-admin-0.2.0.tgz",
-    "@kimoxstudio/auth": "file:./vendor/kimoxstudio/kimoxstudio-auth-0.2.0.tgz",
-    "@kimoxstudio/cache-memory": "file:./vendor/kimoxstudio/kimoxstudio-cache-memory-0.2.0.tgz",
-    "@kimoxstudio/content": "file:./vendor/kimoxstudio/kimoxstudio-content-0.2.0.tgz",
-    "@kimoxstudio/core": "file:./vendor/kimoxstudio/kimoxstudio-core-0.2.0.tgz",
-    "@kimoxstudio/git-provider-github": "file:./vendor/kimoxstudio/kimoxstudio-git-provider-github-0.2.0.tgz",
-    "@kimoxstudio/git-provider-stub": "file:./vendor/kimoxstudio/kimoxstudio-git-provider-stub-0.2.0.tgz",
-    "@kimoxstudio/nextjs": "file:./vendor/kimoxstudio/kimoxstudio-nextjs-0.2.0.tgz",
-    "@kimoxstudio/registry": "file:./vendor/kimoxstudio/kimoxstudio-registry-0.2.0.tgz",
-    "@kimoxstudio/renderer": "file:./vendor/kimoxstudio/kimoxstudio-renderer-0.2.0.tgz",
+    "@kimoxstudio/admin": "^0.2.0",
+    "@kimoxstudio/auth": "^0.2.0",
+    "@kimoxstudio/cache-memory": "^0.2.0",
+    "@kimoxstudio/content": "^0.2.0",
+    "@kimoxstudio/core": "^0.2.0",
+    "@kimoxstudio/git-provider-github": "^0.2.0",
+    "@kimoxstudio/git-provider-stub": "^0.2.0",
+    "@kimoxstudio/nextjs": "^0.2.0",
+    "@kimoxstudio/registry": "^0.2.0",
+    "@kimoxstudio/renderer": "^0.2.0",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.0",
     "@vercel/analytics": "^2.0.1",
@@ -39,20 +39,5 @@
   },
   "engines": {
     "node": ">=20"
-  },
-  "pnpm": {
-    "overrides": {
-      "@kimoxstudio/admin": "file:./vendor/kimoxstudio/kimoxstudio-admin-0.2.0.tgz",
-      "@kimoxstudio/auth": "file:./vendor/kimoxstudio/kimoxstudio-auth-0.2.0.tgz",
-      "@kimoxstudio/cache-memory": "file:./vendor/kimoxstudio/kimoxstudio-cache-memory-0.2.0.tgz",
-      "@kimoxstudio/cli": "file:./vendor/kimoxstudio/kimoxstudio-cli-0.2.0.tgz",
-      "@kimoxstudio/content": "file:./vendor/kimoxstudio/kimoxstudio-content-0.2.0.tgz",
-      "@kimoxstudio/core": "file:./vendor/kimoxstudio/kimoxstudio-core-0.2.0.tgz",
-      "@kimoxstudio/git-provider-github": "file:./vendor/kimoxstudio/kimoxstudio-git-provider-github-0.2.0.tgz",
-      "@kimoxstudio/git-provider-stub": "file:./vendor/kimoxstudio/kimoxstudio-git-provider-stub-0.2.0.tgz",
-      "@kimoxstudio/nextjs": "file:./vendor/kimoxstudio/kimoxstudio-nextjs-0.2.0.tgz",
-      "@kimoxstudio/registry": "file:./vendor/kimoxstudio/kimoxstudio-registry-0.2.0.tgz",
-      "@kimoxstudio/renderer": "file:./vendor/kimoxstudio/kimoxstudio-renderer-0.2.0.tgz"
-    }
   }
 }
