@@ -122,6 +122,30 @@ const cookieSecrets = [
   { id: "v1", value: requiredSecret("KX_COOKIE_SECRET", "dev-cookie-secret-do-not-use-in-prod") },
 ];
 
+/**
+ * Session cookie `Secure` flag.
+ *
+ * On by default. Browsers discard a `Secure` cookie on a plain-HTTP origin,
+ * so leaving it on makes the admin impossible to log into over HTTP — which
+ * is exactly what you hit testing on a phone against this machine's LAN
+ * address (`http://192.168.x.x:5173`). `http://localhost` is exempt, so the
+ * problem only shows up once you leave your own machine.
+ *
+ * Deliberately gated on its own env var rather than `NODE_ENV`: `next start`
+ * runs a local production build with `NODE_ENV=production` too, so NODE_ENV
+ * can't tell "my laptop" from "Vercel". An explicit opt-in can't be tripped
+ * by accident — set `KX_INSECURE_COOKIES=1` in `.env.local` only, never in
+ * the deployment's environment.
+ */
+const insecureCookies = process.env.KX_INSECURE_COOKIES === "1";
+
+/**
+ * Whether cookies this app sets should carry `Secure`. Exported so the
+ * variation (preview) cookie stays in step with the session one — if they
+ * disagree you can log in but not preview, or the reverse.
+ */
+export const secureCookies = !insecureCookies;
+
 const auth =
   g.__kxAuth ??
   (g.__kxAuth = createCredentialsAuthProvider({
@@ -129,6 +153,7 @@ const auth =
     password: requiredSecret("KX_ADMIN_PASSWORD", "admin"),
     sessionSecrets,
     rateLimiter,
+    secure: secureCookies,
   }));
 
 export const config: KxConfig = {

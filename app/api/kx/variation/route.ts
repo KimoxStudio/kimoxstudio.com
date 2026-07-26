@@ -1,12 +1,16 @@
 import { createVariationRouteHandler } from "@kimoxstudio/nextjs";
-import { config as kx } from "@/kx/config";
+import { config as kx, secureCookies } from "@/kx/config";
 
-// `secure: false` keeps the cookie usable over plain HTTP during local
-// development — the production deployment should remove this override so
-// the cookie keeps its `Secure` attribute. We toggle by NODE_ENV so the
-// same code path works in both modes.
+// The preview cookie tracks the session cookie's `Secure` flag (see
+// `kx/config.ts`). The two have to agree: with only one of them dropped you
+// can log in but never preview a draft, or the reverse — and both failures
+// are silent, because the browser discards the cookie without telling the
+// page anything went wrong.
+//
+// This used to key off NODE_ENV, which can't tell a local `next start` (also
+// NODE_ENV=production) from the real deployment.
 const handlers = createVariationRouteHandler(kx, {
-  secure: process.env.NODE_ENV === "production",
+  secure: secureCookies,
 });
 
 export const POST = handlers.POST;
