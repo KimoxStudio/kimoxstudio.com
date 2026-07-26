@@ -191,6 +191,109 @@
     }
     .manifesto .bullets li:hover .arr { opacity: 1; }
 
+    /* ── Web as a service (single monthly plan) ── */
+    .web-service .ws-bridge {
+      font-family: "Instrument Serif", serif;
+      font-style: italic;
+      font-size: clamp(21px, 2.4vw, 30px);
+      line-height: 1.32; color: var(--ink-2);
+      max-width: 940px; margin: 0 0 48px;
+    }
+    .web-service .ws-panel {
+      display: grid; grid-template-columns: 1.05fr 1fr;
+      border: 1px solid var(--rule);
+      border-top: 3px solid var(--orange);
+      background: var(--bg-2);
+    }
+    .web-service .ws-main {
+      display: flex; flex-direction: column;
+      padding: 44px 44px 40px;
+      border-right: 1px solid var(--rule);
+    }
+    .web-service .ws-badge {
+      display: inline-flex; align-self: flex-start; align-items: center;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--bg); background: var(--orange);
+      padding: 8px 14px; font-weight: 600; margin-bottom: 28px;
+    }
+    .web-service .ws-sub {
+      font-family: "Familjen Grotesk", sans-serif;
+      font-size: clamp(19px, 1.9vw, 26px);
+      line-height: 1.36; color: var(--ink); margin: 0 0 32px;
+    }
+    .web-service .ws-price {
+      display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+      padding-top: 28px; border-top: 1px solid var(--rule);
+      margin-bottom: 26px;
+    }
+    .web-service .ws-price .amount {
+      font-family: "Familjen Grotesk", sans-serif;
+      font-size: clamp(40px, 5vw, 62px); font-weight: 700;
+      letter-spacing: -0.045em; line-height: 0.9; color: var(--ink);
+    }
+    .web-service .ws-price .iva {
+      display: inline-flex; align-items: center;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink-3);
+      border: 1px solid var(--rule-2); padding: 5px 10px;
+    }
+    .web-service .ws-commit {
+      font-family: "Instrument Serif", serif;
+      font-style: italic; font-size: 19px; line-height: 1.4;
+      color: var(--ink-2); margin: 0 0 34px; max-width: 480px;
+    }
+    .web-service .ws-cta {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; margin-top: auto; align-self: flex-start;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--bg); background: var(--orange);
+      border: 1px solid var(--orange);
+      padding: 16px 24px;
+      transition: background .2s, color .2s, gap .25s, border-color .2s;
+    }
+    .web-service .ws-cta:hover {
+      background: var(--ink); border-color: var(--ink); gap: 14px;
+    }
+    .web-service .ws-includes {
+      display: flex; flex-direction: column;
+      padding: 44px 44px 40px;
+    }
+    .web-service .ws-includes-label {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--orange); font-weight: 600; margin-bottom: 24px;
+    }
+    .web-service .ws-feats {
+      list-style: none; margin: 0 0 26px; padding: 0;
+      display: flex; flex-direction: column;
+      flex-grow: 1;
+    }
+    .web-service .ws-feats li {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12.5px; line-height: 1.5; color: var(--ink-2);
+      padding: 0 0 18px 20px; margin-bottom: 18px; position: relative;
+      letter-spacing: .02em; border-bottom: 1px solid var(--rule);
+    }
+    .web-service .ws-feats li:last-child {
+      margin-bottom: 0; padding-bottom: 0; border-bottom: 0;
+    }
+    .web-service .ws-feats li::before {
+      content: "+"; position: absolute; left: 0; top: 0;
+      color: var(--orange); font-weight: 700;
+    }
+    .web-service .ws-feats li b {
+      color: var(--ink); font-weight: 600; letter-spacing: .06em;
+    }
+    .web-service .ws-closer {
+      font-family: "Instrument Serif", serif;
+      font-style: italic; font-size: 20px; line-height: 1.35;
+      color: var(--orange); margin: 0;
+      padding-top: 24px; border-top: 1px solid var(--rule);
+    }
+
     /* ── Services ── */
     .services .svc-table { border-top: 1px solid var(--rule); }
     .svc-row {
@@ -1020,6 +1123,9 @@
       .hero h1 { font-size: clamp(56px, 11vw, 120px); }
       .hero .bottom-grid { grid-template-columns: 1fr; gap: 28px; }
       .manifesto .grid { grid-template-columns: 1fr; gap: 40px; }
+      .web-service .ws-panel { grid-template-columns: 1fr; }
+      .web-service .ws-main { border-right: 0; border-bottom: 1px solid var(--rule); }
+      .web-service .ws-price .amount { font-size: 44px; }
       .svc-row { grid-template-columns: 40px 1fr; gap: 14px; }
       .svc-row > * { grid-column: 2 / -1; text-align: left; }
       .svc-row > .n { grid-column: 1; }

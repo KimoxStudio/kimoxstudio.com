@@ -165,6 +165,58 @@ function ManifestoSec({ lang }) {
   );
 }
 
+function WebServiceSec({ lang }) {
+  // The emphasis word ("de golpe" / "all at once") gets the serif-italic
+  // orange accent, matching the rest of the poster heads.
+  const title = t(I.webService.title, lang).replace(
+    /(de golpe|all at once)/,
+    (m) => `<em>${m}</em>`
+  );
+  return (
+    <section className="poster-section web-service" id="web-service">
+      <div className="wrap">
+        <SectionHead
+          n="03"
+          label={t(I.webService.label, lang)}
+          meta={`1 ${lang === 'en' ? 'plan · monthly fee' : 'plan · cuota mensual'}`}
+          title={title}
+        />
+        <p className="ws-bridge">{t(I.webService.bridge, lang)}</p>
+        <div className="ws-panel">
+          <div className="ws-main">
+            <span className="ws-badge">{t(I.webService.eyebrow, lang)}</span>
+            <p className="ws-sub">{t(I.webService.sub, lang)}</p>
+            <div className="ws-price">
+              <span className="amount">{t(I.webService.price, lang)}</span>
+              <span className="iva">{t(I.webService.igic, lang)}</span>
+            </div>
+            <p className="ws-commit">{t(I.webService.commitment, lang)}</p>
+            <a href="#contact" className="ws-cta">
+              {t(I.webService.ctaLabel, lang)}
+            </a>
+          </div>
+          <div className="ws-includes">
+            <span className="ws-includes-label">{t(I.webService.includesLabel, lang)}</span>
+            <ul className="ws-feats">
+              {t(I.webService.feats, lang).map((f, j) => {
+                const [head, ...rest] = f.split('—');
+                const body = rest.join('—').trim();
+                return (
+                  <li key={j}>
+                    <b>{head.trim()}</b>
+                    {body ? <span> — {body}</span> : null}
+                  </li>
+                );
+              })}
+            </ul>
+            <p className="ws-closer">{t(I.webService.featsCloser, lang)}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ServicesSec({ lang }) {
   const title = t(I.services.title, lang).replace(/(construimos|build|作る)/, (m) => `<em>${m}</em>`);
   return (
@@ -229,7 +281,7 @@ function WorkSec({ lang }) {
     <section className="poster-section work" id="work">
       <div className="wrap">
         <SectionHead
-          n="03"
+          n="04"
           label={t(I.work.label, lang)}
           meta={`12+ ${lang === 'ja' ? '出荷済 · 4件表示' : lang === 'en' ? 'shipped · 4 shown' : 'enviados · 4 mostrados'}`}
           title={title}
@@ -298,7 +350,7 @@ function ProcessSec({ lang }) {
     <section className="poster-section process" id="process">
       <div className="wrap">
         <SectionHead
-          n="04"
+          n="05"
           label={t(I.process.label, lang)}
           meta={`4 ${lang === 'ja' ? 'ステップ' : lang === 'en' ? 'steps' : 'pasos'}`}
           title={title}
@@ -331,7 +383,7 @@ function TestimonialsSec({ lang }) {
     <section className="poster-section testimonials">
       <div className="wrap">
         <SectionHead
-          n="05"
+          n="06"
           label={t(I.testimonials.label, lang)}
           meta={`${items.length} ${lang === 'ja' ? '件' : lang === 'en' ? 'quotes' : 'citas'}`}
           title={lang === 'ja' ? '<em>声</em>' : lang === 'en' ? '<em>Voices.</em>' : '<em>Voces.</em>'}
@@ -639,7 +691,7 @@ function AboutSec({ lang }) {
     <section className="poster-section about" id="about">
       <div className="wrap">
         <SectionHead
-          n="06"
+          n="07"
           label={t(I.about.label, lang)}
           meta={lang === 'ja' ? '私たちについて' : lang === 'en' ? 'the studio' : 'el estudio'}
           title={title}
@@ -657,7 +709,7 @@ function AboutSec({ lang }) {
         <div className="team-block">
           <div className="head-row">
             <span className="label">
-              <b>§06.1</b> {t(I.about.teamLabel, lang)}
+              <b>§07.1</b> {t(I.about.teamLabel, lang)}
             </span>
             <span></span>
             <span className="label">
@@ -780,7 +832,7 @@ function ContactSec({ lang }) {
       <div className="wrap">
         <div className="head">
           <span className="label">
-            <b>§07</b> {t(I.contact.label, lang)}
+            <b>§08</b> {t(I.contact.label, lang)}
           </span>
           <span></span>
           <span className="meta">
@@ -963,6 +1015,7 @@ export default function LandingClient() {
       <Marquee lang={lang} />
       <ManifestoSec lang={lang} />
       <ServicesSec lang={lang} />
+      <WebServiceSec lang={lang} />
       <WorkSec lang={lang} />
       <ProcessSec lang={lang} />
       <TestimonialsSec lang={lang} />
