@@ -1,5 +1,7 @@
 node_modules
 .next
+next-env.d.ts
+*.tsbuildinfo
 out
 .DS_Store
 *.log
@@ -7,3 +9,6 @@ out
 .env.local
 src.bak
 .vercel
+
+# local Claude Code config
+.claude/

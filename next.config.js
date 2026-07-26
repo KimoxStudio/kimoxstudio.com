@@ -1,12 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  async rewrites() {
-    return [
-      { source: '/admin', destination: '/admin/index.html' },
-      { source: '/admin/', destination: '/admin/index.html' },
-    ];
-  },
+  // Transpile the link:-ed @kx workspace packages through SWC — safety net
+  // for stale dist/ output (kimox-fw chassis). The kx admin SPA mounts at
+  // /admin (app/admin); the old Decap CMS that used to own /admin has been
+  // removed, so no rewrite is needed.
+  transpilePackages: ['@kimoxstudio/admin', '@kimoxstudio/renderer', '@kimoxstudio/nextjs'],
 };
 
 module.exports = nextConfig;

@@ -4,12 +4,22 @@
   "version": "0.1.0",
   "packageManager": "pnpm@10.33.4",
   "scripts": {
-    "dev": "next dev -p 5173",
-    "build": "next build",
+    "dev": "next dev --webpack -p 5173",
+    "build": "next build --webpack",
     "start": "next start -p 5173",
     "lint": "next lint"
   },
   "dependencies": {
+    "@kimoxstudio/admin": "^0.2.0",
+    "@kimoxstudio/auth": "^0.2.0",
+    "@kimoxstudio/cache-memory": "^0.2.0",
+    "@kimoxstudio/content": "^0.2.0",
+    "@kimoxstudio/core": "^0.2.0",
+    "@kimoxstudio/git-provider-github": "^0.2.0",
+    "@kimoxstudio/git-provider-stub": "^0.2.0",
+    "@kimoxstudio/nextjs": "^0.2.0",
+    "@kimoxstudio/registry": "^0.2.0",
+    "@kimoxstudio/renderer": "^0.2.0",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.0",
     "@vercel/analytics": "^2.0.1",
@@ -19,6 +29,16 @@
     "react-dom": "^18.3.1",
     "react-markdown": "^10.1.0",
     "resend": "^6.12.3",
-    "zod": "^4.4.3"
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@kimoxstudio/cli": "^0.2.0",
+    "@types/node": "^22",
+    "@types/react": "^18.3",
+    "@types/react-dom": "^18.3",
+    "typescript": "^5.6"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

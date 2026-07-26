@@ -1,5 +1,6 @@
 import './globals.css';
 import { Analytics } from '@vercel/analytics/next';
+import { KxPreviewBridge } from '@kimoxstudio/nextjs/preview';
 
 export const metadata = {
   metadataBase: new URL('https://www.kimoxstudio.com'),
@@ -54,6 +55,9 @@ export default function RootLayout({ children }) {
         <div id="cursor-trail" />
         {children}
         <Analytics />
+        {/* In-page half of the admin visual editor. Inert unless the page is
+            framed by /admin with ?kx-preview — no effect on the live site. */}
+        <KxPreviewBridge />
       </body>
     </html>
   );
