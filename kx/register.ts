@@ -15,10 +15,10 @@ import { twoColumnTemplate } from "./templates/two-column";
 // each re-homing the original component's markup/classes with localized props.
 import { contactSectionTemplate } from "./templates/contact-section";
 import { footerWordmarkTemplate } from "./templates/footer-wordmark";
-import { maintenancePlansTemplate } from "./templates/maintenance-plans";
 import { manifestoTemplate } from "./templates/manifesto";
 import { marqueeTemplate } from "./templates/marquee";
 import { mastheadTemplate } from "./templates/masthead";
+import { webServiceTemplate } from "./templates/web-service";
 import { pricingTableTemplate } from "./templates/pricing-table";
 import { processStepsTemplate } from "./templates/process-steps";
 import { projectListTemplate } from "./templates/project-list";
@@ -44,7 +44,7 @@ export function registerTemplates(registry: TemplateRegistry): void {
   registry.register(marqueeTemplate);
   registry.register(manifestoTemplate);
   registry.register(pricingTableTemplate);
-  registry.register(maintenancePlansTemplate);
+  registry.register(webServiceTemplate);
   registry.register(projectListTemplate);
   registry.register(processStepsTemplate);
   registry.register(testimonialCarouselTemplate);

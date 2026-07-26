@@ -24,7 +24,7 @@ export function PricingTableComponent({ props }: TemplateRenderProps<Props>) {
   return (
     <section className="poster-section services" id="services">
       <div className="wrap">
-        <SectionHead n="03" label={resolveLocalized(props.label, lang, "es") ?? ""} meta={`3 ${lang === 'ja' ? '種類 · 個別見積もり可' : lang === 'en' ? 'tiers · custom on request' : 'niveles · a medida disponible'}`} title={title} />
+        <SectionHead n="02" label={resolveLocalized(props.label, lang, "es") ?? ""} meta={`3 ${lang === 'ja' ? '種類 · 個別見積もり可' : lang === 'en' ? 'tiers · custom on request' : 'niveles · a medida disponible'}`} title={title} />
         <div className="svc-table">
           {props.items.map((s, i) => (
             <a href="#contact" className="svc-row" key={i}>
