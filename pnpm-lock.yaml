@@ -9,35 +9,35 @@ importers:
   .:
     dependencies:
       '@kimoxstudio/admin':
-        specifier: ^0.2.0
-        version: 0.2.0(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.2.1
+        version: 0.2.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@kimoxstudio/auth':
-        specifier: ^0.2.0
-        version: 0.2.0(react@18.3.1)
+        specifier: ^0.2.1
+        version: 0.2.1(react@18.3.1)
       '@kimoxstudio/cache-memory':
-        specifier: ^0.2.0
-        version: 0.2.0(react@18.3.1)
+        specifier: ^0.2.1
+        version: 0.2.1(react@18.3.1)
       '@kimoxstudio/content':
-        specifier: ^0.2.0
-        version: 0.2.0(react@18.3.1)
+        specifier: ^0.2.1
+        version: 0.2.1(react@18.3.1)
       '@kimoxstudio/core':
-        specifier: ^0.2.0
-        version: 0.2.0(react@18.3.1)
+        specifier: ^0.2.1
+        version: 0.2.1(react@18.3.1)
       '@kimoxstudio/git-provider-github':
-        specifier: ^0.2.0
-        version: 0.2.0(react@18.3.1)
+        specifier: ^0.2.1
+        version: 0.2.1(react@18.3.1)
       '@kimoxstudio/git-provider-stub':
-        specifier: ^0.2.0
-        version: 0.2.0(react@18.3.1)
+        specifier: ^0.2.1
+        version: 0.2.1(react@18.3.1)
       '@kimoxstudio/nextjs':
-        specifier: ^0.2.0
-        version: 0.2.0(next@16.2.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.2.1
+        version: 0.2.1(next@16.2.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@kimoxstudio/registry':
-        specifier: ^0.2.0
-        version: 0.2.0(react@18.3.1)
+        specifier: ^0.2.1
+        version: 0.2.1(react@18.3.1)
       '@kimoxstudio/renderer':
-        specifier: ^0.2.0
-        version: 0.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.2.1
+        version: 0.2.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@upstash/ratelimit':
         specifier: ^2.0.8
         version: 2.0.8(@upstash/redis@1.38.0)
@@ -70,8 +70,8 @@ importers:
         version: 3.25.76
     devDependencies:
       '@kimoxstudio/cli':
-        specifier: ^0.2.0
-        version: 0.2.0(react@18.3.1)
+        specifier: ^0.2.1
+        version: 0.2.1(react@18.3.1)
       '@types/node':
         specifier: ^22
         version: 22.20.1
@@ -266,60 +266,60 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@kimoxstudio/admin@0.2.0':
-    resolution: {integrity: sha512-7OYYqTrQ0wjE+EPggSHXBwW0YEfDRrh4yqGi+p7HKBgU87ORPm5xpK+yWstHvD71xKQRiynNRX0JW55JbMtqbg==}
+  '@kimoxstudio/admin@0.2.1':
+    resolution: {integrity: sha512-vAfdqhPE/SU2zE9zbpkr6tQYb/6qnt3nRXYhzTfr2LAYN1UHcRvoyDZWx3K1WGyvCJdOtqdhwvxq1GCOBfjDxQ==}
     engines: {node: '>=20'}
     peerDependencies:
       react: ^18 || ^19
       react-dom: ^18 || ^19
 
-  '@kimoxstudio/auth@0.2.0':
-    resolution: {integrity: sha512-dAerY6cf8+yREfVBQ9112PCaV72h5MNbmmzsB0cXMxUf0V0yhDGuTf0irk2yKKSAfVsyDmG0Lpop9jTdPocKvA==}
+  '@kimoxstudio/auth@0.2.1':
+    resolution: {integrity: sha512-z6LzXZDNhdGELx3rSyBrFBbsWkRA2Oj8+yiQ4sJ1a2xim0bqiZPY+9K/uOShwVDuGlJR+JSEyt1SXkDioC8eFw==}
     engines: {node: '>=20'}
 
-  '@kimoxstudio/cache-memory@0.2.0':
-    resolution: {integrity: sha512-uoKCugPJoO3r1D/5PBiosp0TjIuGkIN9M/PBT5AK/UdvA24gN2G3+1zrf6+wdXOJMOTAM6Jep4jdXbOqfHmAYA==}
+  '@kimoxstudio/cache-memory@0.2.1':
+    resolution: {integrity: sha512-rZDRRP8WNggF2mxTO6+n0FRSjLb7HBkcYbn2aSZVXSZrdWyZCdJoFknJyakdU+dBpDlED5p+zyPAlii3BncxUA==}
     engines: {node: '>=20'}
 
-  '@kimoxstudio/cli@0.2.0':
-    resolution: {integrity: sha512-g0KYBV6Z5kA7MVPiqJsnsfpbynskPC4dQHJnIwBNBe0BrfHNlTaxCg9KfZP/2sDzGI0MKBRxRXIopvNruMaEYQ==}
+  '@kimoxstudio/cli@0.2.1':
+    resolution: {integrity: sha512-L+kpMOJ+reTiEothVGYmGUxARbQbcalsIUpRgULqKdDcqY6MHc3QBqSVJFHT33jWgkZ8lvhLOpBfV1cqNcS4iA==}
     engines: {node: '>=20'}
     hasBin: true
 
-  '@kimoxstudio/content@0.2.0':
-    resolution: {integrity: sha512-YF+K7YmhhOYG2XRrxvG10qSS4PbK8xdIxfbYtBho5e29NTU9qW72g6en49Pqei8TiPEyHZvCji8vgUBsCE9gLQ==}
+  '@kimoxstudio/content@0.2.1':
+    resolution: {integrity: sha512-9U+dDBJ6DtkFb2fvg2Fucw7jzhRrLx/YX4pFill0Q7dlIw+8Wk6q7qRQ7UyhGpMYseNsf36eD7MheETR/SsrDQ==}
     engines: {node: '>=20'}
 
-  '@kimoxstudio/core@0.2.0':
-    resolution: {integrity: sha512-fAN5cYZgqRQwOJOgKUmpW3wMC/XEzJb4XYlsWQMyChJ3SYNLADsdQjB2NyJ38TCULMVWYQfSnLvIr+qYwfuC8w==}
+  '@kimoxstudio/core@0.2.1':
+    resolution: {integrity: sha512-ySazKcCqhERSXgjGQ0rVJMkPB3/pHRw/tOW9kOVQhBPk5u5AgnD7bHRf4H1O1cdlD2sFP+uw0Tce/dasb7js0Q==}
     engines: {node: '>=20'}
     peerDependencies:
       react: ^18 || ^19
 
-  '@kimoxstudio/git-provider-github@0.2.0':
-    resolution: {integrity: sha512-0OUfnYL+3NjcimIIGIOZ8E9s75rbPCLAmupgWWgWbjgN0BLMvpxwx+jsLlk+i2J6Ul1qNgxT58mQNN6+oJlSIw==}
+  '@kimoxstudio/git-provider-github@0.2.1':
+    resolution: {integrity: sha512-9FpdQiZ34DF8e3YQ/VzLgNmW2Ruj/W76m0v1lOpBxCkZ1tMa0PcXX0m45N9zziYQeF5nexZ8azFpb4bQewc69Q==}
     engines: {node: '>=20'}
 
-  '@kimoxstudio/git-provider-stub@0.2.0':
-    resolution: {integrity: sha512-pNfedfWSaW4BR95qbj/pHZa3W1zEHmJh1c8CWVaQW9tcD4J7Zt4S43YgRJGGWHYHKwViYSYH6XrE+BQeqRJJDQ==}
+  '@kimoxstudio/git-provider-stub@0.2.1':
+    resolution: {integrity: sha512-fQ4tHgkVcSx6OCpqDQ7lQn8FOlMLLgTwE0CZ/Oz2w1927veg1o2tTr4R/ntpcn4RFHwfaDhVOKajG/uELFKiSA==}
     engines: {node: '>=20'}
 
-  '@kimoxstudio/nextjs@0.2.0':
-    resolution: {integrity: sha512-+1PGxp+l+YgH/ydnHzrF6+BQ4ZJCf7/TSdzA6xQRxQxJ6GL6z7XBzz38ohFHF2MjCpbZxay3D2TRXAkRMZbXjQ==}
+  '@kimoxstudio/nextjs@0.2.1':
+    resolution: {integrity: sha512-ot5xJ9mNP7jo+O0wIzbyWj2HCFMv0DHlA8rFLRmBhVcZzKcMVGjPe9lJaU5gImQ9z9zuaLKkwh+48rZgxsBI+g==}
     engines: {node: '>=20'}
     peerDependencies:
       next: ^14 || ^15 || ^16
       react: ^18 || ^19
       react-dom: ^18 || ^19
 
-  '@kimoxstudio/registry@0.2.0':
-    resolution: {integrity: sha512-tQEcluVoFO6LifdG83TmF0QeYuARwFivcTasOreECd3zPMlzchRgPb+/8Agj62FWaAyGQf9w2C+0U61+CJ8vRg==}
+  '@kimoxstudio/registry@0.2.1':
+    resolution: {integrity: sha512-fwXbpYBKot6wYQEJJsyBQkiDnXFSl2ZV/6NW/0yHGPag6u92n5SrKmqMeyRU06Il0H68qkZY6rntxKJx3Qs1ew==}
     engines: {node: '>=20'}
     peerDependencies:
       react: ^18 || ^19
 
-  '@kimoxstudio/renderer@0.2.0':
-    resolution: {integrity: sha512-DkRqc/zXvQ2vpvvH6N1rCJ7D9hE0q+Hk9aTyPEhr4TLO5RMgUb5/rwm7wD5p468x/uY78p3lg0kLLNufVdsnmw==}
+  '@kimoxstudio/renderer@0.2.1':
+    resolution: {integrity: sha512-BGVCRVXdhw4vkneVsBB74Nwm9b8PRJ73CMKWXnrBeHxy9Bu+IudCNgiR4ME6x2CQC6W8elE3m/bLvxiZvpok0g==}
     engines: {node: '>=20'}
     peerDependencies:
       react: ^18 || ^19
@@ -1466,12 +1466,12 @@ snapshots:
   '@img/sharp-win32-x64@0.34.5':
     optional: true
 
-  '@kimoxstudio/admin@0.2.0(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@kimoxstudio/admin@0.2.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@kimoxstudio/content': 0.2.0(react@18.3.1)
-      '@kimoxstudio/core': 0.2.0(react@18.3.1)
-      '@kimoxstudio/registry': 0.2.0(react@18.3.1)
-      '@kimoxstudio/renderer': 0.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@kimoxstudio/content': 0.2.1(react@18.3.1)
+      '@kimoxstudio/core': 0.2.1(react@18.3.1)
+      '@kimoxstudio/registry': 0.2.1(react@18.3.1)
+      '@kimoxstudio/renderer': 0.2.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-dialog': 1.1.23(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-dropdown-menu': 2.1.24(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-label': 2.1.15(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1489,71 +1489,71 @@ snapshots:
       - '@types/react'
       - '@types/react-dom'
 
-  '@kimoxstudio/auth@0.2.0(react@18.3.1)':
+  '@kimoxstudio/auth@0.2.1(react@18.3.1)':
     dependencies:
-      '@kimoxstudio/core': 0.2.0(react@18.3.1)
+      '@kimoxstudio/core': 0.2.1(react@18.3.1)
     transitivePeerDependencies:
       - react
 
-  '@kimoxstudio/cache-memory@0.2.0(react@18.3.1)':
+  '@kimoxstudio/cache-memory@0.2.1(react@18.3.1)':
     dependencies:
-      '@kimoxstudio/core': 0.2.0(react@18.3.1)
+      '@kimoxstudio/core': 0.2.1(react@18.3.1)
     transitivePeerDependencies:
       - react
 
-  '@kimoxstudio/cli@0.2.0(react@18.3.1)':
+  '@kimoxstudio/cli@0.2.1(react@18.3.1)':
     dependencies:
       '@clack/prompts': 0.7.0
-      '@kimoxstudio/git-provider-github': 0.2.0(react@18.3.1)
+      '@kimoxstudio/git-provider-github': 0.2.1(react@18.3.1)
       picocolors: 1.1.1
     transitivePeerDependencies:
       - react
 
-  '@kimoxstudio/content@0.2.0(react@18.3.1)':
+  '@kimoxstudio/content@0.2.1(react@18.3.1)':
     dependencies:
-      '@kimoxstudio/core': 0.2.0(react@18.3.1)
+      '@kimoxstudio/core': 0.2.1(react@18.3.1)
     transitivePeerDependencies:
       - react
 
-  '@kimoxstudio/core@0.2.0(react@18.3.1)':
+  '@kimoxstudio/core@0.2.1(react@18.3.1)':
     dependencies:
       react: 18.3.1
       zod: 3.25.76
 
-  '@kimoxstudio/git-provider-github@0.2.0(react@18.3.1)':
+  '@kimoxstudio/git-provider-github@0.2.1(react@18.3.1)':
     dependencies:
-      '@kimoxstudio/core': 0.2.0(react@18.3.1)
+      '@kimoxstudio/core': 0.2.1(react@18.3.1)
       '@octokit/auth-app': 7.2.2
       '@octokit/request': 9.2.4
       '@octokit/rest': 21.1.1
     transitivePeerDependencies:
       - react
 
-  '@kimoxstudio/git-provider-stub@0.2.0(react@18.3.1)':
+  '@kimoxstudio/git-provider-stub@0.2.1(react@18.3.1)':
     dependencies:
-      '@kimoxstudio/core': 0.2.0(react@18.3.1)
+      '@kimoxstudio/core': 0.2.1(react@18.3.1)
     transitivePeerDependencies:
       - react
 
-  '@kimoxstudio/nextjs@0.2.0(next@16.2.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@kimoxstudio/nextjs@0.2.1(next@16.2.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@kimoxstudio/content': 0.2.0(react@18.3.1)
-      '@kimoxstudio/core': 0.2.0(react@18.3.1)
-      '@kimoxstudio/renderer': 0.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@kimoxstudio/content': 0.2.1(react@18.3.1)
+      '@kimoxstudio/core': 0.2.1(react@18.3.1)
+      '@kimoxstudio/renderer': 0.2.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next: 16.2.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       penpal: 7.0.6
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@kimoxstudio/registry@0.2.0(react@18.3.1)':
+  '@kimoxstudio/registry@0.2.1(react@18.3.1)':
     dependencies:
-      '@kimoxstudio/core': 0.2.0(react@18.3.1)
+      '@kimoxstudio/core': 0.2.1(react@18.3.1)
       react: 18.3.1
       zod: 3.25.76
 
-  '@kimoxstudio/renderer@0.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@kimoxstudio/renderer@0.2.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@kimoxstudio/core': 0.2.0(react@18.3.1)
+      '@kimoxstudio/core': 0.2.1(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
