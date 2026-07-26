@@ -137,7 +137,11 @@ export const config: KxConfig = {
   registry,
   auth,
   content: {
-    productionBranch: "main",
+    // Branch the public site reads from. Overridable so you can point at a
+    // branch whose content/ tree isn't on main yet (e.g. while the migration
+    // still lives on migrate/kimox-fw-v2 — otherwise every route 404s because
+    // the GitHub provider looks for content/pages/*.json on main).
+    productionBranch: process.env.KX_PRODUCTION_BRANCH ?? "main",
     paths: { pages: "content/pages", globals: "content/globals" },
     variationBranchPrefix: "kx/",
   },

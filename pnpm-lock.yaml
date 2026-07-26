@@ -69,6 +69,9 @@ importers:
         specifier: ^3.23.8
         version: 3.25.76
     devDependencies:
+      '@kimoxstudio/cli':
+        specifier: ^0.2.0
+        version: 0.2.0(react@18.3.1)
       '@types/node':
         specifier: ^22
         version: 22.20.1
@@ -83,6 +86,14 @@ importers:
         version: 5.9.3
 
 packages:
+
+  '@clack/core@0.3.5':
+    resolution: {integrity: sha512-5cfhQNH+1VQ2xLQlmzXMqUoiaH0lRBq9/CLW9lTyMbuKLC3+xEK01tHVvyut++mLOn5urSHmkm6I0Lg9MaJSTQ==}
+
+  '@clack/prompts@0.7.0':
+    resolution: {integrity: sha512-0MhX9/B4iL6Re04jPrttDm+BsP8y6mS7byuv0BvXgdXhbV5PdlsHt55dvNsuBCPZ7xq1oTAOOuotR9NFbQyMSA==}
+    bundledDependencies:
+      - is-unicode-supported
 
   '@emnapi/runtime@1.11.3':
     resolution: {integrity: sha512-Xz4Tpyki7XyrpbUK1jR1AhdAdaXyhhY4lZ3neLodmhpuWfy2PAQN5B46sAiU4liOXGLkHypn/qU+jvfWSCYYLA==}
@@ -269,6 +280,11 @@ packages:
   '@kimoxstudio/cache-memory@0.2.0':
     resolution: {integrity: sha512-uoKCugPJoO3r1D/5PBiosp0TjIuGkIN9M/PBT5AK/UdvA24gN2G3+1zrf6+wdXOJMOTAM6Jep4jdXbOqfHmAYA==}
     engines: {node: '>=20'}
+
+  '@kimoxstudio/cli@0.2.0':
+    resolution: {integrity: sha512-g0KYBV6Z5kA7MVPiqJsnsfpbynskPC4dQHJnIwBNBe0BrfHNlTaxCg9KfZP/2sDzGI0MKBRxRXIopvNruMaEYQ==}
+    engines: {node: '>=20'}
+    hasBin: true
 
   '@kimoxstudio/content@0.2.0':
     resolution: {integrity: sha512-YF+K7YmhhOYG2XRrxvG10qSS4PbK8xdIxfbYtBho5e29NTU9qW72g6en49Pqei8TiPEyHZvCji8vgUBsCE9gLQ==}
@@ -1200,6 +1216,9 @@ packages:
     resolution: {integrity: sha512-Ou9I5Ft9WNcCbXrU9cMgPBcCK8LiwLqcbywW3t4oDV37n1pzpuNLsYiAV8eODnjbtQlSDwZ2cUEeQz4E54Hltg==}
     engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
 
+  sisteransi@1.0.5:
+    resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
+
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
@@ -1316,6 +1335,17 @@ packages:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
 snapshots:
+
+  '@clack/core@0.3.5':
+    dependencies:
+      picocolors: 1.1.1
+      sisteransi: 1.0.5
+
+  '@clack/prompts@0.7.0':
+    dependencies:
+      '@clack/core': 0.3.5
+      picocolors: 1.1.1
+      sisteransi: 1.0.5
 
   '@emnapi/runtime@1.11.3':
     dependencies:
@@ -1468,6 +1498,14 @@ snapshots:
   '@kimoxstudio/cache-memory@0.2.0(react@18.3.1)':
     dependencies:
       '@kimoxstudio/core': 0.2.0(react@18.3.1)
+    transitivePeerDependencies:
+      - react
+
+  '@kimoxstudio/cli@0.2.0(react@18.3.1)':
+    dependencies:
+      '@clack/prompts': 0.7.0
+      '@kimoxstudio/git-provider-github': 0.2.0(react@18.3.1)
+      picocolors: 1.1.1
     transitivePeerDependencies:
       - react
 
@@ -2534,6 +2572,8 @@ snapshots:
       '@img/sharp-win32-ia32': 0.34.5
       '@img/sharp-win32-x64': 0.34.5
     optional: true
+
+  sisteransi@1.0.5: {}
 
   source-map-js@1.2.1: {}
 
