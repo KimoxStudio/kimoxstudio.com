@@ -24,8 +24,8 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1(react@18.3.1)
       '@kimoxstudio/git-provider-github':
-        specifier: ^0.2.1
-        version: 0.2.1(react@18.3.1)
+        specifier: ^0.2.2
+        version: 0.2.2(react@18.3.1)
       '@kimoxstudio/git-provider-stub':
         specifier: ^0.2.1
         version: 0.2.1(react@18.3.1)
@@ -70,8 +70,8 @@ importers:
         version: 3.25.76
     devDependencies:
       '@kimoxstudio/cli':
-        specifier: ^0.2.1
-        version: 0.2.1(react@18.3.1)
+        specifier: ^0.2.2
+        version: 0.2.2(react@18.3.1)
       '@types/node':
         specifier: ^22
         version: 22.20.1
@@ -281,8 +281,8 @@ packages:
     resolution: {integrity: sha512-rZDRRP8WNggF2mxTO6+n0FRSjLb7HBkcYbn2aSZVXSZrdWyZCdJoFknJyakdU+dBpDlED5p+zyPAlii3BncxUA==}
     engines: {node: '>=20'}
 
-  '@kimoxstudio/cli@0.2.1':
-    resolution: {integrity: sha512-L+kpMOJ+reTiEothVGYmGUxARbQbcalsIUpRgULqKdDcqY6MHc3QBqSVJFHT33jWgkZ8lvhLOpBfV1cqNcS4iA==}
+  '@kimoxstudio/cli@0.2.2':
+    resolution: {integrity: sha512-C0Xk30pU4UY2FtJTpCftkvNjK7l7YaUHeyQY+uY7SFjUSMtlGeVOd7PCX2dohvCSDNm6Ww4KMgoaL8kNq8exCA==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -296,8 +296,8 @@ packages:
     peerDependencies:
       react: ^18 || ^19
 
-  '@kimoxstudio/git-provider-github@0.2.1':
-    resolution: {integrity: sha512-9FpdQiZ34DF8e3YQ/VzLgNmW2Ruj/W76m0v1lOpBxCkZ1tMa0PcXX0m45N9zziYQeF5nexZ8azFpb4bQewc69Q==}
+  '@kimoxstudio/git-provider-github@0.2.2':
+    resolution: {integrity: sha512-4m7vO72x4Qv10u0/cg3QAgsVNmr9g33yw9dcggqQKrTm/pfBEAe+LMmupbW0AY/wLX+VS36kRnQt5Pj+n5ZVPQ==}
     engines: {node: '>=20'}
 
   '@kimoxstudio/git-provider-stub@0.2.1':
@@ -1501,10 +1501,10 @@ snapshots:
     transitivePeerDependencies:
       - react
 
-  '@kimoxstudio/cli@0.2.1(react@18.3.1)':
+  '@kimoxstudio/cli@0.2.2(react@18.3.1)':
     dependencies:
       '@clack/prompts': 0.7.0
-      '@kimoxstudio/git-provider-github': 0.2.1(react@18.3.1)
+      '@kimoxstudio/git-provider-github': 0.2.2(react@18.3.1)
       picocolors: 1.1.1
     transitivePeerDependencies:
       - react
@@ -1520,7 +1520,7 @@ snapshots:
       react: 18.3.1
       zod: 3.25.76
 
-  '@kimoxstudio/git-provider-github@0.2.1(react@18.3.1)':
+  '@kimoxstudio/git-provider-github@0.2.2(react@18.3.1)':
     dependencies:
       '@kimoxstudio/core': 0.2.1(react@18.3.1)
       '@octokit/auth-app': 7.2.2
