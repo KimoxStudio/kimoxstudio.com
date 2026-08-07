@@ -513,8 +513,8 @@
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      max-width: 68%;
-      max-height: 68%;
+      max-width: 88%;
+      max-height: 88%;
       width: auto;
       height: auto;
       object-fit: contain;

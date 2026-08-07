@@ -462,6 +462,7 @@
               "name": "Alea Las Palmas",
               "url": "alealaspalmas.es",
               "year": "2025",
+              "logo": "/projects/alea.png",
               "category": {
                 "es": "Web institucional · Asociación cultural",
                 "en": "Institutional site · Cultural association",
@@ -476,6 +477,50 @@
                 "WordPress",
                 "Eventos",
                 "Comunidad"
+              ]
+            },
+            {
+              "n": "05",
+              "name": "Patri Santana Estética",
+              "url": "echedeypatricia.com",
+              "year": "2026",
+              "logo": "/projects/patrisantana.png",
+              "category": {
+                "es": "Web institucional · Estética & Barbería",
+                "en": "Institutional site · Beauty & Barbershop",
+                "ja": "団体サイト · 美容&理容"
+              },
+              "body": {
+                "es": "Sitio para un centro de belleza y bienestar en Las Palmas de Gran Canaria: uñas, cejas, pestañas, depilación láser y barbería. Presentación de servicios y vía directa de contacto y reserva para clientas y clientes.",
+                "en": "Site for a beauty and wellness center in Las Palmas de Gran Canaria: nails, brows, lashes, laser hair removal and barbering. Service showcase with a direct booking and contact path.",
+                "ja": "ラス・パルマス・デ・グラン・カナリアの美容・ウェルネスセンターのサイト。ネイル、眉、まつげ、レーザー脱毛、理容サービスを紹介し、直接予約・問い合わせできる導線を用意。"
+              },
+              "tags": [
+                "Next.js",
+                "SEO",
+                "Reservas"
+              ]
+            },
+            {
+              "n": "06",
+              "name": "RachaFit",
+              "url": "rachafit.com",
+              "year": "2026",
+              "logo": "/projects/rachafit.png",
+              "category": {
+                "es": "App móvil · Fitness social",
+                "en": "Mobile app · Social fitness",
+                "ja": "モバイルアプリ · ソーシャルフィットネス"
+              },
+              "body": {
+                "es": "Diario de entrenamiento social para gimnastas y corredores. Registro rápido de ejercicios, progreso con gráficos de fuerza y cardio, rachas de constancia y competición amistosa por rangos entre usuarios.",
+                "en": "Social training journal for gym-goers and runners. Fast exercise logging, strength and cardio progress charts, consistency streaks and friendly rank competition between users.",
+                "ja": "ジム利用者やランナー向けのソーシャル・トレーニング日記。素早い運動記録、筋力・有酸素の進捗グラフ、継続の記録、ユーザー同士のランク競争機能を備える。"
+              },
+              "tags": [
+                "Mobile",
+                "Social",
+                "GPS"
               ]
             }
           ]
