@@ -106,9 +106,9 @@
             "ja": "汎用ソフトウェアは作りません。"
           },
           "body": {
-            "es": "Cada proyecto es un organismo distinto. Tiene su propio carácter, su propio idioma, sus propios rituales. Nuestro trabajo es escuchar lo que tu producto quiere ser y dárselo en forma de código que perdura.",
-            "en": "Every project is its own organism. It has its own character, its own language, its own rituals. Our job is to listen to what your product wants to be — and give it that, in code that lasts.",
-            "ja": "各プロジェクトは独立した生き物です。独自の個性、独自の言語、独自の儀式があります。私たちの役割は、プロダクトがなりたい姿に耳を傾け、それを長く残るコードにすることです。"
+            "es": "No empezamos un proyecto buscando qué plantilla encaja. Primero entendemos el problema, después decidimos cómo debería funcionar y, por último, cómo debería verse.",
+            "en": "We don't start a project by hunting for the right template. First we understand the problem, then we decide how it should work, and only then, how it should look.",
+            "ja": "私たちはテンプレート探しからプロジェクトを始めません。まず問題を理解し、次にどう機能すべきかを決め、最後に外見を決めます。"
           },
           "bullets": {
             "es": [
@@ -379,9 +379,9 @@
             "ja": "選ばれた作品"
           },
           "title": {
-            "es": "Cosas que hemos enviado.",
-            "en": "Things we've shipped.",
-            "ja": "出荷したもの。"
+            "es": "Proyectos que hemos realizado.",
+            "en": "Projects we've delivered.",
+            "ja": "私たちが手がけたプロジェクト。"
           },
           "viewSite": {
             "es": "Visitar →",

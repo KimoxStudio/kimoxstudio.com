@@ -8,17 +8,6 @@ import type { webServiceSchema } from "./schema";
 
 type Props = z.infer<typeof webServiceSchema>;
 
-function SectionHead({ n, label, meta, title }: { n: string; label: string; meta: string; title: string }) {
-  return (
-    <div className="head">
-      <span className="label"><b>§{n}</b> {label}</span>
-      <span></span>
-      <span className="meta">{meta}</span>
-      <h2 dangerouslySetInnerHTML={{ __html: title }} />
-    </div>
-  );
-}
-
 // Re-homes WebServiceSec: same markup and class names, so landing.css styles it
 // unchanged. The emphasis word ("de golpe" / "all at once") keeps the
 // serif-italic orange accent used by the other poster heads.
@@ -33,12 +22,9 @@ export function WebServiceComponent({ props }: TemplateRenderProps<Props>) {
   return (
     <section className="poster-section web-service" id="web-service">
       <div className="wrap">
-        <SectionHead
-          n="03"
-          label={resolveLocalized(props.label, lang, "es") ?? ""}
-          meta={`1 ${lang === "en" ? "plan · monthly fee" : "plan · cuota mensual"}`}
-          title={title}
-        />
+        <div className="head">
+          <h2 dangerouslySetInnerHTML={{ __html: title }} />
+        </div>
         <p className="ws-bridge" {...kxField(`bridge.${lang}`)}>{resolveLocalized(props.bridge, lang, "es") ?? ""}</p>
         <div className="ws-panel">
           <div className="ws-main">

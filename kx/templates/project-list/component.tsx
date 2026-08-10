@@ -7,24 +7,15 @@ import type { projectListSchema } from "./schema";
 
 type Props = z.infer<typeof projectListSchema>;
 
-function SectionHead({ n, label, meta, title }: { n: string; label: string; meta: string; title: string }) {
-  return (
-    <div className="head">
-      <span className="label"><b>§{n}</b> {label}</span>
-      <span></span>
-      <span className="meta">{meta}</span>
-      <h2 dangerouslySetInnerHTML={{ __html: title }} />
-    </div>
-  );
-}
-
 export function ProjectListComponent({ props }: TemplateRenderProps<Props>) {
   const [lang] = useLang() as [string, (next: string) => void];
-  const title = (resolveLocalized(props.title, lang, "es") ?? "").replace(/(enviado|shipped|出荷)/, (m) => `<em>${m}</em>`);
+  const title = (resolveLocalized(props.title, lang, "es") ?? "").replace(/(realizado|delivered|手がけた)/, (m) => `<em>${m}</em>`);
   return (
     <section className="poster-section work" id="work">
       <div className="wrap">
-        <SectionHead n="04" label={resolveLocalized(props.label, lang, "es") ?? ""} meta={`12+ ${lang === 'ja' ? '出荷済 · 4件表示' : lang === 'en' ? 'shipped · 4 shown' : 'enviados · 4 mostrados'}`} title={title} />
+        <div className="head">
+          <h2 dangerouslySetInnerHTML={{ __html: title }} />
+        </div>
         <div className="proj-list">
           {props.items.map((p, i) => {
             const name = p.name;
