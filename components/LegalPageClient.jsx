@@ -5,14 +5,16 @@ import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import { I18N as I } from '../lib/i18n';
 import { useLang, t } from '../lib/lang';
+import { useBlogCursor } from '../lib/cursor';
 import Nav from './Nav';
 
-export default function LegalPageClient({ title, body }) {
+export default function LegalPageClient({ title, body, slug }) {
   const [lang, setLang] = useLang();
+  useBlogCursor();
 
   return (
     <>
-      <Nav lang={lang} setLang={setLang} mode="post" />
+      <Nav lang={lang} setLang={setLang} mode="post" hideLangSwitch />
       <article style={{ paddingBottom: 80 }}>
         <div className="wrap" style={{ paddingTop: 48, paddingBottom: 24 }}>
           <Link
@@ -70,6 +72,10 @@ export default function LegalPageClient({ title, body }) {
               <div>{t(I.footer.rights, lang)}</div>
               <div style={{ display: 'flex', gap: 24 }}>
                 <a href={`mailto:${I.meta.email}`}>{I.meta.email}</a>
+                {slug !== 'politica-privacidad' && (
+                  <Link href="/politica-privacidad">Privacidad</Link>
+                )}
+                {slug !== 'aviso-legal' && <Link href="/aviso-legal">Aviso Legal</Link>}
                 <Link href="/">← Home</Link>
               </div>
             </div>

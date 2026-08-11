@@ -10,8 +10,15 @@ import ThemeToggle from './ThemeToggle';
  * Shared site nav.
  * `mode` — 'landing' uses in-page anchors (#section); anything else builds links to /#section.
  * `activeBlog` — adds `active` class on the Blog link.
+ * `hideLangSwitch` — hides the ES/EN/JA switcher, for routes with no per-language content (e.g. legal pages).
  */
-export default function Nav({ lang, setLang, mode = 'landing', activeBlog = false }) {
+export default function Nav({
+  lang,
+  setLang,
+  mode = 'landing',
+  activeBlog = false,
+  hideLangSwitch = false,
+}) {
   const sectionLink = (section) => (mode === 'landing' ? `#${section}` : `/#${section}`);
   const HomeOrAnchor = ({ href, children, ...rest }) =>
     mode === 'landing' ? (
@@ -52,17 +59,19 @@ export default function Nav({ lang, setLang, mode = 'landing', activeBlog = fals
         </div>
         <div className="right">
           <ThemeToggle />
-          <div className="lang-switch">
-            {LANGS.map((l) => (
-              <button
-                key={l.code}
-                className={lang === l.code ? 'active' : ''}
-                onClick={() => setLang(l.code)}
-              >
-                {l.label}
-              </button>
-            ))}
-          </div>
+          {!hideLangSwitch && (
+            <div className="lang-switch">
+              {LANGS.map((l) => (
+                <button
+                  key={l.code}
+                  className={lang === l.code ? 'active' : ''}
+                  onClick={() => setLang(l.code)}
+                >
+                  {l.label}
+                </button>
+              ))}
+            </div>
+          )}
           <HomeOrAnchor href={sectionLink('contact')} className="cta-pill">
             {t(I.nav.contact, lang)} →
           </HomeOrAnchor>
