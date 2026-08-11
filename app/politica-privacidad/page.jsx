@@ -15,5 +15,11 @@ function getBody() {
 }
 
 export default function Page() {
-  return <LegalPageClient title="Política de Privacidad" body={getBody()} />;
+  return (
+    <LegalPageClient
+      title="Política de Privacidad"
+      body={getBody()}
+      slug="politica-privacidad"
+    />
+  );
 }

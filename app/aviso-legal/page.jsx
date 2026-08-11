@@ -15,5 +15,5 @@ function getBody() {
 }
 
 export default function Page() {
-  return <LegalPageClient title="Aviso Legal" body={getBody()} />;
+  return <LegalPageClient title="Aviso Legal" body={getBody()} slug="aviso-legal" />;
 }

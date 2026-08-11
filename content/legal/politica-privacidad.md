@@ -1,11 +1,11 @@
 ## 1. Responsable del tratamiento
 
-**Responsable:** Samuel Romero Arbelo
-**Nombre comercial:** Kimox Studio
-**NIF:** [NIF]
-**Domicilio:** [DOMICILIO]
-**Correo electrónico:** [kimoxstudio@gmail.com](mailto:kimoxstudio@gmail.com)
-**Sitio web:** [www.kimoxstudio.com](http://www.kimoxstudio.com)
+* **Responsable:** Samuel Romero Arbelo
+* **Nombre comercial:** Kimox Studio
+* **NIF:** [NIF]
+* **Domicilio:** [DOMICILIO]
+* **Correo electrónico:** [kimoxstudio@gmail.com](mailto:kimoxstudio@gmail.com)
+* **Sitio web:** [www.kimoxstudio.com](https://www.kimoxstudio.com)
 
 ## 2. Datos personales que tratamos
 

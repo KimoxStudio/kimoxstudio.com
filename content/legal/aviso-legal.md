@@ -2,12 +2,12 @@
 
 En cumplimiento de lo establecido en la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y del Comercio Electrónico (LSSI-CE), se informa a los usuarios de los siguientes datos:
 
-**Titular:** Samuel Romero Arbelo
-**Nombre comercial:** Kimox Studio
-**NIF:** [NIF]
-**Domicilio:** [DOMICILIO]
-**Correo electrónico:** [kimoxstudio@gmail.com](mailto:kimoxstudio@gmail.com)
-**Sitio web:** [www.kimoxstudio.com](http://www.kimoxstudio.com)
+* **Titular:** Samuel Romero Arbelo
+* **Nombre comercial:** Kimox Studio
+* **NIF:** [NIF]
+* **Domicilio:** [DOMICILIO]
+* **Correo electrónico:** [kimoxstudio@gmail.com](mailto:kimoxstudio@gmail.com)
+* **Sitio web:** [www.kimoxstudio.com](https://www.kimoxstudio.com)
 
 Kimox Studio es el nombre comercial utilizado por Samuel Romero Arbelo para la prestación de servicios relacionados con el desarrollo de software, desarrollo web, inteligencia artificial, automatizaciones y otros servicios tecnológicos.
 
