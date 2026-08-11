@@ -893,6 +893,16 @@
             "en": "Blog",
             "ja": "ブログ"
           },
+          "privacyLabel": {
+            "es": "Privacidad",
+            "en": "Privacy",
+            "ja": "プライバシー"
+          },
+          "legalLabel": {
+            "es": "Aviso Legal",
+            "en": "Legal Notice",
+            "ja": "法的通知"
+          },
           "email": "kimoxstudio@gmail.com"
         }
       }
