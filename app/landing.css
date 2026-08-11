@@ -969,6 +969,13 @@
       font-family: "IBM Plex Mono", monospace;
       font-size: 11px; color: var(--ink-3); letter-spacing: .04em;
     }
+    .privacy-note {
+      margin-top: 16px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px; line-height: 1.6; color: var(--ink-3); letter-spacing: .04em;
+    }
+    .privacy-note a { color: var(--ink-3); text-decoration: underline; text-underline-offset: 2px; transition: color .2s; }
+    .privacy-note a:hover { color: var(--orange); }
     .btn-primary:disabled { opacity: .55; pointer-events: none; }
     .honeypot {
       position: absolute !important;
