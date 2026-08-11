@@ -39,7 +39,7 @@ const themeInit = `
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
