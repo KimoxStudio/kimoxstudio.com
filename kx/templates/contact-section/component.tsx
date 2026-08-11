@@ -5,6 +5,7 @@ import { kxField, resolveLocalized } from "@kimoxstudio/registry";
 import { useLang } from "@/lib/lang";
 import type { Lang } from "@/kx/langs";
 import { submitContact } from "@/app/actions/contact";
+import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 import type { z } from "zod";
 import type { contactSectionSchema } from "./schema";
@@ -189,6 +190,10 @@ export function ContactSectionComponent({ props }: TemplateRenderProps<Props>) {
                     : "Respuesta en menos de 24h"}
               </span>
             </div>
+            <p className="privacy-note">
+              Tus datos serán tratados para atender tu solicitud. Más información en
+              nuestra <Link href="/politica-privacidad">Política de Privacidad</Link>.
+            </p>
             {status.state === "sent" && (
               <div className="form-feedback success">{feedback("sent")}</div>
             )}
