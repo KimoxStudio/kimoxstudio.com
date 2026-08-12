@@ -366,6 +366,14 @@ footer.bot .row {
   display: flex; justify-content: space-between; align-items: center;
   flex-wrap: wrap; gap: 16px;
 }
+/* The links group inside .row is an inline flex container (see
+   BlogClient/BlogPostClient/LegalPageClient); it has no flex-wrap of its
+   own, so unbreakable content like the email address forces it wider than
+   the viewport and gets silently clipped by `overflow-x: clip` on <html>.
+   Let it wrap onto multiple lines on narrow screens instead. */
+footer.bot .row > div:last-child {
+  flex-wrap: wrap;
+}
 footer.bot a { transition: color .2s; }
 footer.bot a:hover { color: var(--orange); }
 
