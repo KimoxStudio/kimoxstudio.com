@@ -2,8 +2,8 @@
 
 * **Responsable:** Samuel Romero Arbelo
 * **Nombre comercial:** Kimox Studio
-* **NIF:** [NIF]
-* **Domicilio:** [DOMICILIO]
+* **NIF:** 54072864W
+* **Domicilio:** Princesa Guayarmina 46, Ingenio, Las Palmas
 * **Correo electrónico:** [kimoxstudio@gmail.com](mailto:kimoxstudio@gmail.com)
 * **Sitio web:** [www.kimoxstudio.com](https://www.kimoxstudio.com)
 
