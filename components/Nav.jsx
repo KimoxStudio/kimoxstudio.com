@@ -6,6 +6,10 @@ import { I18N as I } from '../lib/i18n';
 import { LANGS, t } from '../lib/lang';
 import ThemeToggle from './ThemeToggle';
 
+// Landing section ids the nav links point at, in document order. Used to mark
+// the link for whichever section is currently crossing the viewport.
+const SECTIONS = ['work', 'services', 'process', 'about', 'contact'];
+
 /**
  * Shared site nav.
  * `mode` — 'landing' uses in-page anchors (#section); anything else builds links to /#section.
@@ -19,7 +23,40 @@ export default function Nav({
   activeBlog = false,
   hideLangSwitch = false,
 }) {
+  const [activeSection, setActiveSection] = React.useState(null);
+  // Sections are rendered by sibling templates/islands, so they may not all be
+  // in the DOM on the nav's first effect. Rescan a few times until they are.
+  const [scan, setScan] = React.useState(0);
+
+  React.useEffect(() => {
+    if (mode !== 'landing') return;
+    const els = SECTIONS.map((id) => document.getElementById(id)).filter(Boolean);
+    if (els.length < SECTIONS.length && scan < 5) {
+      const retry = setTimeout(() => setScan((n) => n + 1), 250);
+      return () => clearTimeout(retry);
+    }
+    if (!els.length) return;
+
+    // Zero-height band across the middle of the viewport: a section is active
+    // while it is the one crossing that line. Nothing matches over the hero,
+    // which is intentional — no link is marked at the top of the page.
+    const visible = new Set();
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) visible.add(e.target.id);
+          else visible.delete(e.target.id);
+        }
+        setActiveSection(SECTIONS.find((id) => visible.has(id)) ?? null);
+      },
+      { rootMargin: '-50% 0px -50% 0px', threshold: 0 }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [mode, scan]);
+
   const sectionLink = (section) => (mode === 'landing' ? `#${section}` : `/#${section}`);
+  const sectionClass = (section) => (activeSection === section ? 'active' : undefined);
   const HomeOrAnchor = ({ href, children, ...rest }) =>
     mode === 'landing' ? (
       <a href={href} {...rest}>
@@ -41,16 +78,16 @@ export default function Nav({
           <span>KIMOX·STUDIO</span>
         </HomeOrAnchor>
         <div className="links">
-          <HomeOrAnchor href={sectionLink('work')}>
+          <HomeOrAnchor href={sectionLink('work')} className={sectionClass('work')}>
             /{t(I.nav.work, lang).toLowerCase()}
           </HomeOrAnchor>
-          <HomeOrAnchor href={sectionLink('services')}>
+          <HomeOrAnchor href={sectionLink('services')} className={sectionClass('services')}>
             /{t(I.nav.services, lang).toLowerCase()}
           </HomeOrAnchor>
-          <HomeOrAnchor href={sectionLink('process')}>
+          <HomeOrAnchor href={sectionLink('process')} className={sectionClass('process')}>
             /{t(I.nav.process, lang).toLowerCase()}
           </HomeOrAnchor>
-          <HomeOrAnchor href={sectionLink('about')}>
+          <HomeOrAnchor href={sectionLink('about')} className={sectionClass('about')}>
             /{t(I.nav.about, lang).toLowerCase()}
           </HomeOrAnchor>
           <Link href="/blog" className={activeBlog ? 'active' : ''}>
