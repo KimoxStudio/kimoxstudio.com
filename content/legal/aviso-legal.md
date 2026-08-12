@@ -4,8 +4,8 @@ En cumplimiento de lo establecido en la Ley 34/2002, de 11 de julio, de Servicio
 
 * **Titular:** Samuel Romero Arbelo
 * **Nombre comercial:** Kimox Studio
-* **NIF:** [NIF]
-* **Domicilio:** [DOMICILIO]
+* **NIF:** 54072864W
+* **Domicilio:** Princesa Guayarmina 46, Ingenio, Las Palmas
 * **Correo electrónico:** [kimoxstudio@gmail.com](mailto:kimoxstudio@gmail.com)
 * **Sitio web:** [www.kimoxstudio.com](https://www.kimoxstudio.com)
 
@@ -33,7 +33,7 @@ Los precios que puedan mostrarse en el sitio web como precios iniciales, orienta
 
 El precio definitivo dependerá de las características, alcance, requisitos y complejidad de cada proyecto.
 
-Los precios publicados [INCLUYEN / NO INCLUYEN] los impuestos que resulten legalmente aplicables.
+Los precios publicados no incluyen los impuestos que resulten legalmente aplicables.
 
 Antes de formalizar una contratación, el cliente será informado del precio definitivo y de las condiciones económicas aplicables.
 
