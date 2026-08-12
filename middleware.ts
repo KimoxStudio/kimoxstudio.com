@@ -4,7 +4,7 @@ import { config as kxConfig } from "@/kx/config";
 // Next 16 note: the `middleware.ts` convention is deprecated in favor of
 // `proxy.ts` (still works, just warns). The kx handler only reads/clears the
 // variation cookie and sets an x-kx-variation header, so it is a no-op for the
-// island routes (/blog, /studio, /api/studio/*) it also matches.
+// island routes (/blog) it also matches.
 const handler = createKxMiddleware({
   cookieName: kxConfig.cookies.name,
   secrets: kxConfig.cookies.secrets,
