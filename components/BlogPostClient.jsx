@@ -111,6 +111,12 @@ export default function BlogPostClient({ post }) {
               <div>{t(I.footer.rights, lang)}</div>
               <div style={{ display: 'flex', gap: 24 }}>
                 <a href={`mailto:${I.meta.email}`}>{I.meta.email}</a>
+                <Link href="/politica-privacidad" data-hover>
+                  {t(I.footer.privacyLabel, lang)}
+                </Link>
+                <Link href="/aviso-legal" data-hover>
+                  {t(I.footer.legalLabel, lang)}
+                </Link>
                 <Link href="/">← Home</Link>
               </div>
             </div>
