@@ -153,7 +153,11 @@ const auth =
     password: requiredSecret("KX_ADMIN_PASSWORD", "admin"),
     sessionSecrets,
     rateLimiter,
-    secure: secureCookies,
+    // Not passed: the published @kimoxstudio/auth (0.2.x) does not expose a
+    // `secure` option on `CredentialsAuthOptions`, and its session cookie is
+    // already built with `Secure` hardcoded regardless (see
+    // node_modules/@kimoxstudio/auth/dist/index.js). Re-add once the
+    // published package's types support it.
   }));
 
 export const config: KxConfig = {
