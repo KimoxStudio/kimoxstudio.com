@@ -7,24 +7,15 @@ import type { pricingTableSchema } from "./schema";
 
 type Props = z.infer<typeof pricingTableSchema>;
 
-function SectionHead({ n, label, meta, title }: { n: string; label: string; meta: string; title: string }) {
-  return (
-    <div className="head">
-      <span className="label"><b>§{n}</b> {label}</span>
-      <span></span>
-      <span className="meta">{meta}</span>
-      <h2 dangerouslySetInnerHTML={{ __html: title }} />
-    </div>
-  );
-}
-
 export function PricingTableComponent({ props }: TemplateRenderProps<Props>) {
   const [lang] = useLang() as [string, (next: string) => void];
   const title = (resolveLocalized(props.title, lang, "es") ?? "").replace(/(construimos|build|作る)/, (m) => `<em>${m}</em>`);
   return (
     <section className="poster-section services" id="services">
       <div className="wrap">
-        <SectionHead n="02" label={resolveLocalized(props.label, lang, "es") ?? ""} meta={`3 ${lang === 'ja' ? '種類 · 個別見積もり可' : lang === 'en' ? 'tiers · custom on request' : 'niveles · a medida disponible'}`} title={title} />
+        <div className="head">
+          <h2 dangerouslySetInnerHTML={{ __html: title }} />
+        </div>
         <div className="svc-table">
           {props.items.map((s, i) => (
             <a href="#contact" className="svc-row" key={i}>

@@ -10,19 +10,6 @@ import type { teamGridSchema } from "./schema";
 
 type Props = z.infer<typeof teamGridSchema>;
 
-function SectionHead({ n, label, meta, title }: { n: string; label: string; meta: string; title: string }) {
-  return (
-    <div className="head">
-      <span className="label">
-        <b>§{n}</b> {label}
-      </span>
-      <span></span>
-      <span className="meta">{meta}</span>
-      <h2 dangerouslySetInnerHTML={{ __html: title }} />
-    </div>
-  );
-}
-
 // Re-homes the About section (intro + stat grid + team cards). The per-card
 // canvas photo effect lives in components/TeamCardPhoto.jsx (unchanged).
 export function TeamGridComponent({ props }: TemplateRenderProps<Props>) {
@@ -34,31 +21,13 @@ export function TeamGridComponent({ props }: TemplateRenderProps<Props>) {
   return (
     <section className="poster-section about" id="about">
       <div className="wrap">
-        <SectionHead
-          n="07"
-          label={resolveLocalized(props.label, lang, "es") ?? ""}
-          meta={lang === "ja" ? "私たちについて" : lang === "en" ? "the studio" : "el estudio"}
-          title={title}
-        />
-        <p {...kxField(`body.${lang}`)}>{resolveLocalized(props.body, lang, "es")}</p>
-        <div className="stats">
-          {props.stats.map((s, i) => (
-            <div className="stat" key={i}>
-              <div className="num">{s.n}</div>
-              <div className="lbl" {...kxField(`stats.${i}.label.${lang}`)}>{resolveLocalized(s.label, lang, "es")}</div>
-            </div>
-          ))}
+        <div className="head">
+          <h2 dangerouslySetInnerHTML={{ __html: title }} />
         </div>
+        <p {...kxField(`body.${lang}`)}>{resolveLocalized(props.body, lang, "es")}</p>
 
         <div className="team-block">
           <div className="head-row">
-            <span className="label">
-              <b>§07.1</b> {resolveLocalized(props.teamLabel, lang, "es")}
-            </span>
-            <span></span>
-            <span className="label">
-              {props.team.length} {lang === "ja" ? "人" : lang === "en" ? "people" : "personas"}
-            </span>
             <h3>
               {resolveLocalized(props.teamLabel, lang, "es")}
               <em>.</em>

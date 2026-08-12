@@ -8,26 +8,18 @@ import type { testimonialCarouselSchema } from "./schema";
 
 type Props = z.infer<typeof testimonialCarouselSchema>;
 
-function SectionHead({ n, label, meta, title }: { n: string; label: string; meta: string; title: string }) {
-  return (
-    <div className="head">
-      <span className="label"><b>§{n}</b> {label}</span>
-      <span></span>
-      <span className="meta">{meta}</span>
-      <h2 dangerouslySetInnerHTML={{ __html: title }} />
-    </div>
-  );
-}
-
 export function TestimonialCarouselComponent({ props }: TemplateRenderProps<Props>) {
   const [lang] = useLang() as [string, (next: string) => void];
   const items = props.items;
   const [idx, setIdx] = useState(0);
   const cur = items[idx];
+  const title = lang === 'ja' ? '<em>声</em>' : lang === 'en' ? '<em>Voices.</em>' : '<em>Voces.</em>';
   return (
     <section className="poster-section testimonials">
       <div className="wrap">
-        <SectionHead n="06" label={resolveLocalized(props.label, lang, "es") ?? ""} meta={`${items.length} ${lang === 'ja' ? '件' : lang === 'en' ? 'quotes' : 'citas'}`} title={lang === 'ja' ? '<em>声</em>' : lang === 'en' ? '<em>Voices.</em>' : '<em>Voces.</em>'} />
+        <div className="head">
+          <h2 dangerouslySetInnerHTML={{ __html: title }} />
+        </div>
         <div className="quote-wrap">
           <div>
             <div className="quote-mark">"</div>

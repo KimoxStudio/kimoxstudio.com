@@ -97,17 +97,6 @@ export function ContactSectionComponent({ props }: TemplateRenderProps<Props>) {
     <section className="contact" id="contact">
       <div className="wrap">
         <div className="head">
-          <span className="label">
-            <b>§08</b> {resolveLocalized(props.label, lang, "es")}
-          </span>
-          <span></span>
-          <span className="meta">
-            {lang === "ja"
-              ? "24時間以内に返信"
-              : lang === "en"
-                ? "24h reply window"
-                : "Respondemos en 24h"}
-          </span>
           <h2 dangerouslySetInnerHTML={{ __html: title }} />
         </div>
         <div className="grid">
@@ -117,20 +106,6 @@ export function ContactSectionComponent({ props }: TemplateRenderProps<Props>) {
               <span className="or" {...kxField(`or.${lang}`)}>{resolveLocalized(props.or, lang, "es")}</span>
               <span className="em">{props.email}</span>
             </a>
-            <div className="info">
-              <div>
-                <b>{lang === "ja" ? "拠点" : lang === "en" ? "BASED" : "BASE"}</b> ·{" "}
-                {resolveLocalized(props.location, lang, "es")}
-              </div>
-              <div>
-                <b>{lang === "ja" ? "対応中" : lang === "en" ? "AVAILABLE" : "DISPONIBLES"}</b> · Q2
-                2026 · 2 {lang === "ja" ? "枠" : lang === "en" ? "slots" : "huecos"}
-              </div>
-              <div>
-                <b>{lang === "ja" ? "言語" : lang === "en" ? "LANGUAGES" : "IDIOMAS"}</b> · ES · EN ·
-                JA
-              </div>
-            </div>
           </div>
           <form onSubmit={handleSubmit} noValidate>
             {/* Honeypot — hidden from real users, bots fill it. */}
