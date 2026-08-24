@@ -24,29 +24,8 @@ export function TeamGridComponent({ props }: TemplateRenderProps<Props>) {
         <div className="head">
           <h2 dangerouslySetInnerHTML={{ __html: title }} />
         </div>
-        <p {...kxField(`body.${lang}`)}>{resolveLocalized(props.body, lang, "es")}</p>
-
-        {props.stats.length > 0 && (
-          <div className="team-stats">
-            {props.stats.map((st, i) => (
-              <div className="stat" key={i}>
-                <span className="stat-n">{st.n}</span>
-                <span className="stat-label" {...kxField(`stats.${i}.label.${lang}`)}>
-                  {resolveLocalized(st.label, lang, "es")}
-                </span>
-              </div>
-            ))}
-          </div>
-        )}
 
         <div className="team-block">
-          <div className="head-row">
-            <h3>
-              {resolveLocalized(props.teamLabel, lang, "es")}
-              <em>.</em>
-            </h3>
-          </div>
-          <p className="sub-line" {...kxField(`teamSub.${lang}`)}>{resolveLocalized(props.teamSub, lang, "es")}</p>
           <div className="team-grid">
             {props.team.map((p, i) => (
               <div className="team-card" key={i}>
