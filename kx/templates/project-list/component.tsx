@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { TemplateRenderProps } from "@kimoxstudio/core";
 import { kxField, resolveLocalized } from "@kimoxstudio/registry";
 import { useLang } from "@/lib/lang";
@@ -41,10 +41,35 @@ function ProjectPreview({ shots, name, onOpen }: { shots: string[]; name: string
   );
 }
 
+const SWIPE_THRESHOLD = 50;
+
 function ProjectModal({ shots, name, onClose }: { shots: string[]; name: string; onClose: () => void }) {
   const [idx, setIdx] = useState(0);
+  const [dragX, setDragX] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  // Ref, not state: onPointerMove/endDrag need to know synchronously whether
+  // a drag is active, without waiting on a re-render to see the latest value.
+  const dragStartX = useRef<number | null>(null);
   const prev = () => setIdx((n) => (n - 1 + shots.length) % shots.length);
   const next = () => setIdx((n) => (n + 1) % shots.length);
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    dragStartX.current = e.clientX;
+    setIsDragging(true);
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (dragStartX.current === null) return;
+    setDragX(e.clientX - dragStartX.current);
+  };
+  const endDrag = () => {
+    if (dragStartX.current === null) return;
+    if (dragX > SWIPE_THRESHOLD) prev();
+    else if (dragX < -SWIPE_THRESHOLD) next();
+    dragStartX.current = null;
+    setIsDragging(false);
+    setDragX(0);
+  };
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -66,8 +91,22 @@ function ProjectModal({ shots, name, onClose }: { shots: string[]; name: string;
     <div className="proj-modal" role="dialog" aria-modal="true" aria-label={`Capturas de ${name}`} onClick={onClose}>
       <div className="proj-modal-inner" onClick={(e) => e.stopPropagation()}>
         <button type="button" className="proj-modal-close" onClick={onClose} aria-label="Cerrar">×</button>
-        <div className="proj-modal-frame">
-          <img src={shots[idx]} alt={`Captura ${idx + 1} de ${name}`} />
+        <div
+          className="proj-modal-frame"
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+        >
+          <img
+            src={shots[idx]}
+            alt={`Captura ${idx + 1} de ${name}`}
+            draggable={false}
+            style={{
+              transform: `translateX(${dragX}px)`,
+              transition: isDragging ? "none" : "transform .25s cubic-bezier(.2,.7,.3,1)",
+            }}
+          />
         </div>
         <div className="proj-modal-bar">
           <button type="button" onClick={prev} aria-label="Captura anterior">‹</button>

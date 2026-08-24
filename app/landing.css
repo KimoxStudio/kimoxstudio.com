@@ -538,7 +538,10 @@
       background: var(--bg-2);
       overflow: hidden;
       display: flex; align-items: center; justify-content: center;
+      touch-action: pan-y;
+      cursor: grab;
     }
+    .proj-modal-frame:active { cursor: grabbing; }
     .proj-modal-frame img { width: 100%; height: 100%; object-fit: contain; }
     .proj-modal-bar {
       flex-shrink: 0;
