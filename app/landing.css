@@ -404,7 +404,7 @@
       color: var(--ink-3); white-space: nowrap;
     }
 
-    /* ── Work (card grid: image first, one featured item, then a 2-up grid) ─── */
+    /* ── Work (card grid: screenshot carousel first, uniform 2-up grid) ─── */
     .work .proj-list {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -414,37 +414,186 @@
     .proj-row {
       display: flex;
       flex-direction: column;
-      padding: 40px;
+      padding: 32px;
       border-right: 1px solid var(--rule);
       border-bottom: 1px solid var(--rule);
-      color: inherit;
       position: relative;
       transition: background .25s;
     }
-    .proj-row:first-child {
-      grid-column: 1 / -1;
-      flex-direction: row;
-      align-items: stretch;
-      gap: 48px;
-    }
-    .proj-row:first-child .swatch { flex: 0 0 44%; height: auto; margin-bottom: 0; }
-    .proj-row:first-child > :not(.swatch) { flex: 1; }
     .proj-row:hover { background: var(--bg-2); }
-    .proj-row .n {
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 12px; color: var(--orange);
-      letter-spacing: .1em; font-weight: 600;
-      margin-bottom: 18px;
+
+    /* Screenshot preview — click opens the full carousel in a modal.
+       A stacked-card effect (::before/::after peeking out behind the frame)
+       hints there's more than one screenshot before you click. */
+    .proj-shots {
+      order: -1;
+      display: block;
+      width: 100%;
+      margin: 0 0 24px;
+      padding: 0;
+      position: relative;
+      text-align: left;
     }
-    .proj-row .name-block { margin-bottom: 20px; }
+    .proj-shots::before, .proj-shots::after {
+      content: ""; position: absolute; inset: 0;
+      background: var(--bg-3);
+      border: 1px solid var(--rule-2);
+    }
+    .proj-shots::before { transform: rotate(-2deg) translateY(3px); z-index: 0; }
+    .proj-shots::after { transform: rotate(2deg) translateY(5px); z-index: -1; }
+    .proj-shots .shots-frame {
+      height: 200px; width: 100%;
+      overflow: hidden;
+      border: 1px solid var(--rule-2);
+      background: var(--bg-2);
+      position: relative;
+      z-index: 1;
+      transition: transform .25s;
+    }
+    .proj-shots .shots-frame img { display: block; }
+    .proj-shots .shots-frame .shots-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: blur(18px) brightness(.65) saturate(1.1);
+      transform: scale(1.15);
+    }
+    .proj-shots .shots-frame .shots-fg {
+      position: relative;
+      width: 100%; height: 100%;
+      object-fit: contain;
+    }
+    .proj-shots:hover .shots-frame { transform: translateY(-3px); }
+    .proj-shots .shots-hint {
+      position: absolute;
+      right: 10px; bottom: 10px;
+      z-index: 2;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--ink);
+      background: var(--bg);
+      border: 1px solid var(--rule-2);
+      padding: 6px 10px;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity .2s, transform .2s, background .2s, color .2s, border-color .2s;
+    }
+    .proj-shots:hover .shots-hint {
+      opacity: 1;
+      transform: translateY(0);
+      background: var(--orange);
+      color: var(--bg);
+      border-color: var(--orange);
+    }
+    /* No hover on touch devices — show the hint by default instead of
+       waiting for a hover state that will never come. */
+    @media (hover: none) {
+      .proj-shots .shots-hint {
+        opacity: 1;
+        transform: translateY(0);
+        background: var(--orange);
+        color: var(--bg);
+        border-color: var(--orange);
+      }
+    }
+
+    /* Screenshot modal */
+    .proj-modal {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(8, 8, 10, 0.86);
+      display: flex; align-items: center; justify-content: center;
+      padding: 32px;
+      animation: proj-modal-in .2s ease;
+    }
+    .proj-modal-inner {
+      width: 100%; max-width: 1040px;
+      background: var(--bg);
+      border: 1px solid var(--rule-2);
+      position: relative;
+      padding: 16px;
+    }
+    .proj-modal-close {
+      position: absolute; top: -14px; right: -14px;
+      z-index: 2;
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--ink); color: var(--bg);
+      border: 1px solid var(--bg);
+      border-radius: 50%;
+      font-size: 18px; line-height: 1;
+      transition: background .2s, color .2s;
+    }
+    .proj-modal-close:hover { background: var(--orange); }
+    .proj-modal-frame {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: var(--bg-2);
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .proj-modal-frame img { width: 100%; height: 100%; object-fit: contain; }
+    .proj-modal-bar {
+      display: flex; align-items: center; justify-content: center;
+      gap: 20px;
+      padding-top: 16px;
+    }
+    .proj-modal-bar button {
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--rule-2);
+      color: var(--ink-2);
+      font-size: 15px;
+      transition: color .2s, border-color .2s;
+    }
+    .proj-modal-bar button:hover { color: var(--orange); border-color: var(--orange); }
+    .proj-modal-meta {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--ink-3);
+    }
+    @keyframes proj-modal-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .proj-modal-inner { animation: proj-modal-scale-in .22s cubic-bezier(.2,.7,.3,1); }
+    @keyframes proj-modal-scale-in {
+      from { opacity: 0; transform: scale(.97); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .proj-modal, .proj-modal-inner { animation: none; }
+    }
+
+    /* Logo integrated with the project name */
+    .proj-row .name-block { margin-bottom: 18px; }
+    .proj-row .name-row {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 8px;
+    }
+    .proj-logo {
+      flex: 0 0 auto;
+      width: 30px; height: 30px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .proj-logo--glyph {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: "Familjen Grotesk", sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .proj-row:nth-child(3n+1) .proj-logo--glyph { background: var(--orange); color: var(--bg); }
+    .proj-row:nth-child(3n+2) .proj-logo--glyph { background: var(--ink); color: var(--orange); }
+    .proj-row:nth-child(3n) .proj-logo--glyph { background: var(--olive); color: var(--bg); }
     .proj-row .name-block .name {
       font-family: "Familjen Grotesk", sans-serif;
-      font-weight: 700; font-size: 36px;
+      font-weight: 700; font-size: 32px;
       letter-spacing: -0.025em; line-height: 1;
-      margin: 0 0 8px;
       text-transform: uppercase;
       color: var(--ink);
+      transition: color .2s;
     }
+    .proj-row .name-block .name:hover { color: var(--orange); }
     .proj-row .name-block .url {
       font-family: "IBM Plex Mono", monospace;
       font-size: 11px; color: var(--ink-3); letter-spacing: .04em;
@@ -463,54 +612,15 @@
       width: fit-content;
       transition: background .2s, color .2s, border-color .2s, transform .2s;
     }
-    .proj-row:hover .name-block .proj-cta {
+    .proj-row .name-block .proj-cta:hover {
       background: var(--orange);
       color: var(--bg);
       border-color: var(--orange);
       transform: translateX(4px);
     }
-    .proj-row .swatch {
-      order: -1;
-      height: 220px; width: 100%;
-      position: relative;
-      overflow: hidden;
-      margin-bottom: 28px;
-      transition: filter .25s;
-    }
-    .proj-row:nth-child(3n+1) .swatch { background: var(--orange); }
-    .proj-row:nth-child(3n+2) .swatch { background: var(--ink); }
-    .proj-row:nth-child(3n) .swatch { background: var(--olive); }
-    .proj-row .swatch .glyph {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-family: "Familjen Grotesk", sans-serif;
-      font-size: 60px; font-weight: 700;
-      letter-spacing: -0.04em;
-    }
-    .proj-row .swatch.has-logo { background: var(--bg-2); }
-    .proj-row .swatch .logo {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      max-width: 88%;
-      max-height: 88%;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      z-index: 2;
-    }
-    .proj-row .swatch.has-logo .stripes { opacity: 0.4; }
-    .proj-row:nth-child(3n+1) .swatch .glyph { color: var(--bg); }
-    .proj-row:nth-child(3n+2) .swatch .glyph { color: var(--orange); }
-    .proj-row:nth-child(3n) .swatch .glyph { color: var(--bg); }
-    .proj-row .swatch .stripes {
-      position: absolute; inset: 0;
-      background: repeating-linear-gradient(45deg, transparent 0 14px, rgba(0,0,0,.08) 14px 15px);
-    }
-    .proj-row:hover .swatch { filter: brightness(1.1); }
     .proj-row .desc {
       font-size: 14px; line-height: 1.5;
-      color: var(--ink-2); margin: 0 0 20px;
+      color: var(--ink-2); margin: 0 0 16px;
     }
     .proj-row .desc .cat {
       display: block;
@@ -1101,9 +1211,8 @@
       .maintenance .plan-foot { flex-direction: column; gap: 12px; }
       .svc-extras { gap: 8px; }
       .work .proj-list { grid-template-columns: 1fr; }
-      .proj-row, .proj-row:first-child { flex-direction: column; padding: 28px; gap: 0; }
-      .proj-row:first-child .swatch { flex: 0 0 auto; }
-      .proj-row .swatch { height: 160px; }
+      .proj-row { padding: 28px; }
+      .proj-shots .shots-frame { height: 180px; }
       .steps { grid-template-columns: 1fr 1fr; }
       .step { min-height: 280px; }
       .team-stats { grid-template-columns: repeat(2, 1fr); }

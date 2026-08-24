@@ -17,6 +17,7 @@ export const projectListSchema = z.object({
         category: localized(LANGS),
         body: localized(LANGS),
         tags: z.array(z.string()).default([]),
+        screenshots: z.array(z.string()).default([]).describe("Real screenshot paths; falls back to placeholders when empty"),
       }),
     )
     .default([]),

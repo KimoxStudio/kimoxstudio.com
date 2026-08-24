@@ -371,20 +371,26 @@
               "year": "2025",
               "logo": "/projects/mymedesp.png",
               "category": {
-                "es": "App web · Salud",
-                "en": "Web app · Health",
-                "ja": "ウェブアプリ · 医療"
+                "es": "App web · Cocina",
+                "en": "Web app · Cooking",
+                "ja": "ウェブアプリ · 料理"
               },
               "body": {
-                "es": "Plataforma de consulta médica con autenticación, panel de paciente y búsqueda avanzada de medicamentos.",
-                "en": "Medical reference platform with auth, patient panel and advanced drug search.",
-                "ja": "認証、患者パネル、高度な薬剤検索を備えた医療リファレンスプラットフォーム。"
+                "es": "Plataforma de recetas y planificación de menús. Importa recetas desde redes sociales o cualquier web, arma el menú semanal y genera la lista de la compra automáticamente.",
+                "en": "Recipe and meal-planning platform. Import recipes from social media or any website, build your weekly menu, and get the shopping list generated automatically.",
+                "ja": "レシピと献立プランニングのプラットフォーム。SNSやウェブサイトからレシピを取り込み、週間メニューを組み立てると、買い物リストが自動で生成されます。"
               },
               "tags": [
                 "Next.js",
                 "PostgreSQL",
                 "Auth",
                 "SEO"
+              ],
+              "screenshots": [
+                "/projects/mymedesp/1.jpg",
+                "/projects/mymedesp/2.jpg",
+                "/projects/mymedesp/3.jpg",
+                "/projects/mymedesp/4.jpg"
               ]
             },
             {
@@ -394,20 +400,28 @@
               "year": "2025",
               "logo": "/projects/charactersvault.png",
               "category": {
-                "es": "App web · Creativa",
-                "en": "Web app · Creative",
-                "ja": "ウェブアプリ · クリエイティブ"
+                "es": "App web · Rol",
+                "en": "Web app · TTRPG",
+                "ja": "ウェブアプリ · TRPG"
               },
               "body": {
-                "es": "Biblioteca de personajes con sistema de fichas, etiquetado y galerías. Diseño juguetón con muchas micro-animaciones.",
-                "en": "Character library with character sheets, tagging and galleries. Playful design with lots of micro-animations.",
-                "ja": "キャラクターシート、タグ付け、ギャラリー機能を備えたキャラクター図鑑。マイクロアニメーション豊富な遊び心ある設計。"
+                "es": "Gestor de fichas de personajes de rol, con automatización para Anima Beyond Fantasy. Organiza en carpetas, comparte con tu grupo y sincroniza con Foundry VTT.",
+                "en": "Character sheet manager for tabletop RPGs, with automation for Anima Beyond Fantasy. Organize into folders, share with your group, and sync with Foundry VTT.",
+                "ja": "アニマ・ビヨンド・ファンタジー対応の自動化されたキャラクターシート管理ツール。フォルダで整理し、グループと共有し、Foundry VTTと同期できます。"
               },
               "tags": [
                 "React",
                 "Animations",
                 "DB",
                 "Auth"
+              ],
+              "screenshots": [
+                "/projects/characters-vault/1.jpg",
+                "/projects/characters-vault/2.jpg",
+                "/projects/characters-vault/3.jpg",
+                "/projects/characters-vault/4.jpg",
+                "/projects/characters-vault/5.jpg",
+                "/projects/characters-vault/6.jpg"
               ]
             },
             {
@@ -430,6 +444,12 @@
                 "DB",
                 "Comunidad",
                 "Accesibilidad"
+              ],
+              "screenshots": [
+                "/projects/ascensor-rehoyas/1.jpg",
+                "/projects/ascensor-rehoyas/2.jpg",
+                "/projects/ascensor-rehoyas/3.jpg",
+                "/projects/ascensor-rehoyas/4.jpg"
               ]
             },
             {
@@ -452,6 +472,11 @@
                 "WordPress",
                 "Eventos",
                 "Comunidad"
+              ],
+              "screenshots": [
+                "/projects/alea/1.jpg",
+                "/projects/alea/2.jpg",
+                "/projects/alea/3.jpg"
               ]
             },
             {
@@ -474,6 +499,11 @@
                 "Next.js",
                 "SEO",
                 "Reservas"
+              ],
+              "screenshots": [
+                "/projects/patri-santana/1.png",
+                "/projects/patri-santana/2.png",
+                "/projects/patri-santana/3.png"
               ]
             },
             {
@@ -496,6 +526,12 @@
                 "Mobile",
                 "Social",
                 "GPS"
+              ],
+              "screenshots": [
+                "/projects/rachafit/1.jpg",
+                "/projects/rachafit/2.jpg",
+                "/projects/rachafit/3.jpg",
+                "/projects/rachafit/4.jpg"
               ]
             }
           ]
