@@ -4,7 +4,6 @@ import { z } from "zod";
 const LANGS = ["es", "en", "ja"] as const;
 
 export const testimonialCarouselSchema = z.object({
-  label: localized(LANGS),
   items: z
     .array(
       z.object({

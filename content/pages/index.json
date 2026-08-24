@@ -54,11 +54,6 @@
             "es": "Ver proyectos",
             "en": "See our work",
             "ja": "プロジェクトを見る"
-          },
-          "location": {
-            "es": "Trabajamos en remoto · España",
-            "en": "Remote · Spain",
-            "ja": "リモート · スペイン"
           }
         }
       },
@@ -95,11 +90,6 @@
         "id": "manifesto",
         "template": "manifesto",
         "props": {
-          "label": {
-            "es": "Manifiesto",
-            "en": "Manifesto",
-            "ja": "宣言"
-          },
           "title": {
             "es": "No hacemos software genérico.",
             "en": "We don't ship generic software.",
@@ -136,11 +126,6 @@
         "id": "services",
         "template": "pricing-table",
         "props": {
-          "label": {
-            "es": "Servicios",
-            "en": "Services",
-            "ja": "サービス"
-          },
           "title": {
             "es": "Lo que construimos.",
             "en": "What we build.",
@@ -289,11 +274,6 @@
         "id": "web-service",
         "template": "web-service",
         "props": {
-          "label": {
-            "es": "Web como servicio",
-            "en": "Web as a service",
-            "ja": "Web as a service"
-          },
           "eyebrow": {
             "es": "Web como servicio",
             "en": "Web as a service",
@@ -373,11 +353,6 @@
         "id": "work",
         "template": "project-list",
         "props": {
-          "label": {
-            "es": "Proyectos",
-            "en": "Selected work",
-            "ja": "選ばれた作品"
-          },
           "title": {
             "es": "Proyectos que hemos realizado.",
             "en": "Projects we've delivered.",
@@ -527,84 +502,9 @@
         }
       },
       {
-        "id": "process",
-        "template": "process-steps",
-        "props": {
-          "label": {
-            "es": "Proceso",
-            "en": "Process",
-            "ja": "プロセス"
-          },
-          "title": {
-            "es": "Cómo trabajamos.",
-            "en": "How we work.",
-            "ja": "私たちの働き方。"
-          },
-          "steps": [
-            {
-              "n": "01",
-              "title": {
-                "es": "Escuchamos",
-                "en": "We listen",
-                "ja": "聞く"
-              },
-              "body": {
-                "es": "Una llamada larga para entender qué quieres construir, por qué, y para quién. Te pasamos un plan honesto.",
-                "en": "A long call to understand what you want to build, why, and for whom. We send an honest plan back.",
-                "ja": "何を、なぜ、誰のために作りたいかを理解するためのじっくりとした通話。正直な計画をお返しします。"
-              }
-            },
-            {
-              "n": "02",
-              "title": {
-                "es": "Dibujamos",
-                "en": "We sketch",
-                "ja": "描く"
-              },
-              "body": {
-                "es": "Prototipos clicables antes de tocar una línea de código. Aquí es donde más rápido se itera y donde menos se pierde.",
-                "en": "Clickable prototypes before we touch a line of code. This is where you iterate fastest and lose least.",
-                "ja": "コードに触れる前のクリック可能なプロトタイプ。最速で繰り返し、最も損失が少ない段階です。"
-              }
-            },
-            {
-              "n": "03",
-              "title": {
-                "es": "Construimos",
-                "en": "We build",
-                "ja": "作る"
-              },
-              "body": {
-                "es": "Sprints semanales con entregas reales. Ves el producto crecer en tiempo real, sin cajas negras.",
-                "en": "Weekly sprints with real deliveries. You see the product grow in real time, no black boxes.",
-                "ja": "実際の納品を伴う週次スプリント。ブラックボックスなしで、リアルタイムにプロダクトが育っていきます。"
-              }
-            },
-            {
-              "n": "04",
-              "title": {
-                "es": "Cuidamos",
-                "en": "We tend",
-                "ja": "育てる"
-              },
-              "body": {
-                "es": "Tras lanzar, seguimos contigo. Mantenimiento, métricas, SEO, mejoras. Un producto vivo necesita jardinería.",
-                "en": "After launch, we stay. Maintenance, metrics, SEO, improvements. A living product needs gardening.",
-                "ja": "ローンチ後も伴走します。保守、計測、SEO、改善。生きているプロダクトには手入れが必要です。"
-              }
-            }
-          ]
-        }
-      },
-      {
         "id": "testimonials",
         "template": "testimonial-carousel",
         "props": {
-          "label": {
-            "es": "Lo que dicen",
-            "en": "What they say",
-            "ja": "お客様の声"
-          },
           "items": [
             {
               "quote": {
@@ -639,15 +539,10 @@
         "id": "about",
         "template": "team-grid",
         "props": {
-          "label": {
-            "es": "Nosotros",
-            "en": "About",
-            "ja": "私たち"
-          },
           "title": {
-            "es": "Un estudio pequeño que prefiere hacer pocas cosas bien.",
-            "en": "A small studio that prefers to do a few things well.",
-            "ja": "少数のことを丁寧にやる、小さなスタジオ。"
+            "es": "El equipo.",
+            "en": "The team.",
+            "ja": "チーム。"
           },
           "body": {
             "es": "Somos un equipo reducido de gente que diseña y programa. Trabajamos con pocos clientes a la vez para poder meternos a fondo en cada proyecto. No subcontratamos. No usamos plantillas. No tenemos vendedores.",
@@ -689,14 +584,14 @@
             }
           ],
           "teamLabel": {
-            "es": "El equipo",
-            "en": "The team",
-            "ja": "チーム"
+            "es": "Pequeño a propósito",
+            "en": "Small on purpose",
+            "ja": "意図して少人数"
           },
           "teamSub": {
-            "es": "Pequeño a propósito. Cada persona toca el código, el diseño y al cliente.",
-            "en": "Small on purpose. Every person touches the code, the design, and the client.",
-            "ja": "意図して少人数。全員がコード、デザイン、クライアントに直接関わります。"
+            "es": "Cada persona toca el código, el diseño y al cliente.",
+            "en": "Every person touches the code, the design, and the client.",
+            "ja": "全員がコード、デザイン、クライアントに直接関わります。"
           },
           "team": [
             {
@@ -798,11 +693,6 @@
         "id": "contact",
         "template": "contact-section",
         "props": {
-          "label": {
-            "es": "Contacto",
-            "en": "Contact",
-            "ja": "お問い合わせ"
-          },
           "title": {
             "es": "¿Empezamos algo?",
             "en": "Shall we start something?",
@@ -819,11 +709,6 @@
             "ja": "またはメールで"
           },
           "email": "kimoxstudio@gmail.com",
-          "location": {
-            "es": "Trabajamos en remoto · España",
-            "en": "Remote · Spain",
-            "ja": "リモート · スペイン"
-          },
           "fieldName": {
             "es": "Tu nombre",
             "en": "Your name",

@@ -6,7 +6,6 @@ const LANGS = ["es", "en", "ja"] as const;
 // "Web as a service" — the single monthly-fee plan that replaced the earlier
 // three-tier maintenance block. Copy mirrors lib/i18n.js `webService`.
 export const webServiceSchema = z.object({
-  label: localized(LANGS),
   eyebrow: localized(LANGS),
   title: localized(LANGS),
   bridge: localized(LANGS),

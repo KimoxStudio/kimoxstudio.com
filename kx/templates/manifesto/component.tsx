@@ -12,7 +12,7 @@ export function ManifestoComponent({ props }: TemplateRenderProps<Props>) {
   const [lang] = useLang() as [Lang, (next: Lang) => void];
   const title = (resolveLocalized(props.title, lang, "es") ?? "").replace(/(genérico|generic|汎用)/, (m) => `<em>${m}</em>`);
   return (
-    <section className="poster-section manifesto">
+    <section className="poster-section manifesto" id="manifesto">
       <div className="wrap">
         <div className="head">
           <h2 dangerouslySetInnerHTML={{ __html: title }} />

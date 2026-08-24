@@ -15,7 +15,7 @@ export function TestimonialCarouselComponent({ props }: TemplateRenderProps<Prop
   const cur = items[idx];
   const title = lang === 'ja' ? '<em>声</em>' : lang === 'en' ? '<em>Voices.</em>' : '<em>Voces.</em>';
   return (
-    <section className="poster-section testimonials">
+    <section className="poster-section testimonials" id="testimonials">
       <div className="wrap">
         <div className="head">
           <h2 dangerouslySetInnerHTML={{ __html: title }} />

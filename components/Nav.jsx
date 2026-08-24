@@ -8,7 +8,7 @@ import ThemeToggle from './ThemeToggle';
 
 // Landing section ids the nav links point at, in document order. Used to mark
 // the link for whichever section is currently crossing the viewport.
-const SECTIONS = ['work', 'services', 'process', 'about', 'contact'];
+const SECTIONS = ['services', 'web-service', 'work', 'testimonials', 'about', 'contact'];
 
 /**
  * Shared site nav.
@@ -78,21 +78,24 @@ export default function Nav({
           <span>KIMOX·STUDIO</span>
         </HomeOrAnchor>
         <div className="links">
-          <HomeOrAnchor href={sectionLink('work')} className={sectionClass('work')}>
-            /{t(I.nav.work, lang).toLowerCase()}
-          </HomeOrAnchor>
           <HomeOrAnchor href={sectionLink('services')} className={sectionClass('services')}>
             /{t(I.nav.services, lang).toLowerCase()}
           </HomeOrAnchor>
-          <HomeOrAnchor href={sectionLink('process')} className={sectionClass('process')}>
-            /{t(I.nav.process, lang).toLowerCase()}
+          <HomeOrAnchor href={sectionLink('web-service')} className={sectionClass('web-service')}>
+            /{t(I.nav.webService, lang).toLowerCase()}
+          </HomeOrAnchor>
+          <HomeOrAnchor href={sectionLink('work')} className={sectionClass('work')}>
+            /{t(I.nav.work, lang).toLowerCase()}
+          </HomeOrAnchor>
+          <HomeOrAnchor href={sectionLink('testimonials')} className={sectionClass('testimonials')}>
+            /{t(I.nav.testimonials, lang).toLowerCase()}
           </HomeOrAnchor>
           <HomeOrAnchor href={sectionLink('about')} className={sectionClass('about')}>
             /{t(I.nav.about, lang).toLowerCase()}
           </HomeOrAnchor>
-          <Link href="/blog" className={activeBlog ? 'active' : ''}>
-            /{t(I.nav.blog, lang).toLowerCase()}
-          </Link>
+          <HomeOrAnchor href={sectionLink('contact')} className={sectionClass('contact')}>
+            /{t(I.nav.contact, lang).toLowerCase()}
+          </HomeOrAnchor>
         </div>
         <div className="right">
           <ThemeToggle />
