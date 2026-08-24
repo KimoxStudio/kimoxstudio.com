@@ -174,12 +174,6 @@ export default function BlogClient({ featured, others }) {
               <a href={`mailto:${I.meta.email}`} data-hover>
                 {I.meta.email}
               </a>
-              <Link href="/politica-privacidad" data-hover>
-                {t(I.footer.privacyLabel, lang)}
-              </Link>
-              <Link href="/aviso-legal" data-hover>
-                {t(I.footer.legalLabel, lang)}
-              </Link>
               <Link href="/" data-hover>
                 ← {lang === 'ja' ? 'ホームへ' : lang === 'en' ? 'Back home' : 'Volver al home'}
               </Link>

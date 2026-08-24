@@ -190,24 +190,6 @@ export function ContactSectionComponent({ props }: TemplateRenderProps<Props>) {
                     : "Respuesta en menos de 24h"}
               </span>
             </div>
-            <p className="privacy-note">
-              {lang === "ja" ? (
-                <>
-                  ご入力いただいたデータはご依頼への対応のために使用されます。詳細は
-                  <Link href="/politica-privacidad">プライバシーポリシー</Link>をご覧ください。
-                </>
-              ) : lang === "en" ? (
-                <>
-                  Your data will be processed to handle your request. More information in our{" "}
-                  <Link href="/politica-privacidad">Privacy Policy</Link>.
-                </>
-              ) : (
-                <>
-                  Tus datos serán tratados para atender tu solicitud. Más información en
-                  nuestra <Link href="/politica-privacidad">Política de Privacidad</Link>.
-                </>
-              )}
-            </p>
             {status.state === "sent" && (
               <div className="form-feedback success">{feedback("sent")}</div>
             )}

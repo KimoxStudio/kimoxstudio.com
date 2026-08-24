@@ -7,7 +7,5 @@ export const footerWordmarkSchema = z.object({
   rights: localized(LANGS),
   backToTop: localized(LANGS),
   blogLabel: localized(LANGS),
-  privacyLabel: localized(LANGS),
-  legalLabel: localized(LANGS),
   email: z.string(),
 });

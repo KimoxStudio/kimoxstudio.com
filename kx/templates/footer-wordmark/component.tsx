@@ -30,8 +30,6 @@ export function FooterWordmarkComponent({ props }: TemplateRenderProps<Props>) {
           <div style={{ display: 'flex', gap: 24 }}>
             <a href={`mailto:${props.email}`}>{props.email}</a>
             <Link href="/blog" {...kxField(`blogLabel.${lang}`)}>{resolveLocalized(props.blogLabel, lang, "es") ?? ""}</Link>
-            <Link href="/politica-privacidad" {...kxField(`privacyLabel.${lang}`)}>{resolveLocalized(props.privacyLabel, lang, "es") ?? ""}</Link>
-            <Link href="/aviso-legal" {...kxField(`legalLabel.${lang}`)}>{resolveLocalized(props.legalLabel, lang, "es") ?? ""}</Link>
             <a href="#top" {...kxField(`backToTop.${lang}`)}>{resolveLocalized(props.backToTop, lang, "es") ?? ""}</a>
           </div>
         </div></div>
