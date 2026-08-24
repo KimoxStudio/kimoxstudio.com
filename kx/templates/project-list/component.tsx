@@ -26,11 +26,15 @@ function resolveShots(screenshots: string[], slug: string, width: number, height
 }
 
 function ProjectPreview({ shots, name, onOpen }: { shots: string[]; name: string; onOpen: () => void }) {
+  const thumbs = [shots[0], shots[1] ?? shots[0], shots[2] ?? shots[0]];
   return (
     <button type="button" className="proj-shots" onClick={onOpen} aria-label={`Ver capturas de ${name}`}>
       <div className="shots-frame">
-        <img className="shots-bg" src={shots[0]} alt="" aria-hidden="true" loading="lazy" />
-        <img className="shots-fg" src={shots[0]} alt="" loading="lazy" />
+        <div className="shots-grid">
+          {thumbs.map((src, i) => (
+            <img key={i} src={src} alt="" loading="lazy" />
+          ))}
+        </div>
       </div>
       <span className="shots-hint">Ver capturas ↗</span>
     </button>

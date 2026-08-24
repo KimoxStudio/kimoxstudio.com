@@ -422,9 +422,10 @@
     }
     .proj-row:hover { background: var(--bg-2); }
 
-    /* Screenshot preview — click opens the full carousel in a modal.
-       A stacked-card effect (::before/::after peeking out behind the frame)
-       hints there's more than one screenshot before you click. */
+    /* Screenshot preview — one stacked-card frame (the original treatment:
+       ::before/::after peeking behind) with three real thumbnails side by
+       side inside it. Click opens the full carousel (all screenshots) in
+       a modal. */
     .proj-shots {
       order: -1;
       display: block;
@@ -441,27 +442,26 @@
     }
     .proj-shots::before { transform: rotate(-2deg) translateY(3px); z-index: 0; }
     .proj-shots::after { transform: rotate(2deg) translateY(5px); z-index: -1; }
-    .proj-shots .shots-frame {
+    .shots-frame {
+      position: relative;
+      z-index: 1;
       height: 200px; width: 100%;
       overflow: hidden;
       border: 1px solid var(--rule-2);
       background: var(--bg-2);
-      position: relative;
-      z-index: 1;
       transition: transform .25s;
     }
-    .proj-shots .shots-frame img { display: block; }
-    .proj-shots .shots-frame .shots-bg {
-      position: absolute; inset: 0;
+    .shots-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      height: 100%; width: 100%;
+      background: var(--rule-2);
+    }
+    .shots-grid img {
       width: 100%; height: 100%;
       object-fit: cover;
-      filter: blur(18px) brightness(.65) saturate(1.1);
-      transform: scale(1.15);
-    }
-    .proj-shots .shots-frame .shots-fg {
-      position: relative;
-      width: 100%; height: 100%;
-      object-fit: contain;
+      display: block;
     }
     .proj-shots:hover .shots-frame { transform: translateY(-3px); }
     .proj-shots .shots-hint {
@@ -507,6 +507,7 @@
     }
     .proj-modal-inner {
       width: 100%; max-width: 1040px;
+      max-height: 100%;
       background: var(--bg);
       border: 1px solid var(--rule-2);
       position: relative;
@@ -526,13 +527,21 @@
     .proj-modal-close:hover { background: var(--orange); }
     .proj-modal-frame {
       width: 100%;
-      aspect-ratio: 16 / 10;
+      /* A definite height (not flex-grow inside an auto-height column,
+         which left the img's `height: 100%` unresolved and made contain
+         scale it against its own intrinsic aspect ratio instead — the
+         bug that showed only a cropped slice). No fixed aspect-ratio
+         either, since screenshots can be portrait (mobile) or landscape
+         (desktop); `object-fit: contain` sizes by whichever dimension of
+         this box is tighter. */
+      height: min(65vh, 760px);
       background: var(--bg-2);
       overflow: hidden;
       display: flex; align-items: center; justify-content: center;
     }
     .proj-modal-frame img { width: 100%; height: 100%; object-fit: contain; }
     .proj-modal-bar {
+      flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
       gap: 20px;
       padding-top: 16px;
@@ -1212,7 +1221,7 @@
       .svc-extras { gap: 8px; }
       .work .proj-list { grid-template-columns: 1fr; }
       .proj-row { padding: 28px; }
-      .proj-shots .shots-frame { height: 180px; }
+      .shots-frame { height: 160px; }
       .steps { grid-template-columns: 1fr 1fr; }
       .step { min-height: 280px; }
       .team-stats { grid-template-columns: repeat(2, 1fr); }
@@ -1230,4 +1239,7 @@
       .footer-big { font-size: clamp(56px, 16vw, 96px); padding: 64px 0 24px; }
       .poster-section { padding: 56px 0 56px; }
       .contact { padding: 64px 0 56px; }
+      .proj-modal { padding: 14px; }
+      .proj-modal-inner { padding: 10px; }
+      .proj-modal-frame { height: 68vh; }
     }
