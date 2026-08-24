@@ -1,41 +1,43 @@
 /* ── Shared theme tokens (dark default, light override via [data-theme=light]) ── */
 :root,
 :root[data-theme='dark'] {
-  --bg: #0e0c0a;
-  --bg-2: #161412;
-  --bg-3: #20211f;
-  --card: #181614;
-  --ink: #f3efe4;
-  --ink-2: #c8c2b3;
-  --ink-3: #8a8576;
-  --mute: #6b6757;
-  --orange: #ff5c28;
-  --orange-2: #ff8a5e;
-  --orange-tint: rgba(255, 92, 40, 0.12);
-  --olive: #c5cf8e;
-  --rule: #2b2925;
-  --rule-2: #3a3833;
-  --cursor-ring: rgba(243, 239, 228, 0.35);
-  --nav-bg: rgba(14, 12, 10, 0.86);
+  --bg: #0a0d13;
+  --bg-2: #10141c;
+  --bg-3: #171d27;
+  --card: #12161e;
+  --ink: #eef1f6;
+  --ink-2: #c3cad6;
+  --ink-3: #838d9e;
+  --mute: #5c6577;
+  --orange: #4c7dff;
+  --orange-2: #83a3ff;
+  --orange-tint: rgba(76, 125, 255, 0.14);
+  --orange-rgb: 76, 125, 255;
+  --olive: #9fc79f;
+  --rule: #1e2530;
+  --rule-2: #2c3542;
+  --cursor-ring: rgba(238, 241, 246, 0.35);
+  --nav-bg: rgba(10, 13, 19, 0.86);
 }
 
 :root[data-theme='light'] {
-  --bg: #f1ede4;
-  --bg-2: #ebe6d8;
-  --bg-3: #e0dac6;
-  --card: #ebe6d8;
-  --ink: #1a1714;
-  --ink-2: #353029;
-  --ink-3: #6d6558;
-  --mute: #8b8472;
-  --orange: #e0461a;
-  --orange-2: #ff6a32;
-  --orange-tint: rgba(224, 70, 26, 0.12);
-  --olive: #6e7a3a;
-  --rule: #d4cebd;
-  --rule-2: #bdb6a2;
-  --cursor-ring: rgba(26, 23, 20, 0.35);
-  --nav-bg: rgba(241, 237, 228, 0.86);
+  --bg: #eef1f6;
+  --bg-2: #e4e8f0;
+  --bg-3: #d8dee9;
+  --card: #e4e8f0;
+  --ink: #10131a;
+  --ink-2: #333a48;
+  --ink-3: #656d7c;
+  --mute: #88909c;
+  --orange: #2451d6;
+  --orange-2: #3f6bff;
+  --orange-tint: rgba(36, 81, 214, 0.12);
+  --orange-rgb: 36, 81, 214;
+  --olive: #3f6b45;
+  --rule: #d7dce6;
+  --rule-2: #c2c9d6;
+  --cursor-ring: rgba(16, 19, 26, 0.35);
+  --nav-bg: rgba(238, 241, 246, 0.86);
 }
 
 *, *::before, *::after { box-sizing: border-box; }

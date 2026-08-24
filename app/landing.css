@@ -404,25 +404,39 @@
       color: var(--ink-3); white-space: nowrap;
     }
 
-    /* ── Work ─── */
-    .work .proj-list { border-top: 1px solid var(--rule); }
-    .proj-row {
+    /* ── Work (card grid: image first, one featured item, then a 2-up grid) ─── */
+    .work .proj-list {
       display: grid;
-      grid-template-columns: 70px 1.4fr 1.6fr 1fr 110px;
-      gap: 28px; align-items: center;
-      padding: 0;
+      grid-template-columns: repeat(2, 1fr);
+      border-top: 1px solid var(--rule);
+      border-left: 1px solid var(--rule);
+    }
+    .proj-row {
+      display: flex;
+      flex-direction: column;
+      padding: 40px;
+      border-right: 1px solid var(--rule);
       border-bottom: 1px solid var(--rule);
       color: inherit;
       position: relative;
       transition: background .25s;
     }
+    .proj-row:first-child {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 48px;
+    }
+    .proj-row:first-child .swatch { flex: 0 0 44%; height: auto; margin-bottom: 0; }
+    .proj-row:first-child > :not(.swatch) { flex: 1; }
     .proj-row:hover { background: var(--bg-2); }
-    .proj-row .col { padding: 32px 0; }
     .proj-row .n {
       font-family: "IBM Plex Mono", monospace;
       font-size: 12px; color: var(--orange);
       letter-spacing: .1em; font-weight: 600;
+      margin-bottom: 18px;
     }
+    .proj-row .name-block { margin-bottom: 20px; }
     .proj-row .name-block .name {
       font-family: "Familjen Grotesk", sans-serif;
       font-weight: 700; font-size: 36px;
@@ -451,21 +465,21 @@
     }
     .proj-row:hover .name-block .proj-cta {
       background: var(--orange);
-      color: #0e0c0a;
+      color: var(--bg);
       border-color: var(--orange);
       transform: translateX(4px);
     }
     .proj-row .swatch {
-      grid-column: 5;
-      height: 132px; width: 100%;
+      order: -1;
+      height: 220px; width: 100%;
       position: relative;
       overflow: hidden;
-      align-self: center;
+      margin-bottom: 28px;
       transition: filter .25s;
     }
-    .proj-row:nth-child(1) .swatch { background: var(--orange); }
-    .proj-row:nth-child(2) .swatch { background: var(--ink); }
-    .proj-row:nth-child(3) .swatch { background: var(--olive); }
+    .proj-row:nth-child(3n+1) .swatch { background: var(--orange); }
+    .proj-row:nth-child(3n+2) .swatch { background: var(--ink); }
+    .proj-row:nth-child(3n) .swatch { background: var(--olive); }
     .proj-row .swatch .glyph {
       position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
@@ -486,9 +500,9 @@
       z-index: 2;
     }
     .proj-row .swatch.has-logo .stripes { opacity: 0.4; }
-    .proj-row:nth-child(1) .swatch .glyph { color: var(--bg); }
-    .proj-row:nth-child(2) .swatch .glyph { color: var(--orange); }
-    .proj-row:nth-child(3) .swatch .glyph { color: var(--bg); }
+    .proj-row:nth-child(3n+1) .swatch .glyph { color: var(--bg); }
+    .proj-row:nth-child(3n+2) .swatch .glyph { color: var(--orange); }
+    .proj-row:nth-child(3n) .swatch .glyph { color: var(--bg); }
     .proj-row .swatch .stripes {
       position: absolute; inset: 0;
       background: repeating-linear-gradient(45deg, transparent 0 14px, rgba(0,0,0,.08) 14px 15px);
@@ -496,7 +510,7 @@
     .proj-row:hover .swatch { filter: brightness(1.1); }
     .proj-row .desc {
       font-size: 14px; line-height: 1.5;
-      color: var(--ink-2); margin: 0;
+      color: var(--ink-2); margin: 0 0 20px;
     }
     .proj-row .desc .cat {
       display: block;
@@ -504,7 +518,7 @@
       font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
       color: var(--orange); margin-bottom: 8px; font-weight: 600;
     }
-    .proj-row .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .proj-row .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
     .proj-row .tags span {
       font-family: "IBM Plex Mono", monospace;
       font-size: 10px; padding: 4px 8px;
@@ -512,9 +526,9 @@
       letter-spacing: .04em;
     }
 
-    /* ── Process ── */
+    /* ── Process (first step featured, asymmetric widths) ── */
     .process { background: var(--bg-2); }
-    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-left: 1px solid var(--rule); }
+    .steps { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 0; border-left: 1px solid var(--rule); }
     .step {
       padding: 36px 28px;
       border-right: 1px solid var(--rule);
@@ -524,6 +538,10 @@
       transition: background .25s;
     }
     .step:hover { background: var(--bg-3); }
+    .step:first-child {
+      background: var(--bg-3);
+      border-top: 3px solid var(--orange);
+    }
     .step .num {
       font-family: "Familjen Grotesk", sans-serif;
       font-size: 88px; font-weight: 700;
@@ -533,7 +551,7 @@
       margin: 0 0 32px;
       transition: opacity .25s;
     }
-    .step:hover .num { opacity: 1; }
+    .step:hover .num, .step:first-child .num { opacity: 1; }
     .step h3 {
       font-family: "Familjen Grotesk", sans-serif;
       font-weight: 700; font-size: 26px;
@@ -633,6 +651,32 @@
       color: var(--ink-2);
     }
 
+    /* ── Team stats (numbers pulled out of the intro copy) ── */
+    .team-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--rule);
+      border-left: 1px solid var(--rule);
+      margin: 0 0 64px;
+    }
+    .team-stats .stat {
+      padding: 28px 24px;
+      border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .team-stats .stat-n {
+      font-family: "Familjen Grotesk", sans-serif;
+      font-weight: 700; font-size: clamp(32px, 3.4vw, 48px);
+      letter-spacing: -0.03em; line-height: 1;
+      color: var(--orange);
+    }
+    .team-stats .stat-label {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
     /* ── Team block (inside about — dark version) ── */
     .team-block { margin-top: 90px; }
     .team-block .head-row {
@@ -699,7 +743,7 @@
       position: absolute; inset: 0;
       background: radial-gradient(
         circle at calc(50% + var(--rx, 0) * 30%) calc(50% + var(--ry, 0) * 30%),
-        rgba(255, 92, 40, 0.18) 0%,
+        rgba(var(--orange-rgb), 0.18) 0%,
         transparent 55%
       );
       pointer-events: none;
@@ -710,7 +754,7 @@
     .team-card:hover .photo::before { opacity: 1; }
     .team-card .photo .stripes {
       position: absolute; inset: 0;
-      background: repeating-linear-gradient(45deg, transparent 0 14px, rgba(255,92,40,.05) 14px 15px);
+      background: repeating-linear-gradient(45deg, transparent 0 14px, rgba(var(--orange-rgb), .05) 14px 15px);
     }
 
     /* ── Scratch-off interaction: the "fun" photo sits behind a canvas that
@@ -773,7 +817,7 @@
     .team-card .photo-reset:hover {
       opacity: 1;
       background: var(--orange);
-      color: #0e0c0a;
+      color: var(--bg);
       transform: rotate(-90deg);
     }
     .team-card .photo-reset svg { display: block; }
@@ -1038,7 +1082,7 @@
     }
     .footer-big .row { display: block; white-space: nowrap; }
     .footer-big .orange-bit { color: var(--orange); }
-    .footer-big .olive-bit { color: var(--orange); }
+    .footer-big .olive-bit { color: var(--olive); }
 
     @media (max-width: 1100px) {
       .wrap { padding: 0 28px; }
@@ -1056,12 +1100,13 @@
       .svc-row .cta-cell { justify-content: flex-start; }
       .maintenance .plan-foot { flex-direction: column; gap: 12px; }
       .svc-extras { gap: 8px; }
-      .proj-row { grid-template-columns: 40px 1fr; gap: 12px; padding: 24px 0; }
-      .proj-row .col { padding: 0; }
-      .proj-row .swatch { grid-column: 2; height: 100px; }
-      .proj-row .desc, .proj-row .tags { grid-column: 2 / -1; }
+      .work .proj-list { grid-template-columns: 1fr; }
+      .proj-row, .proj-row:first-child { flex-direction: column; padding: 28px; gap: 0; }
+      .proj-row:first-child .swatch { flex: 0 0 auto; }
+      .proj-row .swatch { height: 160px; }
       .steps { grid-template-columns: 1fr 1fr; }
       .step { min-height: 280px; }
+      .team-stats { grid-template-columns: repeat(2, 1fr); }
       .testimonials .quote-wrap { grid-template-columns: 1fr; gap: 40px; }
       .team-grid { grid-template-columns: 1fr; }
       .team-card { border-right: 0; }

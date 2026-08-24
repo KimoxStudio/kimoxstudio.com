@@ -24,8 +24,8 @@ export default async function OG() {
         style={{
           width: '100%',
           height: '100%',
-          background: '#0e0c0a',
-          color: '#f3efe4',
+          background: '#0a0d13',
+          color: '#eef1f6',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
@@ -41,7 +41,7 @@ export default async function OG() {
             left: 72,
             right: 72,
             height: 1,
-            background: '#3a3833',
+            background: '#2c3542',
           }}
         />
         <div
@@ -51,7 +51,7 @@ export default async function OG() {
             left: 72,
             right: 72,
             height: 1,
-            background: '#3a3833',
+            background: '#2c3542',
           }}
         />
 
@@ -63,7 +63,7 @@ export default async function OG() {
             fontSize: 22,
             letterSpacing: 1.5,
             textTransform: 'uppercase',
-            color: '#8a8576',
+            color: '#838d9e',
             fontFamily: 'IBM Plex Mono',
             fontWeight: 400,
           }}
@@ -73,11 +73,11 @@ export default async function OG() {
               style={{
                 width: 16,
                 height: 16,
-                background: '#ff5c28',
+                background: '#4c7dff',
                 borderRadius: 999,
               }}
             />
-            <span style={{ color: '#ff5c28', fontWeight: 700 }}>
+            <span style={{ color: '#4c7dff', fontWeight: 700 }}>
               Kimox Studio
             </span>
             <span>·</span>
@@ -94,7 +94,7 @@ export default async function OG() {
             fontWeight: 700,
             fontSize: 92,
             letterSpacing: -3,
-            color: '#f3efe4',
+            color: '#eef1f6',
             fontFamily: 'IBM Plex Mono',
           }}
         >
@@ -103,7 +103,7 @@ export default async function OG() {
             que habla&nbsp;
             <span
               style={{
-                color: '#ff5c28',
+                color: '#4c7dff',
                 fontStyle: 'italic',
                 fontFamily: 'IBM Plex Mono Italic',
               }}
@@ -121,15 +121,15 @@ export default async function OG() {
             fontSize: 22,
             letterSpacing: 1.5,
             textTransform: 'uppercase',
-            color: '#c8c2b3',
+            color: '#c3cad6',
             fontFamily: 'IBM Plex Mono',
             fontWeight: 400,
           }}
         >
-          <span style={{ fontWeight: 700, color: '#f3efe4' }}>
+          <span style={{ fontWeight: 700, color: '#eef1f6' }}>
             kimoxstudio.com
           </span>
-          <span style={{ color: '#8a8576' }}>Web · Móvil · A medida</span>
+          <span style={{ color: '#838d9e' }}>Web · Móvil · A medida</span>
         </div>
       </div>
     ),
