@@ -3,8 +3,16 @@ import { renderPageFromContent } from "@kimoxstudio/nextjs";
 import { notFound } from "next/navigation";
 import { publicContentConfig as kx } from "@/kx/config";
 
-// Optional catch-all ([[...slug]]) — serves every migrated PageDocument,
-// including "/" (index.json). Explicit routes (islands: /blog, /api/*,
+// Required catch-all ([...slug], NOT optional) — serves any migrated
+// PageDocument other than "/". "/" itself moved to a real static route
+// (app/page.tsx) in the kimox-fw removal's Phase 1: Next.js treats an
+// *optional* catch-all ([[...slug]]) as colliding with an explicit "/"
+// route ("cannot define a route with the same specificity") and refuses to
+// build, so this folder was renamed from [[...slug]] to [...slug] — a
+// required catch-all never matches "/", removing the collision. There is
+// currently no other page under content/pages/, so this route has nothing
+// left to serve; it stays in place for admin/preview and any future
+// non-root PageDocument. Explicit routes (islands: /blog, /api/*,
 // /opengraph-image, and the kx admin at /admin) still win.
 // landing.css was previously imported by the deleted app/page.jsx; it moves
 // here so the migrated landing keeps its styling (class-scoped; only loaded
@@ -14,12 +22,12 @@ import { publicContentConfig as kx } from "@/kx/config";
 // see the doc comment on `publicContentConfig` in kx/config.ts. Admin routes
 // must keep importing `config` and fail loudly instead.
 interface RouteParams {
-  params: Promise<{ slug?: string[] }>;
+  params: Promise<{ slug: string[] }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
-function buildRoute(slug: string[] | undefined): string {
-  if (!slug || slug.length === 0) return "/";
+function buildRoute(slug: string[]): string {
+  if (slug.length === 0) return "/";
   return `/${slug.join("/")}`;
 }
 
