@@ -1,0 +1,579 @@
+import "./landing.css";
+import type { PageNode } from "@kimoxstudio/core";
+import { PageComponent } from "@/kx/templates/page/component";
+import { SiteNavComponent } from "@/kx/templates/site-nav/component";
+import { MastheadComponent } from "@/kx/templates/masthead/component";
+import { MarqueeComponent } from "@/kx/templates/marquee/component";
+import { ManifestoComponent } from "@/kx/templates/manifesto/component";
+import { PricingTableComponent } from "@/kx/templates/pricing-table/component";
+import { WebServiceComponent } from "@/kx/templates/web-service/component";
+import { ProjectListComponent } from "@/kx/templates/project-list/component";
+import { TestimonialCarouselComponent } from "@/kx/templates/testimonial-carousel/component";
+import { TeamGridComponent } from "@/kx/templates/team-grid/component";
+import { ContactSectionComponent } from "@/kx/templates/contact-section/component";
+import { FooterWordmarkComponent } from "@/kx/templates/footer-wordmark/component";
+
+// Static homepage — Phase 1 of removing kimox-fw (see README / repo history).
+//
+// This used to be served by the kx-fw catch-all (app/[[...slug]]/page.tsx),
+// which called `renderPageFromContent()` to read content/pages/index.json at
+// request time (through the git provider + cache) and walk it into this same
+// tree of `kx/templates/*` components via `@kimoxstudio/renderer`. Next.js
+// always prefers a matching static route (this file) over the sibling
+// `[[...slug]]` catch-all, so this file now owns "/" — no routing config
+// changes needed, and the catch-all keeps serving /admin's still-live
+// variation/preview machinery for every other (nonexistent, for now) page.
+//
+// Every prop object below was generated once by running each node's raw
+// props from content/pages/index.json through its *real* zod schema
+// (`kx/templates/<name>/schema.ts`) — the exact validation
+// `@kimoxstudio/renderer` applies at request time — so defaults are baked in
+// identically. They are hardcoded here, not read from the JSON file at
+// runtime or build time: this route now has zero dependency on
+// content/pages/index.json, the git provider, or the kx cache/rate-limiter.
+//
+// Known side effect (expected, not a bug): content/pages/index.json and the
+// /admin editor for the homepage document still exist (kept for this phase),
+// but they no longer drive this route. Publishing an edit there — and its
+// live preview iframe, which also targets "/" — has no effect on the
+// deployed homepage until someone updates this file to match.
+//
+// Locale switching (es/en/ja) is untouched: every template below still
+// resolves its own language from the shared client store (`kx/stores.ts`'s
+// `langStore`, persisted to `localStorage` under `kimox-lang`) via
+// `useLang()` (`lib/lang.js`) inside the component itself — this file only
+// supplies the same localized {es, en, ja} prop shapes the JSON always did.
+// That mechanism has no dependency on the content/git pipeline, so it keeps
+// working unmodified.
+
+// `node` is required by `TemplateRenderProps<P>`'s type but unused by every
+// component below (verified: none of them read it) — a minimal stand-in
+// keeps the calls type-correct without resurrecting the JSON-node shape.
+function stubNode(id: string, template: string): PageNode {
+  return { id, template, props: {} };
+}
+
+export default function HomePage() {
+  return (
+    <PageComponent props={{ theme: "light", chrome: "none" }} node={stubNode("root", "page")}>
+      <SiteNavComponent props={{}} node={stubNode("nav", "site-nav")} />
+
+      <MastheadComponent
+        props={{
+          h1: {
+            es: ["Software", "con alma", "que habla", "tu idioma."],
+            en: ["Software", "with soul", "that speaks", "your language."],
+            ja: ["魂のある", "ソフトウェアを", "あなたの言葉で。"],
+          },
+          sub: {
+            es: "Diseñamos y desarrollamos aplicaciones web y móviles que cargan con los valores de tu marca. Sin plantillas. Sin atajos. Sin software de catálogo.",
+            en: "We design and build web and mobile applications that carry your brand's values. No templates. No shortcuts. No off-the-shelf software.",
+            ja: "ブランドの価値を体現するウェブ・モバイルアプリケーションを設計・開発します。テンプレートなし、近道なし、既製品なし。",
+          },
+          cta1: { es: "Cuéntanos tu idea", en: "Tell us your idea", ja: "アイデアを聞かせて" },
+          cta2: { es: "Ver proyectos", en: "See our work", ja: "プロジェクトを見る" },
+        }}
+        node={stubNode("hero", "masthead")}
+      />
+
+      <MarqueeComponent
+        props={{
+          items: {
+            es: ["DESARROLLO A MEDIDA", "WEB & MÓVIL", "MANTENIMIENTO", "MIGRACIONES", "SEO TÉCNICO"],
+            en: ["CUSTOM DEVELOPMENT", "WEB & MOBILE", "MAINTENANCE", "MIGRATIONS", "TECHNICAL SEO"],
+            ja: ["カスタム開発", "ウェブ＆モバイル", "保守", "移行", "テクニカルSEO"],
+          },
+        }}
+        node={stubNode("marquee", "marquee")}
+      />
+
+      <ManifestoComponent
+        props={{
+          title: {
+            es: "No hacemos software genérico.",
+            en: "We don't ship generic software.",
+            ja: "汎用ソフトウェアは作りません。",
+          },
+          body: {
+            es: "No empezamos un proyecto buscando qué plantilla encaja. Primero entendemos el problema, después decidimos cómo debería funcionar y, por último, cómo debería verse.",
+            en: "We don't start a project by hunting for the right template. First we understand the problem, then we decide how it should work, and only then, how it should look.",
+            ja: "私たちはテンプレート探しからプロジェクトを始めません。まず問題を理解し、次にどう機能すべきかを決め、最後に外見を決めます。",
+          },
+          bullets: {
+            es: [
+              "Construimos producto, no plantillas.",
+              "Optimizamos para SEO desde la primera línea.",
+              "Te entregamos código que tu equipo puede leer.",
+              "Si no aporta valor, no se envía.",
+            ],
+            en: [
+              "We build product, not templates.",
+              "We optimize for SEO from line one.",
+              "We hand over code your team can read.",
+              "If it doesn't add value, it doesn't ship.",
+            ],
+            ja: [
+              "テンプレートではなくプロダクトを作ります。",
+              "1行目からSEOを意識します。",
+              "読めるコードをお渡しします。",
+              "価値がなければ出荷しません。",
+            ],
+          },
+        }}
+        node={stubNode("manifesto", "manifesto")}
+      />
+
+      <PricingTableComponent
+        props={{
+          title: { es: "Lo que construimos.", en: "What we build.", ja: "私たちが作るもの。" },
+          fromLabel: { es: "Desde", en: "From", ja: "〜から" },
+          items: [
+            {
+              n: "01",
+              priceFrom: { es: "500€", en: "500€", ja: "500€" },
+              title: { es: "Landing pages", en: "Landing pages", ja: "ランディングページ" },
+              body: {
+                es: "Páginas hechas a mano, rápidas y optimizadas para SEO. Pensadas para convertir desde el primer pixel.",
+                en: "Hand-crafted pages, fast and SEO-tuned. Built to convert from the first pixel.",
+                ja: "手作りで高速、SEOに最適化されたページ。最初のピクセルから成果につながります。",
+              },
+              bullets: {
+                es: ["Diseño a medida", "SEO técnico incluido", "Entrega en 2-3 semanas"],
+                en: ["Custom design", "Technical SEO included", "2-3 week delivery"],
+                ja: ["カスタムデザイン", "テクニカルSEO込み", "2〜3週間で納品"],
+              },
+            },
+            {
+              n: "02",
+              priceFrom: { es: "1.500€", en: "1.500€", ja: "1.500€" },
+              title: { es: "Aplicaciones web", en: "Web applications", ja: "ウェブアプリケーション" },
+              body: {
+                es: "Apps web completas con base de datos, autenticación y panel propio. Como Mymedesp o Characters Vault.",
+                en: "Full web apps with database, auth and admin panel. Like Mymedesp or Characters Vault.",
+                ja: "データベース、認証、管理画面を備えた本格的なウェブアプリ。Mymedesp や Characters Vault のような。",
+              },
+              bullets: {
+                es: ["Stack moderno", "Escalable", "Hosting incluido el primer año"],
+                en: ["Modern stack", "Scalable", "First year of hosting included"],
+                ja: ["モダンなスタック", "スケーラブル", "初年度ホスティング込み"],
+              },
+            },
+            {
+              n: "03",
+              priceFrom: { es: "A medida", en: "Custom", ja: "個別見積もり" },
+              title: { es: "Tu propia idea", en: "Your own idea", ja: "あなたのアイデア" },
+              body: {
+                es: "Aplicaciones móviles, SaaS, integraciones, plataformas complejas. Cuéntanos qué necesitas y te pasamos un plan.",
+                en: "Mobile apps, SaaS, integrations, complex platforms. Tell us what you need and we'll send a plan.",
+                ja: "モバイルアプリ、SaaS、統合、複雑なプラットフォーム。要件をお聞かせいただき、計画をご提案します。",
+              },
+              bullets: {
+                es: [
+                  "Desarrollo multiplataforma nativo: iOS, Android, Desktop, etc.",
+                  "Diseño + desarrollo",
+                  "Acompañamiento post-lanzamiento",
+                ],
+                en: [
+                  "Native cross-platform development: iOS, Android, Desktop, etc.",
+                  "Design + development",
+                  "Post-launch support",
+                ],
+                ja: [
+                  "マルチプラットフォーム・ネイティブ開発: iOS、Android、デスクトップなど",
+                  "デザイン＋開発",
+                  "ローンチ後のサポート",
+                ],
+              },
+            },
+          ],
+          extrasLabel: { es: "También hacemos", en: "We also do", ja: "他にも" },
+          extras: {
+            es: ["Mantenimiento mensual", "Migraciones de stack", "Auditorías SEO técnicas", "Refactor de código heredado"],
+            en: ["Monthly maintenance", "Stack migrations", "Technical SEO audits", "Legacy code refactor"],
+            ja: ["月次保守", "スタック移行", "テクニカルSEO監査", "レガシーコードのリファクタ"],
+          },
+        }}
+        node={stubNode("services", "pricing-table")}
+      />
+
+      <WebServiceComponent
+        props={{
+          eyebrow: { es: "Web como servicio", en: "Web as a service", ja: "Web as a service" },
+          title: {
+            es: "Tu web, sin soltarla de golpe.",
+            en: "Your website, without paying all at once.",
+            ja: "Your website, without paying all at once.",
+          },
+          bridge: {
+            es: "Dos formas de tener tu web: la pagas una vez, o la tienes por una cuota al mes. Tú eliges. La cuota es solo para webs — las aplicaciones van por pago único.",
+            en: "Two ways to get your site: pay once, or pay a monthly fee. Your call. The monthly plan is web only — apps go by one-off payment.",
+            ja: "Two ways to get your site: pay once, or pay a monthly fee. Your call. The monthly plan is web only — apps go by one-off payment.",
+          },
+          sub: {
+            es: "La misma web que te haríamos por un pago único, pero repartida en una cuota al mes. Diseño, hosting y mantenimiento, todo dentro. Tú te olvidas; nosotros la cuidamos.",
+            en: "The same website we'd build you for a one-off price, spread into a monthly fee. Design, hosting and maintenance, all in. You forget about it; we keep it alive.",
+            ja: "The same website we'd build you for a one-off price, spread into a monthly fee. Design, hosting and maintenance, all in. You forget about it; we keep it alive.",
+          },
+          price: { es: "Desde 80 €/mes", en: "From €80/mo", ja: "From €80/mo" },
+          igic: { es: "sin IGIC", en: "ex. IGIC", ja: "ex. IGIC" },
+          includesLabel: { es: "Todo dentro", en: "All in", ja: "All in" },
+          feats: {
+            es: [
+              "DISEÑO Y DESARROLLO — tu web desde cero, hecha a mano",
+              "HOSTING — incluido, rápido y seguro",
+              "MANTENIMIENTO — técnico y al día, sin que lo pidas",
+              "SOPORTE — personas reales, no un ticket al vacío",
+              "EVOLUCIÓN — mejoras continuas; no la dejamos quieta",
+            ],
+            en: [
+              "DESIGN & BUILD — your site from scratch, by hand",
+              "HOSTING — included, fast and secure",
+              "MAINTENANCE — technical, always current, without asking",
+              "SUPPORT — real people, not a ticket into the void",
+              "EVOLUTION — continuous improvements; we don't leave it sitting still",
+            ],
+            ja: [
+              "DESIGN & BUILD — your site from scratch, by hand",
+              "HOSTING — included, fast and secure",
+              "MAINTENANCE — technical, always current, without asking",
+              "SUPPORT — real people, not a ticket into the void",
+              "EVOLUTION — continuous improvements; we don't leave it sitting still",
+            ],
+          },
+          featsCloser: {
+            es: "Rápida, segura, accesible y siempre actualizada.",
+            en: "Fast, secure, accessible and always up to date.",
+            ja: "Fast, secure, accessible and always up to date.",
+          },
+          commitment: {
+            es: "Como la construimos desde cero, arrancamos con un compromiso mínimo. Lo justo para hacerla bien y que salga a cuenta. A partir de ahí, sigues mes a mes.",
+            en: "Since we build it from scratch, we start with a minimum commitment. Just enough to do it right and make it worth it. After that, you carry on month to month.",
+            ja: "Since we build it from scratch, we start with a minimum commitment. Just enough to do it right and make it worth it. After that, you carry on month to month.",
+          },
+          ctaLabel: { es: "Quiero mi web así →", en: "I want mine this way →", ja: "I want mine this way →" },
+        }}
+        node={stubNode("web-service", "web-service")}
+      />
+
+      <ProjectListComponent
+        props={{
+          title: {
+            es: "Proyectos que hemos realizado.",
+            en: "Projects we've delivered.",
+            ja: "私たちが手がけたプロジェクト。",
+          },
+          viewSite: { es: "Visitar →", en: "Visit →", ja: "訪問 →" },
+          items: [
+            {
+              n: "01",
+              name: "Mymedesp",
+              url: "mymedesp.com",
+              year: "2025",
+              logo: "/projects/mymedesp.png",
+              category: { es: "App web · Cocina", en: "Web app · Cooking", ja: "ウェブアプリ · 料理" },
+              body: {
+                es: "Plataforma de recetas y planificación de menús. Importa recetas desde redes sociales o cualquier web, arma el menú semanal y genera la lista de la compra automáticamente.",
+                en: "Recipe and meal-planning platform. Import recipes from social media or any website, build your weekly menu, and get the shopping list generated automatically.",
+                ja: "レシピと献立プランニングのプラットフォーム。SNSやウェブサイトからレシピを取り込み、週間メニューを組み立てると、買い物リストが自動で生成されます。",
+              },
+              tags: ["Next.js", "PostgreSQL", "Auth", "SEO"],
+              screenshots: [
+                "/projects/mymedesp/1.jpg",
+                "/projects/mymedesp/2.jpg",
+                "/projects/mymedesp/3.jpg",
+                "/projects/mymedesp/4.jpg",
+              ],
+            },
+            {
+              n: "02",
+              name: "Characters Vault",
+              url: "charactersvault.com",
+              year: "2025",
+              logo: "/projects/charactersvault.png",
+              category: { es: "App web · Rol", en: "Web app · TTRPG", ja: "ウェブアプリ · TRPG" },
+              body: {
+                es: "Gestor de fichas de personajes de rol, con automatización para Anima Beyond Fantasy. Organiza en carpetas, comparte con tu grupo y sincroniza con Foundry VTT.",
+                en: "Character sheet manager for tabletop RPGs, with automation for Anima Beyond Fantasy. Organize into folders, share with your group, and sync with Foundry VTT.",
+                ja: "アニマ・ビヨンド・ファンタジー対応の自動化されたキャラクターシート管理ツール。フォルダで整理し、グループと共有し、Foundry VTTと同期できます。",
+              },
+              tags: ["React", "Animations", "DB", "Auth"],
+              screenshots: [
+                "/projects/characters-vault/1.jpg",
+                "/projects/characters-vault/2.jpg",
+                "/projects/characters-vault/3.jpg",
+                "/projects/characters-vault/4.jpg",
+                "/projects/characters-vault/5.jpg",
+                "/projects/characters-vault/6.jpg",
+              ],
+            },
+            {
+              n: "03",
+              name: "Funciona el Ascensor de Las Rehoyas",
+              url: "funcionaelascensordelasrehoyas.com",
+              year: "2026",
+              category: {
+                es: "App web · Servicio comunitario",
+                en: "Web app · Community service",
+                ja: "ウェブアプリ · コミュニティサービス",
+              },
+              body: {
+                es: "Semáforo vecinal que informa en tiempo real si el ascensor panorámico del parque de Las Rehoyas está operativo. Reportes anónimos validados por la propia comunidad, sistema de reputación y un histórico para quienes dependen de él para salir de casa.",
+                en: "A neighborhood status board that reports in real time whether the Las Rehoyas park lift is working. Anonymous reports cross-validated by the community itself, reputation system and a history for the people who rely on it to leave home.",
+                ja: "ラス・レオヤス公園のパノラマエレベーターが現在動いているかをリアルタイムで知らせる、住民向けのステータスボード。コミュニティが相互検証する匿名レポート、評価システム、外出に頼る住民のための履歴を備えます。",
+              },
+              tags: ["Next.js", "DB", "Comunidad", "Accesibilidad"],
+              screenshots: [
+                "/projects/ascensor-rehoyas/1.jpg",
+                "/projects/ascensor-rehoyas/2.jpg",
+                "/projects/ascensor-rehoyas/3.jpg",
+                "/projects/ascensor-rehoyas/4.jpg",
+              ],
+            },
+            {
+              n: "04",
+              name: "Alea Las Palmas",
+              url: "alealaspalmas.es",
+              year: "2025",
+              logo: "/projects/alea.png",
+              category: {
+                es: "Web institucional · Asociación cultural",
+                en: "Institutional site · Cultural association",
+                ja: "団体サイト · 文化協会",
+              },
+              body: {
+                es: "Sitio de la asociación cultural de juegos de rol, mesa, wargames y miniaturas de Las Palmas. Listado de eventos, directorio de tiendas y locales colaboradores y un canal para que la comunidad lúdica de la isla se encuentre.",
+                en: "Website for the Las Palmas cultural association around roleplaying, board games, wargames and miniatures. Event listings, partner shop directory and a channel for the island's tabletop community to find each other.",
+                ja: "ロールプレイング、ボードゲーム、ウォーゲーム、ミニチュアを楽しむラス・パルマスの文化協会のウェブサイト。イベント一覧、協賛店ディレクトリ、島内のテーブルトップ・コミュニティが集う場を提供します。",
+              },
+              tags: ["WordPress", "Eventos", "Comunidad"],
+              screenshots: ["/projects/alea/1.jpg", "/projects/alea/2.jpg", "/projects/alea/3.jpg"],
+            },
+            {
+              n: "05",
+              name: "Patri Santana Estética",
+              url: "echedeypatricia.com",
+              year: "2026",
+              logo: "/projects/patrisantana.png",
+              category: {
+                es: "Web institucional · Estética & Barbería",
+                en: "Institutional site · Beauty & Barbershop",
+                ja: "団体サイト · 美容&理容",
+              },
+              body: {
+                es: "Sitio para un centro de belleza y bienestar en Las Palmas de Gran Canaria: uñas, cejas, pestañas, depilación láser y barbería. Presentación de servicios y vía directa de contacto y reserva para clientas y clientes.",
+                en: "Site for a beauty and wellness center in Las Palmas de Gran Canaria: nails, brows, lashes, laser hair removal and barbering. Service showcase with a direct booking and contact path.",
+                ja: "ラス・パルマス・デ・グラン・カナリアの美容・ウェルネスセンターのサイト。ネイル、眉、まつげ、レーザー脱毛、理容サービスを紹介し、直接予約・問い合わせできる導線を用意。",
+              },
+              tags: ["Next.js", "SEO", "Reservas"],
+              screenshots: [
+                "/projects/patri-santana/1.png",
+                "/projects/patri-santana/2.png",
+                "/projects/patri-santana/3.png",
+              ],
+            },
+            {
+              n: "06",
+              name: "RachaFit",
+              url: "rachafit.com",
+              year: "2026",
+              logo: "/projects/rachafit.png",
+              category: {
+                es: "App móvil · Fitness social",
+                en: "Mobile app · Social fitness",
+                ja: "モバイルアプリ · ソーシャルフィットネス",
+              },
+              body: {
+                es: "Diario de entrenamiento social para gimnastas y corredores. Registro rápido de ejercicios, progreso con gráficos de fuerza y cardio, rachas de constancia y competición amistosa por rangos entre usuarios.",
+                en: "Social training journal for gym-goers and runners. Fast exercise logging, strength and cardio progress charts, consistency streaks and friendly rank competition between users.",
+                ja: "ジム利用者やランナー向けのソーシャル・トレーニング日記。素早い運動記録、筋力・有酸素の進捗グラフ、継続の記録、ユーザー同士のランク競争機能を備える。",
+              },
+              tags: ["Mobile", "Social", "GPS"],
+              screenshots: [
+                "/projects/rachafit/1.jpg",
+                "/projects/rachafit/2.jpg",
+                "/projects/rachafit/3.jpg",
+                "/projects/rachafit/4.jpg",
+              ],
+            },
+          ],
+        }}
+        node={stubNode("work", "project-list")}
+      />
+
+      <TestimonialCarouselComponent
+        props={{
+          items: [
+            {
+              quote: {
+                es: "Antes mantener el calendario de torneos era un grupo de WhatsApp eterno. Ahora la gente entra a la web, ve qué hay este mes y se apunta. Hemos doblado inscritos en las jornadas nuevas.",
+                en: "Keeping the tournament calendar updated used to be an endless WhatsApp group. Now people open the site, see what's on this month and sign up. We've doubled attendance at the new game days.",
+                ja: "以前はトーナメントのカレンダーを管理するのが終わりのないWhatsAppグループでした。今はみんながサイトを開いて、今月の予定を見て申し込む。新しいイベントの参加者は倍になりました。",
+              },
+              name: "Sergio",
+              role: {
+                es: "Cofundador · Alea Las Palmas",
+                en: "Cofounder · Alea Las Palmas",
+                ja: "共同創業者 · Alea Las Palmas",
+              },
+            },
+            {
+              quote: {
+                es: "Mi madre tiene 78 años y ese ascensor es lo que la une con el barrio. Antes bajaba a probar suerte. Ahora abre la web, ve el estado y se ahorra el viaje en balde.",
+                en: "My mum is 78 and that lift is what keeps her connected to the neighborhood. She used to head down hoping for the best. Now she opens the site, checks the status and saves the wasted trip.",
+                ja: "母は78歳で、あのエレベーターが彼女と地区をつないでいます。前は当てずっぽうで降りていましたが、今はサイトで状態を確認して無駄足を防げます。",
+              },
+              name: "Yaiza R.",
+              role: {
+                es: "Vecina · Las Rehoyas, Las Palmas",
+                en: "Neighbor · Las Rehoyas, Las Palmas",
+                ja: "住民 · ラス・レオヤス、ラス・パルマス",
+              },
+            },
+          ],
+        }}
+        node={stubNode("testimonials", "testimonial-carousel")}
+      />
+
+      <TeamGridComponent
+        props={{
+          title: { es: "El equipo.", en: "The team.", ja: "チーム。" },
+          body: {
+            es: "Somos un equipo reducido de gente que diseña y programa. Trabajamos con pocos clientes a la vez para poder meternos a fondo en cada proyecto. No subcontratamos. No usamos plantillas. No tenemos vendedores.",
+            en: "We're a small team of people who design and code. We work with a few clients at a time so we can go deep on each one. We don't subcontract. We don't use templates. We don't have salespeople.",
+            ja: "デザインとコードを書く少人数のチームです。各プロジェクトに深く入り込めるよう、同時に対応するクライアントを絞っています。外注なし、テンプレートなし、営業もいません。",
+          },
+          stats: [
+            { n: "12+", label: { es: "Proyectos enviados", en: "Projects shipped", ja: "出荷プロジェクト" } },
+            { n: "100%", label: { es: "Código a medida", en: "Custom code", ja: "カスタムコード" } },
+            { n: "3", label: { es: "Idiomas que hablamos", en: "Languages we speak", ja: "話せる言語" } },
+            { n: "0", label: { es: "Plantillas usadas", en: "Templates used", ja: "使ったテンプレート" } },
+          ],
+          teamLabel: { es: "Pequeño a propósito", en: "Small on purpose", ja: "意図して少人数" },
+          teamSub: {
+            es: "Cada persona toca el código, el diseño y al cliente.",
+            en: "Every person touches the code, the design, and the client.",
+            ja: "全員がコード、デザイン、クライアントに直接関わります。",
+          },
+          team: [
+            {
+              initials: "J",
+              name: "Jesé Romero Arbelo",
+              photoSerious: "/team/01-serious.jpg",
+              photoFun: "/team/01-fun.jpg",
+              photoFunOffsetY: -100,
+              objectPositionSerious: "50% 50%",
+              objectPositionFun: "50% 50%",
+              role: {
+                es: "Fundador · Swiss-stack developer",
+                en: "Founder · Swiss-stack developer",
+                ja: "創業者 · スイス・スタック開発者",
+              },
+              bio: {
+                es: "Como una navaja suiza, pero con compilador: arquitectura, frontend, backend, DevOps y lo que haga falta. Fuera del editor toco el piano, juego con la gastronomía científica y leo física como otros leen novelas.",
+                en: "Like a Swiss army knife with a compiler: architecture, frontend, backend, DevOps, and whatever the job needs. Off-keyboard he plays the piano, tinkers with scientific gastronomy and reads physics the way others read novels.",
+                ja: "コンパイラ付きのスイスアーミーナイフのような存在。設計、フロント、バック、DevOps、必要なら何でも。仕事の外ではピアノを弾き、分子料理をいじり、物理を小説のように読みます。",
+              },
+              skills: [
+                "Next.js",
+                "React Native",
+                "TypeScript",
+                "Bun",
+                "Python",
+                "Postgres",
+                "Docker",
+                "Vercel",
+                "AI agents",
+                "SEO",
+              ],
+            },
+            {
+              initials: "A",
+              name: "Adrián Mujica González",
+              photoSerious: "/team/02-serious.jpg",
+              photoFun: "/team/02-fun.jpg",
+              objectPositionSerious: "72% 35%",
+              objectPositionFun: "55% 22%",
+              role: { es: "Fundador · Arquitecto", en: "Founder · Architect", ja: "創業者 · アーキテクト" },
+              bio: {
+                es: "Diseña la arquitectura y se mete hasta la base de datos sin perder el sentido del ritmo. Es quien escucha la idea del cliente con el oído de músico — buscando la melodía detrás del brief — y la devuelve con una vuelta original que nadie había visto. Fuera del editor compone canciones y comparte casa con dos perros que tienen opinión sobre todo.",
+                en: "Designs the architecture and dives all the way down to the database without losing his sense of rhythm. He's the one who listens to the client's idea like a musician — hunting the melody behind the brief — and hands it back with an original twist no one else had spotted. Off-keyboard he writes songs and shares a house with two dogs who have opinions on everything.",
+                ja: "アーキテクチャを設計し、データベースの奥までリズム感を失わずに潜っていく人。クライアントの話を音楽家の耳で聴き — ブリーフの裏側にあるメロディーを探し — 誰も気づかなかったオリジナルなひねりを返します。仕事の外では曲を書き、何にでも意見のある犬2匹と暮らしています。",
+              },
+              skills: [
+                "Node.js",
+                "TypeScript",
+                "Next.js",
+                "Python",
+                "PostgreSQL",
+                "MongoDB",
+                "Redis",
+                "Docker",
+                "AWS",
+                "Spring Boot",
+              ],
+            },
+            {
+              initials: "S",
+              name: "Samuel Romero Arbelo",
+              photoSerious: "/team/03-serious.jpg",
+              photoFun: "/team/03-fun.jpg",
+              photoFunScale: 1.3,
+              objectPositionSerious: "75% 35%",
+              objectPositionFun: "52% 22%",
+              role: {
+                es: "Full-stack · Aire fresco del estudio",
+                en: "Full-stack · The studio's fresh air",
+                ja: "フルスタック · スタジオの新しい風",
+              },
+              bio: {
+                es: "Trastea con ordenadores desde crío y con anime desde antes incluso. Aparece con una idea que nadie había puesto sobre la mesa y de repente el proyecto respira distinto. Se deja la piel en cada feature y mantiene viva la curiosidad por enredarse con cualquier herramienta nueva.",
+                en: "Tinkering with computers since he was a kid, and with anime since even earlier. Shows up with an idea no one had put on the table and suddenly the project breathes differently. Throws himself into every feature and keeps a wide-open curiosity for whatever tool is new.",
+                ja: "子供の頃からコンピュータをいじり、それより前からアニメを見続けてきました。誰もテーブルに出していなかったアイデアを持ち込んで、プロジェクトの空気を一変させる存在。どんな機能にも全力で、新しい道具にはいつでも飛び込む好奇心を持っています。",
+              },
+              skills: ["HTML", "CSS", "JavaScript", "React", "Next.js", "Tailwind", "WordPress", "PHP", "MySQL", "Git"],
+            },
+          ],
+        }}
+        node={stubNode("about", "team-grid")}
+      />
+
+      <ContactSectionComponent
+        props={{
+          title: { es: "¿Empezamos algo?", en: "Shall we start something?", ja: "何か始めませんか？" },
+          body: {
+            es: "Cuéntanos en dos líneas qué tienes en mente. Respondemos en menos de 24h con preguntas, ideas o un plan.",
+            en: "Tell us in two lines what you have in mind. We reply within 24h with questions, ideas, or a plan.",
+            ja: "考えていることを2行でお聞かせください。24時間以内に質問・アイデア・計画でお返事します。",
+          },
+          or: { es: "o escríbenos a", en: "or email us at", ja: "またはメールで" },
+          email: "kimoxstudio@gmail.com",
+          fieldName: { es: "Tu nombre", en: "Your name", ja: "お名前" },
+          fieldEmail: { es: "Tu email", en: "Your email", ja: "メールアドレス" },
+          fieldBudget: { es: "Presupuesto aproximado", en: "Rough budget", ja: "おおよその予算" },
+          fieldMessage: { es: "Cuéntanos la idea", en: "Tell us the idea", ja: "アイデアをどうぞ" },
+          fieldSend: { es: "Enviar →", en: "Send it →", ja: "送信 →" },
+          budgets: {
+            es: ["< 1.000€", "1.000 – 5.000€", "5.000 – 15.000€", "15.000€ +", "Aún no lo sé"],
+            en: ["< €1,000", "€1,000 – 5,000", "€5,000 – 15,000", "€15,000 +", "Not sure yet"],
+            ja: ["1,000€未満", "1,000〜5,000€", "5,000〜15,000€", "15,000€以上", "まだ未定"],
+          },
+        }}
+        node={stubNode("contact", "contact-section")}
+      />
+
+      <FooterWordmarkComponent
+        props={{
+          rights: {
+            es: "© 2026 Kimox Studio · Hecho a mano en España",
+            en: "© 2026 Kimox Studio · Handcrafted in Spain",
+            ja: "© 2026 Kimox Studio · スペインで手作り",
+          },
+          backToTop: { es: "Volver arriba ↑", en: "Back to top ↑", ja: "トップへ ↑" },
+          blogLabel: { es: "Blog", en: "Blog", ja: "ブログ" },
+          email: "kimoxstudio@gmail.com",
+        }}
+        node={stubNode("footer", "footer-wordmark")}
+      />
+    </PageComponent>
+  );
+}
