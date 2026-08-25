@@ -8,6 +8,7 @@ import type { GitProvider, KxConfig } from "@kimoxstudio/core";
 import { createGitHubProvider } from "@kimoxstudio/git-provider-github";
 import { createStubGitProvider } from "@kimoxstudio/git-provider-stub";
 import { registry } from "./registry";
+import { createResilientGitProvider } from "./resilient-git-provider";
 
 // globalThis singletons — Next dev/HMR bundles each route handler as its own
 // module instance; without this, every endpoint gets separate in-memory state.
@@ -83,6 +84,19 @@ function readTree(dir: string, prefix: string): Record<string, string> {
  * edits — they live in process memory (and on serverless, each instance has
  * its own). To make `/admin` a real CMS, run `pnpm kx setup` and set the
  * `KX_GITHUB_*` vars; this switches over on the next boot with no code change.
+ *
+ * When GitHub credentials ARE present, reads are additionally wrapped in
+ * `createResilientGitProvider` (see `./resilient-git-provider.ts`): if a
+ * GitHub read call throws — bad/expired credentials, an outage, a rate
+ * limit — the wrapper falls back to the same on-disk-seeded stub used above,
+ * instead of letting the error propagate into a 500 on every route (this is
+ * exactly what happened in production on 2026-08-25: an expired/invalid
+ * `KX_GITHUB_ACCESS_TOKEN` made every `readFile` throw "401 Bad credentials",
+ * which `@kimoxstudio/content`'s loader deliberately re-throws for the
+ * production branch — by design, so a real outage isn't hidden — and nothing
+ * downstream caught it before it reached Next.js). Writes are NOT wrapped:
+ * they always go straight to GitHub and keep failing loudly when it's down,
+ * so `/admin` still requires a real, valid credential to publish.
  */
 function resolveGitProvider(): GitProvider {
   const owner = process.env.KX_GITHUB_OWNER;
@@ -91,22 +105,28 @@ function resolveGitProvider(): GitProvider {
   const privateKey = process.env.KX_GITHUB_APP_PRIVATE_KEY;
   const installationId = process.env.KX_GITHUB_INSTALLATION_ID;
   const token = process.env.KX_GITHUB_ACCESS_TOKEN;
+  const productionBranch = process.env.KX_PRODUCTION_BRANCH ?? "main";
+
+  const onDiskFallback = () =>
+    createStubGitProvider({
+      branches: { [productionBranch]: readTree(join(process.cwd(), "content"), "content") },
+    });
 
   if (owner && repo && appId && privateKey && installationId) {
-    return createGitHubProvider({
+    const github = createGitHubProvider({
       appId,
       privateKey,
       installationId: Number(installationId),
       owner,
       repo,
     });
+    return createResilientGitProvider(github, onDiskFallback());
   }
   if (owner && repo && token) {
-    return createGitHubProvider({ owner, repo, token });
+    const github = createGitHubProvider({ owner, repo, token });
+    return createResilientGitProvider(github, onDiskFallback());
   }
-  return createStubGitProvider({
-    branches: { main: readTree(join(process.cwd(), "content"), "content") },
-  });
+  return onDiskFallback();
 }
 
 const git = g.__kxGit ?? (g.__kxGit = resolveGitProvider());
