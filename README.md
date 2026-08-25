@@ -1,8 +1,10 @@
 # kimoxstudio.com
 
-Sitio público del estudio: landing editorial, blog técnico y `/admin` para editar contenido sin tocar el repo a mano.
+Sitio público del estudio: landing editorial y blog técnico.
 
-**Stack:** Next.js (App Router) sobre el framework **kimox-fw** (contenido de páginas en JSON, editable desde `/admin` con vista previa en vivo) + Markdown en `content/posts` para el blog. Sin base de datos, sin backend propio, sin servicios de pago. Despliegue exclusivo en **Vercel**.
+**Stack:** Next.js (App Router) con contenido estático — la landing (`app/page.tsx`) tiene el copy escrito directamente en el código, sin CMS ni base de datos — + Markdown en `content/posts` para el blog. Sin backend propio, sin servicios de pago salvo Resend/Upstash para el formulario de contacto. Despliegue exclusivo en **Vercel**.
+
+> Hasta 2026-08 el sitio corría sobre un framework propio de CMS (**kimox-fw**) con un admin en `/admin` para editar el contenido en vivo. Se eliminó en dos fases: primero la landing pasó a ser una página estática con el contenido embebido (`app/page.tsx`), después se retiró el framework entero (`/admin`, las rutas `/api/kx/*`, el proveedor de contenido en git, etc. — ver el historial de commits). Los componentes visuales de cada sección de la landing siguen viviendo en `kx/templates/*` porque son reutilizables y no dependen del framework, solo de React/Zod.
 
 ## Características
 
@@ -11,15 +13,14 @@ Sitio público del estudio: landing editorial, blog técnico y `/admin` para edi
 - **Tres idiomas** ES / EN / JA con conmutador persistido en `localStorage` y `<html lang>` sincronizado.
 - **Tema claro / oscuro** con detección automática de `prefers-color-scheme`, conmutador manual, sin flash (script inline antes del primer paint).
 - **Cursor custom** suave en landing y blog, deshabilitado en touch.
-- **Admin de kimox-fw** en `/admin` para editar el contenido de las páginas (documentos JSON) con vista previa en vivo y edición de texto in-situ.
 
 ## Stack
 
 | Pieza | Por qué |
 |---|---|
 | Next.js App Router | landing y blog rápidos → bajo coste de runtime en Vercel |
-| kimox-fw | Framework propio: contenido de páginas en JSON versionado en git, admin con preview en vivo, sin DB |
-| Markdown + YAML frontmatter | Contenido versionado en git, portable a cualquier stack |
+| `app/page.tsx` + `kx/templates/*` | Landing estática: copy hardcodeado en el código, secciones reutilizables tipadas con Zod (sin CMS) |
+| Markdown + YAML frontmatter | Contenido del blog versionado en git, portable a cualquier stack |
 | `js-yaml` | Parser de frontmatter en servidor (sin dependencias de Node Buffer en cliente) |
 | pnpm | Gestor de paquetes; `pnpm-lock.yaml` versionado |
 
@@ -29,8 +30,6 @@ Sitio público del estudio: landing editorial, blog técnico y `/admin` para edi
 pnpm install
 pnpm dev                 # http://localhost:5173
 ```
-
-El admin de contenido está en <http://localhost:5173/admin> (credenciales por defecto en dev: `admin` / `admin`). Edita el contenido de las páginas en documentos JSON bajo `content/pages/`.
 
 ## Build
 
@@ -50,40 +49,45 @@ vercel link              # ya hecho
 git push                 # despliegue automático
 ```
 
-### Admin en producción
-
-En dev el admin usa un proveedor git en memoria (stub) y credenciales `admin` / `admin`. Para producción, kimox-fw se conecta a un proveedor git de GitHub y persiste el contenido en el repo; configúralo con las variables `KX_*` (ver `.env.example`) — `KX_ADMIN_USER` / `KX_ADMIN_PASSWORD`, secretos de cookie/sesión, y las credenciales del GitHub App + webhook.
-
 ## Estructura
 
 ```
 app/
   layout.jsx              root layout — fuentes, cursor, script de tema
   globals.css             tokens compartidos (dark + light), base, cursor
-  page.jsx                landing (importa landing.css)
+  page.tsx                landing estática (copy hardcodeado, monta kx/templates/*)
   landing.css             estilos específicos de la landing
+  opengraph-image.jsx     imagen OG generada (next/og)
+  actions/
+    contact.js            Server Action del formulario de contacto
   blog/
-    page.jsx              índice del blog (server component → BlogClient)
-    blog.css              estilos específicos del blog (mismo lenguaje visual)
-    [slug]/page.jsx       detalle de post (SSG vía generateStaticParams)
+    page.jsx               índice del blog (server component → BlogClient)
+    blog.css                estilos específicos del blog (mismo lenguaje visual)
+    [slug]/page.jsx          detalle de post (SSG vía generateStaticParams)
 components/
-  LandingClient.jsx       todas las secciones de la landing
-  BlogClient.jsx          listado, filtros, featured
-  BlogPostClient.jsx      detalle de post + nav
-  ThemeToggle.jsx         botón de tema (sol / luna)
+  Nav.jsx                  navegación
+  BlogClient.jsx           listado, filtros, featured
+  BlogPostClient.jsx       detalle de post + nav
+  TeamCardPhoto.jsx        tarjeta de equipo con tilt 3D
+  ThemeToggle.jsx          botón de tema (sol / luna)
 lib/
-  posts.js                loader fs de markdown (server-only)
-  i18n.js                 strings compartidos ES/EN/JA
-  lang.js                 useLang hook + t() helper (client)
-  cursor.js               hooks de cursor (landing y blog)
-  theme.js                useTheme hook (client)
+  posts.js                 loader fs de markdown (server-only)
+  i18n.js                  strings compartidos ES/EN/JA (nav, footer)
+  lang.js                  useLang hook + t() helper (client)
+  cursor.js                hooks de cursor (landing y blog)
+  theme.js                 useTheme hook (client)
+  ratelimit.js             rate limit del formulario de contacto (Upstash)
 content/
-  posts/*.md              entradas del blog (markdown)
-  pages/*.json            documentos de página de kimox-fw (editables desde /admin)
-  site/studio.json        metadatos del estudio
-kx/                       capa de kimox-fw: config, registro y templates del sitio
+  posts/*.md               entradas del blog (markdown)
+kx/
+  templates/*/component.tsx  componentes de cada sección de la landing (React + Zod, sin CMS)
+  templates/*/schema.ts      forma de las props de cada sección (Zod)
+  stores.ts                  store de idioma compartido entre las secciones montadas
+  client-store.ts            store cliente genérico (useSyncExternalStore) usado por stores.ts
+  localized.ts                helpers Zod para campos {es, en, ja}
+  template-types.ts           tipos de las props que reciben los componentes
 public/
-  logos/                  variantes del logo (icon, wordmark, etc.)
+  logos/                   variantes del logo (icon, wordmark, etc.)
 ```
 
 ## Formulario de contacto
@@ -129,9 +133,9 @@ Local: `cp .env.example .env.local` y edita con tus credenciales.
 
 ## Editar contenido
 
-**Desde el admin (recomendado para no-devs):** ir a `/admin`, crear una variación (borrador), editar el contenido de las páginas visualmente con vista previa en vivo y edición in-situ (incluidos los campos ES/EN/JA), y publicar.
+**Landing:** el copy vive directamente en `app/page.tsx` (props hardcodeadas por sección, en los tres idiomas ES/EN/JA). Para cambiarlo, edita ese archivo y haz commit — no hay editor visual ni previsualización en vivo.
 
-**Desde el editor (devs):** modificar `content/posts/*.md` directamente. El frontmatter es YAML con las claves `slug`, `date`, `read_time`, `glyph`, `featured`, `category` (es/en/ja), `title` (es/en/ja), `excerpt` (es/en/ja), `body` (es/en/ja). El cuerpo se renderiza con `white-space: pre-wrap`, así que los saltos de línea se preservan.
+**Blog:** editar `content/posts/*.md` directamente. El frontmatter es YAML con las claves `slug`, `date`, `read_time`, `glyph`, `featured`, `category` (es/en/ja), `title` (es/en/ja), `excerpt` (es/en/ja), `body` (es/en/ja). El cuerpo se renderiza con `white-space: pre-wrap`, así que los saltos de línea se preservan.
 
 ## Notas de diseño
 
