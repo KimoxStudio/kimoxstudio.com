@@ -10,16 +10,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@kimoxstudio/admin": "^0.2.1",
-    "@kimoxstudio/auth": "^0.2.1",
-    "@kimoxstudio/cache-memory": "^0.2.1",
-    "@kimoxstudio/content": "^0.2.1",
-    "@kimoxstudio/core": "^0.2.1",
-    "@kimoxstudio/git-provider-github": "^0.2.2",
-    "@kimoxstudio/git-provider-stub": "^0.2.1",
-    "@kimoxstudio/nextjs": "^0.2.1",
-    "@kimoxstudio/registry": "^0.2.1",
-    "@kimoxstudio/renderer": "^0.2.1",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.0",
     "@vercel/analytics": "^2.0.1",
@@ -32,7 +22,6 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@kimoxstudio/cli": "^0.2.2",
     "@types/node": "^22",
     "@types/react": "^18.3",
     "@types/react-dom": "^18.3",

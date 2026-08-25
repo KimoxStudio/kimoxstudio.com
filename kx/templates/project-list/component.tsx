@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import type { TemplateRenderProps } from "@kimoxstudio/core";
-import { kxField, resolveLocalized } from "@kimoxstudio/registry";
+import type { TemplateRenderProps } from "@/kx/template-types";
+import { kxField, resolveLocalized } from "@/kx/localized";
 import { useLang } from "@/lib/lang";
 import type { z } from "zod";
 import type { projectListSchema } from "./schema";

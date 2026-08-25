@@ -1,6 +1,6 @@
 "use client";
 
-import { createClientStore } from "@kimoxstudio/renderer/client";
+import { createClientStore } from "./client-store";
 import type { Lang } from "./langs";
 
 /**
