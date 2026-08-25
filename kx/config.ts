@@ -8,11 +8,13 @@ import type { GitProvider, KxConfig } from "@kimoxstudio/core";
 import { createGitHubProvider } from "@kimoxstudio/git-provider-github";
 import { createStubGitProvider } from "@kimoxstudio/git-provider-stub";
 import { registry } from "./registry";
+import { createResilientGitProvider } from "./resilient-git-provider";
 
 // globalThis singletons — Next dev/HMR bundles each route handler as its own
 // module instance; without this, every endpoint gets separate in-memory state.
 type GlobalKx = {
   __kxGit?: GitProvider;
+  __kxPublicGit?: GitProvider;
   __kxCache?: ReturnType<typeof createMemoryCache>;
   __kxRateLimiter?: ReturnType<typeof createMemoryRateLimiter>;
   __kxAuth?: ReturnType<typeof createCredentialsAuthProvider>;
@@ -83,6 +85,15 @@ function readTree(dir: string, prefix: string): Record<string, string> {
  * edits — they live in process memory (and on serverless, each instance has
  * its own). To make `/admin` a real CMS, run `pnpm kx setup` and set the
  * `KX_GITHUB_*` vars; this switches over on the next boot with no code change.
+ *
+ * This is the RAW provider — no fallback wrapping. It backs `config.git`,
+ * which every admin/API route (`/admin`, `/api/kx/admin/*`, `/api/kx/auth/*`,
+ * `/api/kx/webhook`, `/api/kx/variation`) uses. Those must keep failing
+ * loudly when GitHub is down: an editor silently reading a stale on-disk
+ * snapshot in `/admin` and then publishing on top of it is worse than an
+ * error, since the stub's synthetic blob shas have no relation to GitHub's
+ * real ones. See `resolvePublicGitProvider` below for the wrapped variant
+ * used only by the public content-read path.
  */
 function resolveGitProvider(): GitProvider {
   const owner = process.env.KX_GITHUB_OWNER;
@@ -91,6 +102,7 @@ function resolveGitProvider(): GitProvider {
   const privateKey = process.env.KX_GITHUB_APP_PRIVATE_KEY;
   const installationId = process.env.KX_GITHUB_INSTALLATION_ID;
   const token = process.env.KX_GITHUB_ACCESS_TOKEN;
+  const productionBranch = process.env.KX_PRODUCTION_BRANCH ?? "main";
 
   if (owner && repo && appId && privateKey && installationId) {
     return createGitHubProvider({
@@ -105,11 +117,45 @@ function resolveGitProvider(): GitProvider {
     return createGitHubProvider({ owner, repo, token });
   }
   return createStubGitProvider({
-    branches: { main: readTree(join(process.cwd(), "content"), "content") },
+    branches: { [productionBranch]: readTree(join(process.cwd(), "content"), "content") },
   });
 }
 
 const git = g.__kxGit ?? (g.__kxGit = resolveGitProvider());
+
+/**
+ * The provider used specifically for the PUBLIC content-read path (the
+ * `[[...slug]]` catch-all route — see `publicContentConfig` below).
+ *
+ * When `git` above is a real GitHub provider (i.e. credentials are
+ * configured), wrap it in `createResilientGitProvider` (see
+ * `./resilient-git-provider.ts`): if a GitHub read call throws —
+ * bad/expired credentials, an outage, a rate limit — the wrapper falls back
+ * to the same on-disk-seeded stub `git` falls back to when no credentials
+ * are configured at all, instead of letting the error propagate into a 500
+ * on every route. This is exactly what happened in production on
+ * 2026-08-25: an expired/invalid `KX_GITHUB_ACCESS_TOKEN` made every
+ * `readFile` throw "401 Bad credentials", which `@kimoxstudio/content`'s
+ * loader deliberately re-throws for the production branch — by design, so a
+ * real outage isn't hidden — and nothing downstream caught it before it
+ * reached Next.js.
+ *
+ * Deliberately NOT reused for `config.git` (see doc comment above
+ * `resolveGitProvider`): admin reads must keep failing loudly, not silently
+ * serve a stale snapshot that could then be published over the real content.
+ * When `git` is already the stub (no GitHub credentials at all), there is
+ * nothing to fall back from, so this just returns it unwrapped.
+ */
+function resolvePublicGitProvider(): GitProvider {
+  if (git.id !== "github") return git;
+  const productionBranch = process.env.KX_PRODUCTION_BRANCH ?? "main";
+  const fallback = createStubGitProvider({
+    branches: { [productionBranch]: readTree(join(process.cwd(), "content"), "content") },
+  });
+  return createResilientGitProvider(git, fallback);
+}
+
+const publicGit = g.__kxPublicGit ?? (g.__kxPublicGit = resolvePublicGitProvider());
 const cache = g.__kxCache ?? (g.__kxCache = createMemoryCache({ maxItems: 200 }));
 const rateLimiter =
   g.__kxRateLimiter ??
@@ -176,3 +222,13 @@ export const config: KxConfig = {
   },
   cookies: { name: "kx-variation", secrets: cookieSecrets, maxAgeSeconds: 60 * 60 * 8 },
 };
+
+/**
+ * Same as `config`, except `git` is the resilient-wrapped provider from
+ * `resolvePublicGitProvider` above. Use this ONLY for rendering public
+ * content (currently: `app/[[...slug]]/page.tsx`'s `renderPageFromContent`
+ * call) — never for admin routes, which must import `config` and keep
+ * failing loudly on a GitHub outage instead of silently reading stale
+ * on-disk content that could then be published over the real thing.
+ */
+export const publicContentConfig: KxConfig = { ...config, git: publicGit };

@@ -1,7 +1,7 @@
 import "../landing.css";
 import { renderPageFromContent } from "@kimoxstudio/nextjs";
 import { notFound } from "next/navigation";
-import { config as kx } from "@/kx/config";
+import { publicContentConfig as kx } from "@/kx/config";
 
 // Optional catch-all ([[...slug]]) — serves every migrated PageDocument,
 // including "/" (index.json). Explicit routes (islands: /blog, /api/*,
@@ -9,6 +9,10 @@ import { config as kx } from "@/kx/config";
 // landing.css was previously imported by the deleted app/page.jsx; it moves
 // here so the migrated landing keeps its styling (class-scoped; only loaded
 // on catch-all-served routes — islands keep their own stylesheets).
+// Uses `publicContentConfig` (not `config`) so a GitHub outage/bad
+// credential falls back to the bundled on-disk content instead of a 500 —
+// see the doc comment on `publicContentConfig` in kx/config.ts. Admin routes
+// must keep importing `config` and fail loudly instead.
 interface RouteParams {
   params: Promise<{ slug?: string[] }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
