@@ -1,4 +1,4 @@
-import type { TemplateRenderProps } from "@kimoxstudio/core";
+import type { TemplateRenderProps } from "@/kx/template-types";
 import type { z } from "zod";
 import type { cardSchema } from "./schema";
 

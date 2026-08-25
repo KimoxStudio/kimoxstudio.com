@@ -1,5 +1,5 @@
 import "./landing.css";
-import type { PageNode } from "@kimoxstudio/core";
+import type { PageNode } from "@/kx/template-types";
 import { PageComponent } from "@/kx/templates/page/component";
 import { SiteNavComponent } from "@/kx/templates/site-nav/component";
 import { MastheadComponent } from "@/kx/templates/masthead/component";
