@@ -8,7 +8,7 @@ import ThemeToggle from './ThemeToggle';
 
 // Landing section ids the nav links point at, in document order. Used to mark
 // the link for whichever section is currently crossing the viewport.
-const SECTIONS = ['work', 'services', 'process', 'about', 'contact'];
+const SECTIONS = ['services', 'work', 'about', 'contact'];
 
 /**
  * Shared site nav.
@@ -79,18 +79,17 @@ export default function Nav({
         </HomeOrAnchor>
         <div className="links">
           <HomeOrAnchor href={sectionLink('work')} className={sectionClass('work')}>
-            /proyectos
+            {t(I.nav.work, lang)}
           </HomeOrAnchor>
           <HomeOrAnchor href={sectionLink('services')} className={sectionClass('services')}>
-            /servicios
-          </HomeOrAnchor>
-          <HomeOrAnchor href={sectionLink('process')} className={sectionClass('process')}>
-            /proceso
+            {t(I.nav.services, lang)}
           </HomeOrAnchor>
           <HomeOrAnchor href={sectionLink('about')} className={sectionClass('about')}>
-            /nosotros
+            {t(I.nav.about, lang)}
           </HomeOrAnchor>
-          <HomeOrAnchor href="#">/blog</HomeOrAnchor>
+          <HomeOrAnchor href="/blog" className={activeBlog ? 'active' : undefined}>
+            {t(I.nav.blog, lang)}
+          </HomeOrAnchor>
         </div>
         <div className="right">
           <ThemeToggle />

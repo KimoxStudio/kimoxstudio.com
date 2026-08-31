@@ -72,6 +72,28 @@ export default function HomePage() {
           },
           cta1: { es: "Cuéntanos tu idea", en: "Tell us your idea", ja: "アイデアを聞かせて" },
           cta2: { es: "Ver proyectos", en: "See our work", ja: "プロジェクトを見る" },
+          meta: {
+            es: ["ISSUE / 01 / 26", "PUBLICADO / 2026.05", "IDIOMA / ES", "PÁGINAS / 01 — 08"],
+            en: ["ISSUE / 01 / 26", "PUBLISHED / 2026.05", "LANGUAGE / EN", "PAGES / 01 — 08"],
+            ja: ["ISSUE / 01 / 26", "発行 / 2026.05", "言語 / JA", "ページ / 01 — 08"],
+          },
+          facts: {
+            es: [
+              "Base / Trabajamos en remoto · España",
+              "Áreas / Web · Móvil · SEO · Mantenimiento",
+              "Disponibles / Q2 2026 · 2 huecos",
+            ],
+            en: [
+              "Base / Remote-first · Spain",
+              "Areas / Web · Mobile · SEO · Maintenance",
+              "Availability / Q2 2026 · 2 slots",
+            ],
+            ja: [
+              "拠点 / リモート中心・スペイン",
+              "領域 / ウェブ・モバイル・SEO・保守",
+              "空き状況 / 2026年第2四半期・残り2枠",
+            ],
+          },
         }}
         node={stubNode("hero", "masthead")}
       />

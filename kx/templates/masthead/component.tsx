@@ -13,6 +13,8 @@ type Props = z.infer<typeof mastheadSchema>;
 export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
   const [lang] = useLang() as [Lang, (next: Lang) => void];
   const lines = resolveLocalized(props.h1, lang, "es") ?? [];
+  const meta = resolveLocalized(props.meta, lang, "es") ?? [];
+  const facts = resolveLocalized(props.facts, lang, "es") ?? [];
 
   const bgRef = useRef<HTMLDivElement>(null);
   const blobRef = useRef<HTMLDivElement>(null);
@@ -21,42 +23,73 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
   // Lightweight parallax: background lags scroll (0.45x), the decorative
   // blob drifts slower (0.28x), and the foreground column drifts slightly
   // opposite (-0.1x). rAF-throttled scroll listener, no new dependency.
-  // Disabled entirely for prefers-reduced-motion.
+  // Disabled for prefers-reduced-motion — re-checked live via the media
+  // query's change event, not just once at mount, so toggling the OS
+  // setting mid-session (no reload) still stops/starts the effect and
+  // resets any transform already applied.
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
     let ticking = false;
+    let active = false;
+
+    const reset = () => {
+      if (bgRef.current) bgRef.current.style.transform = "";
+      if (blobRef.current) blobRef.current.style.transform = "";
+      if (colRef.current) colRef.current.style.transform = "";
+    };
     const apply = () => {
+      ticking = false;
+      // A scroll can already have an rAF in flight when `sync` flips
+      // `active` off (reduced-motion toggled mid-scroll) and calls
+      // `reset()` — bail here so this stale frame doesn't re-apply a
+      // transform right after reset() just cleared it.
+      if (!active) return;
       const y = window.scrollY;
       if (bgRef.current) bgRef.current.style.transform = `translateY(${y * 0.45}px)`;
       if (blobRef.current) blobRef.current.style.transform = `translateY(${y * 0.28}px)`;
       if (colRef.current) colRef.current.style.transform = `translateY(${y * -0.1}px)`;
-      ticking = false;
     };
     const onScroll = () => {
-      if (ticking) return;
+      if (!active || ticking) return;
       ticking = true;
       requestAnimationFrame(apply);
     };
 
-    apply();
+    const sync = () => {
+      active = !mql.matches;
+      if (active) apply();
+      else reset();
+    };
+
+    sync();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    mql.addEventListener("change", sync);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      mql.removeEventListener("change", sync);
+    };
   }, []);
 
   return (
     <section className="hero" id="top">
-      <div id="hero-bg" ref={bgRef}>
-        <img data-hero-img="dark" src="/hero/hero-dark.png" alt="" />
-        <img data-hero-img="light" src="/hero/hero-light.png" alt="" />
-      </div>
+      <div id="hero-bg" ref={bgRef} role="presentation" />
+      {/*
+        The theme-swapped background is a CSS `background-image` (see
+        #hero-bg in app/landing.css) driven by the same [data-theme]
+        attribute selector the rest of the app uses, not two <img> tags —
+        an <img> per theme downloads unconditionally even when hidden via
+        CSS, doubling hero image weight. A CSS custom property only
+        resolves (and is only fetched) for whichever theme is actually
+        active, so this stays flicker-free without any JS/theme hook.
+      */}
       <div className="hero-blob" ref={blobRef} aria-hidden="true" />
       <div className="wrap hero-col" ref={colRef}>
         <div className="hero-meta mono">
-          <span>ISSUE / 01 / 26</span>
-          <span>PUBLICADO / 2026.05</span>
-          <span>IDIOMA / ES</span>
-          <span>PÁGINAS / 01 — 08</span>
+          {meta.map((m, i) => (
+            <span key={i} {...kxField(`meta.${lang}.${i}`)}>
+              {m}
+            </span>
+          ))}
         </div>
         <h1>
           {lines.map((ln, i) => (
@@ -70,9 +103,11 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
             {resolveLocalized(props.sub, lang, "es")}
           </p>
           <ul className="hero-facts mono">
-            <li>Base / Trabajamos en remoto · España</li>
-            <li>Áreas / Web · Móvil · SEO · Mantenimiento</li>
-            <li>Disponibles / Q2 2026 · 2 huecos</li>
+            {facts.map((f, i) => (
+              <li key={i} {...kxField(`facts.${lang}.${i}`)}>
+                {f}
+              </li>
+            ))}
           </ul>
         </div>
         <div className="ctas">
