@@ -32,6 +32,7 @@ export default function Nav({
   const menuId = 'nav-mobile-menu';
   const menuButtonRef = React.useRef(null);
   const menuPanelRef = React.useRef(null);
+  const navRef = React.useRef(null);
   // The backdrop is portaled to document.body (see render below) instead of
   // rendered as a descendant of <nav>. `nav.top` has `backdrop-filter`,
   // which establishes a containing block for `position: fixed` descendants
@@ -86,6 +87,46 @@ export default function Nav({
     };
     mql.addEventListener('change', onChange);
     return () => mql.removeEventListener('change', onChange);
+  }, [menuOpen]);
+
+  // While the mobile panel is open, isolate it from the rest of the page:
+  // sibling content (everything rendered alongside <nav>, i.e. the page
+  // sections) is marked `inert` (or `aria-hidden` as a fallback) so a
+  // screen reader in browse mode can't wander into it, and body scroll is
+  // locked so the page underneath can't be scrolled while the panel stays
+  // pinned. Both are reverted on close/unmount.
+  React.useEffect(() => {
+    if (!menuOpen) return;
+    const navEl = navRef.current;
+    const parent = navEl?.parentElement;
+    const supportsInert = typeof HTMLElement !== 'undefined' && 'inert' in HTMLElement.prototype;
+    // Exclude the portaled backdrop itself — it's a sibling of <nav> in the
+    // DOM (appended to document.body), but it's the click-to-close target
+    // for the open panel, not background content to isolate.
+    const siblings = parent
+      ? Array.from(parent.children).filter(
+          (el) => el !== navEl && !el.classList.contains('nav-mobile-backdrop')
+        )
+      : [];
+    siblings.forEach((el) => {
+      if (supportsInert) {
+        el.inert = true;
+      } else {
+        el.setAttribute('aria-hidden', 'true');
+      }
+    });
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      siblings.forEach((el) => {
+        if (supportsInert) {
+          el.inert = false;
+        } else {
+          el.removeAttribute('aria-hidden');
+        }
+      });
+      document.body.style.overflow = prevOverflow;
+    };
   }, [menuOpen]);
 
   React.useEffect(() => {
@@ -149,7 +190,7 @@ export default function Nav({
           />,
           document.body
         )}
-      <nav className="top">
+      <nav className="top" ref={navRef}>
         <div className="row">
           <HomeOrAnchor href={mode === 'landing' ? '#top' : '/'} className="logo" data-hover>
             <span className="glyph">
@@ -198,7 +239,7 @@ export default function Nav({
               className="nav-burger"
               aria-expanded={menuOpen}
               aria-controls={menuId}
-              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-label={menuOpen ? t(I.nav.menuClose, lang) : t(I.nav.menuOpen, lang)}
               onClick={() => setMenuOpen((v) => !v)}
             >
               <span />
