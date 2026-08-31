@@ -21,6 +21,15 @@ export interface ClientStoreOptions<T> {
   serialize?: (value: T) => string;
   /** Deserializer for persisted values. Defaults to JSON.parse. */
   deserialize?: (raw: string) => T;
+  /**
+   * Client-only fallback used when `key`/`storage` found no persisted value.
+   * Runs once, at module init, only when `window` exists — so SSR and
+   * `getServerSnapshot()` are unaffected and still return `initial`. Lets a
+   * store resolve its real starting value (e.g. `prefers-color-scheme`) the
+   * same way a synchronous pre-hydration script would, instead of starting
+   * from a hardcoded `initial` and needing a post-mount correction effect.
+   */
+  resolveInitial?: () => T;
 }
 
 export interface ClientStore<T> {
@@ -38,12 +47,23 @@ export function createClientStore<T>(initial: T, options: ClientStoreOptions<T> 
   const key = options.key;
 
   let value = initial;
+  let hasStoredValue = false;
   if (key && storage) {
     try {
       const raw = storage.getItem(key);
-      if (raw !== null) value = deserialize(raw);
+      if (raw !== null) {
+        value = deserialize(raw);
+        hasStoredValue = true;
+      }
     } catch {
       // ignore malformed/unreadable storage
+    }
+  }
+  if (!hasStoredValue && options.resolveInitial && typeof window !== "undefined") {
+    try {
+      value = options.resolveInitial();
+    } catch {
+      // keep `initial` on failure
     }
   }
 
