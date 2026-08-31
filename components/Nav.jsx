@@ -8,7 +8,7 @@ import ThemeToggle from './ThemeToggle';
 
 // Landing section ids the nav links point at, in document order. Used to mark
 // the link for whichever section is currently crossing the viewport.
-const SECTIONS = ['services', 'work', 'about', 'contact'];
+const SECTIONS = ['services', 'work', 'process', 'about', 'contact'];
 
 /**
  * Shared site nav.
@@ -27,6 +27,38 @@ export default function Nav({
   // Sections are rendered by sibling templates/islands, so they may not all be
   // in the DOM on the nav's first effect. Rescan a few times until they are.
   const [scan, setScan] = React.useState(0);
+  const [menuOpen, setMenuOpen] = React.useState(false);
+  const menuId = 'nav-mobile-menu';
+  const menuButtonRef = React.useRef(null);
+  const menuPanelRef = React.useRef(null);
+
+  // Escape-to-close + return focus to the toggle button when the mobile
+  // panel closes via keyboard.
+  React.useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    // Move focus into the panel once it opens.
+    menuPanelRef.current?.querySelector('a, button')?.focus();
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [menuOpen]);
+
+  // Close the mobile panel automatically if the viewport grows back past
+  // the breakpoint where it's rendered (e.g. rotating a tablet).
+  React.useEffect(() => {
+    if (!menuOpen) return;
+    const mql = window.matchMedia('(min-width: 1101px)');
+    const onChange = () => {
+      if (mql.matches) setMenuOpen(false);
+    };
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, [menuOpen]);
 
   React.useEffect(() => {
     if (mode !== 'landing') return;
@@ -84,6 +116,9 @@ export default function Nav({
           <HomeOrAnchor href={sectionLink('services')} className={sectionClass('services')}>
             {t(I.nav.services, lang)}
           </HomeOrAnchor>
+          <HomeOrAnchor href={sectionLink('process')} className={sectionClass('process')}>
+            {t(I.nav.process, lang)}
+          </HomeOrAnchor>
           <HomeOrAnchor href={sectionLink('about')} className={sectionClass('about')}>
             {t(I.nav.about, lang)}
           </HomeOrAnchor>
@@ -107,6 +142,78 @@ export default function Nav({
             </div>
           )}
           <HomeOrAnchor href={sectionLink('contact')} className="cta-pill">
+            {t(I.nav.contact, lang)} →
+          </HomeOrAnchor>
+          <button
+            type="button"
+            ref={menuButtonRef}
+            className="nav-burger"
+            aria-expanded={menuOpen}
+            aria-controls={menuId}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            onClick={() => setMenuOpen((v) => !v)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
+      </div>
+      <div
+        id={menuId}
+        ref={menuPanelRef}
+        className={`nav-mobile${menuOpen ? ' open' : ''}`}
+        role="dialog"
+        aria-modal="true"
+        aria-hidden={!menuOpen}
+      >
+        <div className="nav-mobile-links">
+          <HomeOrAnchor
+            href={sectionLink('work')}
+            className={sectionClass('work')}
+            tabIndex={menuOpen ? undefined : -1}
+            onClick={() => setMenuOpen(false)}
+          >
+            {t(I.nav.work, lang)}
+          </HomeOrAnchor>
+          <HomeOrAnchor
+            href={sectionLink('services')}
+            className={sectionClass('services')}
+            tabIndex={menuOpen ? undefined : -1}
+            onClick={() => setMenuOpen(false)}
+          >
+            {t(I.nav.services, lang)}
+          </HomeOrAnchor>
+          <HomeOrAnchor
+            href={sectionLink('process')}
+            className={sectionClass('process')}
+            tabIndex={menuOpen ? undefined : -1}
+            onClick={() => setMenuOpen(false)}
+          >
+            {t(I.nav.process, lang)}
+          </HomeOrAnchor>
+          <HomeOrAnchor
+            href={sectionLink('about')}
+            className={sectionClass('about')}
+            tabIndex={menuOpen ? undefined : -1}
+            onClick={() => setMenuOpen(false)}
+          >
+            {t(I.nav.about, lang)}
+          </HomeOrAnchor>
+          <HomeOrAnchor
+            href="/blog"
+            className={activeBlog ? 'active' : undefined}
+            tabIndex={menuOpen ? undefined : -1}
+            onClick={() => setMenuOpen(false)}
+          >
+            {t(I.nav.blog, lang)}
+          </HomeOrAnchor>
+          <HomeOrAnchor
+            href={sectionLink('contact')}
+            className="cta-pill"
+            tabIndex={menuOpen ? undefined : -1}
+            onClick={() => setMenuOpen(false)}
+          >
             {t(I.nav.contact, lang)} →
           </HomeOrAnchor>
         </div>

@@ -16,26 +16,30 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
   const meta = resolveLocalized(props.meta, lang, "es") ?? [];
   const facts = resolveLocalized(props.facts, lang, "es") ?? [];
 
-  const bgRef = useRef<HTMLDivElement>(null);
-  const blobRef = useRef<HTMLDivElement>(null);
-  const colRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
-  // Lightweight parallax: background lags scroll (0.45x), the decorative
-  // blob drifts slower (0.28x), and the foreground column drifts slightly
-  // opposite (-0.1x). rAF-throttled scroll listener, no new dependency.
-  // Disabled for prefers-reduced-motion — re-checked live via the media
-  // query's change event, not just once at mount, so toggling the OS
-  // setting mid-session (no reload) still stops/starts the effect and
-  // resets any transform already applied.
+  // Parallax targets are marked with `data-px="<rate>"` in the markup below
+  // (background layer, decorative blob, foreground column) instead of being
+  // wired one-by-one through named refs. The effect below just queries
+  // `[data-px]` and reads each element's own rate off the attribute, so
+  // adding/removing a parallax layer is a markup-only change.
+  // rAF-throttled scroll listener, no new dependency. Disabled for
+  // prefers-reduced-motion — re-checked live via the media query's change
+  // event, not just once at mount, so toggling the OS setting mid-session
+  // (no reload) still stops/starts the effect and resets any transform
+  // already applied.
   useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const targets = Array.from(section.querySelectorAll<HTMLElement>("[data-px]"));
     const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
     let ticking = false;
     let active = false;
 
     const reset = () => {
-      if (bgRef.current) bgRef.current.style.transform = "";
-      if (blobRef.current) blobRef.current.style.transform = "";
-      if (colRef.current) colRef.current.style.transform = "";
+      targets.forEach((el) => {
+        el.style.transform = "";
+      });
     };
     const apply = () => {
       ticking = false;
@@ -45,9 +49,10 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
       // transform right after reset() just cleared it.
       if (!active) return;
       const y = window.scrollY;
-      if (bgRef.current) bgRef.current.style.transform = `translateY(${y * 0.45}px)`;
-      if (blobRef.current) blobRef.current.style.transform = `translateY(${y * 0.28}px)`;
-      if (colRef.current) colRef.current.style.transform = `translateY(${y * -0.1}px)`;
+      targets.forEach((el) => {
+        const rate = parseFloat(el.dataset.px ?? "0");
+        el.style.transform = `translateY(${y * rate}px)`;
+      });
     };
     const onScroll = () => {
       if (!active || ticking) return;
@@ -71,19 +76,20 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
   }, []);
 
   return (
-    <section className="hero" id="top">
-      <div id="hero-bg" ref={bgRef} role="presentation" />
+    <section className="hero" id="top" ref={sectionRef}>
       {/*
-        The theme-swapped background is a CSS `background-image` (see
-        #hero-bg in app/landing.css) driven by the same [data-theme]
-        attribute selector the rest of the app uses, not two <img> tags —
-        an <img> per theme downloads unconditionally even when hidden via
-        CSS, doubling hero image weight. A CSS custom property only
-        resolves (and is only fetched) for whichever theme is actually
-        active, so this stays flicker-free without any JS/theme hook.
+        Dual-image parallax layer: two stacked <img data-hero-img> elements,
+        one per theme, absolutely positioned on top of each other. Which one
+        is visible is driven by the same [data-theme] attribute selector the
+        rest of the app uses (see .hero-bg-layer in app/landing.css) — only
+        the active theme's <img> is displayed, the other stays display:none.
       */}
-      <div className="hero-blob" ref={blobRef} aria-hidden="true" />
-      <div className="wrap hero-col" ref={colRef}>
+      <div id="hero-bg" className="hero-bg-layer" data-px="0.45" role="presentation">
+        <img data-hero-img data-theme-variant="light" src="/hero/hero-light.png" alt="" aria-hidden="true" decoding="async" />
+        <img data-hero-img data-theme-variant="dark" src="/hero/hero-dark.png" alt="" aria-hidden="true" decoding="async" />
+      </div>
+      <div className="hero-blob" data-px="0.28" aria-hidden="true" />
+      <div className="wrap hero-col" data-px="-0.1">
         <div className="hero-meta mono">
           {meta.map((m, i) => (
             <span key={i} {...kxField(`meta.${lang}.${i}`)}>

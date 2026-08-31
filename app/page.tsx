@@ -9,6 +9,7 @@ import { PricingTableComponent } from "@/kx/templates/pricing-table/component";
 import { WebServiceComponent } from "@/kx/templates/web-service/component";
 import { ProjectListComponent } from "@/kx/templates/project-list/component";
 import { TestimonialCarouselComponent } from "@/kx/templates/testimonial-carousel/component";
+import { ProcessStepsComponent } from "@/kx/templates/process-steps/component";
 import { TeamGridComponent } from "@/kx/templates/team-grid/component";
 import { ContactSectionComponent } from "@/kx/templates/contact-section/component";
 import { FooterWordmarkComponent } from "@/kx/templates/footer-wordmark/component";
@@ -275,6 +276,56 @@ export default function HomePage() {
           ctaLabel: { es: "Quiero mi web así →", en: "I want mine this way →", ja: "I want mine this way →" },
         }}
         node={stubNode("web-service", "web-service")}
+      />
+
+      <ProcessStepsComponent
+        props={{
+          label: { es: "Cómo trabajamos", en: "How we work", ja: "働き方" },
+          title: {
+            es: "Así es como trabajamos.",
+            en: "This is how we work.",
+            ja: "これが私たちの働き方です。",
+          },
+          steps: [
+            {
+              n: "01",
+              title: { es: "Descubrimiento", en: "Discovery", ja: "発見" },
+              body: {
+                es: "Entendemos tu negocio, a tu gente y el problema real antes de tocar una línea de código.",
+                en: "We learn your business, your people and the real problem before writing a line of code.",
+                ja: "コードを書く前に、あなたのビジネスと人々、本当の課題を理解します。",
+              },
+            },
+            {
+              n: "02",
+              title: { es: "Diseño", en: "Design", ja: "デザイン" },
+              body: {
+                es: "Diseñamos cómo debería funcionar y verse, a medida, sin plantillas de por medio.",
+                en: "We design how it should work and look, custom-built, no templates involved.",
+                ja: "テンプレートを使わず、機能と見た目をゼロから設計します。",
+              },
+            },
+            {
+              n: "03",
+              title: { es: "Desarrollo", en: "Development", ja: "開発" },
+              body: {
+                es: "Construimos con código legible, probado y optimizado para SEO desde la primera línea.",
+                en: "We build with readable, tested code, optimized for SEO from line one.",
+                ja: "読みやすくテスト済みのコードで、1行目からSEOを意識して構築します。",
+              },
+            },
+            {
+              n: "04",
+              title: { es: "Lanzamiento", en: "Launch", ja: "ローンチ" },
+              body: {
+                es: "Publicamos, medimos y seguimos cerca para que el proyecto evolucione después del día uno.",
+                en: "We ship, measure, and stay close so the project keeps evolving after day one.",
+                ja: "公開後も計測と伴走を続け、初日以降もプロジェクトを進化させます。",
+              },
+            },
+          ],
+        }}
+        node={stubNode("process", "process-steps")}
       />
 
       <ProjectListComponent
