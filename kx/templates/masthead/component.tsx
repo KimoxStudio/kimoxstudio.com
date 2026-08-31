@@ -53,8 +53,21 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
   // first time in a session still fetches/shows the other variant. It's a
   // no-op once both src values are already set, so it never re-triggers a
   // fetch.
+  //
+  // `hookTheme` is kept as the dependency so this effect re-runs on every
+  // toggle (see lib/theme.js), but its render-time *value* is never read
+  // inside the effect body: `useSyncExternalStore` always renders with
+  // `getServerSnapshot()` (hardcoded 'dark') on the very first post-hydration
+  // render, regardless of what the client store resolved to — so for a
+  // first-time visitor whose real theme is 'light', `hookTheme` can still be
+  // stale ('dark') on the render that queues this effect. Reading
+  // `document.documentElement.getAttribute('data-theme')` directly here
+  // mirrors HERO_PREHYDRATION_SCRIPT's own DOM-as-source-of-truth approach,
+  // so the effect always acts on the true current theme at the moment it
+  // actually runs, not a possibly-stale snapshot value.
   useEffect(() => {
-    const activeVariant = hookTheme === "light" ? "light" : "dark";
+    const activeVariant =
+      document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
     const img = sectionRef.current?.querySelector<HTMLImageElement>(
       `img[data-theme-variant="${activeVariant}"]`
     );
