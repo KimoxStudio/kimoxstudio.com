@@ -280,7 +280,7 @@ nav.top .right { display: flex; align-items: center; gap: 14px; }
 @media (max-width: 1100px) {
   .nav-burger { display: inline-flex; }
   .nav-mobile { display: block; }
-  .nav-mobile.open { max-height: 480px; }
+  .nav-mobile.open { max-height: 480px; overflow-y: auto; }
   .nav-mobile-backdrop { display: block; }
 }
 
