@@ -4,14 +4,21 @@ import { useEffect, useRef } from "react";
 import type { TemplateRenderProps } from "@/kx/template-types";
 import { kxField, resolveLocalized } from "@/kx/localized";
 import { useLang } from "@/lib/lang";
+import { useTheme } from "@/lib/theme";
 import type { Lang } from "@/kx/langs";
 import type { z } from "zod";
 import type { mastheadSchema } from "./schema";
 
 type Props = z.infer<typeof mastheadSchema>;
 
+const HERO_SRC: Record<string, string> = {
+  light: "/hero/hero-light.png",
+  dark: "/hero/hero-dark.png",
+};
+
 export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
   const [lang] = useLang() as [Lang, (next: Lang) => void];
+  const [theme] = useTheme();
   const lines = resolveLocalized(props.h1, lang, "es") ?? [];
   const meta = resolveLocalized(props.meta, lang, "es") ?? [];
   const facts = resolveLocalized(props.facts, lang, "es") ?? [];
@@ -81,12 +88,29 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
         Dual-image parallax layer: two stacked <img data-hero-img> elements,
         one per theme, absolutely positioned on top of each other. Which one
         is visible is driven by the same [data-theme] attribute selector the
-        rest of the app uses (see .hero-bg-layer in app/landing.css) — only
-        the active theme's <img> is displayed, the other stays display:none.
+        rest of the app uses (see .hero-bg-layer in app/landing.css). CSS
+        alone only controls display, and `<img src>` always fetches
+        regardless of display:none — so `src` is assigned in JS (via the
+        same `useTheme` hook `ThemeToggle` uses) only to the currently
+        active theme's <img>, avoiding a double download of both variants.
       */}
       <div id="hero-bg" className="hero-bg-layer" data-px="0.45" role="presentation">
-        <img data-hero-img data-theme-variant="light" src="/hero/hero-light.png" alt="" aria-hidden="true" decoding="async" />
-        <img data-hero-img data-theme-variant="dark" src="/hero/hero-dark.png" alt="" aria-hidden="true" decoding="async" />
+        <img
+          data-hero-img
+          data-theme-variant="light"
+          src={theme === "light" ? HERO_SRC.light : undefined}
+          alt=""
+          aria-hidden="true"
+          decoding="async"
+        />
+        <img
+          data-hero-img
+          data-theme-variant="dark"
+          src={theme === "dark" ? HERO_SRC.dark : undefined}
+          alt=""
+          aria-hidden="true"
+          decoding="async"
+        />
       </div>
       <div className="hero-blob" data-px="0.28" aria-hidden="true" />
       <div className="wrap hero-col" data-px="-0.1">

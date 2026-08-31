@@ -33,13 +33,32 @@ export default function Nav({
   const menuPanelRef = React.useRef(null);
 
   // Escape-to-close + return focus to the toggle button when the mobile
-  // panel closes via keyboard.
+  // panel closes via keyboard, plus a focus trap: Tab/Shift+Tab wrap
+  // between the first and last focusable elements inside the panel so
+  // focus can't escape onto content behind it while it's open.
   React.useEffect(() => {
     if (!menuOpen) return;
+    const FOCUSABLE = 'a[href], button:not([disabled])';
     const onKeyDown = (e) => {
       if (e.key === 'Escape') {
         setMenuOpen(false);
         menuButtonRef.current?.focus();
+        return;
+      }
+      if (e.key === 'Tab') {
+        const panel = menuPanelRef.current;
+        if (!panel) return;
+        const focusable = Array.from(panel.querySelectorAll(FOCUSABLE));
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     };
     document.addEventListener('keydown', onKeyDown);
