@@ -158,6 +158,7 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
           alt=""
           aria-hidden="true"
           decoding="async"
+          suppressHydrationWarning
         />
         <img
           data-hero-img
@@ -166,6 +167,7 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
           alt=""
           aria-hidden="true"
           decoding="async"
+          suppressHydrationWarning
         />
         <script dangerouslySetInnerHTML={{ __html: HERO_PREHYDRATION_SCRIPT }} />
         {/*
