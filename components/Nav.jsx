@@ -254,6 +254,7 @@ export default function Nav({
           className={`nav-mobile${menuOpen ? ' open' : ''}`}
           role="dialog"
           aria-modal="true"
+          aria-label={t(I.nav.menuOpen, lang)}
           aria-hidden={!menuOpen}
         >
           <div className="nav-mobile-links">
