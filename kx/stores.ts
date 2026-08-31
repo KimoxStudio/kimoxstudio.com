@@ -16,3 +16,18 @@ export const langStore = createClientStore<Lang>("es", {
   serialize: (v) => v,
   deserialize: (r) => r as Lang,
 });
+
+export type Theme = "dark" | "light";
+
+/**
+ * Shared client theme store. ThemeToggle (navbar) and MastheadComponent
+ * (hero) mount as sibling React trees with no common parent, so a
+ * per-component `useState` in lib/theme.js gave each its own copy — toggling
+ * the button never notified the hero's src-backfill effect. Same fix and
+ * persistence key ('kimox-theme') as the pre-existing langStore above.
+ */
+export const themeStore = createClientStore<Theme>("dark", {
+  key: "kimox-theme",
+  serialize: (v) => v,
+  deserialize: (r) => r as Theme,
+});

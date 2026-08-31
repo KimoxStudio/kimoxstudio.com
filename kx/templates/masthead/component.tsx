@@ -45,16 +45,16 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
   // all (see HERO_PREHYDRATION_SCRIPT above, rendered into the page below) —
   // that avoids depending on hydration timing entirely, closing the flash
   // gap for good rather than just narrowing it. This effect only handles
-  // *subsequent* theme toggles: it re-derives the active variant from the
-  // live `data-theme` attribute (not from `hookTheme` directly, since that
-  // hook starts at a hardcoded 'dark' default and only corrects itself in
-  // its own post-mount effect) and lazily assigns `src` to whichever image
-  // doesn't have one yet, so switching theme for the first time in a
-  // session still fetches/shows the other variant. It's a no-op once both
-  // src values are already set, so it never re-triggers a fetch.
+  // *subsequent* theme toggles: `useTheme()` is now backed by a shared
+  // external store (kx/stores.ts), so `hookTheme` here updates in lockstep
+  // with ThemeToggle's own instance — clicking the navbar toggle re-runs
+  // this effect directly, no DOM re-query needed. It lazily assigns `src`
+  // to whichever image doesn't have one yet, so switching theme for the
+  // first time in a session still fetches/shows the other variant. It's a
+  // no-op once both src values are already set, so it never re-triggers a
+  // fetch.
   useEffect(() => {
-    const activeVariant =
-      document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
+    const activeVariant = hookTheme === "light" ? "light" : "dark";
     const img = sectionRef.current?.querySelector<HTMLImageElement>(
       `img[data-theme-variant="${activeVariant}"]`
     );
