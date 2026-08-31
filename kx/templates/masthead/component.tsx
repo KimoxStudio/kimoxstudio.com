@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type { TemplateRenderProps } from "@/kx/template-types";
 import { kxField, resolveLocalized } from "@/kx/localized";
 import { useLang } from "@/lib/lang";
@@ -16,33 +16,55 @@ const HERO_SRC: Record<string, string> = {
   dark: "/hero/hero-dark.png",
 };
 
+// Inline script mirroring `app/layout.jsx`'s pre-hydration theme script: it
+// runs synchronously as the browser's HTML parser reaches this point in the
+// document — before hydration, before the JS bundle even loads — and reads
+// the SAME `data-theme` attribute that script already set on <html> (single
+// source of truth for theme resolution; this script does not re-read
+// localStorage itself). It promotes whichever hero <img>'s `data-src` matches
+// the active theme to a real `src`, so the correct hero image is present in
+// the very first paint with zero dependency on React state or hydration
+// timing. It can't live in app/layout.jsx itself because the <html> script
+// runs before <body> — and these <img> elements — exist in the DOM; it has
+// to be colocated with the markup it targets.
+const HERO_PREHYDRATION_SCRIPT = `
+(function(){
+  try {
+    var theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    var img = document.querySelector('#hero-bg img[data-theme-variant="' + theme + '"]');
+    if (img && !img.getAttribute('src')) img.setAttribute('src', img.getAttribute('data-src'));
+  } catch (e) {}
+})();
+`;
+
 export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
   const [lang] = useLang() as [Lang, (next: Lang) => void];
   const [hookTheme] = useTheme() as [string, (next: string) => void];
-  // `useTheme()` always starts at 'dark' and only corrects itself in a
-  // post-mount effect, but `app/layout.jsx`'s inline script already sets
-  // `data-theme` on <html> synchronously before hydration (from
-  // localStorage). Reading that attribute here via a lazy initializer keeps
-  // the very first client render in sync with what CSS is already showing,
-  // instead of briefly rendering `src=undefined` for a light-theme visitor.
-  // The initializer can't run on the server, so this may legitimately differ
-  // from the server-rendered 'dark' default on first hydration — expected
-  // given the theme is stored client-side, hence suppressHydrationWarning
-  // on the <img> tags below (same pattern as <html suppressHydrationWarning>
-  // in app/layout.jsx).
-  const [theme, setTheme] = useState<string>(() =>
-    typeof document !== "undefined"
-      ? document.documentElement.getAttribute("data-theme") || "dark"
-      : "dark"
-  );
+  const sectionRef = useRef<HTMLElement>(null);
+  // The hero image's initial `src` is no longer driven by React state at
+  // all (see HERO_PREHYDRATION_SCRIPT above, rendered into the page below) —
+  // that avoids depending on hydration timing entirely, closing the flash
+  // gap for good rather than just narrowing it. This effect only handles
+  // *subsequent* theme toggles: it re-derives the active variant from the
+  // live `data-theme` attribute (not from `hookTheme` directly, since that
+  // hook starts at a hardcoded 'dark' default and only corrects itself in
+  // its own post-mount effect) and lazily assigns `src` to whichever image
+  // doesn't have one yet, so switching theme for the first time in a
+  // session still fetches/shows the other variant. It's a no-op once both
+  // src values are already set, so it never re-triggers a fetch.
   useEffect(() => {
-    setTheme(hookTheme);
+    const activeVariant =
+      document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
+    const img = sectionRef.current?.querySelector<HTMLImageElement>(
+      `img[data-theme-variant="${activeVariant}"]`
+    );
+    if (img && !img.getAttribute("src")) {
+      img.setAttribute("src", HERO_SRC[activeVariant]);
+    }
   }, [hookTheme]);
   const lines = resolveLocalized(props.h1, lang, "es") ?? [];
   const meta = resolveLocalized(props.meta, lang, "es") ?? [];
   const facts = resolveLocalized(props.facts, lang, "es") ?? [];
-
-  const sectionRef = useRef<HTMLElement>(null);
 
   // Parallax targets are marked with `data-px="<rate>"` in the markup below
   // (background layer, decorative blob, foreground column) instead of being
@@ -106,32 +128,33 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
       {/*
         Dual-image parallax layer: two stacked <img data-hero-img> elements,
         one per theme, absolutely positioned on top of each other. Which one
-        is visible is driven by the same [data-theme] attribute selector the
-        rest of the app uses (see .hero-bg-layer in app/landing.css). CSS
-        alone only controls display, and `<img src>` always fetches
-        regardless of display:none — so `src` is assigned in JS (via the
-        same `useTheme` hook `ThemeToggle` uses) only to the currently
-        active theme's <img>, avoiding a double download of both variants.
+        is *visible* is driven by the same [data-theme] attribute selector
+        the rest of the app uses (see .hero-bg-layer in app/landing.css).
+        Which one has actually *fetched* (has a real `src`, not just
+        `data-src`) is controlled by HERO_PREHYDRATION_SCRIPT below, which
+        runs synchronously before hydration — not by React — so the correct
+        image is present from the very first paint and the inactive variant
+        is never downloaded. The `useEffect` above only backfills `src` for
+        the *other* variant once the user actually toggles theme.
       */}
       <div id="hero-bg" className="hero-bg-layer" data-px="0.45" role="presentation">
         <img
           data-hero-img
           data-theme-variant="light"
-          src={theme === "light" ? HERO_SRC.light : undefined}
+          data-src={HERO_SRC.light}
           alt=""
           aria-hidden="true"
           decoding="async"
-          suppressHydrationWarning
         />
         <img
           data-hero-img
           data-theme-variant="dark"
-          src={theme === "dark" ? HERO_SRC.dark : undefined}
+          data-src={HERO_SRC.dark}
           alt=""
           aria-hidden="true"
           decoding="async"
-          suppressHydrationWarning
         />
+        <script dangerouslySetInnerHTML={{ __html: HERO_PREHYDRATION_SCRIPT }} />
       </div>
       <div className="hero-blob" data-px="0.28" aria-hidden="true" />
       <div className="wrap hero-col" data-px="-0.1">

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { I18N as I } from '../lib/i18n';
 import { LANGS, t } from '../lib/lang';
@@ -31,6 +32,14 @@ export default function Nav({
   const menuId = 'nav-mobile-menu';
   const menuButtonRef = React.useRef(null);
   const menuPanelRef = React.useRef(null);
+  // The backdrop is portaled to document.body (see render below) instead of
+  // rendered as a descendant of <nav>. `nav.top` has `backdrop-filter`,
+  // which establishes a containing block for `position: fixed` descendants
+  // in Chromium/Firefox — if the backdrop stayed nested inside it, `fixed`
+  // would resolve against nav's own ~68px box instead of the viewport.
+  // Portals only work client-side, so it's deferred until after mount.
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
 
   // Escape-to-close + return focus to the toggle button when the mobile
   // panel closes via keyboard, plus a focus trap: Tab/Shift+Tab wrap
@@ -119,132 +128,145 @@ export default function Nav({
       </Link>
     );
 
+  // Shared by the backdrop click, Escape, and every mobile link: closes the
+  // panel and moves focus off whatever's currently focused inside it, back
+  // to the toggle button. Without this, clicking a mobile link leaves focus
+  // on the just-activated <a> while the panel re-renders `aria-hidden`,
+  // which is an ARIA-invalid state (focused element inside aria-hidden).
+  const closeAndReturnFocus = () => {
+    setMenuOpen(false);
+    menuButtonRef.current?.focus();
+  };
+
   return (
-    <nav className="top">
-      <div className="row">
-        <HomeOrAnchor href={mode === 'landing' ? '#top' : '/'} className="logo" data-hover>
-          <span className="glyph">
-            <img src="/logos/icon.svg" alt="Kimox Studio" />
-          </span>
-          <span>KIMOX·STUDIO</span>
-        </HomeOrAnchor>
-        <div className="links">
-          <HomeOrAnchor href={sectionLink('work')} className={sectionClass('work')}>
-            {t(I.nav.work, lang)}
+    <>
+      {mounted &&
+        createPortal(
+          <div
+            className={`nav-mobile-backdrop${menuOpen ? ' open' : ''}`}
+            aria-hidden="true"
+            onClick={closeAndReturnFocus}
+          />,
+          document.body
+        )}
+      <nav className="top">
+        <div className="row">
+          <HomeOrAnchor href={mode === 'landing' ? '#top' : '/'} className="logo" data-hover>
+            <span className="glyph">
+              <img src="/logos/icon.svg" alt="Kimox Studio" />
+            </span>
+            <span>KIMOX·STUDIO</span>
           </HomeOrAnchor>
-          <HomeOrAnchor href={sectionLink('services')} className={sectionClass('services')}>
-            {t(I.nav.services, lang)}
-          </HomeOrAnchor>
-          <HomeOrAnchor href={sectionLink('process')} className={sectionClass('process')}>
-            {t(I.nav.process, lang)}
-          </HomeOrAnchor>
-          <HomeOrAnchor href={sectionLink('about')} className={sectionClass('about')}>
-            {t(I.nav.about, lang)}
-          </HomeOrAnchor>
-          <HomeOrAnchor href="/blog" className={activeBlog ? 'active' : undefined}>
-            {t(I.nav.blog, lang)}
-          </HomeOrAnchor>
+          <div className="links">
+            <HomeOrAnchor href={sectionLink('work')} className={sectionClass('work')}>
+              {t(I.nav.work, lang)}
+            </HomeOrAnchor>
+            <HomeOrAnchor href={sectionLink('services')} className={sectionClass('services')}>
+              {t(I.nav.services, lang)}
+            </HomeOrAnchor>
+            <HomeOrAnchor href={sectionLink('process')} className={sectionClass('process')}>
+              {t(I.nav.process, lang)}
+            </HomeOrAnchor>
+            <HomeOrAnchor href={sectionLink('about')} className={sectionClass('about')}>
+              {t(I.nav.about, lang)}
+            </HomeOrAnchor>
+            <HomeOrAnchor href="/blog" className={activeBlog ? 'active' : undefined}>
+              {t(I.nav.blog, lang)}
+            </HomeOrAnchor>
+          </div>
+          <div className="right">
+            <ThemeToggle />
+            {!hideLangSwitch && (
+              <div className="lang-switch">
+                {LANGS.map((l) => (
+                  <button
+                    key={l.code}
+                    className={lang === l.code ? 'active' : ''}
+                    onClick={() => setLang(l.code)}
+                  >
+                    {l.label}
+                  </button>
+                ))}
+              </div>
+            )}
+            <HomeOrAnchor href={sectionLink('contact')} className="cta-pill">
+              {t(I.nav.contact, lang)} →
+            </HomeOrAnchor>
+            <button
+              type="button"
+              ref={menuButtonRef}
+              className="nav-burger"
+              aria-expanded={menuOpen}
+              aria-controls={menuId}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              onClick={() => setMenuOpen((v) => !v)}
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+          </div>
         </div>
-        <div className="right">
-          <ThemeToggle />
-          {!hideLangSwitch && (
-            <div className="lang-switch">
-              {LANGS.map((l) => (
-                <button
-                  key={l.code}
-                  className={lang === l.code ? 'active' : ''}
-                  onClick={() => setLang(l.code)}
-                >
-                  {l.label}
-                </button>
-              ))}
-            </div>
-          )}
-          <HomeOrAnchor href={sectionLink('contact')} className="cta-pill">
-            {t(I.nav.contact, lang)} →
-          </HomeOrAnchor>
-          <button
-            type="button"
-            ref={menuButtonRef}
-            className="nav-burger"
-            aria-expanded={menuOpen}
-            aria-controls={menuId}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            onClick={() => setMenuOpen((v) => !v)}
-          >
-            <span />
-            <span />
-            <span />
-          </button>
+        <div
+          id={menuId}
+          ref={menuPanelRef}
+          className={`nav-mobile${menuOpen ? ' open' : ''}`}
+          role="dialog"
+          aria-modal="true"
+          aria-hidden={!menuOpen}
+        >
+          <div className="nav-mobile-links">
+            <HomeOrAnchor
+              href={sectionLink('work')}
+              className={sectionClass('work')}
+              tabIndex={menuOpen ? undefined : -1}
+              onClick={closeAndReturnFocus}
+            >
+              {t(I.nav.work, lang)}
+            </HomeOrAnchor>
+            <HomeOrAnchor
+              href={sectionLink('services')}
+              className={sectionClass('services')}
+              tabIndex={menuOpen ? undefined : -1}
+              onClick={closeAndReturnFocus}
+            >
+              {t(I.nav.services, lang)}
+            </HomeOrAnchor>
+            <HomeOrAnchor
+              href={sectionLink('process')}
+              className={sectionClass('process')}
+              tabIndex={menuOpen ? undefined : -1}
+              onClick={closeAndReturnFocus}
+            >
+              {t(I.nav.process, lang)}
+            </HomeOrAnchor>
+            <HomeOrAnchor
+              href={sectionLink('about')}
+              className={sectionClass('about')}
+              tabIndex={menuOpen ? undefined : -1}
+              onClick={closeAndReturnFocus}
+            >
+              {t(I.nav.about, lang)}
+            </HomeOrAnchor>
+            <HomeOrAnchor
+              href="/blog"
+              className={activeBlog ? 'active' : undefined}
+              tabIndex={menuOpen ? undefined : -1}
+              onClick={closeAndReturnFocus}
+            >
+              {t(I.nav.blog, lang)}
+            </HomeOrAnchor>
+            <HomeOrAnchor
+              href={sectionLink('contact')}
+              className="cta-pill"
+              tabIndex={menuOpen ? undefined : -1}
+              onClick={closeAndReturnFocus}
+            >
+              {t(I.nav.contact, lang)} →
+            </HomeOrAnchor>
+          </div>
         </div>
-      </div>
-      <div
-        className={`nav-mobile-backdrop${menuOpen ? ' open' : ''}`}
-        aria-hidden="true"
-        onClick={() => {
-          setMenuOpen(false);
-          menuButtonRef.current?.focus();
-        }}
-      />
-      <div
-        id={menuId}
-        ref={menuPanelRef}
-        className={`nav-mobile${menuOpen ? ' open' : ''}`}
-        role="dialog"
-        aria-modal="true"
-        aria-hidden={!menuOpen}
-      >
-        <div className="nav-mobile-links">
-          <HomeOrAnchor
-            href={sectionLink('work')}
-            className={sectionClass('work')}
-            tabIndex={menuOpen ? undefined : -1}
-            onClick={() => setMenuOpen(false)}
-          >
-            {t(I.nav.work, lang)}
-          </HomeOrAnchor>
-          <HomeOrAnchor
-            href={sectionLink('services')}
-            className={sectionClass('services')}
-            tabIndex={menuOpen ? undefined : -1}
-            onClick={() => setMenuOpen(false)}
-          >
-            {t(I.nav.services, lang)}
-          </HomeOrAnchor>
-          <HomeOrAnchor
-            href={sectionLink('process')}
-            className={sectionClass('process')}
-            tabIndex={menuOpen ? undefined : -1}
-            onClick={() => setMenuOpen(false)}
-          >
-            {t(I.nav.process, lang)}
-          </HomeOrAnchor>
-          <HomeOrAnchor
-            href={sectionLink('about')}
-            className={sectionClass('about')}
-            tabIndex={menuOpen ? undefined : -1}
-            onClick={() => setMenuOpen(false)}
-          >
-            {t(I.nav.about, lang)}
-          </HomeOrAnchor>
-          <HomeOrAnchor
-            href="/blog"
-            className={activeBlog ? 'active' : undefined}
-            tabIndex={menuOpen ? undefined : -1}
-            onClick={() => setMenuOpen(false)}
-          >
-            {t(I.nav.blog, lang)}
-          </HomeOrAnchor>
-          <HomeOrAnchor
-            href={sectionLink('contact')}
-            className="cta-pill"
-            tabIndex={menuOpen ? undefined : -1}
-            onClick={() => setMenuOpen(false)}
-          >
-            {t(I.nav.contact, lang)} →
-          </HomeOrAnchor>
-        </div>
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 }
