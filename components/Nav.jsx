@@ -179,6 +179,14 @@ export default function Nav({
         </div>
       </div>
       <div
+        className={`nav-mobile-backdrop${menuOpen ? ' open' : ''}`}
+        aria-hidden="true"
+        onClick={() => {
+          setMenuOpen(false);
+          menuButtonRef.current?.focus();
+        }}
+      />
+      <div
         id={menuId}
         ref={menuPanelRef}
         className={`nav-mobile${menuOpen ? ' open' : ''}`}

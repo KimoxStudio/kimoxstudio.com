@@ -228,6 +228,21 @@ nav.top .right { display: flex; align-items: center; gap: 14px; }
 .nav-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
 .nav-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
+.nav-mobile-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+  z-index: 40;
+}
+.nav-mobile-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .nav-mobile {
   display: none;
   position: absolute;
@@ -238,6 +253,7 @@ nav.top .right { display: flex; align-items: center; gap: 14px; }
   max-height: 0;
   overflow: hidden;
   transition: max-height .25s ease;
+  z-index: 41;
 }
 .nav-mobile-links {
   display: flex;
@@ -264,6 +280,7 @@ nav.top .right { display: flex; align-items: center; gap: 14px; }
   .nav-burger { display: inline-flex; }
   .nav-mobile { display: block; }
   .nav-mobile.open { max-height: 480px; }
+  .nav-mobile-backdrop { display: block; }
 }
 
 /* ── Theme toggle button (sits inside nav) ── */

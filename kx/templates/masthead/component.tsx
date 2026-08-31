@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { TemplateRenderProps } from "@/kx/template-types";
 import { kxField, resolveLocalized } from "@/kx/localized";
 import { useLang } from "@/lib/lang";
@@ -18,7 +18,26 @@ const HERO_SRC: Record<string, string> = {
 
 export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
   const [lang] = useLang() as [Lang, (next: Lang) => void];
-  const [theme] = useTheme();
+  const [hookTheme] = useTheme() as [string, (next: string) => void];
+  // `useTheme()` always starts at 'dark' and only corrects itself in a
+  // post-mount effect, but `app/layout.jsx`'s inline script already sets
+  // `data-theme` on <html> synchronously before hydration (from
+  // localStorage). Reading that attribute here via a lazy initializer keeps
+  // the very first client render in sync with what CSS is already showing,
+  // instead of briefly rendering `src=undefined` for a light-theme visitor.
+  // The initializer can't run on the server, so this may legitimately differ
+  // from the server-rendered 'dark' default on first hydration — expected
+  // given the theme is stored client-side, hence suppressHydrationWarning
+  // on the <img> tags below (same pattern as <html suppressHydrationWarning>
+  // in app/layout.jsx).
+  const [theme, setTheme] = useState<string>(() =>
+    typeof document !== "undefined"
+      ? document.documentElement.getAttribute("data-theme") || "dark"
+      : "dark"
+  );
+  useEffect(() => {
+    setTheme(hookTheme);
+  }, [hookTheme]);
   const lines = resolveLocalized(props.h1, lang, "es") ?? [];
   const meta = resolveLocalized(props.meta, lang, "es") ?? [];
   const facts = resolveLocalized(props.facts, lang, "es") ?? [];
@@ -102,6 +121,7 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
           alt=""
           aria-hidden="true"
           decoding="async"
+          suppressHydrationWarning
         />
         <img
           data-hero-img
@@ -110,6 +130,7 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
           alt=""
           aria-hidden="true"
           decoding="async"
+          suppressHydrationWarning
         />
       </div>
       <div className="hero-blob" data-px="0.28" aria-hidden="true" />
