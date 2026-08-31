@@ -18,6 +18,8 @@
   --rule-2: #2c3542;
   --cursor-ring: rgba(238, 241, 246, 0.35);
   --nav-bg: rgba(10, 13, 19, 0.86);
+  --hero-muted: #838d9e;
+  --hero-fill: #0a0d16;
 }
 
 :root[data-theme='light'] {
@@ -38,6 +40,8 @@
   --rule-2: #c2c9d6;
   --cursor-ring: rgba(16, 19, 26, 0.35);
   --nav-bg: rgba(238, 241, 246, 0.86);
+  --hero-muted: #333a48;
+  --hero-fill: #eff0f8;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
