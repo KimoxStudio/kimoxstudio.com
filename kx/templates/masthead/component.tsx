@@ -155,6 +155,18 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
           decoding="async"
         />
         <script dangerouslySetInnerHTML={{ __html: HERO_PREHYDRATION_SCRIPT }} />
+        {/*
+          No-JS fallback: HERO_PREHYDRATION_SCRIPT and the useEffect above are
+          the only things that ever promote `data-src` to a real `src`, so
+          with JS disabled/blocked neither hero <img> above ever loads and
+          visitors would only see .hero-bg-layer's flat background-color
+          fill. <noscript> content is only parsed/rendered by the browser
+          when JS is unavailable, so this plain <img> never fetches (and
+          never double-fetches) for JS-enabled visitors.
+        */}
+        <noscript>
+          <img src={HERO_SRC.dark} alt="" aria-hidden="true" />
+        </noscript>
       </div>
       <div className="hero-blob" data-px="0.28" aria-hidden="true" />
       <div className="wrap hero-col" data-px="-0.1">
