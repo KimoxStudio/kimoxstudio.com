@@ -9,7 +9,7 @@ import ThemeToggle from './ThemeToggle';
 
 // Landing section ids the nav links point at, in document order. Used to mark
 // the link for whichever section is currently crossing the viewport.
-const SECTIONS = ['services', 'work', 'process', 'about', 'contact'];
+const SECTIONS = ['services', 'process', 'work', 'about', 'contact'];
 
 /**
  * Shared site nav.
