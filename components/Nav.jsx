@@ -259,6 +259,14 @@ export default function Nav({
         >
           <div className="nav-mobile-links">
             <HomeOrAnchor
+              href={sectionLink('contact')}
+              className="cta-pill"
+              tabIndex={menuOpen ? undefined : -1}
+              onClick={closeAndReturnFocus}
+            >
+              {t(I.nav.contact, lang)} →
+            </HomeOrAnchor>
+            <HomeOrAnchor
               href={sectionLink('work')}
               className={sectionClass('work')}
               tabIndex={menuOpen ? undefined : -1}
@@ -298,14 +306,20 @@ export default function Nav({
             >
               {t(I.nav.blog, lang)}
             </HomeOrAnchor>
-            <HomeOrAnchor
-              href={sectionLink('contact')}
-              className="cta-pill"
-              tabIndex={menuOpen ? undefined : -1}
-              onClick={closeAndReturnFocus}
-            >
-              {t(I.nav.contact, lang)} →
-            </HomeOrAnchor>
+            {!hideLangSwitch && (
+              <div className="lang-switch">
+                {LANGS.map((l) => (
+                  <button
+                    key={l.code}
+                    className={lang === l.code ? 'active' : ''}
+                    tabIndex={menuOpen ? undefined : -1}
+                    onClick={() => setLang(l.code)}
+                  >
+                    {l.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </nav>

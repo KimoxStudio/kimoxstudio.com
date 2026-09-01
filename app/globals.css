@@ -232,14 +232,11 @@ nav.top .right { display: flex; align-items: center; gap: 14px; }
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  opacity: 0;
+  background: transparent;
   pointer-events: none;
-  transition: opacity .25s ease;
   z-index: 40;
 }
 .nav-mobile-backdrop.open {
-  opacity: 1;
   pointer-events: auto;
 }
 
@@ -247,9 +244,8 @@ nav.top .right { display: flex; align-items: center; gap: 14px; }
   display: none;
   position: absolute;
   top: 100%; left: 0; right: 0;
-  background: var(--nav-bg);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--rule);
+  background: var(--bg);
+  border-top: 1px solid var(--rule);
   max-height: 0;
   overflow: hidden;
   transition: max-height .25s ease;
@@ -258,23 +254,25 @@ nav.top .right { display: flex; align-items: center; gap: 14px; }
 .nav-mobile-links {
   display: flex;
   flex-direction: column;
-  padding: 8px 24px 20px;
+  padding: 24px 24px 20px;
 }
-.nav-mobile-links a {
-  font-size: 13px; font-weight: 500;
-  font-family: 'IBM Plex Mono', monospace;
-  letter-spacing: .04em;
-  padding: 14px 0;
-  color: var(--ink-2);
-  border-bottom: 1px solid var(--rule);
-}
-.nav-mobile-links a:hover,
-.nav-mobile-links a.active { color: var(--orange); }
 .nav-mobile-links a.cta-pill {
-  display: inline-flex; margin-top: 14px;
-  border-bottom: 0;
-  width: fit-content;
-  color: var(--bg);
+  display: inline-flex;
+  align-self: flex-end;
+  margin-bottom: clamp(24px, 4vw, 40px);
+}
+.nav-mobile-links a:not(.cta-pill) {
+  font-size: clamp(20px, 4.4vw, 30px); font-weight: 500;
+  font-family: 'Familjen Grotesk', sans-serif;
+  letter-spacing: -0.01em;
+  padding: 10px 0;
+  color: var(--ink);
+}
+.nav-mobile-links a:not(.cta-pill):hover,
+.nav-mobile-links a:not(.cta-pill).active { color: var(--orange); }
+.nav-mobile-links .lang-switch {
+  align-self: flex-start;
+  margin-top: clamp(24px, 4vw, 40px);
 }
 
 @media (max-width: 1100px) {
@@ -282,6 +280,7 @@ nav.top .right { display: flex; align-items: center; gap: 14px; }
   .nav-mobile { display: block; }
   .nav-mobile.open { max-height: 480px; overflow-y: auto; }
   .nav-mobile-backdrop { display: block; }
+  nav.top .right > .lang-switch { display: none; }
 }
 
 /* ── Theme toggle button (sits inside nav) ── */
