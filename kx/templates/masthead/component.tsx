@@ -112,7 +112,17 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
       const y = window.scrollY;
       targets.forEach((el) => {
         const rate = parseFloat(el.dataset.px ?? "0");
-        el.style.transform = `translateY(${y * rate}px)`;
+        let v = y * rate;
+        // Elements marked `data-px-clamp="auto"` (e.g. the hero background
+        // layer) are clamped to their own overflow buffer so the parallax
+        // offset never translates them far enough to expose the section's
+        // flat background-color at the edge — worse on mobile, where the
+        // buffer (--bg-extra) is smaller.
+        if (el.getAttribute("data-px-clamp") === "auto" && el.parentElement) {
+          const spare = Math.max(0, (el.offsetHeight - el.parentElement.clientHeight) / 2);
+          v = Math.max(-spare, Math.min(spare, v));
+        }
+        el.style.transform = `translateY(${v}px)`;
       });
     };
     const onScroll = () => {
@@ -150,7 +160,7 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
         is never downloaded. The `useEffect` above only backfills `src` for
         the *other* variant once the user actually toggles theme.
       */}
-      <div id="hero-bg" className="hero-bg-layer" data-px="0.45" role="presentation">
+      <div id="hero-bg" className="hero-bg-layer" data-px="0.45" data-px-clamp="auto" role="presentation">
         <img
           data-hero-img
           data-theme-variant="light"

@@ -313,7 +313,10 @@ export default function Nav({
                     key={l.code}
                     className={lang === l.code ? 'active' : ''}
                     tabIndex={menuOpen ? undefined : -1}
-                    onClick={() => setLang(l.code)}
+                    onClick={() => {
+                      setLang(l.code);
+                      closeAndReturnFocus();
+                    }}
                   >
                     {l.label}
                   </button>
