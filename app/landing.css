@@ -120,7 +120,15 @@
       display: flex; flex-direction: column; gap: 16px;
       font-size: 12px; color: var(--hero-muted);
     }
-    .hero .ctas { display: flex; flex-wrap: wrap; gap: 10px; width: 100%; grid-column: 1 / -1; }
+    /* Capped narrower than --hero-col (600px at desktop): at wide viewports
+       (~1420px+) .hero-bg-layer stops horizontally cropping the hero image
+       (the box becomes wider than the image's own aspect ratio, so cover
+       shows its full width instead), which pushes the illustration's
+       leftmost content toward the edge of --hero-col's own width as the
+       viewport grows -- past ~1500px the buttons start overlapping it.
+       This narrower cap keeps clearance on very wide desktop windows,
+       independent of viewport width. */
+    .hero .ctas { display: flex; flex-wrap: wrap; gap: 10px; width: 100%; max-width: 460px; grid-column: 1 / -1; }
     .hero .ctas .btn-primary,
     .hero .ctas .btn-secondary {
       flex: 1 1 auto;
