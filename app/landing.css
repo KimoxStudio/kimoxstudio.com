@@ -41,13 +41,11 @@
       position: absolute;
       z-index: 1;
       pointer-events: none;
-      right: -12%;
-      bottom: -22%;
-      width: 58vw; height: 58vw;
-      max-width: 720px; max-height: 720px;
+      right: 6%;
+      bottom: -120px;
+      width: clamp(220px, 38vw, 360px); height: clamp(220px, 38vw, 360px);
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(76, 125, 255, .28), transparent 70%);
-      filter: blur(40px);
+      background: radial-gradient(circle at 45% 45%, rgba(76, 125, 255, .28), rgba(76, 125, 255, 0) 70%);
       will-change: transform;
     }
     .hero-col {
@@ -107,6 +105,10 @@
       margin-bottom: 24px;
       max-width: var(--hero-col);
     }
+    /* .ctas is a grid child of .bottom-grid (grid-column: 1/-1), spanning
+       both columns below them -- matching the design's nesting. This keeps
+       the buttons capped to --hero-col's width instead of stretching to
+       .hero-col's full 1480px and overlapping the hero illustration. */
     .hero .sub {
       font-family: "Familjen Grotesk", sans-serif;
       font-size: 18px; line-height: 1.45; color: var(--ink-2);
@@ -118,12 +120,16 @@
       display: flex; flex-direction: column; gap: 16px;
       font-size: 12px; color: var(--hero-muted);
     }
-    .hero .ctas { display: flex; flex-wrap: wrap; gap: 10px; width: 100%; }
+    .hero .ctas { display: flex; flex-wrap: wrap; gap: 10px; width: 100%; grid-column: 1 / -1; }
     .hero .ctas .btn-primary,
     .hero .ctas .btn-secondary {
       flex: 1 1 auto;
+      min-width: 0;
+      justify-content: center;
+      gap: 9px;
       padding: 14px 18px;
       font-size: 13px;
+      white-space: nowrap;
     }
     .btn-primary {
       display: inline-flex; align-items: center; justify-content: space-between; gap: 16px;

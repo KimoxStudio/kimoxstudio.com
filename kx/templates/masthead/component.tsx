@@ -236,16 +236,16 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
               </li>
             ))}
           </ul>
-        </div>
-        <div className="ctas">
-          <a className="btn-primary" href="#contact">
-            <span {...kxField(`cta1.${lang}`)}>{resolveLocalized(props.cta1, lang, "es")}</span>
-            <span className="arr">↗</span>
-          </a>
-          <a className="btn-secondary" href="#work">
-            <span {...kxField(`cta2.${lang}`)}>{resolveLocalized(props.cta2, lang, "es")}</span>
-            <span>→</span>
-          </a>
+          <div className="ctas">
+            <a className="btn-primary" href="#contact">
+              <span {...kxField(`cta1.${lang}`)}>{resolveLocalized(props.cta1, lang, "es")}</span>
+              <span className="arr">↗</span>
+            </a>
+            <a className="btn-secondary" href="#work">
+              <span {...kxField(`cta2.${lang}`)}>{resolveLocalized(props.cta2, lang, "es")}</span>
+              <span>→</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
