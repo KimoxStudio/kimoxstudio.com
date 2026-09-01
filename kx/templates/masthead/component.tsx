@@ -92,8 +92,6 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
     }
   }, [hookTheme]);
   const lines = resolveLocalized(props.h1, lang, "es") ?? [];
-  const meta = resolveLocalized(props.meta, lang, "es") ?? [];
-  const facts = resolveLocalized(props.facts, lang, "es") ?? [];
 
   // Parallax targets are marked with `data-px="<rate>"` in the markup below
   // (background layer, decorative blob, foreground column) instead of being
@@ -211,13 +209,6 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
       </div>
       <div className="hero-blob" data-px="0.28" aria-hidden="true" />
       <div className="hero-col" data-px="-0.1">
-        <div className="hero-meta mono">
-          {meta.map((m, i) => (
-            <span key={i} {...kxField(`meta.${lang}.${i}`)}>
-              {m}
-            </span>
-          ))}
-        </div>
         <h1>
           {lines.map((ln, i) => (
             <span className="line" key={i} {...kxField(`h1.${lang}.${i}`)}>
@@ -229,13 +220,6 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
           <p className="sub" {...kxField(`sub.${lang}`)}>
             {resolveLocalized(props.sub, lang, "es")}
           </p>
-          <ul className="hero-facts mono">
-            {facts.map((f, i) => (
-              <li key={i} {...kxField(`facts.${lang}.${i}`)}>
-                {f}
-              </li>
-            ))}
-          </ul>
           <div className="ctas">
             <a className="btn-primary" href="#contact">
               <span {...kxField(`cta1.${lang}`)}>{resolveLocalized(props.cta1, lang, "es")}</span>

@@ -57,19 +57,6 @@
       padding: clamp(56px, 6vw, 88px) clamp(28px, 5vw, 88px) clamp(52px, 5.5vw, 76px);
       will-change: transform;
     }
-    .hero-meta {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px 14px;
-      font-size: 11px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--hero-muted);
-      border-bottom: 1px solid var(--rule);
-      padding-bottom: 20px;
-      margin-bottom: clamp(22px, 3vw, 32px);
-      max-width: var(--hero-col);
-    }
     .hero h1 {
       font-family: "Familjen Grotesk", sans-serif;
       font-weight: 700;
@@ -105,20 +92,10 @@
       margin-bottom: 24px;
       max-width: var(--hero-col);
     }
-    /* .ctas is a grid child of .bottom-grid (grid-column: 1/-1), spanning
-       both columns below them -- matching the design's nesting. This keeps
-       the buttons capped to --hero-col's width instead of stretching to
-       .hero-col's full 1480px and overlapping the hero illustration. */
     .hero .sub {
       font-family: "Familjen Grotesk", sans-serif;
       font-size: 18px; line-height: 1.45; color: var(--ink-2);
       margin: 0; max-width: 380px;
-    }
-    .hero-facts {
-      list-style: none;
-      margin: 0; padding: 0;
-      display: flex; flex-direction: column; gap: 16px;
-      font-size: 12px; color: var(--hero-muted);
     }
     /* Capped narrower than --hero-col (600px at desktop): at wide viewports
        (~1420px+) .hero-bg-layer stops horizontally cropping the hero image
@@ -1311,16 +1288,11 @@
       .hero {
         --bg-top: -110px;
         --bg-extra: 220px;
-        /* Design source value is 64% 92% -- with the actual hero-dark/light.png
-           assets, that crop puts the illustration's icon cluster directly
-           behind the paragraph/facts text at this tier (verified visually
-           at 700-1024px). 0% shifts the crop window left, keeping the
-           illustration clear of the text column. Empirically tuned against
-           screenshots, not sourced from the design file. */
-        --img-pos: 0% 92%;
-        --bg-mask: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, .18) 42%, #000 80%);
+        --img-pos: 70% 50%;
+        --bg-mask: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, .18) 58%, #000 82%);
         --hero-col: min(66%, 520px);
       }
+      .hero h1 { font-size: clamp(36px, 11vw, 72px); }
     }
     @media (max-width: 1100px) {
       .wrap { padding: 0 28px; }
@@ -1357,10 +1329,11 @@
         --bg-mask: none;
         --hero-col: 100%;
       }
-      .hero-meta {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 14px 12px;
-      }
+      .hero h1,
+      .hero .bottom-grid { margin-left: auto; margin-right: auto; }
+      .hero h1 { width: fit-content; }
+      .hero .sub { margin-inline: auto; text-align: center; }
+      .hero .ctas { margin-inline: auto; }
       .steps { grid-template-columns: 1fr; }
       .step { min-height: 0; padding: 28px 24px; }
       .svc-row .price-cell .amount { font-size: 32px; }
