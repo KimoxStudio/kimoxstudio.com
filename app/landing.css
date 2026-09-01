@@ -1311,7 +1311,13 @@
       .hero {
         --bg-top: -110px;
         --bg-extra: 220px;
-        --img-pos: 64% 92%;
+        /* Design source value is 64% 92% -- with the actual hero-dark/light.png
+           assets, that crop puts the illustration's icon cluster directly
+           behind the paragraph/facts text at this tier (verified visually
+           at 700-1024px). 0% shifts the crop window left, keeping the
+           illustration clear of the text column. Empirically tuned against
+           screenshots, not sourced from the design file. */
+        --img-pos: 0% 92%;
         --bg-mask: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, .18) 42%, #000 80%);
         --hero-col: min(66%, 520px);
       }
