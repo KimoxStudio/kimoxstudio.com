@@ -97,6 +97,26 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
     let ticking = false;
     let active = false;
 
+    // Elements marked `data-px-clamp="auto"` (e.g. the hero background
+    // layer) are clamped to their own overflow buffer so the parallax
+    // offset never translates them far enough to expose the section's
+    // flat background-color at the edge — worse on mobile, where the
+    // buffer (--bg-extra) is smaller. `offsetHeight`/`clientHeight` don't
+    // change between scroll events for a given element, so the clamp is
+    // computed once here (and on resize) instead of read on every scroll
+    // frame — reading them inside `apply()` right after the previous
+    // frame's `el.style.transform` write would force a synchronous layout
+    // reflow on every scroll frame.
+    const clampSpares = new Map<HTMLElement, number>();
+    const computeClampSpares = () => {
+      targets.forEach((el) => {
+        if (el.getAttribute("data-px-clamp") === "auto" && el.parentElement) {
+          clampSpares.set(el, Math.max(0, (el.offsetHeight - el.parentElement.clientHeight) / 2));
+        }
+      });
+    };
+    computeClampSpares();
+
     const reset = () => {
       targets.forEach((el) => {
         el.style.transform = "";
@@ -112,7 +132,12 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
       const y = window.scrollY;
       targets.forEach((el) => {
         const rate = parseFloat(el.dataset.px ?? "0");
-        el.style.transform = `translateY(${y * rate}px)`;
+        let v = y * rate;
+        const spare = clampSpares.get(el);
+        if (spare !== undefined) {
+          v = Math.max(-spare, Math.min(spare, v));
+        }
+        el.style.transform = `translateY(${v}px)`;
       });
     };
     const onScroll = () => {
@@ -120,6 +145,7 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
       ticking = true;
       requestAnimationFrame(apply);
     };
+    const onResize = () => computeClampSpares();
 
     const sync = () => {
       active = !mql.matches;
@@ -129,9 +155,11 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
 
     sync();
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize, { passive: true });
     mql.addEventListener("change", sync);
     return () => {
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
       mql.removeEventListener("change", sync);
     };
   }, []);
@@ -150,7 +178,7 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
         is never downloaded. The `useEffect` above only backfills `src` for
         the *other* variant once the user actually toggles theme.
       */}
-      <div id="hero-bg" className="hero-bg-layer" data-px="0.45" role="presentation">
+      <div id="hero-bg" className="hero-bg-layer" data-px="0.45" data-px-clamp="auto" role="presentation">
         <img
           data-hero-img
           data-theme-variant="light"
