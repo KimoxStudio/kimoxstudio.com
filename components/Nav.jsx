@@ -72,9 +72,35 @@ export default function Nav({
       }
     };
     document.addEventListener('keydown', onKeyDown);
-    // Move focus into the panel once it opens.
-    menuPanelRef.current?.querySelector('a, button')?.focus();
-    return () => document.removeEventListener('keydown', onKeyDown);
+    // Move focus into the panel once it opens. The panel animates in via
+    // opacity/visibility (see .nav-mobile.open in globals.css) instead of
+    // being immediately visible the instant `menuOpen` flips true, so a
+    // `.focus()` call targeting an element that's still computed
+    // `visibility: hidden` silently no-ops in Chromium. A fixed number of
+    // rAFs isn't reliable here — measured in practice, the `.open` class's
+    // style change can take more than two frames to actually resolve to
+    // `visibility: visible` in this dev environment. Poll every frame
+    // (bounded by the panel's own .34s transition, well under it in
+    // practice) until the panel is actually visible, then focus.
+    let rafId = 0;
+    let cancelled = false;
+    const tryFocus = () => {
+      if (cancelled) return;
+      const panel = menuPanelRef.current;
+      const target = panel?.querySelector('a, button');
+      if (!panel || !target) return;
+      if (getComputedStyle(panel).visibility !== 'hidden') {
+        target.focus();
+        return;
+      }
+      rafId = requestAnimationFrame(tryFocus);
+    };
+    rafId = requestAnimationFrame(tryFocus);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      cancelled = true;
+      cancelAnimationFrame(rafId);
+    };
   }, [menuOpen]);
 
   // Close the mobile panel automatically if the viewport grows back past
@@ -100,12 +126,16 @@ export default function Nav({
     const navEl = navRef.current;
     const parent = navEl?.parentElement;
     const supportsInert = typeof HTMLElement !== 'undefined' && 'inert' in HTMLElement.prototype;
-    // Exclude the portaled backdrop itself — it's a sibling of <nav> in the
-    // DOM (appended to document.body), but it's the click-to-close target
-    // for the open panel, not background content to isolate.
+    // Exclude the portaled backdrop and the portaled panel itself — both
+    // are siblings of <nav> in the DOM (appended to document.body), but
+    // neither is background page content to isolate: the backdrop is the
+    // click-to-close target and the panel is the open menu itself.
     const siblings = parent
       ? Array.from(parent.children).filter(
-          (el) => el !== navEl && !el.classList.contains('nav-mobile-backdrop')
+          (el) =>
+            el !== navEl &&
+            !el.classList.contains('nav-mobile-backdrop') &&
+            !el.classList.contains('nav-mobile')
         )
       : [];
     siblings.forEach((el) => {
@@ -179,6 +209,93 @@ export default function Nav({
     menuButtonRef.current?.focus();
   };
 
+  // The mobile panel itself, portaled to document.body below for the same
+  // reason as the backdrop (see comment near `mounted` above): nav.top has
+  // `backdrop-filter`, which establishes a containing block for
+  // `position: fixed` descendants in Chromium/Firefox, so a `.nav-mobile`
+  // left nested inside <nav> would have its `fixed` positioning resolve
+  // against nav's own ~68px box instead of the viewport, collapsing the
+  // panel instead of covering the screen.
+  const mobilePanel = (
+    <div
+      id={menuId}
+      ref={menuPanelRef}
+      className={`nav-mobile${menuOpen ? ' open' : ''}`}
+      role="dialog"
+      aria-modal="true"
+      aria-label={t(I.nav.menuOpen, lang)}
+      aria-hidden={!menuOpen}
+    >
+      <div className="nav-mobile-links">
+        <HomeOrAnchor
+          href={sectionLink('contact')}
+          className="cta-pill"
+          tabIndex={menuOpen ? undefined : -1}
+          onClick={closeAndReturnFocus}
+        >
+          {t(I.nav.contact, lang)} →
+        </HomeOrAnchor>
+        <HomeOrAnchor
+          href={sectionLink('work')}
+          className={sectionClass('work')}
+          tabIndex={menuOpen ? undefined : -1}
+          onClick={closeAndReturnFocus}
+        >
+          {t(I.nav.work, lang)}
+        </HomeOrAnchor>
+        <HomeOrAnchor
+          href={sectionLink('services')}
+          className={sectionClass('services')}
+          tabIndex={menuOpen ? undefined : -1}
+          onClick={closeAndReturnFocus}
+        >
+          {t(I.nav.services, lang)}
+        </HomeOrAnchor>
+        <HomeOrAnchor
+          href={sectionLink('process')}
+          className={sectionClass('process')}
+          tabIndex={menuOpen ? undefined : -1}
+          onClick={closeAndReturnFocus}
+        >
+          {t(I.nav.process, lang)}
+        </HomeOrAnchor>
+        <HomeOrAnchor
+          href={sectionLink('about')}
+          className={sectionClass('about')}
+          tabIndex={menuOpen ? undefined : -1}
+          onClick={closeAndReturnFocus}
+        >
+          {t(I.nav.about, lang)}
+        </HomeOrAnchor>
+        <HomeOrAnchor
+          href="/blog"
+          className={activeBlog ? 'active' : undefined}
+          tabIndex={menuOpen ? undefined : -1}
+          onClick={closeAndReturnFocus}
+        >
+          {t(I.nav.blog, lang)}
+        </HomeOrAnchor>
+        {!hideLangSwitch && (
+          <div className="lang-switch">
+            {LANGS.map((l) => (
+              <button
+                key={l.code}
+                className={lang === l.code ? 'active' : ''}
+                tabIndex={menuOpen ? undefined : -1}
+                onClick={() => {
+                  setLang(l.code);
+                  closeAndReturnFocus();
+                }}
+              >
+                {l.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
   return (
     <>
       {mounted &&
@@ -190,6 +307,7 @@ export default function Nav({
           />,
           document.body
         )}
+      {mounted && createPortal(mobilePanel, document.body)}
       <nav className="top" ref={navRef}>
         <div className="row">
           <HomeOrAnchor href={mode === 'landing' ? '#top' : '/'} className="logo" data-hover>
@@ -246,83 +364,6 @@ export default function Nav({
               <span />
               <span />
             </button>
-          </div>
-        </div>
-        <div
-          id={menuId}
-          ref={menuPanelRef}
-          className={`nav-mobile${menuOpen ? ' open' : ''}`}
-          role="dialog"
-          aria-modal="true"
-          aria-label={t(I.nav.menuOpen, lang)}
-          aria-hidden={!menuOpen}
-        >
-          <div className="nav-mobile-links">
-            <HomeOrAnchor
-              href={sectionLink('contact')}
-              className="cta-pill"
-              tabIndex={menuOpen ? undefined : -1}
-              onClick={closeAndReturnFocus}
-            >
-              {t(I.nav.contact, lang)} →
-            </HomeOrAnchor>
-            <HomeOrAnchor
-              href={sectionLink('work')}
-              className={sectionClass('work')}
-              tabIndex={menuOpen ? undefined : -1}
-              onClick={closeAndReturnFocus}
-            >
-              {t(I.nav.work, lang)}
-            </HomeOrAnchor>
-            <HomeOrAnchor
-              href={sectionLink('services')}
-              className={sectionClass('services')}
-              tabIndex={menuOpen ? undefined : -1}
-              onClick={closeAndReturnFocus}
-            >
-              {t(I.nav.services, lang)}
-            </HomeOrAnchor>
-            <HomeOrAnchor
-              href={sectionLink('process')}
-              className={sectionClass('process')}
-              tabIndex={menuOpen ? undefined : -1}
-              onClick={closeAndReturnFocus}
-            >
-              {t(I.nav.process, lang)}
-            </HomeOrAnchor>
-            <HomeOrAnchor
-              href={sectionLink('about')}
-              className={sectionClass('about')}
-              tabIndex={menuOpen ? undefined : -1}
-              onClick={closeAndReturnFocus}
-            >
-              {t(I.nav.about, lang)}
-            </HomeOrAnchor>
-            <HomeOrAnchor
-              href="/blog"
-              className={activeBlog ? 'active' : undefined}
-              tabIndex={menuOpen ? undefined : -1}
-              onClick={closeAndReturnFocus}
-            >
-              {t(I.nav.blog, lang)}
-            </HomeOrAnchor>
-            {!hideLangSwitch && (
-              <div className="lang-switch">
-                {LANGS.map((l) => (
-                  <button
-                    key={l.code}
-                    className={lang === l.code ? 'active' : ''}
-                    tabIndex={menuOpen ? undefined : -1}
-                    onClick={() => {
-                      setLang(l.code);
-                      closeAndReturnFocus();
-                    }}
-                  >
-                    {l.label}
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </nav>
