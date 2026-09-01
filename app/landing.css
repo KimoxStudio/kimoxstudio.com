@@ -1336,6 +1336,10 @@
         --bg-mask: none;
         --hero-col: 100%;
       }
+      .hero-meta {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px 12px;
+      }
       .steps { grid-template-columns: 1fr; }
       .step { min-height: 0; padding: 28px 24px; }
       .svc-row .price-cell .amount { font-size: 32px; }
