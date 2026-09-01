@@ -210,7 +210,7 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
         </noscript>
       </div>
       <div className="hero-blob" data-px="0.28" aria-hidden="true" />
-      <div className="wrap hero-col" data-px="-0.1">
+      <div className="hero-col" data-px="-0.1">
         <div className="hero-meta mono">
           {meta.map((m, i) => (
             <span key={i} {...kxField(`meta.${lang}.${i}`)}>

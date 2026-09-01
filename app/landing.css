@@ -53,6 +53,7 @@
     .hero-col {
       position: relative;
       z-index: 2;
+      width: 100%;
       max-width: 1480px;
       margin: 0 auto;
       padding: clamp(56px, 6vw, 88px) clamp(28px, 5vw, 88px) clamp(52px, 5.5vw, 76px);
