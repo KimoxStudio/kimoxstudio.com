@@ -37,6 +37,22 @@ const HERO_PREHYDRATION_SCRIPT = `
 })();
 `;
 
+// Both hero <img> tags plus the script above are rendered as one opaque HTML
+// blob via `dangerouslySetInnerHTML` instead of as normal JSX children.
+// `suppressHydrationWarning` on the two <img> elements does NOT stop React's
+// hydration-mismatch warning for a `src` attribute that HERO_PREHYDRATION_SCRIPT
+// sets via direct DOM mutation before hydration runs — that prop only covers
+// mismatches React itself would produce by rendering different values server
+// vs. client, not a third-party mutation of the live DOM in between. Content
+// inside `dangerouslySetInnerHTML` is hydrated as an opaque string (React
+// only checks the container's own innerHTML, not each descendant's
+// attributes), so the same live DOM mutation no longer triggers a warning.
+const HERO_IMAGES_HTML = `
+<img data-hero-img data-theme-variant="light" data-src="${HERO_SRC.light}" alt="" aria-hidden="true" decoding="async">
+<img data-hero-img data-theme-variant="dark" data-src="${HERO_SRC.dark}" alt="" aria-hidden="true" decoding="async">
+<script>${HERO_PREHYDRATION_SCRIPT}</script>
+`;
+
 export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
   const [lang] = useLang() as [Lang, (next: Lang) => void];
   const [hookTheme] = useTheme() as [string, (next: string) => void];
@@ -179,25 +195,7 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
         the *other* variant once the user actually toggles theme.
       */}
       <div id="hero-bg" className="hero-bg-layer" data-px="0.45" data-px-clamp="auto" role="presentation">
-        <img
-          data-hero-img
-          data-theme-variant="light"
-          data-src={HERO_SRC.light}
-          alt=""
-          aria-hidden="true"
-          decoding="async"
-          suppressHydrationWarning
-        />
-        <img
-          data-hero-img
-          data-theme-variant="dark"
-          data-src={HERO_SRC.dark}
-          alt=""
-          aria-hidden="true"
-          decoding="async"
-          suppressHydrationWarning
-        />
-        <script dangerouslySetInnerHTML={{ __html: HERO_PREHYDRATION_SCRIPT }} />
+        <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: HERO_IMAGES_HTML }} />
         {/*
           No-JS fallback: HERO_PREHYDRATION_SCRIPT and the useEffect above are
           the only things that ever promote `data-src` to a real `src`, so
