@@ -37,6 +37,24 @@ const HERO_PREHYDRATION_SCRIPT = `
 })();
 `;
 
+// The two <img data-hero-img> elements plus HERO_PREHYDRATION_SCRIPT are
+// rendered as a single raw HTML blob via `dangerouslySetInnerHTML` instead
+// of as separate JSX nodes. React hydrates `dangerouslySetInnerHTML`
+// content as an opaque string — it does not diff individual attributes
+// inside it against the server-rendered markup — so the `src` attribute
+// HERO_PREHYDRATION_SCRIPT sets synchronously (between browser parse and
+// React's hydrate() call) never triggers a hydration attribute-mismatch
+// warning. `suppressHydrationWarning` on the two <img> elements themselves
+// (the previous approach) does NOT suppress this: it only silences
+// mismatches React itself would produce by rendering different values
+// server vs client, not mismatches from an external script mutating the
+// DOM before hydrate() runs.
+const HERO_MARKUP = `
+<img data-hero-img data-theme-variant="light" data-src="${HERO_SRC.light}" alt="" aria-hidden="true" decoding="async" />
+<img data-hero-img data-theme-variant="dark" data-src="${HERO_SRC.dark}" alt="" aria-hidden="true" decoding="async" />
+<script>${HERO_PREHYDRATION_SCRIPT}</script>
+`;
+
 export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
   const [lang] = useLang() as [Lang, (next: Lang) => void];
   const [hookTheme] = useTheme() as [string, (next: string) => void];
@@ -172,32 +190,18 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
         is *visible* is driven by the same [data-theme] attribute selector
         the rest of the app uses (see .hero-bg-layer in app/landing.css).
         Which one has actually *fetched* (has a real `src`, not just
-        `data-src`) is controlled by HERO_PREHYDRATION_SCRIPT below, which
-        runs synchronously before hydration — not by React — so the correct
+        `data-src`) is controlled by HERO_PREHYDRATION_SCRIPT, which runs
+        synchronously before hydration — not by React — so the correct
         image is present from the very first paint and the inactive variant
         is never downloaded. The `useEffect` above only backfills `src` for
         the *other* variant once the user actually toggles theme.
+
+        Both <img> elements and HERO_PREHYDRATION_SCRIPT are rendered via
+        `dangerouslySetInnerHTML={{ __html: HERO_MARKUP }}` on a wrapper div
+        instead of as individual JSX nodes — see HERO_MARKUP above for why.
       */}
       <div id="hero-bg" className="hero-bg-layer" data-px="0.45" data-px-clamp="auto" role="presentation">
-        <img
-          data-hero-img
-          data-theme-variant="light"
-          data-src={HERO_SRC.light}
-          alt=""
-          aria-hidden="true"
-          decoding="async"
-          suppressHydrationWarning
-        />
-        <img
-          data-hero-img
-          data-theme-variant="dark"
-          data-src={HERO_SRC.dark}
-          alt=""
-          aria-hidden="true"
-          decoding="async"
-          suppressHydrationWarning
-        />
-        <script dangerouslySetInnerHTML={{ __html: HERO_PREHYDRATION_SCRIPT }} />
+        <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: HERO_MARKUP }} />
         {/*
           No-JS fallback: HERO_PREHYDRATION_SCRIPT and the useEffect above are
           the only things that ever promote `data-src` to a real `src`, so
