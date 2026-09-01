@@ -1,16 +1,84 @@
     /* ── Hero ─────────── */
     .hero {
-      padding: 80px 0 64px;
+      position: relative;
+      min-height: clamp(420px, 62vw, 820px);
+      display: flex;
+      align-items: center;
+      overflow: clip;
       border-bottom: 1px solid var(--rule);
+      --bg-top: -150px;
+      --bg-extra: 300px;
+      --img-pos: 100% 50%;
+      --bg-mask: none;
+      --hero-col: min(38vw, 600px);
+    }
+    .hero-bg-layer {
+      position: absolute;
+      top: var(--bg-top);
+      left: -6%;
+      width: 112%;
+      height: calc(100% + var(--bg-extra));
+      z-index: 0;
+      will-change: transform;
+      background-color: var(--hero-fill);
+      mask-image: var(--bg-mask); -webkit-mask-image: var(--bg-mask);
+    }
+    /* Dual-image parallax layer: both theme images are stacked absolutely
+       inside .hero-bg-layer; only the one matching the active [data-theme]
+       is shown. */
+    .hero-bg-layer img[data-hero-img] {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: var(--img-pos);
+      display: none;
+    }
+    :root[data-theme="dark"] .hero-bg-layer img[data-theme-variant="dark"] { display: block; }
+    :root[data-theme="light"] .hero-bg-layer img[data-theme-variant="light"] { display: block; }
+    .hero-blob {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      right: 6%;
+      bottom: -120px;
+      width: clamp(220px, 38vw, 360px); height: clamp(220px, 38vw, 360px);
+      border-radius: 50%;
+      background: radial-gradient(circle at 45% 45%, rgba(76, 125, 255, .28), rgba(76, 125, 255, 0) 70%);
+      will-change: transform;
+    }
+    .hero-col {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: clamp(56px, 6vw, 88px) clamp(28px, 5vw, 88px) clamp(52px, 5.5vw, 76px);
+      will-change: transform;
+    }
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px 14px;
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--hero-muted);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 20px;
+      margin-bottom: clamp(22px, 3vw, 32px);
+      max-width: var(--hero-col);
     }
     .hero h1 {
       font-family: "Familjen Grotesk", sans-serif;
       font-weight: 700;
-      font-size: clamp(64px, 12vw, 220px);
-      line-height: 0.86;
-      letter-spacing: -0.05em;
-      margin: 0 0 56px;
+      font-size: clamp(32px, 5.2vw, 92px);
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      margin: 0 0 clamp(22px, 3vw, 34px);
       text-transform: uppercase;
+      max-width: var(--hero-col);
     }
     .hero h1 .line { display: block; position: relative; }
     .hero h1 .line:nth-child(1) { color: var(--ink); }
@@ -28,16 +96,49 @@
       text-transform: none;
     }
     .hero .bottom-grid {
-      display: grid; grid-template-columns: 1.6fr auto; gap: 48px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 28px 32px;
       align-items: end;
-      border-top: 1px solid var(--rule); padding-top: 36px;
+      border-top: 1px solid var(--rule);
+      padding-top: clamp(20px, 2.5vw, 28px);
+      margin-bottom: 24px;
+      max-width: var(--hero-col);
     }
+    /* .ctas is a grid child of .bottom-grid (grid-column: 1/-1), spanning
+       both columns below them -- matching the design's nesting. This keeps
+       the buttons capped to --hero-col's width instead of stretching to
+       .hero-col's full 1480px and overlapping the hero illustration. */
     .hero .sub {
       font-family: "Familjen Grotesk", sans-serif;
-      font-size: clamp(20px, 2.1vw, 28px); line-height: 1.4; color: var(--ink);
-      margin: 0; max-width: 640px;
+      font-size: 18px; line-height: 1.45; color: var(--ink-2);
+      margin: 0; max-width: 380px;
     }
-    .hero .ctas { display: flex; flex-direction: column; gap: 10px; }
+    .hero-facts {
+      list-style: none;
+      margin: 0; padding: 0;
+      display: flex; flex-direction: column; gap: 16px;
+      font-size: 12px; color: var(--hero-muted);
+    }
+    /* Capped narrower than --hero-col (600px at desktop): at wide viewports
+       (~1420px+) .hero-bg-layer stops horizontally cropping the hero image
+       (the box becomes wider than the image's own aspect ratio, so cover
+       shows its full width instead), which pushes the illustration's
+       leftmost content toward the edge of --hero-col's own width as the
+       viewport grows -- past ~1500px the buttons start overlapping it.
+       This narrower cap keeps clearance on very wide desktop windows,
+       independent of viewport width. */
+    .hero .ctas { display: flex; flex-wrap: wrap; gap: 10px; width: 100%; max-width: 460px; grid-column: 1 / -1; }
+    .hero .ctas .btn-primary,
+    .hero .ctas .btn-secondary {
+      flex: 1 1 auto;
+      min-width: 0;
+      justify-content: center;
+      gap: 9px;
+      padding: 14px 18px;
+      font-size: 13px;
+      white-space: nowrap;
+    }
     .btn-primary {
       display: inline-flex; align-items: center; justify-content: space-between; gap: 16px;
       background: var(--orange); color: var(--bg);
@@ -1206,9 +1307,23 @@
     .footer-big .orange-bit { color: var(--orange); }
     .footer-big .olive-bit { color: var(--olive); }
 
+    @media (max-width: 1024px) {
+      .hero {
+        --bg-top: -110px;
+        --bg-extra: 220px;
+        /* Design source value is 64% 92% -- with the actual hero-dark/light.png
+           assets, that crop puts the illustration's icon cluster directly
+           behind the paragraph/facts text at this tier (verified visually
+           at 700-1024px). 0% shifts the crop window left, keeping the
+           illustration clear of the text column. Empirically tuned against
+           screenshots, not sourced from the design file. */
+        --img-pos: 0% 92%;
+        --bg-mask: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, .18) 42%, #000 80%);
+        --hero-col: min(66%, 520px);
+      }
+    }
     @media (max-width: 1100px) {
       .wrap { padding: 0 28px; }
-      .hero h1 { font-size: clamp(56px, 11vw, 120px); }
       .hero .bottom-grid { grid-template-columns: 1fr; gap: 24px; }
       .manifesto .grid { grid-template-columns: 1fr; gap: 40px; }
       .web-service .ws-panel { grid-template-columns: 1fr; }
@@ -1235,6 +1350,17 @@
       .form-row { grid-template-columns: 1fr; }
     }
     @media (max-width: 640px) {
+      .hero {
+        --bg-top: -80px;
+        --bg-extra: 160px;
+        --img-pos: 8% 50%;
+        --bg-mask: none;
+        --hero-col: 100%;
+      }
+      .hero-meta {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px 12px;
+      }
       .steps { grid-template-columns: 1fr; }
       .step { min-height: 0; padding: 28px 24px; }
       .svc-row .price-cell .amount { font-size: 32px; }

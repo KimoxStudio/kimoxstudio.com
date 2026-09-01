@@ -23,6 +23,13 @@ export const metadata = {
   },
 };
 
+// Sets `data-theme` on <html> synchronously, before hydration or any paint,
+// so CSS never has a themeless flash. `kx/templates/masthead/component.tsx`
+// reuses this same synchronous, pre-hydration technique (and reads this same
+// `data-theme` attribute, rather than re-reading localStorage) for the hero
+// image's initial `src` — it can't be merged into this script because the
+// hero <img> elements don't exist yet when this one runs (this one executes
+// in <head>, before <body> is parsed).
 const themeInit = `
 (function(){
   try {

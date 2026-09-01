@@ -8,4 +8,6 @@ export const mastheadSchema = z.object({
   sub: localized(LANGS),
   cta1: localized(LANGS),
   cta2: localized(LANGS),
+  meta: localizedList(LANGS),
+  facts: localizedList(LANGS),
 });
