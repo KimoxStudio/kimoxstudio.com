@@ -33,12 +33,13 @@ export default function Nav({
   const menuButtonRef = React.useRef(null);
   const menuPanelRef = React.useRef(null);
   const navRef = React.useRef(null);
-  // The backdrop is portaled to document.body (see render below) instead of
-  // rendered as a descendant of <nav>. `nav.top` has `backdrop-filter`,
-  // which establishes a containing block for `position: fixed` descendants
-  // in Chromium/Firefox — if the backdrop stayed nested inside it, `fixed`
-  // would resolve against nav's own ~68px box instead of the viewport.
-  // Portals only work client-side, so it's deferred until after mount.
+  // The mobile panel is portaled to document.body (see render below)
+  // instead of rendered as a descendant of <nav>. `nav.top` has
+  // `backdrop-filter`, which establishes a containing block for
+  // `position: fixed` descendants in Chromium/Firefox — if the panel
+  // stayed nested inside it, `fixed` would resolve against nav's own
+  // ~68px box instead of the viewport. Portals only work client-side, so
+  // it's deferred until after mount.
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
 
@@ -126,16 +127,12 @@ export default function Nav({
     const navEl = navRef.current;
     const parent = navEl?.parentElement;
     const supportsInert = typeof HTMLElement !== 'undefined' && 'inert' in HTMLElement.prototype;
-    // Exclude the portaled backdrop and the portaled panel itself — both
-    // are siblings of <nav> in the DOM (appended to document.body), but
-    // neither is background page content to isolate: the backdrop is the
-    // click-to-close target and the panel is the open menu itself.
+    // Exclude the portaled panel itself — it's a sibling of <nav> in the
+    // DOM (appended to document.body), but it's the open menu itself, not
+    // background page content to isolate.
     const siblings = parent
       ? Array.from(parent.children).filter(
-          (el) =>
-            el !== navEl &&
-            !el.classList.contains('nav-mobile-backdrop') &&
-            !el.classList.contains('nav-mobile')
+          (el) => el !== navEl && !el.classList.contains('nav-mobile')
         )
       : [];
     siblings.forEach((el) => {
@@ -199,23 +196,27 @@ export default function Nav({
       </Link>
     );
 
-  // Shared by the backdrop click, Escape, and every mobile link: closes the
+  // Shared by Escape and every mobile link/lang-switch button: closes the
   // panel and moves focus off whatever's currently focused inside it, back
   // to the toggle button. Without this, clicking a mobile link leaves focus
   // on the just-activated <a> while the panel re-renders `aria-hidden`,
   // which is an ARIA-invalid state (focused element inside aria-hidden).
+  // (The burger button itself toggles `menuOpen` directly via its own
+  // onClick below, not through this helper.)
   const closeAndReturnFocus = () => {
     setMenuOpen(false);
     menuButtonRef.current?.focus();
   };
 
-  // The mobile panel itself, portaled to document.body below for the same
-  // reason as the backdrop (see comment near `mounted` above): nav.top has
+  // The mobile panel itself, portaled to document.body below: nav.top has
   // `backdrop-filter`, which establishes a containing block for
   // `position: fixed` descendants in Chromium/Firefox, so a `.nav-mobile`
   // left nested inside <nav> would have its `fixed` positioning resolve
   // against nav's own ~68px box instead of the viewport, collapsing the
-  // panel instead of covering the screen.
+  // panel instead of covering the screen. The panel is a full-viewport
+  // opaque overlay by design (per the design source), so there's no
+  // separate dim/backdrop element behind it — closing happens via Escape,
+  // the burger toggle, or activating a link/button inside the panel.
   const mobilePanel = (
     <div
       id={menuId}
@@ -298,15 +299,6 @@ export default function Nav({
 
   return (
     <>
-      {mounted &&
-        createPortal(
-          <div
-            className={`nav-mobile-backdrop${menuOpen ? ' open' : ''}`}
-            aria-hidden="true"
-            onClick={closeAndReturnFocus}
-          />,
-          document.body
-        )}
       {mounted && createPortal(mobilePanel, document.body)}
       <nav className="top" ref={navRef}>
         <div className="row">
