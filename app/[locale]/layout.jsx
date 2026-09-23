@@ -1,7 +1,7 @@
 import '../globals.css';
 import { Analytics } from '@vercel/analytics/next';
 import LangProvider from '@/components/LangProvider';
-import { BASE_URL, LOCALES, localeUrl } from '@/lib/urls';
+import { BASE_URL, CONTACT_EMAIL, LOCALES, localeUrl } from '@/lib/urls';
 
 // Root layout, now under app/[locale] so the served HTML already comes in
 // the right language (es at the unprefixed URLs via next.config.js rewrites,
@@ -45,6 +45,21 @@ const META = {
 export async function generateMetadata({ params }) {
   const { locale } = await params;
   const m = META[locale] ?? META.es;
+  // Explicit og:image/twitter:image. When the root layout lived at app/
+  // next to app/opengraph-image.jsx the file convention attached the image
+  // automatically, but after the move to app/[locale] the layout sits in a
+  // child segment and Next.js does not reliably carry the ancestor's
+  // file-convention image across segments (and this openGraph object would
+  // shallow-replace it anyway). app/opengraph-image.jsx still serves the
+  // poster at /opengraph-image; we just reference it explicitly here so
+  // home and the blog index (which inherit this metadata) keep a preview
+  // image in all three locales.
+  const ogImage = {
+    url: `${BASE_URL}/opengraph-image`,
+    width: 1200,
+    height: 630,
+    alt: m.ogTitle,
+  };
   return {
     metadataBase: new URL(BASE_URL),
     title: m.title,
@@ -59,11 +74,13 @@ export async function generateMetadata({ params }) {
       siteName: 'Kimox Studio',
       locale: m.ogLocale,
       type: 'website',
+      images: [ogImage],
     },
     twitter: {
       card: 'summary_large_image',
       title: m.ogTitle,
       description: m.description,
+      images: [ogImage],
     },
   };
 }
@@ -87,7 +104,7 @@ const organizationJsonLd = JSON.stringify({
   // PNG, not SVG: Google doesn't reliably support SVG logos in structured
   // data (same reason the favicon moved to app/icon.png).
   logo: `${BASE_URL}/icon.png`,
-  email: 'info@kimoxstudio.com',
+  email: CONTACT_EMAIL,
   description:
     'Estudio independiente de software. Diseñamos y desarrollamos aplicaciones web y móviles a medida.',
 }).replace(/</g, '\\u003c');
