@@ -32,6 +32,19 @@ export const metadata = {
 // image's initial `src` — it can't be merged into this script because the
 // hero <img> elements don't exist yet when this one runs (this one executes
 // in <head>, before <body> is parsed).
+// Organization structured data (JSON-LD) for search engines and AI crawlers.
+// Only verifiable facts — no invented addresses or social profiles.
+const organizationJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Kimox Studio',
+  url: 'https://www.kimoxstudio.com',
+  logo: 'https://www.kimoxstudio.com/logos/icon.svg',
+  email: 'info@kimoxstudio.com',
+  description:
+    'Estudio independiente de software. Diseñamos y desarrollamos aplicaciones web y móviles a medida.',
+});
+
 const themeInit = `
 (function(){
   try {
@@ -50,6 +63,10 @@ export default function RootLayout({ children }) {
     <html lang="es" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: organizationJsonLd }}
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
