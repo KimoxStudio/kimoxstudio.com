@@ -68,7 +68,7 @@ export async function submitContact(_prevState, formData) {
   // 4. Send via Resend, or log to console if not configured (dev mode).
   const apiKey = process.env.RESEND_API_KEY;
   const fromAddr = process.env.RESEND_FROM || 'Kimox Studio <onboarding@resend.dev>';
-  const toAddr = process.env.RESEND_TO || 'kimoxstudio@gmail.com';
+  const toAddr = process.env.RESEND_TO || 'info@kimoxstudio.com';
 
   const subject = `[Web] ${data.name} — ${data.budget || 'sin presupuesto'}`;
   const text = [

@@ -597,7 +597,7 @@ export default function HomePage() {
             ja: "考えていることを2行でお聞かせください。24時間以内に質問・アイデア・計画でお返事します。",
           },
           or: { es: "o escríbenos a", en: "or email us at", ja: "またはメールで" },
-          email: "kimoxstudio@gmail.com",
+          email: "info@kimoxstudio.com",
           fieldName: { es: "Tu nombre", en: "Your name", ja: "お名前" },
           fieldEmail: { es: "Tu email", en: "Your email", ja: "メールアドレス" },
           fieldBudget: { es: "Presupuesto aproximado", en: "Rough budget", ja: "おおよその予算" },
@@ -621,7 +621,7 @@ export default function HomePage() {
           },
           backToTop: { es: "Volver arriba ↑", en: "Back to top ↑", ja: "トップへ ↑" },
           blogLabel: { es: "Blog", en: "Blog", ja: "ブログ" },
-          email: "kimoxstudio@gmail.com",
+          email: "info@kimoxstudio.com",
         }}
         node={stubNode("footer", "footer-wordmark")}
       />

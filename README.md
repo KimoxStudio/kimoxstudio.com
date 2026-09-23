@@ -105,7 +105,7 @@ Variables de entorno (ver `.env.example`):
 |---|---|---|
 | `RESEND_API_KEY` | Clave API de Resend | sí (producción) |
 | `RESEND_FROM` | Remitente verificado en Resend | recomendada |
-| `RESEND_TO` | Destinatario, default `kimoxstudio@gmail.com` | opcional |
+| `RESEND_TO` | Destinatario, default `info@kimoxstudio.com` | opcional |
 | `UPSTASH_REDIS_REST_URL` o `KV_REST_API_URL` | Endpoint REST del Redis para rate limit | sí (producción) |
 | `UPSTASH_REDIS_REST_TOKEN` o `KV_REST_API_TOKEN` | Token REST | sí (producción) |
 
