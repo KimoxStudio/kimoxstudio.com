@@ -5,7 +5,9 @@ export const metadata = {
   metadataBase: new URL('https://www.kimoxstudio.com'),
   title: 'Kimox Studio — Software con alma propia',
   description: 'Estudio de software. Aplicaciones web y móviles a medida.',
-  icons: { icon: '/logos/icon.svg' },
+  // Favicon via App Router file conventions: app/favicon.ico (16/32/48) and
+  // app/icon.png (192x192). Google Search does not support SVG favicons, so
+  // the old icons:{icon:'/logos/icon.svg'} config was replaced by these files.
   openGraph: {
     title: 'Kimox Studio — Software con alma que habla tu idioma',
     description:
