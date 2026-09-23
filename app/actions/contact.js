@@ -4,6 +4,7 @@ import { headers } from 'next/headers';
 import { z } from 'zod';
 import { Resend } from 'resend';
 import { checkContactLimit } from '../../lib/ratelimit';
+import { CONTACT_EMAIL } from '../../lib/urls';
 
 const Payload = z.object({
   name: z.string().trim().min(1).max(120),
@@ -68,7 +69,7 @@ export async function submitContact(_prevState, formData) {
   // 4. Send via Resend, or log to console if not configured (dev mode).
   const apiKey = process.env.RESEND_API_KEY;
   const fromAddr = process.env.RESEND_FROM || 'Kimox Studio <onboarding@resend.dev>';
-  const toAddr = process.env.RESEND_TO || 'info@kimoxstudio.com';
+  const toAddr = process.env.RESEND_TO || CONTACT_EMAIL;
 
   const subject = `[Web] ${data.name} — ${data.budget || 'sin presupuesto'}`;
   const text = [

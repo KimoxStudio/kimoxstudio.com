@@ -1,5 +1,5 @@
 import "../landing.css";
-import { languageAlternates, localeUrl } from "@/lib/urls";
+import { CONTACT_EMAIL, languageAlternates, localeUrl } from "@/lib/urls";
 import type { PageNode } from "@/kx/template-types";
 import { PageComponent } from "@/kx/templates/page/component";
 import { SiteNavComponent } from "@/kx/templates/site-nav/component";
@@ -610,7 +610,7 @@ export default function HomePage() {
             ja: "考えていることを2行でお聞かせください。24時間以内に質問・アイデア・計画でお返事します。",
           },
           or: { es: "o escríbenos a", en: "or email us at", ja: "またはメールで" },
-          email: "info@kimoxstudio.com",
+          email: CONTACT_EMAIL,
           fieldName: { es: "Tu nombre", en: "Your name", ja: "お名前" },
           fieldEmail: { es: "Tu email", en: "Your email", ja: "メールアドレス" },
           fieldBudget: { es: "Presupuesto aproximado", en: "Rough budget", ja: "おおよその予算" },
@@ -634,7 +634,7 @@ export default function HomePage() {
           },
           backToTop: { es: "Volver arriba ↑", en: "Back to top ↑", ja: "トップへ ↑" },
           blogLabel: { es: "Blog", en: "Blog", ja: "ブログ" },
-          email: "info@kimoxstudio.com",
+          email: CONTACT_EMAIL,
         }}
         node={stubNode("footer", "footer-wordmark")}
       />
