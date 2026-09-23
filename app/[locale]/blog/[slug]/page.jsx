@@ -15,6 +15,16 @@ export async function generateMetadata({ params }) {
   const title = post.title?.[locale] || post.title?.es || post.slug;
   const description = post.excerpt?.[locale] || post.excerpt?.es;
   const path = `/blog/${post.slug}`;
+  // Public og:image URL. Built with localeUrl (not the file convention) so the
+  // Spanish/default locale advertises the real unprefixed URL instead of the
+  // internal /es/... path that next.config.js 308-redirects — most social
+  // scrapers don't follow redirects on og:image.
+  const ogImage = {
+    url: localeUrl(locale, `${path}/opengraph-image`),
+    width: 1200,
+    height: 630,
+    alt: title,
+  };
   return {
     title: `${title} — Kimox Studio`,
     description,
@@ -29,6 +39,13 @@ export async function generateMetadata({ params }) {
       siteName: 'Kimox Studio',
       type: 'article',
       publishedTime: post.date,
+      images: [ogImage],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage.url],
     },
   };
 }
