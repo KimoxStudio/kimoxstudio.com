@@ -82,7 +82,9 @@ const organizationJsonLd = JSON.stringify({
   '@type': 'Organization',
   name: 'Kimox Studio',
   url: 'https://www.kimoxstudio.com',
-  logo: 'https://www.kimoxstudio.com/logos/icon.svg',
+  // PNG, not SVG: Google doesn't reliably support SVG logos in structured
+  // data (same reason the favicon moved to app/icon.png).
+  logo: 'https://www.kimoxstudio.com/icon.png',
   email: 'info@kimoxstudio.com',
   description:
     'Estudio independiente de software. Diseñamos y desarrollamos aplicaciones web y móviles a medida.',

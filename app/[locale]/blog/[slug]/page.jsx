@@ -76,7 +76,9 @@ export default async function Page({ params }) {
       url: 'https://www.kimoxstudio.com',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://www.kimoxstudio.com/logos/icon.svg',
+        // PNG, not SVG: Google doesn't reliably support SVG logos in
+        // structured data (same reason the favicon moved to app/icon.png).
+        url: 'https://www.kimoxstudio.com/icon.png',
       },
     },
   });
