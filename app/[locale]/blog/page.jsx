@@ -1,6 +1,6 @@
 import './blog.css';
 import { getFeaturedAndOthers } from '@/lib/posts';
-import { languageAlternates, localeUrl } from '@/lib/urls';
+import { BASE_URL, languageAlternates, localeUrl } from '@/lib/urls';
 import BlogClient from '@/components/BlogClient';
 
 // Localized index metadata — same copy as BlogClient's hero (existing site
@@ -26,12 +26,37 @@ const META = {
 export async function generateMetadata({ params }) {
   const { locale } = await params;
   const m = META[locale] ?? META.es;
+  const url = localeUrl(locale, '/blog');
+  // Explicit openGraph/twitter: Next.js does not merge these objects field by
+  // field across segments — without them this page would inherit the layout's
+  // entire openGraph (home og:url/title/description) verbatim. Same pattern as
+  // blog/[slug]/page.jsx; the image is the site-wide poster the layout uses.
+  const ogImage = {
+    url: `${BASE_URL}/opengraph-image`,
+    width: 1200,
+    height: 630,
+    alt: m.title,
+  };
   return {
     title: m.title,
     description: m.description,
     alternates: {
-      canonical: localeUrl(locale, '/blog'),
+      canonical: url,
       languages: languageAlternates('/blog'),
+    },
+    openGraph: {
+      title: m.title,
+      description: m.description,
+      url,
+      siteName: 'Kimox Studio',
+      type: 'website',
+      images: [ogImage],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: m.title,
+      description: m.description,
+      images: [ogImage.url],
     },
   };
 }

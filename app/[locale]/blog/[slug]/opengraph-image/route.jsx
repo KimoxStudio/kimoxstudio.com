@@ -39,8 +39,11 @@ const LABEL = {
 export async function GET(request, { params }) {
   const { locale, slug } = await params;
   const post = getPost(slug);
-  const title = post?.title?.[locale] || post?.title?.es || slug;
-  const category = post?.category?.[locale] || post?.category?.es || '';
+  // Unknown slug: 404, matching the sibling page's notFound() — don't render
+  // a 200 image with the raw slug as the title.
+  if (!post) return new Response('Not Found', { status: 404 });
+  const title = post.title?.[locale] || post.title?.es || slug;
+  const category = post.category?.[locale] || post.category?.es || '';
   const [monoBold, monoRegular] = await Promise.all([
     ttf('IBMPlexMono-Bold.ttf'),
     ttf('IBMPlexMono-Regular.ttf'),
