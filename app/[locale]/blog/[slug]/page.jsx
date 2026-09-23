@@ -1,0 +1,76 @@
+import '../blog.css';
+import { notFound } from 'next/navigation';
+import { getAllPosts, getPost } from '@/lib/posts';
+import { languageAlternates, localeUrl } from '@/lib/urls';
+import BlogPostClient from '@/components/BlogPostClient';
+
+export function generateStaticParams() {
+  return getAllPosts().map((p) => ({ slug: p.slug }));
+}
+
+export async function generateMetadata({ params }) {
+  const { locale, slug } = await params;
+  const post = getPost(slug);
+  if (!post) return {};
+  const title = post.title?.[locale] || post.title?.es || post.slug;
+  const description = post.excerpt?.[locale] || post.excerpt?.es;
+  const path = `/blog/${post.slug}`;
+  return {
+    title: `${title} — Kimox Studio`,
+    description,
+    alternates: {
+      canonical: localeUrl(locale, path),
+      languages: languageAlternates(path),
+    },
+    openGraph: {
+      title,
+      description,
+      url: localeUrl(locale, path),
+      siteName: 'Kimox Studio',
+      type: 'article',
+      publishedTime: post.date,
+    },
+  };
+}
+
+export default async function Page({ params }) {
+  const { locale, slug } = await params;
+  const post = getPost(slug);
+  if (!post) notFound();
+
+  // BlogPosting structured data — only facts from the post's own
+  // frontmatter; the author is the studio (posts carry no personal byline).
+  const articleJsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title?.[locale] || post.title?.es || post.slug,
+    description: post.excerpt?.[locale] || post.excerpt?.es,
+    datePublished: post.date,
+    inLanguage: locale,
+    mainEntityOfPage: localeUrl(locale, `/blog/${post.slug}`),
+    author: {
+      '@type': 'Organization',
+      name: 'Kimox Studio',
+      url: 'https://www.kimoxstudio.com',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Kimox Studio',
+      url: 'https://www.kimoxstudio.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.kimoxstudio.com/logos/icon.svg',
+      },
+    },
+  });
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: articleJsonLd }}
+      />
+      <BlogPostClient post={post} />
+    </>
+  );
+}

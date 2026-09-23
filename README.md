@@ -10,7 +10,7 @@ Sitio público del estudio: landing editorial y blog técnico.
 
 - **Landing brutalist editorial** en tema oscuro (V3 Poster) — hero, manifiesto, servicios con precios, proyectos, proceso, testimonios, sección "Nosotros" con tarjetas de equipo (tilt 3D), formulario de contacto.
 - **Blog técnico** con la misma estética (Familjen Grotesk + IBM Plex Mono): índice con featured + filtros por categoría y detalle de post con `generateStaticParams` (un HTML pre-renderizado por slug).
-- **Tres idiomas** ES / EN / JA con conmutador persistido en `localStorage` y `<html lang>` sincronizado.
+- **Tres idiomas** ES / EN / JA renderizados en servidor: rutas por idioma (`app/[locale]` — español en las URLs sin prefijo de siempre vía rewrites, inglés y japonés bajo `/en` y `/ja`), `<html lang>` correcto y `hreflang` + canonical por página. El conmutador del nav navega a la variante equivalente de la URL actual.
 - **Tema claro / oscuro** con detección automática de `prefers-color-scheme`, conmutador manual, sin flash (script inline antes del primer paint).
 - **Cursor custom** suave en landing y blog, deshabilitado en touch.
 
@@ -53,17 +53,18 @@ git push                 # despliegue automático
 
 ```
 app/
-  layout.jsx              root layout — fuentes, cursor, script de tema
+  [locale]/               rutas por idioma (es/en/ja) — un HTML estático por locale
+    layout.jsx            root layout — fuentes, cursor, script de tema, <html lang>, LangProvider
+    page.tsx              landing estática (copy hardcodeado, monta kx/templates/*)
+    blog/
+      page.jsx            índice del blog (server component → BlogClient)
+      blog.css            estilos específicos del blog (mismo lenguaje visual)
+      [slug]/page.jsx     detalle de post (SSG vía generateStaticParams) + JSON-LD BlogPosting
   globals.css             tokens compartidos (dark + light), base, cursor
-  page.tsx                landing estática (copy hardcodeado, monta kx/templates/*)
   landing.css             estilos específicos de la landing
   opengraph-image.jsx     imagen OG generada (next/og)
   actions/
     contact.js            Server Action del formulario de contacto
-  blog/
-    page.jsx               índice del blog (server component → BlogClient)
-    blog.css                estilos específicos del blog (mismo lenguaje visual)
-    [slug]/page.jsx          detalle de post (SSG vía generateStaticParams)
 components/
   Nav.jsx                  navegación
   BlogClient.jsx           listado, filtros, featured
@@ -73,7 +74,8 @@ components/
 lib/
   posts.js                 loader fs de markdown (server-only)
   i18n.js                  strings compartidos ES/EN/JA (nav, footer)
-  lang.js                  useLang hook + t() helper (client)
+  lang.js                  useLang hook + t() helper (client; idioma derivado de la ruta vía LangProvider)
+  urls.js                  helpers de URLs por locale (localePath, hreflang alternates)
   cursor.js                hooks de cursor (landing y blog)
   theme.js                 useTheme hook (client)
   ratelimit.js             rate limit del formulario de contacto (Upstash)

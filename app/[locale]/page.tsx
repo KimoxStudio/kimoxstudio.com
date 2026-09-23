@@ -1,4 +1,5 @@
-import "./landing.css";
+import "../landing.css";
+import { languageAlternates, localeUrl } from "@/lib/urls";
 import type { PageNode } from "@/kx/template-types";
 import { PageComponent } from "@/kx/templates/page/component";
 import { SiteNavComponent } from "@/kx/templates/site-nav/component";
@@ -39,13 +40,25 @@ import { FooterWordmarkComponent } from "@/kx/templates/footer-wordmark/componen
 // live preview iframe, which also targets "/" — has no effect on the
 // deployed homepage until someone updates this file to match.
 //
-// Locale switching (es/en/ja) is untouched: every template below still
-// resolves its own language from the shared client store (`kx/stores.ts`'s
-// `langStore`, persisted to `localStorage` under `kimox-lang`) via
-// `useLang()` (`lib/lang.js`) inside the component itself — this file only
-// supplies the same localized {es, en, ja} prop shapes the JSON always did.
-// That mechanism has no dependency on the content/git pipeline, so it keeps
-// working unmodified.
+// Locale resolution (es/en/ja): every template below still calls
+// `useLang()` (`lib/lang.js`) inside the component itself, but the language
+// now comes from the route (`app/[locale]` + LangContext seeded by the
+// layout) instead of a client-only store — so the pre-rendered HTML for
+// /, /en and /ja is already in the right language. This file only supplies
+// the same localized {es, en, ja} prop shapes it always did.
+
+// Per-locale canonical + hreflang for the landing. Each language variant is
+// canonical to ITSELF (es at the unprefixed root), and the three variants
+// cross-link via `alternates.languages`.
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  return {
+    alternates: {
+      canonical: localeUrl(locale, "/"),
+      languages: languageAlternates("/"),
+    },
+  };
+}
 
 // `node` is required by `TemplateRenderProps<P>`'s type but unused by every
 // component below (verified: none of them read it) — a minimal stand-in

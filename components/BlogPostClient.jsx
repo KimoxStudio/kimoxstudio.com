@@ -5,6 +5,7 @@ import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import { I18N as I } from '../lib/i18n';
 import { useLang, t } from '../lib/lang';
+import { localePath } from '../lib/urls';
 import { useBlogCursor } from '../lib/cursor';
 import Nav from './Nav';
 
@@ -28,7 +29,7 @@ export default function BlogPostClient({ post }) {
       <article style={{ paddingBottom: 80 }}>
         <div className="wrap" style={{ paddingTop: 48, paddingBottom: 24 }}>
           <Link
-            href="/blog"
+            href={localePath(lang, '/blog')}
             data-hover
             style={{
               fontFamily: 'IBM Plex Mono, monospace',
@@ -111,7 +112,7 @@ export default function BlogPostClient({ post }) {
               <div>{t(I.footer.rights, lang)}</div>
               <div style={{ display: 'flex', gap: 24 }}>
                 <a href={`mailto:${I.meta.email}`}>{I.meta.email}</a>
-                <Link href="/">← Home</Link>
+                <Link href={localePath(lang, '/')}>← Home</Link>
               </div>
             </div>
           </div>
