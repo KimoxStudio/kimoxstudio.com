@@ -1,4 +1,4 @@
-const BASE_URL = 'https://www.kimoxstudio.com';
+import { BASE_URL } from '@/lib/urls';
 
 export default function robots() {
   return {

@@ -1,7 +1,7 @@
 import '../blog.css';
 import { notFound } from 'next/navigation';
 import { getAllPosts, getPost } from '@/lib/posts';
-import { languageAlternates, localeUrl } from '@/lib/urls';
+import { BASE_URL, languageAlternates, localeUrl } from '@/lib/urls';
 import BlogPostClient from '@/components/BlogPostClient';
 
 export function generateStaticParams() {
@@ -68,17 +68,17 @@ export default async function Page({ params }) {
     author: {
       '@type': 'Organization',
       name: 'Kimox Studio',
-      url: 'https://www.kimoxstudio.com',
+      url: BASE_URL,
     },
     publisher: {
       '@type': 'Organization',
       name: 'Kimox Studio',
-      url: 'https://www.kimoxstudio.com',
+      url: BASE_URL,
       logo: {
         '@type': 'ImageObject',
         // PNG, not SVG: Google doesn't reliably support SVG logos in
         // structured data (same reason the favicon moved to app/icon.png).
-        url: 'https://www.kimoxstudio.com/icon.png',
+        url: `${BASE_URL}/icon.png`,
       },
     },
   });
