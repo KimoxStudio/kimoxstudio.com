@@ -77,6 +77,8 @@ export async function generateMetadata({ params }) {
 // in <head>, before <body> is parsed).
 // Organization structured data (JSON-LD) for search engines and AI crawlers.
 // Only verifiable facts — no invented addresses or social profiles.
+// Every `<` is escaped to \u003c so no value could ever close the inline
+// script tag early (standard JSON-LD hygiene for dangerouslySetInnerHTML).
 const organizationJsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -88,7 +90,7 @@ const organizationJsonLd = JSON.stringify({
   email: 'info@kimoxstudio.com',
   description:
     'Estudio independiente de software. Diseñamos y desarrollamos aplicaciones web y móviles a medida.',
-});
+}).replace(/</g, '\\u003c');
 
 const themeInit = `
 (function(){

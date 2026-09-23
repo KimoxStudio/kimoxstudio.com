@@ -57,6 +57,9 @@ export default async function Page({ params }) {
 
   // BlogPosting structured data — only facts from the post's own
   // frontmatter; the author is the studio (posts carry no personal byline).
+  // Every `<` is escaped to \u003c so post-provided text (title/excerpt in
+  // any locale) containing a literal </script> can never close the inline
+  // script tag early.
   const articleJsonLd = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -81,7 +84,7 @@ export default async function Page({ params }) {
         url: `${BASE_URL}/icon.png`,
       },
     },
-  });
+  }).replace(/</g, '\\u003c');
 
   return (
     <>
