@@ -370,14 +370,6 @@
       text-transform: uppercase;
       color: var(--ink);
     }
-    .svc-row h3 .small {
-      font-family: "Instrument Serif", serif;
-      font-weight: 400; font-style: italic;
-      font-size: 18px; text-transform: none;
-      color: var(--ink-3);
-      letter-spacing: 0; margin-top: 4px;
-      display: block;
-    }
     .svc-row .desc { font-size: 16px; line-height: 1.5; color: var(--ink-2); margin: 0 0 16px; }
     .svc-row .bullets { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px 18px; }
     .svc-row .bullets li {
@@ -760,19 +752,7 @@
       text-transform: uppercase;
       color: var(--ink);
     }
-    .step p { font-size: 14px; line-height: 1.55; color: var(--ink-2); margin: 0 0 24px; flex: 1; }
-    .step .tag {
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
-      color: var(--ink-3);
-      padding-top: 16px; border-top: 1px solid var(--rule);
-      display: flex; justify-content: space-between;
-    }
-    .step .tag .dot {
-      display: inline-block; width: 6px; height: 6px;
-      background: var(--orange); border-radius: 50%;
-      align-self: center;
-    }
+    .step p { font-size: 14px; line-height: 1.55; color: var(--ink-2); margin: 0; flex: 1; }
 
     /* ── Testimonials ── */
     .testimonials .quote-wrap {

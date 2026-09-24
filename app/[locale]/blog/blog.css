@@ -145,15 +145,6 @@
   font-size: 180px; font-weight: 700; color: var(--bg);
   letter-spacing: -0.06em;
 }
-.featured .visual .tag {
-  position: absolute; top: 16px; left: 16px;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
-  color: var(--bg); padding: 6px 10px;
-  border: 1px solid var(--bg);
-  z-index: 2;
-}
-
 /* ── Grid label ── */
 .grid-label {
   font-family: 'IBM Plex Mono', monospace;
