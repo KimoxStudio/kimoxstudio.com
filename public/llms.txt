@@ -1,0 +1,46 @@
+# Kimox Studio
+
+> Estudio independiente de software, hecho a mano en España. Diseñamos y desarrollamos aplicaciones web y móviles a medida que cargan con los valores de tu marca. Sin plantillas, sin atajos, sin software de catálogo.
+
+No empezamos un proyecto buscando qué plantilla encaja. Primero entendemos el problema, después decidimos cómo debería funcionar y, por último, cómo debería verse. Somos un equipo reducido de gente que diseña y programa: trabajamos con pocos clientes a la vez para poder meternos a fondo en cada proyecto. No subcontratamos, no usamos plantillas y no tenemos vendedores. El sitio está disponible en español (por defecto), inglés (/en) y japonés (/ja).
+
+- Web: https://www.kimoxstudio.com/
+- Email de contacto: info@kimoxstudio.com (respondemos en menos de 24h)
+- Equipo: Jesé Romero Arbelo (fundador · swiss-stack developer), Adrián Mujica González (fundador · arquitecto), Samuel Romero Arbelo (full-stack)
+
+## Servicios
+
+- Landing pages — desde 500€. Páginas hechas a mano, rápidas y optimizadas para SEO. Diseño a medida, SEO técnico incluido, entrega en 2-3 semanas.
+- Aplicaciones web — desde 1.500€. Apps web completas con base de datos, autenticación y panel propio. Stack moderno, escalable, hosting incluido el primer año.
+- Proyectos a medida — presupuesto a medida. Aplicaciones móviles, SaaS, integraciones, plataformas complejas.
+- Web como servicio — desde 80€/mes (sin IGIC). La misma web que haríamos por un pago único, repartida en una cuota mensual: diseño, hosting y mantenimiento, todo dentro. Solo para webs; las aplicaciones van por pago único.
+- También hacemos: mantenimiento mensual, migraciones de stack, auditorías SEO técnicas y refactor de código heredado.
+
+Cómo trabajamos: descubrimiento → diseño → desarrollo → lanzamiento.
+
+## Proyectos
+
+- [Mymedesp](https://mymedesp.com): plataforma de recetas y planificación de menús — importa recetas desde redes sociales o cualquier web, arma el menú semanal y genera la lista de la compra automáticamente.
+- [Characters Vault](https://charactersvault.com): gestor de fichas de personajes de rol, con automatización para Anima Beyond Fantasy y sincronización con Foundry VTT.
+- [Funciona el Ascensor de Las Rehoyas](https://funcionaelascensordelasrehoyas.com): semáforo vecinal en tiempo real del ascensor panorámico del parque de Las Rehoyas (Las Palmas), con reportes anónimos validados por la comunidad.
+- [Alea Las Palmas](https://alealaspalmas.es): web de la asociación cultural de juegos de rol, mesa, wargames y miniaturas de Las Palmas — eventos, directorio de tiendas y locales colaboradores.
+- [Patri Santana Estética](https://echedeypatricia.com): sitio para un centro de belleza y bienestar en Las Palmas de Gran Canaria, con presentación de servicios y contacto directo.
+- [RachaFit](https://rachafit.com): diario de entrenamiento social para gimnastas y corredores — registro rápido, progreso con gráficos, rachas y competición amistosa.
+
+## Blog
+
+Cuaderno del estudio: notas técnicas sobre desarrollo web, SEO, diseño de producto y migraciones. Índice: https://www.kimoxstudio.com/blog
+
+- [Cómo migramos una app de 8 años a Next.js sin perder un usuario](https://www.kimoxstudio.com/blog/migracion-nextjs): caso real de migración progresiva — rutas espejo, redirecciones 301 y SEO al alza.
+- [SEO técnico para SaaS: 12 cosas que ningún plugin te va a hacer](https://www.kimoxstudio.com/blog/seo-tecnico-saas): el SEO como capa de arquitectura, decidido antes de la primera línea de código.
+- [Diseñar una API REST que no odies en 6 meses](https://www.kimoxstudio.com/blog/diseno-api-rest): versionado, paginación, errores legibles e idempotencia.
+- [El falso minimalismo: cuando 'limpio' significa 'genérico'](https://www.kimoxstudio.com/blog/falso-minimalismo): análisis de tres landing pages reales.
+- [Un año como estudio independiente: las cifras y las cicatrices](https://www.kimoxstudio.com/blog/un-ano-estudio): facturación real, errores caros y qué clientes aceptamos.
+- [WordPress → headless: la migración paso a paso con menos drama](https://www.kimoxstudio.com/blog/wordpress-headless): exportación, mapeo de URLs, imágenes y periodo en paralelo.
+- [Postgres antes que Mongo: por qué (casi) siempre](https://www.kimoxstudio.com/blog/postgres-vs-mongo): JSONB, arrays, full-text search y cuándo elegir cada uno.
+
+## Recursos
+
+- [Sitemap](https://www.kimoxstudio.com/sitemap.xml): todas las URLs del sitio en los tres idiomas con sus alternates hreflang.
+- [Versión en inglés](https://www.kimoxstudio.com/en)
+- [Versión en japonés](https://www.kimoxstudio.com/ja)

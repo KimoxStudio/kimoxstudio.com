@@ -2,6 +2,7 @@
 import type { TemplateRenderProps } from "@/kx/template-types";
 import { kxField, resolveLocalized } from "@/kx/localized";
 import { useLang } from "@/lib/lang";
+import { localePath } from "@/lib/urls";
 import type { Lang } from "@/kx/langs";
 import Link from "next/link";
 import type { z } from "zod";
@@ -29,7 +30,7 @@ export function FooterWordmarkComponent({ props }: TemplateRenderProps<Props>) {
           <div {...kxField(`rights.${lang}`)}>{resolveLocalized(props.rights, lang, "es") ?? ""}</div>
           <div style={{ display: 'flex', gap: 24 }}>
             <a href={`mailto:${props.email}`}>{props.email}</a>
-            <Link href="/blog" {...kxField(`blogLabel.${lang}`)}>{resolveLocalized(props.blogLabel, lang, "es") ?? ""}</Link>
+            <Link href={localePath(lang, "/blog")} {...kxField(`blogLabel.${lang}`)}>{resolveLocalized(props.blogLabel, lang, "es") ?? ""}</Link>
             <a href="#top" {...kxField(`backToTop.${lang}`)}>{resolveLocalized(props.backToTop, lang, "es") ?? ""}</a>
           </div>
         </div></div>

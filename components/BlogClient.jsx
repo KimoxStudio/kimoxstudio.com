@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { I18N as I } from '../lib/i18n';
 import { useLang, t } from '../lib/lang';
+import { localePath } from '../lib/urls';
 import { useBlogCursor } from '../lib/cursor';
 import Nav from './Nav';
 
@@ -96,7 +97,7 @@ export default function BlogClient({ featured, others }) {
         </div>
 
         {featured && (
-          <Link href={`/blog/${featured.slug}`} className="featured" data-hover>
+          <Link href={localePath(lang, `/blog/${featured.slug}`)} className="featured" data-hover>
             <div>
               <span className="badge">{t(BLOG.featuredBadge, lang)}</span>
               <div className="meta">
@@ -126,7 +127,7 @@ export default function BlogClient({ featured, others }) {
           {filtered.map((p, i) => (
             <Link
               className={`post c-${(i % 6) + 1}`}
-              href={`/blog/${p.slug}`}
+              href={localePath(lang, `/blog/${p.slug}`)}
               key={p.slug}
               data-hover
             >
@@ -174,7 +175,7 @@ export default function BlogClient({ featured, others }) {
               <a href={`mailto:${I.meta.email}`} data-hover>
                 {I.meta.email}
               </a>
-              <Link href="/" data-hover>
+              <Link href={localePath(lang, '/')} data-hover>
                 ← {lang === 'ja' ? 'ホームへ' : lang === 'en' ? 'Back home' : 'Volver al home'}
               </Link>
             </div>

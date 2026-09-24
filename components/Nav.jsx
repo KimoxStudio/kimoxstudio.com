@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { I18N as I } from '../lib/i18n';
 import { LANGS, t } from '../lib/lang';
+import { localePath } from '../lib/urls';
 import ThemeToggle from './ThemeToggle';
 
 // Landing section ids the nav links point at, in document order. Used to mark
@@ -183,7 +184,13 @@ export default function Nav({
     return () => io.disconnect();
   }, [mode, scan]);
 
-  const sectionLink = (section) => (mode === 'landing' ? `#${section}` : `/#${section}`);
+  // Locale-aware internal links: es keeps the historical unprefixed URLs,
+  // en/ja are prefixed (/en, /ja) so each language's HTML links within its
+  // own language tree.
+  const homeHref = localePath(lang, '/');
+  const blogHref = localePath(lang, '/blog');
+  const sectionLink = (section) =>
+    mode === 'landing' ? `#${section}` : `${homeHref}#${section}`;
   const sectionClass = (section) => (activeSection === section ? 'active' : undefined);
   const HomeOrAnchor = ({ href, children, ...rest }) =>
     mode === 'landing' ? (
@@ -269,7 +276,7 @@ export default function Nav({
           {t(I.nav.about, lang)}
         </HomeOrAnchor>
         <HomeOrAnchor
-          href="/blog"
+          href={blogHref}
           className={activeBlog ? 'active' : undefined}
           tabIndex={menuOpen ? undefined : -1}
           onClick={closeAndReturnFocus}
@@ -302,7 +309,7 @@ export default function Nav({
       {mounted && createPortal(mobilePanel, document.body)}
       <nav className="top" ref={navRef}>
         <div className="row">
-          <HomeOrAnchor href={mode === 'landing' ? '#top' : '/'} className="logo" data-hover>
+          <HomeOrAnchor href={mode === 'landing' ? '#top' : homeHref} className="logo" data-hover>
             <span className="glyph">
               <img src="/logos/icon.svg" alt="Kimox Studio" />
             </span>
@@ -321,7 +328,7 @@ export default function Nav({
             <HomeOrAnchor href={sectionLink('about')} className={sectionClass('about')}>
               {t(I.nav.about, lang)}
             </HomeOrAnchor>
-            <HomeOrAnchor href="/blog" className={activeBlog ? 'active' : undefined}>
+            <HomeOrAnchor href={blogHref} className={activeBlog ? 'active' : undefined}>
               {t(I.nav.blog, lang)}
             </HomeOrAnchor>
           </div>
