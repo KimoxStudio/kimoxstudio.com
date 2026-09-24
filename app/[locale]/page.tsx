@@ -219,7 +219,7 @@ export default function HomePage() {
             ja: "Your website, without paying all at once.",
           },
           bridge: {
-            es: "Dos formas de tener tu web: la pagas una vez, o la tienes por una cuota al mes. Tú eliges. La cuota es solo para webs — las aplicaciones van por pago único.",
+            es: "Dos formas de tener tu web: la pagas una vez, o la tienes por una cuota al mes. Tú eliges. La cuota es solo para webs. Las aplicaciones van por pago único.",
             en: "Two ways to get your site: pay once, or pay a monthly fee. Your call. The monthly plan is web only — apps go by one-off payment.",
             ja: "Two ways to get your site: pay once, or pay a monthly fee. Your call. The monthly plan is web only — apps go by one-off payment.",
           },
@@ -559,9 +559,9 @@ export default function HomePage() {
               objectPositionFun: "55% 22%",
               role: { es: "Fundador · Arquitecto", en: "Founder · Architect", ja: "創業者 · アーキテクト" },
               bio: {
-                es: "Diseña la arquitectura y se mete hasta la base de datos sin perder el sentido del ritmo. Es quien escucha la idea del cliente con el oído de músico — buscando la melodía detrás del brief — y la devuelve con una vuelta original que nadie había visto. Fuera del editor compone canciones y comparte casa con dos perros que tienen opinión sobre todo.",
-                en: "Designs the architecture and dives all the way down to the database without losing his sense of rhythm. He's the one who listens to the client's idea like a musician — hunting the melody behind the brief — and hands it back with an original twist no one else had spotted. Off-keyboard he writes songs and shares a house with two dogs who have opinions on everything.",
-                ja: "アーキテクチャを設計し、データベースの奥までリズム感を失わずに潜っていく人。クライアントの話を音楽家の耳で聴き — ブリーフの裏側にあるメロディーを探し — 誰も気づかなかったオリジナルなひねりを返します。仕事の外では曲を書き、何にでも意見のある犬2匹と暮らしています。",
+                es: "Diseña la arquitectura y se mete hasta la base de datos sin perder el sentido del ritmo. Es quien escucha la idea del cliente con oído de músico y la devuelve con una vuelta original que nadie había visto. Fuera del editor compone canciones y comparte casa con dos perros que tienen opinión sobre todo.",
+                en: "Designs the architecture and dives all the way down to the database without losing his sense of rhythm. He's the one who listens to the client's idea like a musician and hands it back with an original twist no one else had spotted. Off-keyboard he writes songs and shares a house with two dogs who have opinions on everything.",
+                ja: "アーキテクチャを設計し、データベースの奥までリズム感を失わずに潜っていく人。クライアントの話を音楽家の耳で聴き、誰も気づかなかったオリジナルなひねりを返します。仕事の外では曲を書き、何にでも意見のある犬2匹と暮らしています。",
               },
               skills: [
                 "Node.js",

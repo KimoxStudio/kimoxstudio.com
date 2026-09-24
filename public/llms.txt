@@ -20,18 +20,18 @@ Cómo trabajamos: descubrimiento → diseño → desarrollo → lanzamiento.
 
 ## Proyectos
 
-- [Mymedesp](https://mymedesp.com): plataforma de recetas y planificación de menús — importa recetas desde redes sociales o cualquier web, arma el menú semanal y genera la lista de la compra automáticamente.
+- [Mymedesp](https://mymedesp.com): plataforma de recetas y planificación de menús. Importa recetas desde redes sociales o cualquier web, arma el menú semanal y genera la lista de la compra automáticamente.
 - [Characters Vault](https://charactersvault.com): gestor de fichas de personajes de rol, con automatización para Anima Beyond Fantasy y sincronización con Foundry VTT.
 - [Funciona el Ascensor de Las Rehoyas](https://funcionaelascensordelasrehoyas.com): semáforo vecinal en tiempo real del ascensor panorámico del parque de Las Rehoyas (Las Palmas), con reportes anónimos validados por la comunidad.
-- [Alea Las Palmas](https://alealaspalmas.es): web de la asociación cultural de juegos de rol, mesa, wargames y miniaturas de Las Palmas — eventos, directorio de tiendas y locales colaboradores.
+- [Alea Las Palmas](https://alealaspalmas.es): web de la asociación cultural de juegos de rol, mesa, wargames y miniaturas de Las Palmas, con eventos y directorio de tiendas y locales colaboradores.
 - [Patri Santana Estética](https://echedeypatricia.com): sitio para un centro de belleza y bienestar en Las Palmas de Gran Canaria, con presentación de servicios y contacto directo.
-- [RachaFit](https://rachafit.com): diario de entrenamiento social para gimnastas y corredores — registro rápido, progreso con gráficos, rachas y competición amistosa.
+- [RachaFit](https://rachafit.com): diario de entrenamiento social para gimnastas y corredores. Registro rápido, progreso con gráficos, rachas y competición amistosa.
 
 ## Blog
 
 Cuaderno del estudio: notas técnicas sobre desarrollo web, SEO, diseño de producto y migraciones. Índice: https://www.kimoxstudio.com/blog
 
-- [Cómo migramos una app de 8 años a Next.js sin perder un usuario](https://www.kimoxstudio.com/blog/migracion-nextjs): caso real de migración progresiva — rutas espejo, redirecciones 301 y SEO al alza.
+- [Cómo migramos una app de 8 años a Next.js sin perder un usuario](https://www.kimoxstudio.com/blog/migracion-nextjs): caso real de migración progresiva. Rutas espejo, redirecciones 301 y SEO al alza.
 - [SEO técnico para SaaS: 12 cosas que ningún plugin te va a hacer](https://www.kimoxstudio.com/blog/seo-tecnico-saas): el SEO como capa de arquitectura, decidido antes de la primera línea de código.
 - [Diseñar una API REST que no odies en 6 meses](https://www.kimoxstudio.com/blog/diseno-api-rest): versionado, paginación, errores legibles e idempotencia.
 - [El falso minimalismo: cuando 'limpio' significa 'genérico'](https://www.kimoxstudio.com/blog/falso-minimalismo): análisis de tres landing pages reales.
