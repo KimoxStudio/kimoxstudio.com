@@ -110,7 +110,6 @@ export default function BlogClient({ featured, others }) {
               <span className="read">{t(BLOG.readArticle, lang)}</span>
             </div>
             <div className="visual">
-              <span className="tag">CASE STUDY · 01</span>
               <div className="glyph">{featured.glyph || 'N→'}</div>
             </div>
           </Link>
