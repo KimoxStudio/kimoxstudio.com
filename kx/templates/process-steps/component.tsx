@@ -23,7 +23,6 @@ export function ProcessStepsComponent({ props }: TemplateRenderProps<Props>) {
               <div className="num">{s.n}</div>
               <h3 {...kxField(`steps.${i}.title.${lang}`)}>{resolveLocalized(s.title, lang, "es") ?? ""}</h3>
               <p {...kxField(`steps.${i}.body.${lang}`)}>{resolveLocalized(s.body, lang, "es") ?? ""}</p>
-              <div className="tag"><span>{lang === 'ja' ? 'ステップ' : lang === 'en' ? 'STEP' : 'PASO'} {i + 1} / {props.steps.length}</span><span className="dot"></span></div>
             </div>
           ))}
         </div>

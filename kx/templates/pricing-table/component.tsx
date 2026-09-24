@@ -20,7 +20,7 @@ export function PricingTableComponent({ props }: TemplateRenderProps<Props>) {
           {props.items.map((s, i) => (
             <a href="#contact" className="svc-row" key={i}>
               <span className="n">{s.n}</span>
-              <h3>{resolveLocalized(s.title, lang, "es") ?? ""}<span className="small">{lang === 'ja' ? 'サービス' : lang === 'en' ? 'service' : 'servicio'} 0{i + 1}</span></h3>
+              <h3>{resolveLocalized(s.title, lang, "es") ?? ""}</h3>
               <div>
                 <p className="desc" {...kxField(`items.${i}.body.${lang}`)}>{resolveLocalized(s.body, lang, "es") ?? ""}</p>
                 <ul className="bullets">{(resolveLocalized(s.bullets, lang, "es") ?? []).map((b, j) => (<li key={j}>{b}</li>))}</ul>
