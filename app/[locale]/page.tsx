@@ -162,9 +162,9 @@ export default function HomePage() {
               priceFrom: { es: "1.500€", en: "1.500€", ja: "1.500€" },
               title: { es: "Aplicaciones web", en: "Web applications", ja: "ウェブアプリケーション" },
               body: {
-                es: "Apps web completas con base de datos, autenticación y panel propio. Como Mymedesp o Characters Vault.",
-                en: "Full web apps with database, auth and admin panel. Like Mymedesp or Characters Vault.",
-                ja: "データベース、認証、管理画面を備えた本格的なウェブアプリ。Mymedesp や Characters Vault のような。",
+                es: "Apps web completas con base de datos, autenticación y panel propio. Como Mymedesp o Holovisor.",
+                en: "Full web apps with database, auth and admin panel. Like Mymedesp or Holovisor.",
+                ja: "データベース、認証、管理画面を備えた本格的なウェブアプリ。Mymedesp や Holovisor のような。",
               },
               bullets: {
                 es: ["Stack moderno", "Escalable", "Hosting incluido el primer año"],
@@ -330,6 +330,52 @@ export default function HomePage() {
           items: [
             {
               n: "01",
+              name: "Cafetería Bonita Vida",
+              url: "cafeteriabonitavida.com",
+              year: "2026",
+              logo: "/projects/bonitavida.png",
+              category: {
+                es: "Web · Cafetería y repostería",
+                en: "Website · Café & bakery",
+                ja: "ウェブサイト · カフェ&ベーカリー",
+              },
+              body: {
+                es: "Web de la cafetería y repostería marroquí del barrio de Schamann: carta online, galería del local, catering y reseñas de Google integradas. Dulces que se amasan cada mañana y un 5,0 sobre 220 reseñas.",
+                en: "Website for the Moroccan café and bakery in the Schamann neighborhood: online menu, venue gallery, catering and Google reviews built in. Sweets kneaded fresh every morning and a 5.0 across 220 reviews.",
+                ja: "シャマン地区にあるモロッコ系カフェ&ベーカリーのサイト。オンラインメニュー、店内ギャラリー、ケータリング、Googleのレビューを統合。毎朝手作りのスイーツと、220件のレビューで5.0の評価を紹介します。",
+              },
+              tags: ["Next.js", "SEO", "Carta online", "Reseñas"],
+              screenshots: [
+                "/projects/bonitavida/1.jpg",
+                "/projects/bonitavida/2.jpg",
+                "/projects/bonitavida/3.jpg",
+              ],
+            },
+            {
+              n: "02",
+              name: "Holovisor",
+              url: "holovisor.app",
+              year: "2026",
+              logo: "/projects/holovisor.png",
+              category: {
+                es: "App web · Pokémon TCG",
+                en: "Web app · Pokémon TCG",
+                ja: "ウェブアプリ · ポケモンTCG",
+              },
+              body: {
+                es: "Escáner de cartas Pokémon: enfoca la carta con la cámara y la reconoce en cualquier idioma, gratis y sin límites. Sigue su valor con precios de Cardmarket y guarda tu colección con su valor total.",
+                en: "Pokémon card scanner: point your camera at a card and it recognizes it in any language, free and unlimited. Tracks its value with Cardmarket prices and keeps your collection with its total worth.",
+                ja: "ポケモンカードのスキャナーアプリ。カメラを向けるとどの言語のカードでも認識し、無料かつ無制限。Cardmarketの価格で価値を追い、コレクションの合計価値を管理できます。",
+              },
+              tags: ["PWA", "Cámara", "Cardmarket"],
+              screenshots: [
+                "/projects/holovisor/1.jpg",
+                "/projects/holovisor/2.jpg",
+                "/projects/holovisor/3.jpg",
+              ],
+            },
+            {
+              n: "03",
               name: "Mymedesp",
               url: "mymedesp.com",
               year: "2025",
@@ -346,51 +392,6 @@ export default function HomePage() {
                 "/projects/mymedesp/2.jpg",
                 "/projects/mymedesp/3.jpg",
                 "/projects/mymedesp/4.jpg",
-              ],
-            },
-            {
-              n: "02",
-              name: "Characters Vault",
-              url: "charactersvault.com",
-              year: "2025",
-              logo: "/projects/charactersvault.png",
-              category: { es: "App web · Rol", en: "Web app · TTRPG", ja: "ウェブアプリ · TRPG" },
-              body: {
-                es: "Gestor de fichas de personajes de rol, con automatización para Anima Beyond Fantasy. Organiza en carpetas, comparte con tu grupo y sincroniza con Foundry VTT.",
-                en: "Character sheet manager for tabletop RPGs, with automation for Anima Beyond Fantasy. Organize into folders, share with your group, and sync with Foundry VTT.",
-                ja: "アニマ・ビヨンド・ファンタジー対応の自動化されたキャラクターシート管理ツール。フォルダで整理し、グループと共有し、Foundry VTTと同期できます。",
-              },
-              tags: ["React", "Animations", "DB", "Auth"],
-              screenshots: [
-                "/projects/characters-vault/1.jpg",
-                "/projects/characters-vault/2.jpg",
-                "/projects/characters-vault/3.jpg",
-                "/projects/characters-vault/4.jpg",
-                "/projects/characters-vault/5.jpg",
-                "/projects/characters-vault/6.jpg",
-              ],
-            },
-            {
-              n: "03",
-              name: "Funciona el Ascensor de Las Rehoyas",
-              url: "funcionaelascensordelasrehoyas.com",
-              year: "2026",
-              category: {
-                es: "App web · Servicio comunitario",
-                en: "Web app · Community service",
-                ja: "ウェブアプリ · コミュニティサービス",
-              },
-              body: {
-                es: "Semáforo vecinal que informa en tiempo real si el ascensor panorámico del parque de Las Rehoyas está operativo. Reportes anónimos validados por la propia comunidad, sistema de reputación y un histórico para quienes dependen de él para salir de casa.",
-                en: "A neighborhood status board that reports in real time whether the Las Rehoyas park lift is working. Anonymous reports cross-validated by the community itself, reputation system and a history for the people who rely on it to leave home.",
-                ja: "ラス・レオヤス公園のパノラマエレベーターが現在動いているかをリアルタイムで知らせる、住民向けのステータスボード。コミュニティが相互検証する匿名レポート、評価システム、外出に頼る住民のための履歴を備えます。",
-              },
-              tags: ["Next.js", "DB", "Comunidad", "Accesibilidad"],
-              screenshots: [
-                "/projects/ascensor-rehoyas/1.jpg",
-                "/projects/ascensor-rehoyas/2.jpg",
-                "/projects/ascensor-rehoyas/3.jpg",
-                "/projects/ascensor-rehoyas/4.jpg",
               ],
             },
             {
@@ -478,19 +479,6 @@ export default function HomePage() {
                 es: "Cofundador · Alea Las Palmas",
                 en: "Cofounder · Alea Las Palmas",
                 ja: "共同創業者 · Alea Las Palmas",
-              },
-            },
-            {
-              quote: {
-                es: "Mi madre tiene 78 años y ese ascensor es lo que la une con el barrio. Antes bajaba a probar suerte. Ahora abre la web, ve el estado y se ahorra el viaje en balde.",
-                en: "My mum is 78 and that lift is what keeps her connected to the neighborhood. She used to head down hoping for the best. Now she opens the site, checks the status and saves the wasted trip.",
-                ja: "母は78歳で、あのエレベーターが彼女と地区をつないでいます。前は当てずっぽうで降りていましたが、今はサイトで状態を確認して無駄足を防げます。",
-              },
-              name: "Yaiza R.",
-              role: {
-                es: "Vecina · Las Rehoyas, Las Palmas",
-                en: "Neighbor · Las Rehoyas, Las Palmas",
-                ja: "住民 · ラス・レオヤス、ラス・パルマス",
               },
             },
           ],
