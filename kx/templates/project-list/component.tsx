@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { TemplateRenderProps } from "@/kx/template-types";
 import { kxField, resolveLocalized } from "@/kx/localized";
 import { useLang } from "@/lib/lang";
@@ -33,6 +33,8 @@ type ModalText = {
   prev: string;
   next: string;
   shot: (n: number, name: string) => string;
+  loading: string;
+  failed: string;
 };
 const MODAL_TEXT: Record<string, ModalText> = {
   es: {
@@ -43,6 +45,8 @@ const MODAL_TEXT: Record<string, ModalText> = {
     prev: "Captura anterior",
     next: "Siguiente captura",
     shot: (n, name) => `Captura ${n} de ${name}`,
+    loading: "Cargando",
+    failed: "No se pudo cargar la captura",
   },
   en: {
     preview: (name) => `View screenshots of ${name}`,
@@ -52,6 +56,8 @@ const MODAL_TEXT: Record<string, ModalText> = {
     prev: "Previous screenshot",
     next: "Next screenshot",
     shot: (n, name) => `Screenshot ${n} of ${name}`,
+    loading: "Loading",
+    failed: "Couldn't load the screenshot",
   },
   ja: {
     preview: (name) => `${name}のスクリーンショットを見る`,
@@ -61,10 +67,80 @@ const MODAL_TEXT: Record<string, ModalText> = {
     prev: "前のスクリーンショット",
     next: "次のスクリーンショット",
     shot: (n, name) => `${name}のスクリーンショット ${n}`,
+    loading: "読み込み中",
+    failed: "スクリーンショットを読み込めませんでした",
   },
 };
 const modalText = (lang: string): ModalText => MODAL_TEXT[lang] ?? MODAL_TEXT.es!;
 const pad2 = (n: number) => String(n).padStart(2, "0");
+
+type ShotStatus = "loading" | "loaded" | "error";
+
+// Image with a placeholder that keeps the box size while it loads and a text
+// fallback if it fails. `labels` is optional: thumbnails are too small for text.
+// Remounts on src change: callers key it by src/index.
+// `status` stays null until mount so the server HTML carries no data-state and
+// the image is visible without JS.
+function ShotImage({
+  src,
+  alt,
+  className,
+  lazy,
+  labels,
+  onStatus,
+  style,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  lazy?: boolean;
+  labels?: { loading: string; failed: string };
+  onStatus?: (status: ShotStatus) => void;
+  style?: React.CSSProperties;
+}) {
+  const [status, setStatus] = useState<ShotStatus | null>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  // Cached or already-finished images fire `load` before React attaches onLoad
+  // (or never, on hydration): read `complete` before the first paint.
+  useLayoutEffect(() => {
+    const img = imgRef.current;
+    if (img?.complete) setStatus(img.naturalWidth > 0 ? "loaded" : "error");
+    else setStatus("loading");
+  }, []);
+  useEffect(() => {
+    if (status) onStatus?.(status);
+  }, [status, onStatus]);
+  return (
+    <span className="shot" data-state={status ?? undefined} aria-busy={status === "loading"}>
+      <span className="shot-ph" aria-hidden="true">
+        {status === "error" && (
+          <svg className="shot-ph-glyph" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.25" aria-hidden="true">
+            <rect x="3.5" y="4.5" width="17" height="15" />
+            <circle cx="9" cy="10" r="1.5" />
+            <path d="M3.5 17l5-4.5 3.5 3 3-2.5 5.5 4.5" />
+            <path d="M3.5 4.5l17 15" />
+          </svg>
+        )}
+        {labels && (
+          <span className="shot-ph-label">{status === "error" ? labels.failed : labels.loading}</span>
+        )}
+      </span>
+      <img
+        ref={imgRef}
+        className={className}
+        src={src}
+        alt={alt}
+        aria-hidden={status === "error" || undefined}
+        draggable={false}
+        loading={lazy ? "lazy" : "eager"}
+        decoding="async"
+        style={style}
+        onLoad={() => setStatus("loaded")}
+        onError={() => setStatus("error")}
+      />
+    </span>
+  );
+}
 
 function ProjectPreview({ shots, name, text, onOpen }: { shots: string[]; name: string; text: ModalText; onOpen: () => void }) {
   const thumbs = [shots[0], shots[1] ?? shots[0], shots[2] ?? shots[0]];
@@ -73,7 +149,7 @@ function ProjectPreview({ shots, name, text, onOpen }: { shots: string[]; name: 
       <div className="shots-frame">
         <div className="shots-grid">
           {thumbs.map((src, i) => (
-            <img key={i} src={src} alt="" loading="lazy" />
+            <ShotImage key={i} src={src} alt="" lazy />
           ))}
         </div>
       </div>
@@ -123,6 +199,7 @@ function ProjectModal({
   // True from a committed swipe until the next press: the slide jumps to 0 with no
   // transition so only the new image's entry animation moves.
   const [committed, setCommitted] = useState(false);
+  const [shotStatus, setShotStatus] = useState<ShotStatus | null>(null);
   const text = modalText(lang);
   // Refs, not state: pointer handlers need the latest values synchronously.
   const dragStart = useRef<{ x: number; t: number } | null>(null);
@@ -140,6 +217,18 @@ function ProjectModal({
     setDevice(d);
     setView((v) => ({ idx: Math.min(v.idx, (responsive?.[d].length ?? 1) - 1), dir: 0 }));
   };
+
+  // Warm the cache for what a swipe is likely to show next.
+  useEffect(() => {
+    const pending = [1, -1].map((step) => {
+      const img = new Image();
+      img.src = list[(idx + step + list.length) % list.length];
+      return img;
+    });
+    return () => {
+      for (const img of pending) img.src = "";
+    };
+  }, [list, idx]);
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!e.isPrimary || e.button !== 0) return;
@@ -242,12 +331,13 @@ function ProjectModal({
                 transition: isDragging || committed ? "none" : undefined,
               }}
             >
-              <img
+              <ShotImage
                 key={`${device}-${idx}`}
                 className="proj-modal-img"
                 src={list[idx]}
                 alt={alt}
-                draggable={false}
+                labels={text}
+                onStatus={setShotStatus}
                 style={{ ["--from" as string]: `${view.dir * 48}px` }}
               />
             </div>
@@ -257,6 +347,7 @@ function ProjectModal({
           <button type="button" onClick={prev} aria-label={text.prev}>‹</button>
           <span className="proj-modal-meta" role="status" aria-atomic="true">
             {name} · <span className="proj-modal-count">{pad2(idx + 1)} / {pad2(list.length)}</span>
+            {shotStatus === "error" && <span className="visually-hidden"> · {text.failed}</span>}
           </span>
           <button type="button" onClick={next} aria-label={text.next}>›</button>
         </div>

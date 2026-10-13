@@ -789,9 +789,59 @@
       width: 100%; height: 100%;
       transition: transform .3s cubic-bezier(.2,.7,.3,1);
     }
-    .proj-modal-img {
-      display: block; width: 100%; height: 100%; object-fit: contain;
-      animation: proj-shot-in .35s cubic-bezier(.2,.7,.3,1);
+    .proj-modal-img { display: block; width: 100%; height: 100%; object-fit: contain; }
+    /* Loading state: .shot keeps the box, .shot-ph is the placeholder. data-state is
+       set after mount, so server HTML shows the image. The image stays at opacity 0
+       while loading or failed, then enters (slide + fade). */
+    .shot { position: relative; display: block; width: 100%; height: 100%; overflow: hidden; }
+    .shot > img { transition: opacity .25s cubic-bezier(.2,.7,.3,1); }
+    .shot:is([data-state="loading"], [data-state="error"]) > img { opacity: 0; }
+    .shot[data-state="loaded"] > .proj-modal-img { animation: proj-shot-in .25s cubic-bezier(.2,.7,.3,1); }
+    .shot-ph {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      background: var(--bg-3);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .25s cubic-bezier(.2,.7,.3,1);
+    }
+    .shot:is([data-state="loading"], [data-state="error"]) > .shot-ph { opacity: 1; }
+    .shot-ph-glyph { color: var(--ink-3); flex: none; }
+    .shot-ph-label {
+      display: none;
+      padding: 0 16px;
+      text-align: center;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--ink-2);
+    }
+    .shot[data-state="error"] .shot-ph-label { display: block; }
+    /* Modal only: the loading label appears after 300ms so fast loads show no text. */
+    .shot[data-state="loading"] .shot-ph-label {
+      display: block; opacity: 0;
+      animation: shot-label-in .2s linear .3s forwards;
+    }
+    /* Progress bar: static by default (loading != error without motion), swept when motion is allowed. */
+    .shot[data-state="loading"] > .shot-ph::after {
+      content: ""; position: absolute; left: 0; bottom: 0;
+      width: 30%; height: 2px;
+      background: var(--orange);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .shot[data-state="loading"] > .shot-ph::after {
+        animation: shot-load 1.4s cubic-bezier(.4,0,.2,1) infinite;
+      }
+    }
+    @keyframes shot-load {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(334%); }
+    }
+    @keyframes shot-label-in {
+      to { opacity: 1; }
+    }
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
     }
     @keyframes proj-shot-in {
       from { opacity: 0; transform: translateX(var(--from, 0px)); }
@@ -832,8 +882,9 @@
       to { opacity: 1; transform: scale(1); }
     }
     @media (prefers-reduced-motion: reduce) {
-      .proj-modal, .proj-modal-inner, .proj-modal-img { animation: none; }
-      .proj-modal-slide { transition: none; }
+      .proj-modal, .proj-modal-inner, .shot[data-state="loaded"] > .proj-modal-img { animation: none; }
+      .proj-modal-slide, .shot > img, .shot-ph { transition: none; }
+      .shot[data-state="loading"] .shot-ph-label { animation-duration: .01s; }
     }
 
     /* Logo integrated with the project name */
