@@ -141,10 +141,16 @@ export default function HomePage() {
         props={{
           title: { es: "Lo que construimos.", en: "What we build.", ja: "私たちが作るもの。" },
           fromLabel: { es: "Desde", en: "From", ja: "〜から" },
+          billing: {
+            groupLabel: { es: "Modalidad de pago", en: "Billing option", ja: "お支払い方法" },
+            monthlyLabel: { es: "Mensual", en: "Monthly", ja: "月額" },
+            oneOffLabel: { es: "Pago único", en: "One-off", ja: "一括払い" },
+          },
           items: [
             {
               n: "01",
               priceFrom: { es: "500€", en: "500€", ja: "500€" },
+              priceMonthly: { es: "80€/mes", en: "80€/mo", ja: "月額80€" },
               title: { es: "Landing pages", en: "Landing pages", ja: "ランディングページ" },
               body: {
                 es: "Páginas hechas a mano, rápidas y optimizadas para SEO. Pensadas para convertir desde el primer pixel.",
@@ -160,6 +166,12 @@ export default function HomePage() {
             {
               n: "02",
               priceFrom: { es: "1.500€", en: "1.500€", ja: "1.500€" },
+              priceMonthly: { es: "120€/mes", en: "120€/mo", ja: "月額120€" },
+              priceMonthlyNote: {
+                es: "* El precio depende de las funcionalidades finales.",
+                en: "* Price depends on the final feature set.",
+                ja: "* 料金は最終的な機能によって変わります。",
+              },
               title: { es: "Aplicaciones web", en: "Web applications", ja: "ウェブアプリケーション" },
               body: {
                 es: "Apps web completas con base de datos, autenticación y panel propio. Como Mymedesp o Holovisor.",
@@ -171,10 +183,16 @@ export default function HomePage() {
                 en: ["Modern stack", "Scalable", "First year of hosting included"],
                 ja: ["モダンなスタック", "スケーラブル", "初年度ホスティング込み"],
               },
+              bulletsMonthly: {
+                es: ["Stack moderno", "Escalable", "Hosting incluido"],
+                en: ["Modern stack", "Scalable", "Hosting included"],
+                ja: ["モダンなスタック", "スケーラブル", "ホスティング込み"],
+              },
             },
             {
               n: "03",
               priceFrom: { es: "A medida", en: "Custom", ja: "個別見積もり" },
+              priceMonthly: { es: "A medida", en: "Custom", ja: "個別見積もり" },
               title: { es: "Tu propia idea", en: "Your own idea", ja: "あなたのアイデア" },
               body: {
                 es: "Aplicaciones móviles, SaaS, integraciones, plataformas complejas. Cuéntanos qué necesitas y te pasamos un plan.",
@@ -202,9 +220,9 @@ export default function HomePage() {
           ],
           extrasLabel: { es: "También hacemos", en: "We also do", ja: "他にも" },
           extras: {
-            es: ["Mantenimiento mensual", "Migraciones de stack", "Auditorías SEO técnicas", "Refactor de código heredado"],
-            en: ["Monthly maintenance", "Stack migrations", "Technical SEO audits", "Legacy code refactor"],
-            ja: ["月次保守", "スタック移行", "テクニカルSEO監査", "レガシーコードのリファクタ"],
+            es: ["Mantenimiento de proyectos existentes", "Migraciones de stack", "Auditorías SEO técnicas", "Refactor de código heredado"],
+            en: ["Maintenance for existing projects", "Stack migrations", "Technical SEO audits", "Legacy code refactor"],
+            ja: ["既存プロジェクトの保守", "スタック移行", "テクニカルSEO監査", "レガシーコードのリファクタ"],
           },
         }}
         node={stubNode("services", "pricing-table")}
@@ -212,111 +230,132 @@ export default function HomePage() {
 
       <WebServiceComponent
         props={{
-          eyebrow: { es: "Web como servicio", en: "Web as a service", ja: "Web as a service" },
+          eyebrow: { es: "Web y apps como servicio", en: "Web & apps as a service", ja: "ウェブ・アプリの月額プラン" },
           title: {
-            es: "Tu web, sin soltarla de golpe.",
-            en: "Your website, without paying all at once.",
-            ja: "Your website, without paying all at once.",
+            es: "Tu web o tu app, sin soltarla de golpe.",
+            en: "Your site or app, without paying all at once.",
+            ja: "ウェブもアプリも、月々のお支払いで。",
           },
+          emphasis: { es: "de golpe", en: "all at once", ja: "月々" },
           bridge: {
-            es: "Dos formas de tener tu web: la pagas una vez, o la tienes por una cuota al mes. Tú eliges. La cuota es solo para webs. Las aplicaciones van por pago único.",
-            en: "Two ways to get your site: pay once, or pay a monthly fee. Your call. The monthly plan is web only — apps go by one-off payment.",
-            ja: "Two ways to get your site: pay once, or pay a monthly fee. Your call. The monthly plan is web only — apps go by one-off payment.",
+            es: "Dos formas de tener tu web o tu app: la pagas una vez, o la tienes por una cuota al mes. Tú eliges. La cuota vale para las dos.",
+            en: "Two ways to get your site or app: pay once, or pay a monthly fee. Your call. The monthly plan covers both.",
+            ja: "ウェブサイトもアプリも、一括払いと月額払いからお選びいただけます。月額プランはどちらにも対応しています。",
           },
           sub: {
-            es: "La misma web que te haríamos por un pago único, pero repartida en una cuota al mes. Diseño, hosting y mantenimiento, todo dentro. Tú te olvidas; nosotros la cuidamos.",
-            en: "The same website we'd build you for a one-off price, spread into a monthly fee. Design, hosting and maintenance, all in. You forget about it; we keep it alive.",
-            ja: "The same website we'd build you for a one-off price, spread into a monthly fee. Design, hosting and maintenance, all in. You forget about it; we keep it alive.",
+            es: "La misma web o app que te haríamos por un pago único, repartida en una cuota al mes. Diseño, hosting y mantenimiento, todo dentro. Tú te olvidas; nosotros la cuidamos.",
+            en: "The same site or app we'd build you for a one-off price, spread into a monthly fee. Design, hosting and maintenance, all in. You forget about it; we keep it running.",
+            ja: "一括払いでお作りするものと同じウェブサイトやアプリを、月額に分けてご提供します。デザイン、ホスティング、保守まですべて含まれます。運用は私たちにお任せください。",
           },
-          price: { es: "Desde 80 €/mes", en: "From €80/mo", ja: "From €80/mo" },
-          igic: { es: "sin IGIC", en: "ex. IGIC", ja: "ex. IGIC" },
-          includesLabel: { es: "Todo dentro", en: "All in", ja: "All in" },
+          prices: [
+            {
+              label: { es: "Webs, desde", en: "Websites from", ja: "ウェブサイト" },
+              amount: { es: "80€/mes", en: "80€/mo", ja: "月額 80€〜" },
+            },
+            {
+              label: { es: "Apps, desde", en: "Apps from", ja: "アプリ" },
+              amount: { es: "120€/mes*", en: "120€/mo*", ja: "月額 120€〜\u2060*" },
+            },
+          ],
+          priceNote: {
+            es: "* El precio de las apps depende de las funcionalidades finales.",
+            en: "* App pricing depends on the final feature set.",
+            ja: "* アプリの料金は、最終的な機能によって変わります。",
+          },
+          igic: { es: "sin IGIC", en: "ex. IGIC", ja: "税抜" },
+          includesLabel: { es: "Todo dentro", en: "All in", ja: "月額に含まれるもの" },
           feats: {
             es: [
-              "DISEÑO Y DESARROLLO — tu web desde cero, hecha a mano",
+              "DISEÑO Y DESARROLLO — tu web o tu app desde cero, hecha a mano",
               "HOSTING — incluido, rápido y seguro",
               "MANTENIMIENTO — técnico y al día, sin que lo pidas",
               "SOPORTE — personas reales, no un ticket al vacío",
               "EVOLUCIÓN — mejoras continuas; no la dejamos quieta",
             ],
             en: [
-              "DESIGN & BUILD — your site from scratch, by hand",
+              "DESIGN & BUILD — your site or app from scratch, by hand",
               "HOSTING — included, fast and secure",
-              "MAINTENANCE — technical, always current, without asking",
+              "MAINTENANCE — kept technically current, without you having to ask",
               "SUPPORT — real people, not a ticket into the void",
               "EVOLUTION — continuous improvements; we don't leave it sitting still",
             ],
             ja: [
-              "DESIGN & BUILD — your site from scratch, by hand",
-              "HOSTING — included, fast and secure",
-              "MAINTENANCE — technical, always current, without asking",
-              "SUPPORT — real people, not a ticket into the void",
-              "EVOLUTION — continuous improvements; we don't leave it sitting still",
+              "デザイン・開発 — ゼロから手作りで構築します",
+              "ホスティング — 高速で安全な環境を含みます",
+              "保守 — ご依頼がなくても、技術面を常に最新に保ちます",
+              "サポート — 担当者が直接対応します",
+              "改善 — 公開後も継続的に手を入れていきます",
             ],
           },
           featsCloser: {
             es: "Rápida, segura, accesible y siempre actualizada.",
             en: "Fast, secure, accessible and always up to date.",
-            ja: "Fast, secure, accessible and always up to date.",
+            ja: "高速で安全、アクセシブルで、常に最新の状態を保ちます。",
           },
           commitment: {
             es: "Como la construimos desde cero, arrancamos con un compromiso mínimo. Lo justo para hacerla bien y que salga a cuenta. A partir de ahí, sigues mes a mes.",
             en: "Since we build it from scratch, we start with a minimum commitment. Just enough to do it right and make it worth it. After that, you carry on month to month.",
-            ja: "Since we build it from scratch, we start with a minimum commitment. Just enough to do it right and make it worth it. After that, you carry on month to month.",
+            ja: "ゼロから構築するため、開始時に最低契約期間を設けています。きちんと作り、費用に見合う形にするための期間です。その後は月単位でご継続いただけます。",
           },
-          ctaLabel: { es: "Quiero mi web así →", en: "I want mine this way →", ja: "I want mine this way →" },
+          ctaLabel: { es: "Quiero la mía así →", en: "I want mine this way →", ja: "月額プランについて相談する →" },
         }}
         node={stubNode("web-service", "web-service")}
       />
 
       <ProcessStepsComponent
         props={{
-          label: { es: "Cómo trabajamos", en: "How we work", ja: "働き方" },
+          label: { es: "Consultoría de IA", en: "AI consulting", ja: "AIコンサルティング" },
           title: {
-            es: "Así es como trabajamos.",
-            en: "This is how we work.",
-            ja: "これが私たちの働き方です。",
+            es: "Consultoría de IA, donde de verdad sirve.",
+            en: "AI consulting, where it actually helps.",
+            ja: "本当に役立つところに、AIコンサルティングを。",
+          },
+          emphasis: { es: "sirve", en: "helps", ja: "役立つ" },
+          sub: {
+            es: "Para negocios que oyen hablar de IA a todas horas y no saben por dónde empezar. Empezamos por tu trabajo de cada día y la herramienta la elegimos después.",
+            en: "For businesses that hear about AI all the time and don't know where to start. We start with your day-to-day work and choose the tool after that.",
+            ja: "AIの話題は耳にするものの、何から始めればよいか迷っている企業の皆さまへ。まず日々の業務を拝見し、ツールはその後で選びます。",
           },
           steps: [
             {
               n: "01",
-              title: { es: "Descubrimiento", en: "Discovery", ja: "発見" },
+              title: { es: "Diagnóstico", en: "Audit", ja: "診断" },
               body: {
-                es: "Entendemos tu negocio, a tu gente y el problema real antes de tocar una línea de código.",
-                en: "We learn your business, your people and the real problem before writing a line of code.",
-                ja: "コードを書く前に、あなたのビジネスと人々、本当の課題を理解します。",
+                es: "Revisamos tus procesos y te decimos dónde la IA ahorra tiempo o dinero, y dónde no merece la pena.",
+                en: "We review your processes and tell you where AI saves time or money, and where it isn't worth it.",
+                ja: "業務を見直し、AIで時間やコストを削減できる所と、そうでない所を見極めます。",
               },
             },
             {
               n: "02",
-              title: { es: "Diseño", en: "Design", ja: "デザイン" },
+              title: { es: "Formación", en: "Training", ja: "研修" },
               body: {
-                es: "Diseñamos cómo debería funcionar y verse, a medida, sin plantillas de por medio.",
-                en: "We design how it should work and look, custom-built, no templates involved.",
-                ja: "テンプレートを使わず、機能と見た目をゼロから設計します。",
+                es: "Talleres prácticos con las tareas reales de tu equipo, para que la IA entre en su día a día.",
+                en: "Hands-on workshops built on your team's real tasks, so AI becomes part of their day-to-day work.",
+                ja: "チームの実際の業務を題材にしたワークショップで、AIを日々の仕事に根付かせます。",
               },
             },
             {
               n: "03",
-              title: { es: "Desarrollo", en: "Development", ja: "開発" },
+              title: { es: "Implantación", en: "Implementation", ja: "導入" },
               body: {
-                es: "Construimos con código legible, probado y optimizado para SEO desde la primera línea.",
-                en: "We build with readable, tested code, optimized for SEO from line one.",
-                ja: "読みやすくテスト済みのコードで、1行目からSEOを意識して構築します。",
+                es: "Construimos agentes, automatizaciones e integraciones con modelos de lenguaje en los sistemas que ya usas.",
+                en: "We build agents, automations and LLM integrations into the systems you already use.",
+                ja: "エージェントや自動化、LLM連携を、今お使いのシステムに組み込みます。",
               },
             },
             {
               n: "04",
-              title: { es: "Lanzamiento", en: "Launch", ja: "ローンチ" },
+              title: { es: "Acompañamiento", en: "Ongoing support", ja: "伴走" },
               body: {
-                es: "Publicamos, medimos y seguimos cerca para que el proyecto evolucione después del día uno.",
-                en: "We ship, measure, and stay close so the project keeps evolving after day one.",
-                ja: "公開後も計測と伴走を続け、初日以降もプロジェクトを進化させます。",
+                es: "Seguimos cerca cada mes para ajustar lo implantado, resolver dudas y decidir qué toca después.",
+                en: "We stay close every month to fine-tune what's live, answer questions and plan what comes next.",
+                ja: "導入後も毎月寄り添い、調整や疑問への対応、次の一手の検討を続けます。",
               },
             },
           ],
         }}
-        node={stubNode("process", "process-steps")}
+        node={stubNode("ai", "process-steps")}
       />
 
       <ProjectListComponent
@@ -350,6 +389,11 @@ export default function HomePage() {
                 "/projects/bonitavida/2.jpg",
                 "/projects/bonitavida/3.jpg",
               ],
+              responsive: {
+                desktop: ["/projects/bonitavida/desktop/1.jpg", "/projects/bonitavida/desktop/2.jpg", "/projects/bonitavida/desktop/3.jpg"],
+                tablet: ["/projects/bonitavida/tablet/1.jpg", "/projects/bonitavida/tablet/2.jpg", "/projects/bonitavida/tablet/3.jpg"],
+                mobile: ["/projects/bonitavida/mobile/1.jpg", "/projects/bonitavida/mobile/2.jpg", "/projects/bonitavida/mobile/3.jpg"],
+              },
             },
             {
               n: "02",
@@ -373,6 +417,11 @@ export default function HomePage() {
                 "/projects/holovisor/2.jpg",
                 "/projects/holovisor/3.jpg",
               ],
+              responsive: {
+                desktop: ["/projects/holovisor/desktop/1.jpg", "/projects/holovisor/desktop/2.jpg"],
+                tablet: ["/projects/holovisor/tablet/1.jpg", "/projects/holovisor/tablet/2.jpg"],
+                mobile: ["/projects/holovisor/mobile/1.jpg", "/projects/holovisor/mobile/2.jpg"],
+              },
             },
             {
               n: "03",
@@ -393,6 +442,11 @@ export default function HomePage() {
                 "/projects/mymedesp/3.jpg",
                 "/projects/mymedesp/4.jpg",
               ],
+              responsive: {
+                desktop: ["/projects/mymedesp/desktop/1.jpg", "/projects/mymedesp/desktop/2.jpg", "/projects/mymedesp/desktop/3.jpg"],
+                tablet: ["/projects/mymedesp/tablet/1.jpg", "/projects/mymedesp/tablet/2.jpg", "/projects/mymedesp/tablet/3.jpg"],
+                mobile: ["/projects/mymedesp/mobile/1.jpg", "/projects/mymedesp/mobile/2.jpg", "/projects/mymedesp/mobile/3.jpg"],
+              },
             },
             {
               n: "04",
@@ -412,6 +466,11 @@ export default function HomePage() {
               },
               tags: ["WordPress", "Eventos", "Comunidad"],
               screenshots: ["/projects/alea/1.jpg", "/projects/alea/2.jpg", "/projects/alea/3.jpg"],
+              responsive: {
+                desktop: ["/projects/alea/desktop/1.jpg", "/projects/alea/desktop/2.jpg", "/projects/alea/desktop/3.jpg"],
+                tablet: ["/projects/alea/tablet/1.jpg", "/projects/alea/tablet/2.jpg", "/projects/alea/tablet/3.jpg"],
+                mobile: ["/projects/alea/mobile/1.jpg", "/projects/alea/mobile/2.jpg", "/projects/alea/mobile/3.jpg"],
+              },
             },
             {
               n: "05",
@@ -435,6 +494,11 @@ export default function HomePage() {
                 "/projects/patri-santana/2.png",
                 "/projects/patri-santana/3.png",
               ],
+              responsive: {
+                desktop: ["/projects/patri-santana/desktop/1.jpg", "/projects/patri-santana/desktop/2.jpg", "/projects/patri-santana/desktop/3.jpg"],
+                tablet: ["/projects/patri-santana/tablet/1.jpg", "/projects/patri-santana/tablet/2.jpg", "/projects/patri-santana/tablet/3.jpg"],
+                mobile: ["/projects/patri-santana/mobile/1.jpg", "/projects/patri-santana/mobile/2.jpg", "/projects/patri-santana/mobile/3.jpg"],
+              },
             },
             {
               n: "06",
@@ -459,6 +523,11 @@ export default function HomePage() {
                 "/projects/rachafit/3.jpg",
                 "/projects/rachafit/4.jpg",
               ],
+              responsive: {
+                desktop: ["/projects/rachafit/desktop/1.jpg", "/projects/rachafit/desktop/2.jpg", "/projects/rachafit/desktop/3.jpg"],
+                tablet: ["/projects/rachafit/tablet/1.jpg", "/projects/rachafit/tablet/2.jpg", "/projects/rachafit/tablet/3.jpg"],
+                mobile: ["/projects/rachafit/mobile/1.jpg", "/projects/rachafit/mobile/2.jpg", "/projects/rachafit/mobile/3.jpg"],
+              },
             },
           ],
         }}

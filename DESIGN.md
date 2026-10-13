@@ -8,7 +8,7 @@ Scope: home (`app/[locale]/page.tsx` → `kx/templates/*`), blog (`components/Bl
 
 ## 1. Character
 
-1. **Typographic poster.** Section headlines are set in Familjen Grotesk 700, UPPERCASE, at huge size (up to 150–220 px), with line height < 1 and strongly negative tracking. Typography carries the visuals, not photos.
+1. **Typographic poster.** Section headlines are set in Familjen Grotesk 700, UPPERCASE, at huge size (up to 116–156 px), with line height < 1 and strongly negative tracking. Typography carries the visuals, not photos.
 2. **Three typographic voices with fixed roles:** grotesque for reading and shouting, mono for labels and interface, italic serif for the emotional accent (one or two words).
 3. **A single color accent** (`--orange`, which is actually blue) plus a secondary green (`--olive`) used sparingly. The rest is a scale of bluish grays.
 4. **Grid of rules, no shadows.** Structure is drawn with 1 px borders (`--rule`). Square corners, no `box-shadow`. Depth is expressed with background layers (`--bg` → `--bg-2` → `--bg-3`).
@@ -87,9 +87,9 @@ No Japanese font is loaded: on `/ja` the CJK glyphs fall back to the system font
 | Role | Size | Weight / line height / tracking | Notes |
 |---|---|---|---|
 | Footer wordmark `.footer-big` | `clamp(72px,16vw,220px)` (≤640: `clamp(56px,16vw,96px)`) | 700 / 0.85 / -0.055em | UPPERCASE |
-| Contact H2 | `clamp(72px,11vw,200px)` (≤640: `clamp(40px,13vw,72px)`) | 700 / 0.86 / -0.055em | UPPERCASE |
+| Contact H2 | `clamp(72px,8.5vw,156px)` (≤640: `clamp(40px,13vw,72px)`) | 700 / 0.86 / -0.055em | UPPERCASE |
 | Blog H1 | `clamp(56px,9vw,160px)` (≤1100: `clamp(48px,11vw,96px)`) | 700 / 0.88 / -0.045em | UPPERCASE |
-| Section H2 `.poster-section .head h2` | `clamp(56px,9vw,150px)` | 700 / 0.86 / -0.05em | UPPERCASE |
+| Section H2 `.poster-section .head h2` | `clamp(56px,7vw,116px)` | 700 / 0.86 / -0.05em | UPPERCASE |
 | Post H1 | `clamp(40px,7vw,110px)` | 700 / 0.92 / -0.045em | Inline style |
 | Hero H1 | `clamp(32px,5.2vw,92px)` (≤1024: `clamp(36px,11vw,72px)`) | 700 / 0.9 / -0.04em | 4 staggered lines with `padding-left` |
 | Team block H3 | `clamp(40px,6vw,88px)` | 700 / 0.9 / -0.04em | |
@@ -213,6 +213,7 @@ Fixed at top (`z-index 50`), `--nav-bg` with `backdrop-filter: blur(14px)`, bott
 ### Chips and tags
 
 - Interactive chip (`.svc-extras .tag`, `.budget-chips button`, `.filters button`): mono 11–12, `padding 8–9px 14px`, `border 1px --rule-2`, `--ink-2`. On `hover` the border and text turn `--orange` (or it fills). Active: `bg --orange`, text `--bg`.
+- Billing switch (`.billing-toggle` buttons in `PricingTableComponent`): same chip as `.budget-chips button`, uppercase, `aria-pressed` drives the active state. `.svc-note` below the table: mono 11, `--ink-3`.
 - Static tag (project or team technologies): mono 10, `padding 4px 8–9px`, `border 1px --rule-2`, `--ink-3` or `--ink-2`.
 
 ### List rows
@@ -224,13 +225,32 @@ Fixed at top (`z-index 50`), `--nav-bg` with `backdrop-filter: blur(14px)`, bott
 
 Cell with `padding 32px` (≤1100: 28). Order: screenshot frame (3 thumbnails in a 200 px frame, ≤1100: 160, with two fake sheets behind rotated ±2°; on `hover` it rises 3 px and the "ver" hint appears filled with `--orange`), 30 px logo with radius 8 and 32 px UPPERCASE name, URL and year in mono 11 `--ink-3`, "VISITAR →" pill (radius 999; on `hover` it fills with `--orange` and `translateX(4px)`), category in mono 10 `--orange`, 14 px description and tags at the bottom. Clicking opens a modal (`z-index 200`, overlay `rgba(8,8,10,.86)`, frame max 1040 px and `min(65vh,760px)`, `object-fit: contain`, horizontal drag).
 
+**Project modal gallery.** Photo change: the new image enters with `proj-shot-in` (`.25s`, runs when the image finishes loading, `.shot[data-state="loaded"]`; house curve, `opacity` 0→1 plus `translateX(±48px)` toward the direction of travel; device switch is a plain fade). Swipe: pointer events on `.proj-modal-frame` with `touch-action: pan-y`; the slide follows the finger, commit on more than 40 px or a flick (over 12 px at over 0.4 px/ms); `pointercancel` snaps back. Arrows (`‹ ›`, `←` `→`) keep working; on open the close button takes focus, Tab wraps inside the dialog and focus returns to the opener on close. Device selector (`.proj-device-toggle`, only when the item has `responsive` with 2+ non-empty devices): the `.billing-toggle` chip (mono 11 uppercase, `aria-pressed`, `--orange` fill when active, `focus-visible` ring, 44 px tall ≤640). Escritorio/Tablet/Móvil localized es/en/ja. The stage (`.proj-modal-stage`, `--bg-2`) keeps a fixed height; the frame inside takes the device ratio (16:10, 834:1194, 390:844) with `1px --rule-2`, square, no shadow, centred. Modal labels (open hint, dialog name, close, prev/next, alt) are localized es/en/ja (`MODAL_TEXT`); alt: `Captura N de <proyecto> · <dispositivo>` in es. Counter is `role="status" aria-atomic="true"`, two-digit padded, `nowrap`. A committed swipe snaps the slide to 0 with no transition so only the image entry animation moves; a cancelled drag snaps back over `.3s`. Only the primary pointer and left button start a drag. Under `prefers-reduced-motion` the image animation and the slide transition are off.
+
+**Image loading state** (`.shot` wrapper, used by the modal image and the `.proj-shots` thumbnails). The wrapper keeps the frame size; `.shot-ph` is a `--bg-3` placeholder with a 2 px `--orange` segment along its bottom edge (square, no shadow). `data-state` (`loading` / `loaded` / `error`) is set only after mount, so the server HTML has none and thumbnails are visible without JS; the hidden-image rule only applies to `loading` and `error`. Already-cached images are detected with `img.complete` before first paint, so they show no placeholder. While loading the segment sweeps (transform only, `1.4s`); under `prefers-reduced-motion: reduce` it is drawn static, so loading still differs from error without motion. The image fades in over `.25s` (the modal image also slides in via `proj-shot-in`) while the placeholder fades out; reduced motion turns the fades off. The modal placeholder shows a mono uppercase label (`MODAL_TEXT.loading`, es/en/ja) only after 300 ms (CSS `animation-delay`), in both motion modes, so fast loads show no text. Failure: the placeholder stays with a 24 px line-art broken-image glyph (1.25 px stroke, `--ink-3`, `aria-hidden`) in thumbnails and modal, plus the mono message (`MODAL_TEXT.failed`) in the modal; the broken image is `aria-hidden`. `.shot-ph` is always `aria-hidden`: the modal reports status up and the existing `role="status"` counter appends a visually hidden `· <failed>`. `aria-busy` is set on `.shot` while loading. While the modal is open the next and previous image of the current device are preloaded with `new Image()` (cancelled on cleanup).
+
 ### Process step (`.step`)
 
 Cell with `padding 36px 28px`, `min-height 360px`. The first step is highlighted (`bg --bg-3`, `border-top 3px --orange`, opaque number). The rest have the number at 18 % and go to 100 % on `hover`.
 
+### Section subtitle (`.poster-section .bridge`)
+
+Lead paragraph under the section header, rendered as a sibling AFTER `.head` (not inside it), so the 64 px `.head` margin separates header and subtitle. Used by the web-service and AI/process sections. Instrument Serif italic, `clamp(21px, 2.4vw, 30px)`, line-height 1.32, `--ink-2`, `max-width 940px`, `margin 0 0 48px`.
+
 ### Highlighted panel (`.ws-panel`)
 
-`border 1px --rule` plus `border-top 3px --orange`, `bg --bg-2`, two columns with `padding 44px`. It is the "recommended offer" pattern: the 3 px top rule in accent marks what is highlighted, same as in step 1 and in the recommended plan.
+`border 1px --rule` plus `border-top 3px --orange`, `bg --bg-2`, two columns with `padding 44px`. Prices stack in `.ws-price`: one `.ws-price-row` per plan (mono 11 `--ink-2` `.plabel` over the big `.amount`; not `--ink-3`, which fails contrast on `--bg-2` in light), gap 18, then the `.iva` chip (`--ink-2`) and a `--ink-2` `.pnote` (14 px, 16 px at ≤640). It is the "recommended offer" pattern: the 3 px top rule in accent marks what is highlighted, same as in step 1 and in the recommended plan.
+
+### Illustration stage (`.ws-stage`, `kx/templates/web-service/illustrations.tsx`)
+
+Lives in the right column of `.ws-panel`, between the `.ws-feats` list and `.ws-closer`. It shows one line drawing per feat, chosen by the list.
+
+- **Box:** `border 1px --rule`, square, no background. Desktop: `flex: 1 1 0` with min 220 / max 320 px, so it only takes the space the left column leaves free and never grows the panel. ≤1100: `aspect-ratio 16/9` (max 320). ≤640: `4/3`.
+- **Drawings:** inline SVG, shared `viewBox="40 20 320 200"` so all five sit at the same scale. Line art only: square corners, no shadows, no gradients. Strokes are `vector-effect: non-scaling-stroke` at 1–1.5 px (`.wsi-ink` `--ink-2` 1.25, `.wsi-mid` `--ink-3` 1, `.wsi-rule` `--rule-2` 1 dashed for guides, `.wsi-acc` `--orange` 1.5). `--olive` only as "done/online" (checks, status dot). Fills: `--orange` for one small accent, `--bg-2` to occlude. Colours come only from these classes, so both themes work. Drawn-on strokes (`pathLength="1"` plus dash) opt out of non-scaling-stroke, because Chrome measures a non-scaling dash in screen px and cuts it short.
+- **Interaction:** each row is a `<button type="button" class="ws-feat" aria-pressed>`. Mouse hover, keyboard focus and tap all select it; touch `pointerenter` is ignored so scrolling across the list does not switch. Nothing resets the choice: the last one stays (default: first). Active row: heading in `--orange` and text `translateX(6px)` (a position cue, not only colour). `:focus-visible` ring `2px solid --orange`, offset 2 px.
+- **Motion:** crossfade of `.45s cubic-bezier(.2,.7,.3,1)` (opacity plus `translateY(8px)`). Drawings never move unprompted (WCAG 2.2.2). On load every drawing rests on its finished frame. Selecting a feat (hover, focus or tap) adds `.is-playing` to the active `.ws-illu` for 14.5 s (about two 8 s loops, stopped in the hold window so the drawing is complete when it rests), then removes it. All keyframes are gated on `.ws-illu.is-playing` (`ws-slot-1…7` build slots, then fade out together). Transform and opacity only, plus `stroke-dashoffset` for drawn lines. Feats beyond the 5 illustrations are not rendered. On devices without hover (`(hover: none)`) the list also steps by itself every 6 s (`AUTO_STEP_MS`), looping, only while the stage is at least half visible and never under `prefers-reduced-motion: reduce`; auto steps move `aria-pressed` and play the drawing but never focus or scroll. The first tap or focus on the list stops it for the rest of the page view (WCAG 2.2.2).
+- **Reduced motion:** every animation is declared inside `@media (prefers-reduced-motion: no-preference)`. The static geometry is the final frame (also the resting state when nothing is playing, since several slot keyframes end at `opacity 0`), so with `reduce` you see the finished drawing and the switch is a `.2s` opacity fade.
+- SVGs are `aria-hidden="true"`; the list text carries the meaning.
 
 ### Testimonials
 
@@ -296,10 +316,10 @@ Instrument Serif quote mark at 200 px in `--orange`, large quote, meta with 48 p
 ## 8. Observed accessibility
 
 - **Focus:** there is no `:focus-visible` rule in the CSS. The keyboard shows the browser's default ring (verified: `outline: rgb(0, 95, 204) auto 1px` on nav links and on `.btn-primary`). On `--orange` or dark `--bg` it is barely visible. Inputs cancel the `outline` and only change the bottom border color.
-- **Reduced motion:** respected only in the hero parallax (JS, listens for live changes; `kx/templates/masthead/component.tsx:110`) and in the modal animation (`landing.css:645`). **Still active:** the infinite marquee, `scroll-behavior: smooth`, the inertial cursor, the 3D photo tilt and the `hover` shifts.
+- **Reduced motion:** respected only in the hero parallax (JS, listens for live changes; `kx/templates/masthead/component.tsx:110`) and in the modal animations, including the gallery transition (`.proj-modal-img`, `.proj-modal-slide`). **Still active:** the infinite marquee, `scroll-behavior: smooth`, the inertial cursor, the 3D photo tilt and the `hover` shifts.
 - **Theme:** respects `prefers-color-scheme` the first time; after that the saved choice wins.
 - **Mobile menu:** when open, the rest of the page is `inert`, scroll is locked, and focus and Escape are handled (`components/Nav.jsx`).
-- **Touch targets:** the theme toggle (32×32), the hamburger (36×32), the language selector (about 28 px tall) and the modal buttons (32×32) are below 44×44. Only `.t-nav button` reaches 44.
+- **Touch targets:** the theme toggle (32×32), the hamburger (36×32), the language selector (about 28 px tall) and the modal desktop buttons (32×32) are below 44×44; at ≤640 the modal close and prev/next are 44×44 and the close sits inside the frame (`top/right 6px`). Only `.t-nav button` reaches 44.
 - **Minimum text:** 10–11 px UPPERCASE mono is common for metadata and labels.
 - **Images:** project thumbnails and logos have `alt=""` (decorative); modal screenshots, `alt="Captura N de <proyecto>"`; the hero, `aria-hidden`.
 

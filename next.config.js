@@ -1,6 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Anything that is not the production deployment (staging, previews, local)
+  // tells crawlers to stay out, so staging.kimoxstudio.com never competes with
+  // www.kimoxstudio.com in search results.
+  async headers() {
+    if (process.env.VERCEL_ENV === 'production') return [];
+    return [{ source: '/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] }];
+  },
   // Locale routing: pages live under app/[locale] (es/en/ja) so each
   // language is pre-rendered server-side, but Spanish — the default locale —
   // keeps the site's historical unprefixed URLs:

@@ -10,13 +10,13 @@ No empezamos un proyecto buscando qué plantilla encaja. Primero entendemos el p
 
 ## Servicios
 
-- Landing pages — desde 500€. Páginas hechas a mano, rápidas y optimizadas para SEO. Diseño a medida, SEO técnico incluido, entrega en 2-3 semanas.
-- Aplicaciones web — desde 1.500€. Apps web completas con base de datos, autenticación y panel propio. Stack moderno, escalable, hosting incluido el primer año.
+- Landing pages — desde 80€/mes o desde 500€ en pago único (sin IGIC). Páginas hechas a mano, rápidas y optimizadas para SEO. Diseño a medida, SEO técnico incluido, entrega en 2-3 semanas.
+- Aplicaciones web — desde 120€/mes (el precio depende de las funcionalidades finales) o desde 1.500€ en pago único (sin IGIC). Apps web completas con base de datos, autenticación y panel propio. Stack moderno, escalable. Con cuota mensual, el hosting va siempre incluido; con pago único, el primer año.
 - Proyectos a medida — presupuesto a medida. Aplicaciones móviles, SaaS, integraciones, plataformas complejas.
-- Web como servicio — desde 80€/mes (sin IGIC). La misma web que haríamos por un pago único, repartida en una cuota mensual: diseño, hosting y mantenimiento, todo dentro. Solo para webs; las aplicaciones van por pago único.
-- También hacemos: mantenimiento mensual, migraciones de stack, auditorías SEO técnicas y refactor de código heredado.
+- Web y apps como servicio — webs desde 80€/mes y apps desde 120€/mes (sin IGIC). La cuota cubre diseño y desarrollo, hosting, mantenimiento, soporte y evolución. Como se construye desde cero, hay un compromiso mínimo al empezar; después, mes a mes. Quien lo prefiera puede pagar una sola vez.
+- También hacemos: mantenimiento de proyectos existentes, migraciones de stack, auditorías SEO técnicas y refactor de código heredado.
 
-Cómo trabajamos: descubrimiento → diseño → desarrollo → lanzamiento.
+Consultoría de IA: diagnóstico → formación → implantación → acompañamiento mensual. Te decimos dónde la IA ahorra tiempo o dinero, formamos a tu equipo con sus tareas reales, implantamos agentes y automatizaciones, y seguimos cerca cada mes.
 
 ## Proyectos
 

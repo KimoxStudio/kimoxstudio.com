@@ -10,13 +10,27 @@ type Props = z.infer<typeof processStepsSchema>;
 
 export function ProcessStepsComponent({ props }: TemplateRenderProps<Props>) {
   const [lang] = useLang() as [Lang, (next: Lang) => void];
-  const title = (resolveLocalized(props.title, lang, "es") ?? "").replace(/(trabajamos|work|働き方)/, (m) => `<em>${m}</em>`);
+  const title = resolveLocalized(props.title, lang, "es") ?? "";
+  const emphasis = resolveLocalized(props.emphasis, lang, "es") ?? "";
+  const sub = resolveLocalized(props.sub, lang, "es") ?? "";
+  const at = emphasis ? title.indexOf(emphasis) : -1;
   return (
-    <section className="poster-section process" id="process">
+    <section className="poster-section process" id="ai">
       <div className="wrap">
         <div className="head">
-          <h2 dangerouslySetInnerHTML={{ __html: title }} />
+          <h2>
+            {at < 0 ? (
+              title
+            ) : (
+              <>
+                {title.slice(0, at)}
+                <em>{emphasis}</em>
+                {title.slice(at + emphasis.length)}
+              </>
+            )}
+          </h2>
         </div>
+        {sub ? <p className="bridge" {...kxField(`sub.${lang}`)}>{sub}</p> : null}
         <div className="steps">
           {props.steps.map((s, i) => (
             <div className="step" key={i}>

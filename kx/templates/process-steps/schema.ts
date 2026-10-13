@@ -6,6 +6,8 @@ const LANGS = ["es", "en", "ja"] as const;
 export const processStepsSchema = z.object({
   label: localized(LANGS),
   title: localized(LANGS),
+  emphasis: localized(LANGS),
+  sub: localized(LANGS).optional(),
   steps: z
     .array(
       z.object({
