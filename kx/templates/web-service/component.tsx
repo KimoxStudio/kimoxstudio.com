@@ -12,7 +12,8 @@ type Props = z.infer<typeof webServiceSchema>;
 
 // Two 8s loops, stopped inside the hold window of the second so the drawing is complete when it rests.
 const PLAY_MS = 14500;
-
+// Touch devices step through the feats by themselves. Long enough to watch the drawing build before the next one replaces it.
+const AUTO_STEP_MS = 6000;
 
 // Re-homes WebServiceSec: same markup and class names, so landing.css styles it.
 // The `emphasis` substring of the title keeps the serif-italic orange accent
@@ -32,11 +33,23 @@ export function WebServiceComponent({ props }: TemplateRenderProps<Props>) {
   // (WCAG 2.2.2): a selection plays the drawing for about two loops, then it rests.
   const [playingFeat, setPlayingFeat] = useState<number | null>(null);
   const playingRef = useRef<number | null>(null);
+  const activeRef = useRef(0);
   const stopTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const autoTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+  // Set by the first user selection; auto-advance never restarts after it (WCAG 2.2.2 pause).
+  const autoStopped = useRef(false);
+  const stageRef = useRef<HTMLDivElement>(null);
   useEffect(() => () => {
     if (stopTimer.current) clearTimeout(stopTimer.current);
   }, []);
-  const select = (j: number) => {
+  const stopAuto = () => {
+    autoStopped.current = true;
+    if (autoTimer.current) clearInterval(autoTimer.current);
+    autoTimer.current = null;
+  };
+  const select = (j: number, opts?: { auto?: boolean }) => {
+    if (!opts?.auto) stopAuto();
+    activeRef.current = j;
     setActiveFeat(j);
     if (playingRef.current === j) return;
     playingRef.current = j;
@@ -47,6 +60,38 @@ export function WebServiceComponent({ props }: TemplateRenderProps<Props>) {
       setPlayingFeat(null);
     }, PLAY_MS);
   };
+  // Only without hover (a phone has no pointer to trigger the drawings) and without reduced motion.
+  // Runs only while the stage is on screen. Auto steps never call focus() or scroll.
+  const autoSelect = useRef(select);
+  autoSelect.current = select;
+  const featCount = feats.length;
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage || featCount < 2) return;
+    if (!window.matchMedia("(hover: none)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const clear = () => {
+      if (autoTimer.current) clearInterval(autoTimer.current);
+      autoTimer.current = null;
+    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        clear();
+        if (!entry?.isIntersecting || autoStopped.current) return;
+        // Draw the current feat as soon as the stage shows up, instead of leaving it still for a whole step.
+        autoSelect.current(activeRef.current, { auto: true });
+        autoTimer.current = setInterval(() => {
+          autoSelect.current((activeRef.current + 1) % featCount, { auto: true });
+        }, AUTO_STEP_MS);
+      },
+      { threshold: 0.5 },
+    );
+    observer.observe(stage);
+    return () => {
+      observer.disconnect();
+      clear();
+    };
+  }, [featCount]);
   const illustrations = wsIllustrations.slice(0, feats.length);
 
   return (
@@ -116,7 +161,7 @@ export function WebServiceComponent({ props }: TemplateRenderProps<Props>) {
               })}
             </ul>
             {illustrations.length > 0 ? (
-              <div className="ws-stage">
+              <div className="ws-stage" ref={stageRef}>
                 {illustrations.map((Illustration, j) => (
                   <Illustration
                     key={j}
