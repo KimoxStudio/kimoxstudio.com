@@ -18,6 +18,14 @@ export const projectListSchema = z.object({
         body: localized(LANGS),
         tags: z.array(z.string()).default([]),
         screenshots: z.array(z.string()).default([]).describe("Real screenshot paths; falls back to placeholders when empty"),
+        responsive: z
+          .object({
+            desktop: z.array(z.string()),
+            tablet: z.array(z.string()),
+            mobile: z.array(z.string()),
+          })
+          .optional()
+          .describe("Per-device screenshots; enables the device selector in the project modal"),
       }),
     )
     .default([]),

@@ -173,7 +173,7 @@
     .poster-section .head h2 {
       font-family: "Familjen Grotesk", sans-serif;
       font-weight: 700;
-      font-size: clamp(56px, 9vw, 150px);
+      font-size: clamp(56px, 7vw, 116px);
       line-height: 0.86;
       letter-spacing: -0.05em;
       margin: 0;
@@ -185,6 +185,13 @@
       font-style: italic; font-weight: 400;
       color: var(--orange);
       text-transform: none;
+    }
+    .poster-section .bridge {
+      font-family: "Instrument Serif", serif;
+      font-style: italic;
+      font-size: clamp(21px, 2.4vw, 30px);
+      line-height: 1.32; color: var(--ink-2);
+      max-width: 940px; margin: 0 0 48px;
     }
     .poster-section .head h2 .accent { color: var(--orange); }
     .poster-section .head h2 .olive { color: var(--olive); }
@@ -235,13 +242,6 @@
     .manifesto .bullets li:hover .arr { opacity: 1; }
 
     /* ── Web as a service (single monthly plan) ── */
-    .web-service .ws-bridge {
-      font-family: "Instrument Serif", serif;
-      font-style: italic;
-      font-size: clamp(21px, 2.4vw, 30px);
-      line-height: 1.32; color: var(--ink-2);
-      max-width: 940px; margin: 0 0 48px;
-    }
     .web-service .ws-panel {
       display: grid; grid-template-columns: 1.05fr 1fr;
       border: 1px solid var(--rule);
@@ -266,7 +266,7 @@
       line-height: 1.36; color: var(--ink); margin: 0 0 32px;
     }
     .web-service .ws-price {
-      display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+      display: flex; flex-direction: column; align-items: flex-start; gap: 18px;
       padding-top: 28px; border-top: 1px solid var(--rule);
       margin-bottom: 26px;
     }
@@ -275,11 +275,21 @@
       font-size: clamp(40px, 5vw, 62px); font-weight: 700;
       letter-spacing: -0.045em; line-height: 0.9; color: var(--ink);
     }
+    .web-service .ws-price .ws-price-row { display: flex; flex-direction: column; gap: 8px; }
+    .web-service .ws-price .plabel {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--ink-2);
+    }
+    .web-service .ws-price .pnote {
+      font-family: "Familjen Grotesk", sans-serif;
+      font-size: 14px; line-height: 1.4; color: var(--ink-2); margin: 0;
+    }
     .web-service .ws-price .iva {
       display: inline-flex; align-items: center;
       font-family: "IBM Plex Mono", monospace;
       font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
-      color: var(--ink-3);
+      color: var(--ink-2);
       border: 1px solid var(--rule-2); padding: 5px 10px;
     }
     .web-service .ws-commit {
@@ -312,29 +322,187 @@
     .web-service .ws-feats {
       list-style: none; margin: 0 0 26px; padding: 0;
       display: flex; flex-direction: column;
-      flex-grow: 1;
     }
     .web-service .ws-feats li {
       font-family: "IBM Plex Mono", monospace;
       font-size: 12.5px; line-height: 1.5; color: var(--ink-2);
-      padding: 0 0 18px 20px; margin-bottom: 18px; position: relative;
       letter-spacing: .02em; border-bottom: 1px solid var(--rule);
     }
-    .web-service .ws-feats li:last-child {
-      margin-bottom: 0; padding-bottom: 0; border-bottom: 0;
+    .web-service .ws-feats li:last-child { border-bottom: 0; }
+    /* Each feat is a button that picks the stage illustration. The padding that used
+       to sit on the li lives here so the whole row is the hit area. */
+    .web-service .ws-feat {
+      display: block; width: 100%;
+      padding: 18px 0 18px 20px;
+      text-align: left; letter-spacing: inherit;
     }
-    .web-service .ws-feats li::before {
-      content: "+"; position: absolute; left: 0; top: 0;
+    .web-service .ws-feats li:first-child .ws-feat { padding-top: 0; }
+    .web-service .ws-feats li:last-child .ws-feat { padding-bottom: 0; }
+    .web-service .ws-feat:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+    .web-service .ws-feat-text { display: block; position: relative; }
+    .web-service .ws-feat-text::before {
+      content: "+"; position: absolute; left: -20px; top: 0;
       color: var(--orange); font-weight: 700;
     }
-    .web-service .ws-feats li b {
+    .web-service .ws-feat-text b {
       color: var(--ink); font-weight: 600; letter-spacing: .06em;
+      transition: color .2s;
     }
+    .web-service .ws-feat[aria-pressed="true"] .ws-feat-text { transform: translateX(6px); }
+    .web-service .ws-feat[aria-pressed="true"] .ws-feat-text b { color: var(--orange); }
     .web-service .ws-closer {
       font-family: "Instrument Serif", serif;
       font-style: italic; font-size: 20px; line-height: 1.35;
       color: var(--orange); margin: 0;
       padding-top: 24px; border-top: 1px solid var(--rule);
+    }
+
+    /* Illustration stage: one line drawing per feat, crossfaded on hover, focus or tap.
+       Fills the column between the list and the closer; strokes and colours are tokens. */
+    .web-service .ws-stage {
+      position: relative;
+      flex: 1 1 0; min-height: 220px; max-height: 320px;
+      margin: 0 0 24px;
+      border: 1px solid var(--rule);
+    }
+    .web-service .ws-illu {
+      position: absolute; top: 16px; left: 16px;
+      width: calc(100% - 32px); height: calc(100% - 32px);
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s linear;
+    }
+    .web-service .ws-illu.is-active { opacity: 1; }
+    .web-service .ws-illu * {
+      fill: none; stroke: none;
+      vector-effect: non-scaling-stroke;
+      transform-box: fill-box; transform-origin: center;
+    }
+    .web-service .ws-illu .wsi-ink { stroke: var(--ink-2); stroke-width: 1.25px; }
+    .web-service .ws-illu .wsi-heavy { stroke-width: 2px; }
+    .web-service .ws-illu .wsi-mid { stroke: var(--ink-3); stroke-width: 1px; }
+    .web-service .ws-illu .wsi-rule { stroke: var(--rule-2); stroke-width: 1px; }
+    .web-service .ws-illu .wsi-acc { stroke: var(--orange); stroke-width: 1.5px; }
+    .web-service .ws-illu .wsi-ok { stroke: var(--olive); stroke-width: 1.5px; }
+    .web-service .ws-illu .wsi-guide { stroke-dasharray: 2 4; }
+    /* Drawn-on strokes use pathLength="1"; a non-scaling stroke would measure the dash in
+       screen pixels and cut the line short, so these scale with the drawing instead. */
+    .web-service .ws-illu .wsi-draw { vector-effect: none; stroke-width: 1.2px; }
+    .web-service .ws-illu .wsi-fill-bg { fill: var(--bg-2); }
+    .web-service .ws-illu .wsi-fill-acc { fill: var(--orange); }
+    .web-service .ws-illu .wsi-fill-ok { fill: var(--olive); }
+    .web-service .ws-illu .wsi-fill-mid { fill: var(--ink-3); }
+    .web-service .ws-illu .wsi-text {
+      fill: var(--ink-2);
+      font-family: "IBM Plex Mono", monospace; font-size: 13px; letter-spacing: .08em;
+    }
+    /* Static frame = finished drawing. Only things that are not part of it start hidden. */
+    .web-service .ws-illu .wsi-ver-old,
+    .web-service .ws-illu .wsi-typing,
+    .web-service .ws-illu .wsi-scan { opacity: 0; }
+    .web-service .ws-illu .wsi-meridian { transform: scaleX(.5); }
+    .web-service .ws-illu .wsi-meridian-2 { transform: scaleX(.87); }
+    .web-service .ws-illu .wsi-meridian-3 { transform: scaleX(0); }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .web-service .ws-feat-text { transition: transform .25s cubic-bezier(.2,.7,.3,1); }
+      .web-service .ws-illu {
+        transform: translateY(8px);
+        transition: opacity .45s cubic-bezier(.2,.7,.3,1), transform .45s cubic-bezier(.2,.7,.3,1);
+      }
+      .web-service .ws-illu.is-active { transform: none; }
+
+      /* Build slots: an 8s loop where element N appears at its slot, everything holds,
+         then the whole drawing fades out together and starts over. */
+      .web-service .ws-illu .wsi-x { --wsi-from: scaleX(0); transform-origin: left center; }
+      .web-service .ws-illu .wsi-y { --wsi-from: scaleY(0); transform-origin: center bottom; }
+      .web-service .ws-illu .wsi-up { --wsi-from: translateY(6px); }
+      .web-service .ws-illu .wsi-draw { stroke-dasharray: 1; }
+      .web-service .ws-illu.is-playing .wsi-s1 { animation: ws-slot-1 8s cubic-bezier(.2,.7,.3,1) infinite; }
+      .web-service .ws-illu.is-playing .wsi-s2 { animation: ws-slot-2 8s cubic-bezier(.2,.7,.3,1) infinite; }
+      .web-service .ws-illu.is-playing .wsi-s3 { animation: ws-slot-3 8s cubic-bezier(.2,.7,.3,1) infinite; }
+      .web-service .ws-illu.is-playing .wsi-s4 { animation: ws-slot-4 8s cubic-bezier(.2,.7,.3,1) infinite; }
+      .web-service .ws-illu.is-playing .wsi-s5 { animation: ws-slot-5 8s cubic-bezier(.2,.7,.3,1) infinite; }
+      .web-service .ws-illu.is-playing .wsi-s6 { animation: ws-slot-6 8s cubic-bezier(.2,.7,.3,1) infinite; }
+      .web-service .ws-illu.is-playing .wsi-s7 { animation: ws-slot-7 8s cubic-bezier(.2,.7,.3,1) infinite; }
+
+      /* 01 design: the pointer visits each block just before it appears. */
+      .web-service .ws-illu.is-playing .wsi-pointer { animation: ws-pointer 8s cubic-bezier(.2,.7,.3,1) infinite; }
+      /* 02 hosting */
+      .web-service .ws-illu.is-playing .wsi-led { animation: ws-blink 2.4s steps(1, end) infinite; }
+      .web-service .ws-illu.is-playing .wsi-led-2 { animation-delay: -.8s; }
+      .web-service .ws-illu.is-playing .wsi-led-3 { animation-delay: -1.6s; }
+      .web-service .ws-illu.is-playing .wsi-packet { animation: ws-packet 2.4s linear infinite; }
+      .web-service .ws-illu.is-playing .wsi-packet-2 { --wsi-shift: -22px; animation-delay: -.8s; }
+      .web-service .ws-illu.is-playing .wsi-packet-3 { --wsi-shift: -44px; animation-delay: -1.6s; }
+      .web-service .ws-illu.is-playing .wsi-meridian { animation: ws-meridian 9s infinite; }
+      .web-service .ws-illu.is-playing .wsi-meridian-2 { animation-delay: -3s; }
+      .web-service .ws-illu.is-playing .wsi-meridian-3 { animation-delay: -6s; }
+      /* 03 maintenance */
+      .web-service .ws-illu.is-playing .wsi-scan { animation: ws-scan 8s linear infinite; }
+      .web-service .ws-illu.is-playing .wsi-gear { animation: ws-turn 16s linear infinite; }
+      .web-service .ws-illu.is-playing .wsi-ver-old { animation: ws-ver-out 8s cubic-bezier(.2,.7,.3,1) infinite; }
+      .web-service .ws-illu.is-playing .wsi-ver-new { animation: ws-ver-in 8s cubic-bezier(.2,.7,.3,1) infinite; }
+      /* 04 support */
+      .web-service .ws-illu.is-playing .wsi-typing { animation: ws-typing 8s linear infinite; }
+      .web-service .ws-illu.is-playing .wsi-dot { animation: ws-dot 1s ease-in-out infinite; }
+      .web-service .ws-illu.is-playing .wsi-dot-2 { animation-delay: .15s; }
+      .web-service .ws-illu.is-playing .wsi-dot-3 { animation-delay: .3s; }
+      /* 05 evolution */
+      .web-service .ws-illu.is-playing .wsi-climb { animation: ws-climb 8s cubic-bezier(.4,0,.6,1) infinite; }
+    }
+    @keyframes ws-slot-1 { 0%, 4% { opacity: 0; transform: var(--wsi-from, none); stroke-dashoffset: 1; } 10%, 86% { opacity: 1; transform: none; stroke-dashoffset: 0; } 92%, 100% { opacity: 0; transform: none; stroke-dashoffset: 0; } }
+    @keyframes ws-slot-2 { 0%, 10% { opacity: 0; transform: var(--wsi-from, none); stroke-dashoffset: 1; } 16%, 86% { opacity: 1; transform: none; stroke-dashoffset: 0; } 92%, 100% { opacity: 0; transform: none; stroke-dashoffset: 0; } }
+    @keyframes ws-slot-3 { 0%, 16% { opacity: 0; transform: var(--wsi-from, none); stroke-dashoffset: 1; } 22%, 86% { opacity: 1; transform: none; stroke-dashoffset: 0; } 92%, 100% { opacity: 0; transform: none; stroke-dashoffset: 0; } }
+    @keyframes ws-slot-4 { 0%, 22% { opacity: 0; transform: var(--wsi-from, none); stroke-dashoffset: 1; } 28%, 86% { opacity: 1; transform: none; stroke-dashoffset: 0; } 92%, 100% { opacity: 0; transform: none; stroke-dashoffset: 0; } }
+    @keyframes ws-slot-5 { 0%, 28% { opacity: 0; transform: var(--wsi-from, none); stroke-dashoffset: 1; } 34%, 86% { opacity: 1; transform: none; stroke-dashoffset: 0; } 92%, 100% { opacity: 0; transform: none; stroke-dashoffset: 0; } }
+    @keyframes ws-slot-6 { 0%, 34% { opacity: 0; transform: var(--wsi-from, none); stroke-dashoffset: 1; } 40%, 86% { opacity: 1; transform: none; stroke-dashoffset: 0; } 92%, 100% { opacity: 0; transform: none; stroke-dashoffset: 0; } }
+    @keyframes ws-slot-7 { 0%, 40% { opacity: 0; transform: var(--wsi-from, none); stroke-dashoffset: 1; } 46%, 86% { opacity: 1; transform: none; stroke-dashoffset: 0; } 92%, 100% { opacity: 0; transform: none; stroke-dashoffset: 0; } }
+    /* Offsets from the pointer's resting spot (the accent button) to each block it builds. */
+    @keyframes ws-pointer {
+      0% { transform: none; }
+      3%, 5% { transform: translate(160px, -70px); }
+      9%, 11% { transform: translate(70px, -42px); }
+      15%, 17% { transform: translate(150px, -24px); }
+      21%, 23% { transform: translate(0px, 42px); }
+      27%, 29% { transform: translate(76px, 42px); }
+      33%, 35% { transform: translate(152px, 42px); }
+      40%, 100% { transform: none; }
+    }
+    @keyframes ws-blink { 0% { opacity: 1; } 50% { opacity: .2; } }
+    @keyframes ws-packet {
+      0% { opacity: 0; transform: translateX(var(--wsi-shift, 0px)); }
+      15%, 80% { opacity: 1; }
+      100% { opacity: 0; transform: translateX(calc(var(--wsi-shift, 0px) + 60px)); }
+    }
+    /* A meridian's apparent width follows |sin| of its longitude: ease-out to full, ease-in back to an edge. */
+    @keyframes ws-meridian {
+      0% { transform: scaleX(0); animation-timing-function: cubic-bezier(.61,1,.88,1); }
+      50% { transform: scaleX(1); animation-timing-function: cubic-bezier(.12,0,.39,0); }
+      100% { transform: scaleX(0); }
+    }
+    @keyframes ws-scan {
+      0%, 1% { opacity: 0; transform: none; }
+      2% { opacity: 1; transform: none; }
+      25% { opacity: 1; transform: translateY(114px); }
+      30%, 100% { opacity: 0; transform: translateY(114px); }
+    }
+    @keyframes ws-turn { to { transform: rotate(360deg); } }
+    @keyframes ws-ver-out {
+      0%, 30% { opacity: 1; transform: none; }
+      36%, 92% { opacity: 0; transform: translateY(-6px); }
+      100% { opacity: 1; transform: none; }
+    }
+    @keyframes ws-ver-in {
+      0%, 30% { opacity: 0; transform: translateY(6px); }
+      36%, 92% { opacity: 1; transform: none; }
+      100% { opacity: 0; transform: translateY(6px); }
+    }
+    @keyframes ws-typing { 0%, 12% { opacity: 0; } 15%, 32% { opacity: 1; } 34%, 100% { opacity: 0; } }
+    @keyframes ws-dot { 0%, 60%, 100% { transform: none; } 30% { transform: translateY(-3px); } }
+    @keyframes ws-climb {
+      0%, 8% { opacity: 1; stroke-dashoffset: 1; }
+      40%, 86% { opacity: 1; stroke-dashoffset: 0; }
+      92%, 100% { opacity: 0; stroke-dashoffset: 0; }
     }
 
     /* ── Services ── */
@@ -595,24 +763,44 @@
       transition: background .2s, color .2s;
     }
     .proj-modal-close:hover { background: var(--orange); }
-    .proj-modal-frame {
-      width: 100%;
-      /* A definite height (not flex-grow inside an auto-height column,
-         which left the img's `height: 100%` unresolved and made contain
-         scale it against its own intrinsic aspect ratio instead — the
-         bug that showed only a cropped slice). No fixed aspect-ratio
-         either, since screenshots can be portrait (mobile) or landscape
-         (desktop); `object-fit: contain` sizes by whichever dimension of
-         this box is tighter. */
-      height: min(65vh, 760px);
+    /* Stage: fixed height, so switching device only resizes the frame
+       inside it, never the modal. */
+    .proj-modal-stage {
+      --stage-h: min(65vh, 760px);
+      height: var(--stage-h);
       background: var(--bg-2);
-      overflow: hidden;
       display: flex; align-items: center; justify-content: center;
+    }
+    .proj-modal-frame {
+      width: 100%; height: 100%;
+      overflow: hidden;
       touch-action: pan-y;
       cursor: grab;
     }
     .proj-modal-frame:active { cursor: grabbing; }
-    .proj-modal-frame img { width: 100%; height: 100%; object-fit: contain; }
+    /* Device frame: width follows the device ratio (--ar = width/height),
+       capped by the stage height and by the stage width. */
+    .proj-modal-frame--device {
+      height: auto;
+      width: min(100%, calc(var(--stage-h) * var(--ar)));
+      border: 1px solid var(--rule-2);
+    }
+    .proj-modal-slide {
+      width: 100%; height: 100%;
+      transition: transform .3s cubic-bezier(.2,.7,.3,1);
+    }
+    .proj-modal-img {
+      display: block; width: 100%; height: 100%; object-fit: contain;
+      animation: proj-shot-in .35s cubic-bezier(.2,.7,.3,1);
+    }
+    @keyframes proj-shot-in {
+      from { opacity: 0; transform: translateX(var(--from, 0px)); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .proj-device-toggle { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .proj-device-toggle button:focus-visible,
+    .proj-modal-close:focus-visible,
+    .proj-modal-bar button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
     .proj-modal-bar {
       flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
@@ -628,6 +816,7 @@
       transition: color .2s, border-color .2s;
     }
     .proj-modal-bar button:hover { color: var(--orange); border-color: var(--orange); }
+    .proj-modal-count { white-space: nowrap; }
     .proj-modal-meta {
       font-family: "IBM Plex Mono", monospace;
       font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
@@ -643,7 +832,8 @@
       to { opacity: 1; transform: scale(1); }
     }
     @media (prefers-reduced-motion: reduce) {
-      .proj-modal, .proj-modal-inner { animation: none; }
+      .proj-modal, .proj-modal-inner, .proj-modal-img { animation: none; }
+      .proj-modal-slide { transition: none; }
     }
 
     /* Logo integrated with the project name */
@@ -1124,7 +1314,7 @@
     .contact h2 {
       font-family: "Familjen Grotesk", sans-serif;
       font-weight: 700;
-      font-size: clamp(72px, 11vw, 200px);
+      font-size: clamp(72px, 8.5vw, 156px);
       line-height: 0.86;
       letter-spacing: -0.055em;
       margin: 0;
@@ -1185,6 +1375,21 @@
     }
     .budget-chips button:hover { border-color: var(--orange); color: var(--orange); }
     .budget-chips button.active { background: var(--orange); color: var(--bg); border-color: var(--orange); }
+    .billing-toggle { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+    .billing-toggle button,
+    .proj-device-toggle button {
+      padding: 9px 14px;
+      border: 1px solid var(--rule-2); background: transparent; color: var(--ink-2);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px; letter-spacing: .04em; text-transform: uppercase;
+      transition: background .2s, color .2s, border-color .2s;
+    }
+    .billing-toggle button:hover,
+    .proj-device-toggle button:hover { border-color: var(--orange); color: var(--orange); }
+    .billing-toggle button[aria-pressed="true"],
+    .proj-device-toggle button[aria-pressed="true"] { background: var(--orange); color: var(--bg); border-color: var(--orange); }
+    .billing-toggle button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+    .svc-note { margin: 16px 0 0; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--ink-3); }
     .submit-row {
       display: flex; justify-content: space-between; align-items: center;
       flex-wrap: wrap; gap: 16px; margin-top: 12px;
@@ -1281,6 +1486,7 @@
       .web-service .ws-panel { grid-template-columns: 1fr; }
       .web-service .ws-main { border-right: 0; border-bottom: 1px solid var(--rule); }
       .web-service .ws-price .amount { font-size: 44px; }
+      .web-service .ws-stage { flex: none; aspect-ratio: 16 / 9; min-height: 0; }
       .svc-row { grid-template-columns: 40px 1fr; gap: 14px; }
       .svc-row > * { grid-column: 2 / -1; text-align: left; }
       .svc-row > .n { grid-column: 1; }
@@ -1302,6 +1508,14 @@
       .form-row { grid-template-columns: 1fr; }
     }
     @media (max-width: 640px) {
+      .web-service .ws-price .pnote { font-size: 16px; }
+      .web-service .ws-stage { aspect-ratio: 4 / 3; }
+      .web-service .ws-illu .wsi-draw { stroke-width: 2px; }
+      .web-service .ws-illu { top: 8px; left: 8px; width: calc(100% - 16px); height: calc(100% - 16px); }
+      .billing-toggle { gap: 8px; }
+      .billing-toggle button,
+      .proj-device-toggle button { min-height: 44px; }
+      .svc-note { font-size: 13px; }
       .hero {
         --bg-top: -80px;
         --bg-extra: 160px;
@@ -1323,5 +1537,8 @@
       .contact { padding: 64px 0 56px; }
       .proj-modal { padding: 14px; }
       .proj-modal-inner { padding: 10px; }
-      .proj-modal-frame { height: 68vh; }
+      .proj-modal-stage { --stage-h: min(68vh, calc(100svh - 230px)); }
+      .proj-device-toggle { gap: 8px; }
+      .proj-modal-close { top: 6px; right: 6px; width: 44px; height: 44px; }
+      .proj-modal-bar button { width: 44px; height: 44px; flex-shrink: 0; }
     }

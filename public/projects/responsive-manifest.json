@@ -1,0 +1,181 @@
+{
+  "bonitavida": {
+    "desktop": [
+      "/projects/bonitavida/desktop/1.jpg",
+      "/projects/bonitavida/desktop/2.jpg",
+      "/projects/bonitavida/desktop/3.jpg"
+    ],
+    "tablet": [
+      "/projects/bonitavida/tablet/1.jpg",
+      "/projects/bonitavida/tablet/2.jpg",
+      "/projects/bonitavida/tablet/3.jpg"
+    ],
+    "mobile": [
+      "/projects/bonitavida/mobile/1.jpg",
+      "/projects/bonitavida/mobile/2.jpg",
+      "/projects/bonitavida/mobile/3.jpg"
+    ],
+    "views": [
+      {
+        "url": "https://cafeteriabonitavida.com/",
+        "why": "Hero de la home: marca, ambiente marroquí del local y las dos llamadas principales (ver la carta, cómo llegar)."
+      },
+      {
+        "url": "https://cafeteriabonitavida.com/menu",
+        "why": "Carta online: categorías navegables y el especial de desayuno marroquí con precio y alérgenos."
+      },
+      {
+        "url": "https://cafeteriabonitavida.com/gallery",
+        "why": "Galería del local y de los platos, la prueba visual de lo que se sirve."
+      }
+    ]
+  },
+  "holovisor": {
+    "desktop": [
+      "/projects/holovisor/desktop/1.jpg",
+      "/projects/holovisor/desktop/2.jpg"
+    ],
+    "tablet": [
+      "/projects/holovisor/tablet/1.jpg",
+      "/projects/holovisor/tablet/2.jpg"
+    ],
+    "mobile": [
+      "/projects/holovisor/mobile/1.jpg",
+      "/projects/holovisor/mobile/2.jpg"
+    ],
+    "views": [
+      {
+        "url": "https://holovisor.app/",
+        "why": "Landing: la promesa (escanear cualquier carta en tu idioma) junto a una carta real con su precio de Cardmarket."
+      },
+      {
+        "url": "https://holovisor.app/",
+        "why": "Sección 'Everything for your collection': varias cartas a la vez, valor total de la colección, wishlist, carpetas y exportación CSV."
+      }
+    ]
+  },
+  "mymedesp": {
+    "desktop": [
+      "/projects/mymedesp/desktop/1.jpg",
+      "/projects/mymedesp/desktop/2.jpg",
+      "/projects/mymedesp/desktop/3.jpg"
+    ],
+    "tablet": [
+      "/projects/mymedesp/tablet/1.jpg",
+      "/projects/mymedesp/tablet/2.jpg",
+      "/projects/mymedesp/tablet/3.jpg"
+    ],
+    "mobile": [
+      "/projects/mymedesp/mobile/1.jpg",
+      "/projects/mymedesp/mobile/2.jpg",
+      "/projects/mymedesp/mobile/3.jpg"
+    ],
+    "views": [
+      {
+        "url": "https://mymedesp.com/",
+        "why": "Hero: importar recetas desde TikTok, Instagram, Facebook o cualquier web."
+      },
+      {
+        "url": "https://mymedesp.com/#features",
+        "why": "Características: menú semanal, lista de la compra, importación con IA y la maqueta de la app con recetas."
+      },
+      {
+        "url": "https://mymedesp.com/#pricing",
+        "why": "Precios: los planes Gratuito, Cocinillas y Profesional muestran que es un producto SaaS real."
+      }
+    ]
+  },
+  "alea": {
+    "desktop": [
+      "/projects/alea/desktop/1.jpg",
+      "/projects/alea/desktop/2.jpg",
+      "/projects/alea/desktop/3.jpg"
+    ],
+    "tablet": [
+      "/projects/alea/tablet/1.jpg",
+      "/projects/alea/tablet/2.jpg",
+      "/projects/alea/tablet/3.jpg"
+    ],
+    "mobile": [
+      "/projects/alea/mobile/1.jpg",
+      "/projects/alea/mobile/2.jpg",
+      "/projects/alea/mobile/3.jpg"
+    ],
+    "views": [
+      {
+        "url": "https://alealaspalmas.es/",
+        "why": "Hero con la identidad visual de rol y fantasía de la asociación."
+      },
+      {
+        "url": "https://alealaspalmas.es/#events",
+        "why": "Próximos eventos: carrusel de carteles de torneos y jornadas, el núcleo del sitio."
+      },
+      {
+        "url": "https://alealaspalmas.es/#culture",
+        "why": "Nuestra Cultura: los valores de comunidad de la asociación, sobre una ilustración a sangre."
+      }
+    ]
+  },
+  "patri-santana": {
+    "desktop": [
+      "/projects/patri-santana/desktop/1.jpg",
+      "/projects/patri-santana/desktop/2.jpg",
+      "/projects/patri-santana/desktop/3.jpg"
+    ],
+    "tablet": [
+      "/projects/patri-santana/tablet/1.jpg",
+      "/projects/patri-santana/tablet/2.jpg",
+      "/projects/patri-santana/tablet/3.jpg"
+    ],
+    "mobile": [
+      "/projects/patri-santana/mobile/1.jpg",
+      "/projects/patri-santana/mobile/2.jpg",
+      "/projects/patri-santana/mobile/3.jpg"
+    ],
+    "views": [
+      {
+        "url": "https://www.patrisantanaestetica.com/",
+        "why": "Hero: marca, servicios, CTA de reserva y la barra fija de reserva por Booksy y WhatsApp."
+      },
+      {
+        "url": "https://www.patrisantanaestetica.com/",
+        "why": "Galería de trabajos (uñas, barbería, pestañas) y el arranque de la tabla de tarifas."
+      },
+      {
+        "url": "https://www.patrisantanaestetica.com/",
+        "why": "La casa: el equipo (Patricia y Echedey), horario, dirección y mapa, es decir, la vía directa de contacto y reserva."
+      }
+    ]
+  },
+  "rachafit": {
+    "desktop": [
+      "/projects/rachafit/desktop/1.jpg",
+      "/projects/rachafit/desktop/2.jpg",
+      "/projects/rachafit/desktop/3.jpg"
+    ],
+    "tablet": [
+      "/projects/rachafit/tablet/1.jpg",
+      "/projects/rachafit/tablet/2.jpg",
+      "/projects/rachafit/tablet/3.jpg"
+    ],
+    "mobile": [
+      "/projects/rachafit/mobile/1.jpg",
+      "/projects/rachafit/mobile/2.jpg",
+      "/projects/rachafit/mobile/3.jpg"
+    ],
+    "views": [
+      {
+        "url": "https://rachafit.com/",
+        "why": "Landing: 'No rompas la racha', la carta de rango y las vías de registro."
+      },
+      {
+        "url": "https://rachafit.com/rangos",
+        "why": "Modo demo público (sin cuenta): ranking de fuerza entre amigos con rangos de bronce a diamante, la competición amistosa."
+      },
+      {
+        "url": "https://rachafit.com/stats",
+        "why": "Modo demo: estadísticas con la racha, el volumen semanal y las gráficas de progresión por ejercicio."
+      }
+    ]
+  }
+}
