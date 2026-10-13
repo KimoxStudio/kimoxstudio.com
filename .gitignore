@@ -11,4 +11,14 @@ src.bak
 .vercel
 
 # local Claude Code config
-.claude/
+.claude/*
+!.claude/skills/
+!.claude/agents/
+.claude/skills/*
+!.claude/skills/kx-*
+.claude/agents/*
+!.claude/agents/kx-*
+
+# kx — managed, do not edit between these markers
+.vercel
+# kx — end
