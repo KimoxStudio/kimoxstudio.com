@@ -9,7 +9,7 @@ import type { pricingTableSchema } from "./schema";
 type Props = z.infer<typeof pricingTableSchema>;
 
 export function PricingTableComponent({ props }: TemplateRenderProps<Props>) {
-  const [lang] = useLang() as [string, (next: string) => void];
+  const [lang] = useLang() as [string];
   const [billing, setBilling] = useState<"monthly" | "oneOff">("monthly");
   const monthly = billing === "monthly";
   const note = monthly ? props.items.map((s) => resolveLocalized(s.priceMonthlyNote, lang, "es")).find(Boolean) : undefined;
@@ -25,7 +25,9 @@ export function PricingTableComponent({ props }: TemplateRenderProps<Props>) {
           <button type="button" aria-pressed={!monthly} onClick={() => setBilling("oneOff")}>{resolveLocalized(props.billing.oneOffLabel, lang, "es") ?? ""}</button>
         </div>
         <div className="svc-table">
-          {props.items.map((s, i) => (
+          {props.items.map((s, i) => {
+            const alt = resolveLocalized(monthly ? s.altOneOff : s.altMonthly, lang, "es");
+            return (
             <a href="#contact" className="svc-row" key={i} aria-describedby={monthly && s.priceMonthlyNote ? "svc-note" : undefined}>
               <span className="n">{s.n}</span>
               <h3>{resolveLocalized(s.title, lang, "es") ?? ""}</h3>
@@ -37,10 +39,12 @@ export function PricingTableComponent({ props }: TemplateRenderProps<Props>) {
                 <span className="from" {...kxField(`fromLabel.${lang}`)}>{resolveLocalized(props.fromLabel, lang, "es") ?? ""}</span>
                 <span className="amount">{resolveLocalized(monthly ? s.priceMonthly : s.priceFrom, lang, "es") ?? ""}{monthly && s.priceMonthlyNote ? <span aria-hidden="true">*</span> : null}</span>
                 <span className="iva">{lang === 'ja' ? '税抜' : lang === 'en' ? 'ex. tax (IGIC)' : 'sin IGIC'}</span>
+                {alt ? <span className="alt">{alt}</span> : null}
               </div>
               <span className="cta-cell"><span>{lang === 'ja' ? '依頼する' : lang === 'en' ? 'Inquire' : 'Pedir info'}</span><span>→</span></span>
             </a>
-          ))}
+            );
+          })}
         </div>
         {note && <p className="svc-note" id="svc-note">{note}</p>}
         <div className="svc-extras">

@@ -1,7 +1,9 @@
 import '../globals.css';
 import { Analytics } from '@vercel/analytics/next';
 import LangProvider from '@/components/LangProvider';
-import { BASE_URL, CONTACT_EMAIL, LOCALES, localeUrl } from '@/lib/urls';
+import { BASE_URL, LOCALES, localeUrl } from '@/lib/urls';
+import { serializeJsonLd, siteGraph } from '@/lib/jsonld';
+import { themeInit } from '@/lib/theme-init';
 
 // Root layout, now under app/[locale] so the served HTML already comes in
 // the right language (es at the unprefixed URLs via next.config.js rewrites,
@@ -17,27 +19,30 @@ export function generateStaticParams() {
 // (masthead h1/sub in app/[locale]/page.tsx) — nothing invented.
 const META = {
   es: {
-    title: 'Kimox Studio — Software con alma propia',
-    description: 'Estudio de software. Aplicaciones web y móviles a medida.',
+    title: 'Kimox Studio — Webs y apps a medida en Las Palmas',
+    description:
+      'Estudio de software con base en Las Palmas: webs y apps a medida y consultoría de IA, desde 80 €/mes. Trabajamos en remoto con clientes de cualquier país.',
     ogTitle: 'Kimox Studio — Software con alma que habla tu idioma',
     ogDescription:
-      'Estudio independiente. Diseñamos y desarrollamos aplicaciones web y móviles a medida. Sin plantillas, sin atajos.',
+      'Estudio independiente con base en Las Palmas de Gran Canaria. Webs y apps a medida y consultoría de IA, desde 80 €/mes. Sin plantillas, sin atajos.',
     ogLocale: 'es_ES',
   },
   en: {
-    title: 'Kimox Studio — Software with soul',
-    description: 'Software studio. Custom web and mobile applications.',
+    title: 'Kimox Studio — Custom Web & App Development',
+    description:
+      'Software studio based in Las Palmas, Canary Islands: custom websites, web and mobile apps and AI consulting, from €80/month. Remote, with clients worldwide.',
     ogTitle: 'Kimox Studio — Software with soul that speaks your language',
     ogDescription:
-      'Independent studio. We design and build custom web and mobile applications. No templates, no shortcuts.',
+      'Independent studio based in Las Palmas de Gran Canaria. Custom web and mobile apps and AI consulting, from €80/month. No templates, no shortcuts.',
     ogLocale: 'en_US',
   },
   ja: {
-    title: 'Kimox Studio — 魂のあるソフトウェア',
-    description: 'ソフトウェアスタジオ。カスタムのウェブ・モバイルアプリケーション。',
+    title: 'Kimox Studio — ウェブ・アプリのオーダーメイド開発',
+    description:
+      'ラス・パルマス（グラン・カナリア）を拠点とするソフトウェアスタジオ。ウェブサイト・アプリのオーダーメイド開発とAIコンサルティングを月額80€から。世界中のお客様とリモートで対応します。',
     ogTitle: 'Kimox Studio — 魂のあるソフトウェアをあなたの言葉で',
     ogDescription:
-      '独立スタジオ。ウェブ・モバイルアプリケーションをオーダーメイドで設計・開発します。テンプレートなし、近道なし。',
+      'ラス・パルマス・デ・グラン・カナリアを拠点とする独立スタジオ。ウェブ・モバイルアプリのオーダーメイド開発とAIコンサルティングを月額80€から。テンプレートなし、近道なし。',
     ogLocale: 'ja_JP',
   },
 };
@@ -85,42 +90,13 @@ export async function generateMetadata({ params }) {
   };
 }
 
-// Sets `data-theme` on <html> synchronously, before hydration or any paint,
-// so CSS never has a themeless flash. `kx/templates/masthead/component.tsx`
+// The `data-theme` init script (lib/theme-init.js) runs before hydration or any
+// paint, so CSS never has a themeless flash. `kx/templates/masthead/component.tsx`
 // reuses this same synchronous, pre-hydration technique (and reads this same
 // `data-theme` attribute, rather than re-reading localStorage) for the hero
 // image's initial `src` — it can't be merged into this script because the
 // hero <img> elements don't exist yet when this one runs (this one executes
 // in <head>, before <body> is parsed).
-// Organization structured data (JSON-LD) for search engines and AI crawlers.
-// Only verifiable facts — no invented addresses or social profiles.
-// Every `<` is escaped to \u003c so no value could ever close the inline
-// script tag early (standard JSON-LD hygiene for dangerouslySetInnerHTML).
-const organizationJsonLd = JSON.stringify({
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Kimox Studio',
-  url: BASE_URL,
-  // PNG, not SVG: Google doesn't reliably support SVG logos in structured
-  // data (same reason the favicon moved to app/icon.png).
-  logo: `${BASE_URL}/icon.png`,
-  email: CONTACT_EMAIL,
-  description:
-    'Estudio independiente de software. Diseñamos y desarrollamos aplicaciones web y móviles a medida.',
-}).replace(/</g, '\\u003c');
-
-const themeInit = `
-(function(){
-  try {
-    var stored = localStorage.getItem('kimox-theme');
-    var prefers = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    var theme = stored || prefers;
-    document.documentElement.setAttribute('data-theme', theme);
-  } catch(e) {
-    document.documentElement.setAttribute('data-theme', 'dark');
-  }
-})();
-`;
 
 export default async function RootLayout({ children, params }) {
   const { locale } = await params;
@@ -128,9 +104,10 @@ export default async function RootLayout({ children, params }) {
     <html lang={locale} suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+        {/* Organization + WebSite graph, see lib/jsonld.js. */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: organizationJsonLd }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(siteGraph(locale)) }}
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />

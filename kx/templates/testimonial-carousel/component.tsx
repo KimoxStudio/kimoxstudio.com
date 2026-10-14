@@ -9,7 +9,7 @@ import type { testimonialCarouselSchema } from "./schema";
 type Props = z.infer<typeof testimonialCarouselSchema>;
 
 export function TestimonialCarouselComponent({ props }: TemplateRenderProps<Props>) {
-  const [lang] = useLang() as [string, (next: string) => void];
+  const [lang] = useLang() as [string];
   const items = props.items;
   const [idx, setIdx] = useState(0);
   const cur = items[idx];

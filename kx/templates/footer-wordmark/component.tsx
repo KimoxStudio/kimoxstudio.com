@@ -21,7 +21,7 @@ function BreakOnDots({ text }: { text: string }) {
 }
 
 export function FooterWordmarkComponent({ props }: TemplateRenderProps<Props>) {
-  const [lang] = useLang() as [Lang, (next: Lang) => void];
+  const [lang] = useLang() as [Lang];
   return (
     <>
       <div className="wrap"><div className="footer-big" aria-hidden="true"><BreakOnDots text="KIMOX·STUDIO." /></div></div>

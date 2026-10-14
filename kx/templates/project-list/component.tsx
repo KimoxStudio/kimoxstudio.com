@@ -149,7 +149,7 @@ function ProjectPreview({ shots, name, text, onOpen }: { shots: string[]; name: 
       <div className="shots-frame">
         <div className="shots-grid">
           {thumbs.map((src, i) => (
-            <ShotImage key={i} src={src} alt="" lazy />
+            <ShotImage key={i} src={src} alt={text.shot(shots.indexOf(src) + 1, name)} lazy />
           ))}
         </div>
       </div>
@@ -357,7 +357,7 @@ function ProjectModal({
 }
 
 export function ProjectListComponent({ props }: TemplateRenderProps<Props>) {
-  const [lang] = useLang() as [string, (next: string) => void];
+  const [lang] = useLang() as [string];
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   // Stable identity: the modal's focus effect depends on it and must not re-run on parent renders.
   const closeModal = useCallback(() => setOpenIdx(null), []);
@@ -384,8 +384,9 @@ export function ProjectListComponent({ props }: TemplateRenderProps<Props>) {
                 <ProjectPreview shots={previewShots} name={name} text={text} onOpen={() => setOpenIdx(i)} />
                 <div className="name-block">
                   <div className="name-row">
+                    {/* Logo alt="" on purpose: the project name is the adjacent link text, so an alt would repeat it. */}
                     {p.logo ? (
-                      <img className="proj-logo" src={p.logo} alt="" />
+                      <img className="proj-logo" src={p.logo} alt="" width={30} height={30} loading="lazy" decoding="async" />
                     ) : (
                       <span className="proj-logo proj-logo--glyph">{glyph}</span>
                     )}

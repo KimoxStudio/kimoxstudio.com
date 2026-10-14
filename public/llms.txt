@@ -1,10 +1,11 @@
 # Kimox Studio
 
-> Estudio independiente de software, hecho a mano en España. Diseñamos y desarrollamos aplicaciones web y móviles a medida que cargan con los valores de tu marca. Sin plantillas, sin atajos, sin software de catálogo.
+> Estudio independiente de software con base en Las Palmas de Gran Canaria (Islas Canarias, España), que trabaja en remoto con clientes de cualquier país. Diseñamos y desarrollamos aplicaciones web y móviles a medida que cargan con los valores de tu marca. Sin plantillas, sin atajos, sin software de catálogo.
 
 No empezamos un proyecto buscando qué plantilla encaja. Primero entendemos el problema, después decidimos cómo debería funcionar y, por último, cómo debería verse. Somos un equipo reducido de gente que diseña y programa: trabajamos con pocos clientes a la vez para poder meternos a fondo en cada proyecto. No subcontratamos, no usamos plantillas y no tenemos vendedores. El sitio está disponible en español (por defecto), inglés (/en) y japonés (/ja).
 
 - Web: https://www.kimoxstudio.com/
+- Ubicación: Las Palmas de Gran Canaria (Islas Canarias, España). Estudio remoto, sin oficina abierta al público; trabajamos con clientes de cualquier país.
 - Email de contacto: info@kimoxstudio.com (respondemos en menos de 24h)
 - Equipo: Jesé Romero Arbelo (fundador · swiss-stack developer), Adrián Mujica González (fundador · arquitecto), Samuel Romero Arbelo (full-stack)
 
@@ -14,18 +15,28 @@ No empezamos un proyecto buscando qué plantilla encaja. Primero entendemos el p
 - Aplicaciones web — desde 120€/mes (el precio depende de las funcionalidades finales) o desde 1.500€ en pago único (sin IGIC). Apps web completas con base de datos, autenticación y panel propio. Stack moderno, escalable. Con cuota mensual, el hosting va siempre incluido; con pago único, el primer año.
 - Proyectos a medida — presupuesto a medida. Aplicaciones móviles, SaaS, integraciones, plataformas complejas.
 - Web y apps como servicio — webs desde 80€/mes y apps desde 120€/mes (sin IGIC). La cuota cubre diseño y desarrollo, hosting, mantenimiento, soporte y evolución. Como se construye desde cero, hay un compromiso mínimo al empezar; después, mes a mes. Quien lo prefiera puede pagar una sola vez.
+- Consultoría de IA — para negocios que no saben por dónde empezar con la IA. Cuatro pasos: diagnóstico (dónde la IA ahorra tiempo o dinero y dónde no merece la pena), formación (talleres prácticos con las tareas reales del equipo), implantación (agentes, automatizaciones e integraciones con modelos de lenguaje en los sistemas que ya usas) y acompañamiento mensual. Precio a medida; la primera conversación es sin compromiso.
 - También hacemos: mantenimiento de proyectos existentes, migraciones de stack, auditorías SEO técnicas y refactor de código heredado.
-
-Consultoría de IA: diagnóstico → formación → implantación → acompañamiento mensual. Te decimos dónde la IA ahorra tiempo o dinero, formamos a tu equipo con sus tareas reales, implantamos agentes y automatizaciones, y seguimos cerca cada mes.
 
 ## Proyectos
 
+- [Cafetería Bonita Vida](https://cafeteriabonitavida.com): web de la cafetería y repostería marroquí del barrio de Schamann, con carta online, galería del local, catering y reseñas de Google integradas.
+- [Holovisor](https://holovisor.app): escáner de cartas Pokémon TCG. Reconoce la carta con la cámara en cualquier idioma, sigue su valor con precios de Cardmarket y guarda la colección.
 - [Mymedesp](https://mymedesp.com): plataforma de recetas y planificación de menús. Importa recetas desde redes sociales o cualquier web, arma el menú semanal y genera la lista de la compra automáticamente.
-- [Characters Vault](https://charactersvault.com): gestor de fichas de personajes de rol, con automatización para Anima Beyond Fantasy y sincronización con Foundry VTT.
-- [Funciona el Ascensor de Las Rehoyas](https://funcionaelascensordelasrehoyas.com): semáforo vecinal en tiempo real del ascensor panorámico del parque de Las Rehoyas (Las Palmas), con reportes anónimos validados por la comunidad.
 - [Alea Las Palmas](https://alealaspalmas.es): web de la asociación cultural de juegos de rol, mesa, wargames y miniaturas de Las Palmas, con eventos y directorio de tiendas y locales colaboradores.
-- [Patri Santana Estética](https://echedeypatricia.com): sitio para un centro de belleza y bienestar en Las Palmas de Gran Canaria, con presentación de servicios y contacto directo.
+- [Patri Santana Estética](https://www.patrisantanaestetica.com): sitio para un centro de belleza y bienestar en Las Palmas de Gran Canaria, con presentación de servicios y contacto directo.
 - [RachaFit](https://rachafit.com): diario de entrenamiento social para gimnastas y corredores. Registro rápido, progreso con gráficos, rachas y competición amistosa.
+
+## Preguntas frecuentes
+
+- ¿Qué es Kimox Studio? Un estudio independiente de software con base en Las Palmas de Gran Canaria: webs, apps web y móviles a medida, sin plantillas, y consultoría de IA. Remoto, con clientes de cualquier país.
+- ¿Cuánto cuesta una landing page? Desde 80€/mes o 500€ en pago único, sin IGIC. Incluye diseño a medida, SEO técnico y entrega en 2-3 semanas.
+- ¿Cuánto cuesta una aplicación web? Desde 120€/mes o desde 1.500€ en pago único, sin IGIC; depende de las funcionalidades finales.
+- ¿Qué es "web y apps como servicio"? Tu web o app por una cuota mensual (diseño y desarrollo, hosting, mantenimiento, soporte y evolución), con un compromiso mínimo al empezar y mes a mes después.
+- ¿Ofrecéis consultoría de IA? Sí: diagnóstico, formación, implantación y acompañamiento mensual. Precio a medida; la primera conversación es sin compromiso.
+- ¿Mantenéis proyectos que no habéis hecho vosotros? Sí: mantenimiento de proyectos existentes, migraciones de stack, auditorías SEO técnicas y refactor de código heredado.
+- ¿Trabajáis solo en Canarias? No: remoto con clientes de cualquier país. La web está en español, inglés y japonés.
+- ¿Cómo os contacto? info@kimoxstudio.com o el formulario de la web; respondemos en menos de 24h.
 
 ## Blog
 

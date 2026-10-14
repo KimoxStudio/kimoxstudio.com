@@ -1,19 +1,19 @@
 {
   "bonitavida": {
     "desktop": [
-      "/projects/bonitavida/desktop/1.jpg",
-      "/projects/bonitavida/desktop/2.jpg",
-      "/projects/bonitavida/desktop/3.jpg"
+      "/projects/bonitavida/desktop/1.webp",
+      "/projects/bonitavida/desktop/2.webp",
+      "/projects/bonitavida/desktop/3.webp"
     ],
     "tablet": [
-      "/projects/bonitavida/tablet/1.jpg",
-      "/projects/bonitavida/tablet/2.jpg",
-      "/projects/bonitavida/tablet/3.jpg"
+      "/projects/bonitavida/tablet/1.webp",
+      "/projects/bonitavida/tablet/2.webp",
+      "/projects/bonitavida/tablet/3.webp"
     ],
     "mobile": [
-      "/projects/bonitavida/mobile/1.jpg",
-      "/projects/bonitavida/mobile/2.jpg",
-      "/projects/bonitavida/mobile/3.jpg"
+      "/projects/bonitavida/mobile/1.webp",
+      "/projects/bonitavida/mobile/2.webp",
+      "/projects/bonitavida/mobile/3.webp"
     ],
     "views": [
       {
@@ -32,16 +32,16 @@
   },
   "holovisor": {
     "desktop": [
-      "/projects/holovisor/desktop/1.jpg",
-      "/projects/holovisor/desktop/2.jpg"
+      "/projects/holovisor/desktop/1.webp",
+      "/projects/holovisor/desktop/2.webp"
     ],
     "tablet": [
-      "/projects/holovisor/tablet/1.jpg",
-      "/projects/holovisor/tablet/2.jpg"
+      "/projects/holovisor/tablet/1.webp",
+      "/projects/holovisor/tablet/2.webp"
     ],
     "mobile": [
-      "/projects/holovisor/mobile/1.jpg",
-      "/projects/holovisor/mobile/2.jpg"
+      "/projects/holovisor/mobile/1.webp",
+      "/projects/holovisor/mobile/2.webp"
     ],
     "views": [
       {
@@ -56,19 +56,19 @@
   },
   "mymedesp": {
     "desktop": [
-      "/projects/mymedesp/desktop/1.jpg",
-      "/projects/mymedesp/desktop/2.jpg",
-      "/projects/mymedesp/desktop/3.jpg"
+      "/projects/mymedesp/desktop/1.webp",
+      "/projects/mymedesp/desktop/2.webp",
+      "/projects/mymedesp/desktop/3.webp"
     ],
     "tablet": [
-      "/projects/mymedesp/tablet/1.jpg",
-      "/projects/mymedesp/tablet/2.jpg",
-      "/projects/mymedesp/tablet/3.jpg"
+      "/projects/mymedesp/tablet/1.webp",
+      "/projects/mymedesp/tablet/2.webp",
+      "/projects/mymedesp/tablet/3.webp"
     ],
     "mobile": [
-      "/projects/mymedesp/mobile/1.jpg",
-      "/projects/mymedesp/mobile/2.jpg",
-      "/projects/mymedesp/mobile/3.jpg"
+      "/projects/mymedesp/mobile/1.webp",
+      "/projects/mymedesp/mobile/2.webp",
+      "/projects/mymedesp/mobile/3.webp"
     ],
     "views": [
       {
@@ -87,19 +87,19 @@
   },
   "alea": {
     "desktop": [
-      "/projects/alea/desktop/1.jpg",
-      "/projects/alea/desktop/2.jpg",
-      "/projects/alea/desktop/3.jpg"
+      "/projects/alea/desktop/1.webp",
+      "/projects/alea/desktop/2.webp",
+      "/projects/alea/desktop/3.webp"
     ],
     "tablet": [
-      "/projects/alea/tablet/1.jpg",
-      "/projects/alea/tablet/2.jpg",
-      "/projects/alea/tablet/3.jpg"
+      "/projects/alea/tablet/1.webp",
+      "/projects/alea/tablet/2.webp",
+      "/projects/alea/tablet/3.webp"
     ],
     "mobile": [
-      "/projects/alea/mobile/1.jpg",
-      "/projects/alea/mobile/2.jpg",
-      "/projects/alea/mobile/3.jpg"
+      "/projects/alea/mobile/1.webp",
+      "/projects/alea/mobile/2.webp",
+      "/projects/alea/mobile/3.webp"
     ],
     "views": [
       {
@@ -118,19 +118,19 @@
   },
   "patri-santana": {
     "desktop": [
-      "/projects/patri-santana/desktop/1.jpg",
-      "/projects/patri-santana/desktop/2.jpg",
-      "/projects/patri-santana/desktop/3.jpg"
+      "/projects/patri-santana/desktop/1.webp",
+      "/projects/patri-santana/desktop/2.webp",
+      "/projects/patri-santana/desktop/3.webp"
     ],
     "tablet": [
-      "/projects/patri-santana/tablet/1.jpg",
-      "/projects/patri-santana/tablet/2.jpg",
-      "/projects/patri-santana/tablet/3.jpg"
+      "/projects/patri-santana/tablet/1.webp",
+      "/projects/patri-santana/tablet/2.webp",
+      "/projects/patri-santana/tablet/3.webp"
     ],
     "mobile": [
-      "/projects/patri-santana/mobile/1.jpg",
-      "/projects/patri-santana/mobile/2.jpg",
-      "/projects/patri-santana/mobile/3.jpg"
+      "/projects/patri-santana/mobile/1.webp",
+      "/projects/patri-santana/mobile/2.webp",
+      "/projects/patri-santana/mobile/3.webp"
     ],
     "views": [
       {
@@ -149,19 +149,19 @@
   },
   "rachafit": {
     "desktop": [
-      "/projects/rachafit/desktop/1.jpg",
-      "/projects/rachafit/desktop/2.jpg",
-      "/projects/rachafit/desktop/3.jpg"
+      "/projects/rachafit/desktop/1.webp",
+      "/projects/rachafit/desktop/2.webp",
+      "/projects/rachafit/desktop/3.webp"
     ],
     "tablet": [
-      "/projects/rachafit/tablet/1.jpg",
-      "/projects/rachafit/tablet/2.jpg",
-      "/projects/rachafit/tablet/3.jpg"
+      "/projects/rachafit/tablet/1.webp",
+      "/projects/rachafit/tablet/2.webp",
+      "/projects/rachafit/tablet/3.webp"
     ],
     "mobile": [
-      "/projects/rachafit/mobile/1.jpg",
-      "/projects/rachafit/mobile/2.jpg",
-      "/projects/rachafit/mobile/3.jpg"
+      "/projects/rachafit/mobile/1.webp",
+      "/projects/rachafit/mobile/2.webp",
+      "/projects/rachafit/mobile/3.webp"
     ],
     "views": [
       {

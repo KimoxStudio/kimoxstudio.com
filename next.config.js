@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Unmatched URLs (/nope, /en/nope) cannot render inside app/[locale]/layout.jsx,
+  // so app/global-not-found.jsx renders the localized 404 as a full document.
+  experimental: { globalNotFound: true },
   // Anything that is not the production deployment (staging, previews, local)
   // tells crawlers to stay out, so staging.kimoxstudio.com never competes with
   // www.kimoxstudio.com in search results.
