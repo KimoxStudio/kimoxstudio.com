@@ -49,7 +49,7 @@ const CONTACT_FEEDBACK = {
 // chips + localized feedback banner, and binds the original `submitContact`
 // server action (kept as an island in app/actions/contact.js).
 export function ContactSectionComponent({ props }: TemplateRenderProps<Props>) {
-  const [lang] = useLang() as [Lang, (next: Lang) => void];
+  const [lang] = useLang() as [Lang];
   const [budgetIdx, setBudgetIdx] = useState<number | null>(null);
   const [status, setStatus] = useState<{ state: string; error: string | null }>({
     state: "idle",

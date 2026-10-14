@@ -19,7 +19,7 @@ const AUTO_STEP_MS = 6000;
 // The `emphasis` substring of the title keeps the serif-italic orange accent
 // used by the other poster heads.
 export function WebServiceComponent({ props }: TemplateRenderProps<Props>) {
-  const [lang] = useLang() as [Lang, (next: Lang) => void];
+  const [lang] = useLang() as [Lang];
   const title = resolveLocalized(props.title, lang, "es") ?? "";
   const emphasis = resolveLocalized(props.emphasis, lang, "es") ?? "";
   const at = emphasis ? title.indexOf(emphasis) : -1;

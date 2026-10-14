@@ -214,6 +214,7 @@ Fixed at top (`z-index 50`), `--nav-bg` with `backdrop-filter: blur(14px)`, bott
 
 - Interactive chip (`.svc-extras .tag`, `.budget-chips button`, `.filters button`): mono 11–12, `padding 8–9px 14px`, `border 1px --rule-2`, `--ink-2`. On `hover` the border and text turn `--orange` (or it fills). Active: `bg --orange`, text `--bg`.
 - Billing switch (`.billing-toggle` buttons in `PricingTableComponent`): same chip as `.budget-chips button`, uppercase, `aria-pressed` drives the active state. `.svc-note` below the table: mono 11, `--ink-3`.
+- Secondary price line (`.svc-row .price-cell .alt`): under `sin IGIC`, names the OTHER billing mode (`o 500 € en pago único` while Monthly is selected, `o 80 €/mes` while One-off is). Mono 11 (13 at ≤640), `--ink-2`, no accent, so the main price stays the single accent element. It exists so both prices are in the server HTML for crawlers; the toggle behaves as before.
 - Static tag (project or team technologies): mono 10, `padding 4px 8–9px`, `border 1px --rule-2`, `--ink-3` or `--ink-2`.
 
 ### List rows
@@ -236,6 +237,10 @@ Cell with `padding 36px 28px`, `min-height 360px`. The first step is highlighted
 ### Section subtitle (`.poster-section .bridge`)
 
 Lead paragraph under the section header, rendered as a sibling AFTER `.head` (not inside it), so the 64 px `.head` margin separates header and subtitle. Used by the web-service and AI/process sections. Instrument Serif italic, `clamp(21px, 2.4vw, 30px)`, line-height 1.32, `--ink-2`, `max-width 940px`, `margin 0 0 48px`.
+
+### FAQ (`.faq`, `kx/templates/faq`)
+
+`poster-section` placed before the contact section, `id="faq"`. Header uses the process-steps emphasis pattern (`emphasis` prop split in JSX, `<em>` Instrument Serif italic in `--orange`). Native `<details class="faq-item">`/`<summary>`, no JS, so every answer is in the HTML. List capped at 940 px with `1px --rule` top rule and a bottom rule per item. Summary: Familjen 700 22 (19 at ≤640), `--ink`, min-height 44 at ≤640, a mono `+` in `--orange` that becomes `−` when open (the state is also carried by `[open]`, not colour alone). `hover` turns the question `--orange` (colour only, no motion). `:focus-visible` ring `2px solid --orange`, offset 2 px. Answer: 16/1.6 `--ink-2`, max 780 px. Square corners, no shadows, nothing animates, so `prefers-reduced-motion` needs no override. The component also emits the `FAQPage` JSON-LD built from the same visible text. No nav entry.
 
 ### Highlighted panel (`.ws-panel`)
 
@@ -270,7 +275,7 @@ Instrument Serif quote mark at 200 px in `--orange`, large quote, meta with 48 p
 
 ### Footer
 
-`.footer-big`: "KIMOX· STUDIO." on two lines, with the `.orange-bit` and `.olive-bit` pieces. `footer.bot`: mono 11 `--ink-3` row with copyright on the left and email, Blog and "Volver arriba ↑" on the right (wraps onto several lines if it does not fit).
+`.footer-big`: "KIMOX· STUDIO." on two lines, with the `.orange-bit` and `.olive-bit` pieces. `footer.bot`: mono 11 `--ink-3` row with copyright ("Hecho a mano en Las Palmas de Gran Canaria") on the left and email, Blog and "Volver arriba ↑" on the right (wraps onto several lines if it does not fit).
 
 ### Blog
 
@@ -287,9 +292,9 @@ Instrument Serif quote mark at 200 px in `--orange`, large quote, meta with 48 p
 
 ## 6. Images and iconography
 
-- **Hero:** 3D illustration per theme (`public/hero/hero-dark.png`, `hero-light.png`). Only the active theme's image is downloaded. Scroll parallax (`data-px="0.45"`) and a blue radial blob `.hero-blob`. At ≤1024 a gradient mask is applied so the text is readable.
-- **Projects:** real screenshots in `public/projects/<slug>/` plus a 30 px logo. Thumbnails load lazily (`loading="lazy"`).
-- **Team:** real photos in `public/team/` (serious and fun).
+- **Hero:** 3D illustration per theme (`public/hero/hero-<theme>-<750|1100|1495>.{avif,webp}`). Both themes are `<picture>`s in the server HTML; `<source>` media (`prefers-color-scheme`, rewritten from `data-theme` by an inline script) makes only the active one download, eager with `fetchpriority="high"`. Scroll parallax (`data-px="0.45"`) and a blue radial blob `.hero-blob`. At ≤1024 a gradient mask is applied so the text is readable.
+- **Projects:** real screenshots in `public/projects/<slug>/` as WebP (thumbnails 600w; modal desktop 1600w, tablet 1100w, mobile 600w; q78) plus a 30 px logo (96w WebP). Thumbnails and logos load lazily (`loading="lazy"`).
+- **Team:** real photos in `public/team/` as WebP (≥760×950 cover size, serious and fun). The "serious" canvas image loads when the card is within 400 px of the viewport; names are `h3`.
 - **Blog covers:** no images. They are color blocks with a typographic word and `repeating-linear-gradient(45deg, …)` stripes. Keep that pattern and do not add stock photos.
 - **Icons:** almost none. Text glyphs are used (`→ ↗ ↓ ↑ ‹ › + ·`) and 14 px inline SVG only in the theme toggle and the photo reset button. Do not add an icon library.
 - **Logo:** `public/logos/icon.svg` (black block with "ks;"), the same in both themes.
@@ -321,7 +326,7 @@ Instrument Serif quote mark at 200 px in `--orange`, large quote, meta with 48 p
 - **Mobile menu:** when open, the rest of the page is `inert`, scroll is locked, and focus and Escape are handled (`components/Nav.jsx`).
 - **Touch targets:** the theme toggle (32×32), the hamburger (36×32), the language selector (about 28 px tall) and the modal desktop buttons (32×32) are below 44×44; at ≤640 the modal close and prev/next are 44×44 and the close sits inside the frame (`top/right 6px`). Only `.t-nav button` reaches 44.
 - **Minimum text:** 10–11 px UPPERCASE mono is common for metadata and labels.
-- **Images:** project thumbnails and logos have `alt=""` (decorative); modal screenshots, `alt="Captura N de <proyecto>"`; the hero, `aria-hidden`.
+- **Images:** project thumbnails and modal screenshots, `alt="Captura N de <proyecto>"` (localized); logos `alt=""` (the name sits next to them); the hero, `aria-hidden`.
 
 ---
 

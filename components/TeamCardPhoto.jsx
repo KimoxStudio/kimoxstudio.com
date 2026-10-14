@@ -22,15 +22,35 @@ export default function TeamCardPhoto({ initials, index, lang, photoSerious, pho
   const [dirty, setDirty] = useState(false);
 
   // Load the "serious" image into memory so we can paint it onto the canvas.
+  // Deferred until the card is near the viewport: this is a below-the-fold
+  // download that would otherwise compete with the hero at page load.
   useEffect(() => {
-    if (!photoSerious) return;
-    const img = new Image();
-    img.decoding = 'async';
-    img.onload = () => {
-      imgRef.current = img;
-      setImgReady(true);
+    const photo = photoRef.current;
+    if (!photoSerious || !photo) return;
+    let img = null;
+    const load = () => {
+      img = new Image();
+      img.decoding = 'async';
+      img.onload = () => {
+        imgRef.current = img;
+        setImgReady(true);
+      };
+      img.src = photoSerious;
     };
-    img.src = photoSerious;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          io.disconnect();
+          load();
+        }
+      },
+      { rootMargin: '400px 0px' },
+    );
+    io.observe(photo);
+    return () => {
+      io.disconnect();
+      if (img) img.onload = null;
+    };
   }, [photoSerious]);
 
   // Re-paint the serious image to fully cover the canvas (used for initial
@@ -203,6 +223,10 @@ export default function TeamCardPhoto({ initials, index, lang, photoSerious, pho
             src={photoFun}
             alt=""
             aria-hidden="true"
+            width={760}
+            height={950}
+            loading="lazy"
+            decoding="async"
             draggable={false}
             style={(() => {
               const s = {};
@@ -216,6 +240,9 @@ export default function TeamCardPhoto({ initials, index, lang, photoSerious, pho
               }
               if (transforms.length) s.transform = transforms.join(' ');
               if (objectPositionFun) s.objectPosition = objectPositionFun;
+              // The fun photo is the hidden reveal under the serious canvas:
+              // keep it invisible until the canvas has something to cover it.
+              if (!imgReady) s.visibility = 'hidden';
               return Object.keys(s).length ? s : undefined;
             })()}
           />

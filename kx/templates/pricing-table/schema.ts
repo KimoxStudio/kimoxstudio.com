@@ -14,6 +14,10 @@ export const pricingTableSchema = z.object({
         priceFrom: localized(LANGS),
         priceMonthly: localized(LANGS),
         priceMonthlyNote: localized(LANGS).optional(),
+        // Secondary line under the price naming the OTHER billing mode, so
+        // both prices are in the HTML whichever mode is selected.
+        altOneOff: localized(LANGS).optional(),
+        altMonthly: localized(LANGS).optional(),
         title: localized(LANGS),
         body: localized(LANGS),
         bullets: localizedList(LANGS),

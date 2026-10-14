@@ -13,7 +13,7 @@ type Props = z.infer<typeof teamGridSchema>;
 // Re-homes the About section (intro + stat grid + team cards). The per-card
 // canvas photo effect lives in components/TeamCardPhoto.jsx (unchanged).
 export function TeamGridComponent({ props }: TemplateRenderProps<Props>) {
-  const [lang] = useLang() as [Lang, (next: Lang) => void];
+  const [lang] = useLang() as [Lang];
   const title = (resolveLocalized(props.title, lang, "es") ?? "").replace(
     /(bien|well|丁寧に)/,
     (m) => `<em>${m}</em>`,
@@ -41,7 +41,7 @@ export function TeamGridComponent({ props }: TemplateRenderProps<Props>) {
                   objectPositionFun={p.objectPositionFun}
                 />
                 <div className="name-row">
-                  <h4 className="name">{p.name}</h4>
+                  <h3 className="name">{p.name}</h3>
                   <span className="num">
                     0{i + 1} / 0{props.team.length}
                   </span>

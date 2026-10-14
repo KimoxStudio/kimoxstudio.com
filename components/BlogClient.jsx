@@ -49,7 +49,7 @@ const BLOG = {
 };
 
 export default function BlogClient({ featured, others }) {
-  const [lang, setLang] = useLang();
+  const [lang] = useLang();
   const [cat, setCat] = useState(0);
   useBlogCursor();
 
@@ -59,7 +59,8 @@ export default function BlogClient({ featured, others }) {
 
   return (
     <>
-      <Nav lang={lang} setLang={setLang} mode="blog" activeBlog />
+      <Nav lang={lang} mode="blog" activeBlog />
+      <main>
       <section className="hero">
         <div className="wrap">
           <span className="eyebrow">
@@ -165,6 +166,7 @@ export default function BlogClient({ featured, others }) {
           </button>
         </div>
       </div>
+      </main>
 
       <footer className="bot">
         <div className="wrap">

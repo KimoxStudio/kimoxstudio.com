@@ -23,9 +23,12 @@
       background-color: var(--hero-fill);
       mask-image: var(--bg-mask); -webkit-mask-image: var(--bg-mask);
     }
-    /* Dual-image parallax layer: both theme images are stacked absolutely
-       inside .hero-bg-layer; only the one matching the active [data-theme]
-       is shown. */
+    /* Two <picture>s (one per theme) stacked inside .hero-bg-layer; only the one
+       matching the active [data-theme] is shown. display: contents keeps the
+       <img> positioned against .hero-bg-layer. */
+    .hero-bg-layer picture[data-hero-pic] { display: none; }
+    :root[data-theme="dark"] .hero-bg-layer picture[data-hero-pic="dark"],
+    :root[data-theme="light"] .hero-bg-layer picture[data-hero-pic="light"] { display: contents; }
     .hero-bg-layer img[data-hero-img] {
       position: absolute;
       inset: 0;
@@ -33,10 +36,7 @@
       height: 100%;
       object-fit: cover;
       object-position: var(--img-pos);
-      display: none;
     }
-    :root[data-theme="dark"] .hero-bg-layer img[data-theme-variant="dark"] { display: block; }
-    :root[data-theme="light"] .hero-bg-layer img[data-theme-variant="light"] { display: block; }
     .hero-blob {
       position: absolute;
       z-index: 1;
@@ -562,6 +562,10 @@
       display: block; font-family: "IBM Plex Mono", monospace;
       font-size: 10px; color: var(--ink-3); margin-top: 6px; letter-spacing: .08em;
     }
+    .svc-row .price-cell .alt {
+      display: block; font-family: "IBM Plex Mono", monospace;
+      font-size: 11px; color: var(--ink-2); margin-top: 8px; letter-spacing: .02em;
+    }
     .svc-row .cta-cell {
       align-self: center; text-align: right;
       font-family: "IBM Plex Mono", monospace;
@@ -994,6 +998,31 @@
       color: var(--ink);
     }
     .step p { font-size: 14px; line-height: 1.55; color: var(--ink-2); margin: 0; flex: 1; }
+
+    /* ── FAQ (native <details>, no JS) ── */
+    .faq .faq-list { border-top: 1px solid var(--rule); max-width: 940px; }
+    .faq-item { border-bottom: 1px solid var(--rule); }
+    .faq-item summary {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 24px;
+      padding: 24px 0; cursor: none; list-style: none;
+      font-family: "Familjen Grotesk", sans-serif;
+      font-weight: 700; font-size: 22px; line-height: 1.2;
+      letter-spacing: -0.02em; color: var(--ink);
+      transition: color .15s;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: "+" / ""; flex: 0 0 auto;
+      font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: 20px;
+      color: var(--orange);
+    }
+    .faq-item[open] summary::after { content: "\2212" / ""; }
+    .faq-item summary:hover { color: var(--orange); }
+    .faq-item summary:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+    .faq-item p {
+      margin: 0; padding: 0 48px 28px 0; max-width: 780px;
+      font-size: 16px; line-height: 1.6; color: var(--ink-2);
+    }
 
     /* ── Testimonials ── */
     .testimonials .quote-wrap {
@@ -1567,6 +1596,9 @@
       .billing-toggle button,
       .proj-device-toggle button { min-height: 44px; }
       .svc-note { font-size: 13px; }
+      .svc-row .price-cell .alt { font-size: 13px; }
+      .faq-item summary { min-height: 44px; padding: 18px 0; font-size: 19px; }
+      .faq-item p { padding-right: 0; }
       .hero {
         --bg-top: -80px;
         --bg-extra: 160px;

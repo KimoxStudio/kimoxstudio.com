@@ -10,7 +10,7 @@ import type { marqueeSchema } from "./schema";
 type Props = z.infer<typeof marqueeSchema>;
 
 export function MarqueeComponent({ props }: TemplateRenderProps<Props>) {
-  const [lang] = useLang() as [Lang, (next: Lang) => void];
+  const [lang] = useLang() as [Lang];
   const items = resolveLocalized(props.items, lang, "es") ?? [];
   const all = [];
   for (let r = 0; r < 4; r++) for (let i = 0; i < items.length; i++) all.push(items[i]);

@@ -1,0 +1,69 @@
+/* 404 page — globals.css tokens, poster heading, square corners, no shadows. */
+.nf {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 96px 0;
+}
+/* Only the block matching <html lang> shows (set from the URL by
+   LOCALE_BOOT_SCRIPT); es is the default without JS. */
+.nf [data-nf] { display: none; }
+html:not([lang="en"]):not([lang="ja"]) .nf [data-nf="es"],
+html[lang="en"] .nf [data-nf="en"],
+html[lang="ja"] .nf [data-nf="ja"] { display: block; }
+/* globals.css hides the native cursor for the custom one, which the 404 does not render. */
+body:has(.nf),
+.nf a { cursor: auto; }
+.nf .eyebrow { margin-bottom: 32px; }
+.nf h1 {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(56px, 9vw, 160px);
+  line-height: 0.88;
+  letter-spacing: -0.045em;
+  margin: 0 0 32px;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.nf h1 em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  color: var(--orange);
+}
+.nf .sub {
+  font-size: 18px;
+  line-height: 1.45;
+  max-width: 620px;
+  margin: 0 0 48px;
+  color: var(--ink-2);
+}
+.nf .links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.nf .links a {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 12px 16px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--rule-2);
+  color: var(--ink-2);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.nf .links a:hover,
+.nf .links a:focus-visible {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: var(--bg);
+}
+@media (max-width: 1100px) {
+  .nf h1 { font-size: clamp(48px, 11vw, 96px); }
+}

@@ -12,6 +12,7 @@ import { ProjectListComponent } from "@/kx/templates/project-list/component";
 import { TestimonialCarouselComponent } from "@/kx/templates/testimonial-carousel/component";
 import { ProcessStepsComponent } from "@/kx/templates/process-steps/component";
 import { TeamGridComponent } from "@/kx/templates/team-grid/component";
+import { FaqComponent } from "@/kx/templates/faq/component";
 import { ContactSectionComponent } from "@/kx/templates/contact-section/component";
 import { FooterWordmarkComponent } from "@/kx/templates/footer-wordmark/component";
 
@@ -72,6 +73,7 @@ export default function HomePage() {
     <PageComponent props={{ theme: "light", chrome: "none" }} node={stubNode("root", "page")}>
       <SiteNavComponent props={{}} node={stubNode("nav", "site-nav")} />
 
+      <main>
       <MastheadComponent
         props={{
           h1: {
@@ -109,9 +111,9 @@ export default function HomePage() {
             ja: "汎用ソフトウェアは作りません。",
           },
           body: {
-            es: "No empezamos un proyecto buscando qué plantilla encaja. Primero entendemos el problema, después decidimos cómo debería funcionar y, por último, cómo debería verse.",
-            en: "We don't start a project by hunting for the right template. First we understand the problem, then we decide how it should work, and only then, how it should look.",
-            ja: "私たちはテンプレート探しからプロジェクトを始めません。まず問題を理解し、次にどう機能すべきかを決め、最後に外見を決めます。",
+            es: "Kimox Studio es un estudio de software con base en Las Palmas de Gran Canaria: diseñamos y desarrollamos webs, aplicaciones web y móviles a medida, ofrecemos consultoría de IA y trabajamos en remoto con clientes de cualquier país. No empezamos un proyecto buscando qué plantilla encaja. Primero entendemos el problema, después decidimos cómo debería funcionar y, por último, cómo debería verse.",
+            en: "Kimox Studio is a software studio based in Las Palmas de Gran Canaria: we design and build custom websites, web and mobile apps, offer AI consulting, and work remotely with clients worldwide. We don't start a project by hunting for the right template. First we understand the problem, then we decide how it should work, and only then, how it should look.",
+            ja: "Kimox Studioは、ラス・パルマス・デ・グラン・カナリアを拠点とするソフトウェアスタジオです。ウェブサイト、ウェブ・モバイルアプリのオーダーメイド開発とAIコンサルティングを手がけ、世界中のお客様とリモートで仕事をしています。私たちはテンプレート探しからプロジェクトを始めません。まず問題を理解し、次にどう機能すべきかを決め、最後に外見を決めます。",
           },
           bullets: {
             es: [
@@ -151,6 +153,8 @@ export default function HomePage() {
               n: "01",
               priceFrom: { es: "500€", en: "500€", ja: "500€" },
               priceMonthly: { es: "80€/mes", en: "80€/mo", ja: "月額80€" },
+              altOneOff: { es: "o desde 500€ en pago único", en: "or from 500€ one-off", ja: "または一括500€から" },
+              altMonthly: { es: "o desde 80€/mes", en: "or from 80€/mo", ja: "または月額80€から" },
               title: { es: "Landing pages", en: "Landing pages", ja: "ランディングページ" },
               body: {
                 es: "Páginas hechas a mano, rápidas y optimizadas para SEO. Pensadas para convertir desde el primer pixel.",
@@ -167,6 +171,8 @@ export default function HomePage() {
               n: "02",
               priceFrom: { es: "1.500€", en: "1.500€", ja: "1.500€" },
               priceMonthly: { es: "120€/mes", en: "120€/mo", ja: "月額120€" },
+              altOneOff: { es: "o desde 1.500€ en pago único", en: "or from 1.500€ one-off", ja: "または一括1.500€から" },
+              altMonthly: { es: "o desde 120€/mes", en: "or from 120€/mo", ja: "または月額120€から" },
               priceMonthlyNote: {
                 es: "* El precio depende de las funcionalidades finales.",
                 en: "* Price depends on the final feature set.",
@@ -372,7 +378,7 @@ export default function HomePage() {
               name: "Cafetería Bonita Vida",
               url: "cafeteriabonitavida.com",
               year: "2026",
-              logo: "/projects/bonitavida.png",
+              logo: "/projects/bonitavida.webp",
               category: {
                 es: "Web · Cafetería y repostería",
                 en: "Website · Café & bakery",
@@ -385,14 +391,14 @@ export default function HomePage() {
               },
               tags: ["Next.js", "SEO", "Carta online", "Reseñas"],
               screenshots: [
-                "/projects/bonitavida/1.jpg",
-                "/projects/bonitavida/2.jpg",
-                "/projects/bonitavida/3.jpg",
+                "/projects/bonitavida/1.webp",
+                "/projects/bonitavida/2.webp",
+                "/projects/bonitavida/3.webp",
               ],
               responsive: {
-                desktop: ["/projects/bonitavida/desktop/1.jpg", "/projects/bonitavida/desktop/2.jpg", "/projects/bonitavida/desktop/3.jpg"],
-                tablet: ["/projects/bonitavida/tablet/1.jpg", "/projects/bonitavida/tablet/2.jpg", "/projects/bonitavida/tablet/3.jpg"],
-                mobile: ["/projects/bonitavida/mobile/1.jpg", "/projects/bonitavida/mobile/2.jpg", "/projects/bonitavida/mobile/3.jpg"],
+                desktop: ["/projects/bonitavida/desktop/1.webp", "/projects/bonitavida/desktop/2.webp", "/projects/bonitavida/desktop/3.webp"],
+                tablet: ["/projects/bonitavida/tablet/1.webp", "/projects/bonitavida/tablet/2.webp", "/projects/bonitavida/tablet/3.webp"],
+                mobile: ["/projects/bonitavida/mobile/1.webp", "/projects/bonitavida/mobile/2.webp", "/projects/bonitavida/mobile/3.webp"],
               },
             },
             {
@@ -400,7 +406,7 @@ export default function HomePage() {
               name: "Holovisor",
               url: "holovisor.app",
               year: "2026",
-              logo: "/projects/holovisor.png",
+              logo: "/projects/holovisor.webp",
               category: {
                 es: "App web · Pokémon TCG",
                 en: "Web app · Pokémon TCG",
@@ -413,14 +419,14 @@ export default function HomePage() {
               },
               tags: ["PWA", "Cámara", "Cardmarket"],
               screenshots: [
-                "/projects/holovisor/1.jpg",
-                "/projects/holovisor/2.jpg",
-                "/projects/holovisor/3.jpg",
+                "/projects/holovisor/1.webp",
+                "/projects/holovisor/2.webp",
+                "/projects/holovisor/3.webp",
               ],
               responsive: {
-                desktop: ["/projects/holovisor/desktop/1.jpg", "/projects/holovisor/desktop/2.jpg"],
-                tablet: ["/projects/holovisor/tablet/1.jpg", "/projects/holovisor/tablet/2.jpg"],
-                mobile: ["/projects/holovisor/mobile/1.jpg", "/projects/holovisor/mobile/2.jpg"],
+                desktop: ["/projects/holovisor/desktop/1.webp", "/projects/holovisor/desktop/2.webp"],
+                tablet: ["/projects/holovisor/tablet/1.webp", "/projects/holovisor/tablet/2.webp"],
+                mobile: ["/projects/holovisor/mobile/1.webp", "/projects/holovisor/mobile/2.webp"],
               },
             },
             {
@@ -428,7 +434,7 @@ export default function HomePage() {
               name: "Mymedesp",
               url: "mymedesp.com",
               year: "2025",
-              logo: "/projects/mymedesp.png",
+              logo: "/projects/mymedesp.webp",
               category: { es: "App web · Cocina", en: "Web app · Cooking", ja: "ウェブアプリ · 料理" },
               body: {
                 es: "Plataforma de recetas y planificación de menús. Importa recetas desde redes sociales o cualquier web, arma el menú semanal y genera la lista de la compra automáticamente.",
@@ -437,15 +443,15 @@ export default function HomePage() {
               },
               tags: ["Next.js", "PostgreSQL", "Auth", "SEO"],
               screenshots: [
-                "/projects/mymedesp/1.jpg",
-                "/projects/mymedesp/2.jpg",
-                "/projects/mymedesp/3.jpg",
-                "/projects/mymedesp/4.jpg",
+                "/projects/mymedesp/1.webp",
+                "/projects/mymedesp/2.webp",
+                "/projects/mymedesp/3.webp",
+                "/projects/mymedesp/4.webp",
               ],
               responsive: {
-                desktop: ["/projects/mymedesp/desktop/1.jpg", "/projects/mymedesp/desktop/2.jpg", "/projects/mymedesp/desktop/3.jpg"],
-                tablet: ["/projects/mymedesp/tablet/1.jpg", "/projects/mymedesp/tablet/2.jpg", "/projects/mymedesp/tablet/3.jpg"],
-                mobile: ["/projects/mymedesp/mobile/1.jpg", "/projects/mymedesp/mobile/2.jpg", "/projects/mymedesp/mobile/3.jpg"],
+                desktop: ["/projects/mymedesp/desktop/1.webp", "/projects/mymedesp/desktop/2.webp", "/projects/mymedesp/desktop/3.webp"],
+                tablet: ["/projects/mymedesp/tablet/1.webp", "/projects/mymedesp/tablet/2.webp", "/projects/mymedesp/tablet/3.webp"],
+                mobile: ["/projects/mymedesp/mobile/1.webp", "/projects/mymedesp/mobile/2.webp", "/projects/mymedesp/mobile/3.webp"],
               },
             },
             {
@@ -453,7 +459,7 @@ export default function HomePage() {
               name: "Alea Las Palmas",
               url: "alealaspalmas.es",
               year: "2025",
-              logo: "/projects/alea.png",
+              logo: "/projects/alea.webp",
               category: {
                 es: "Web institucional · Asociación cultural",
                 en: "Institutional site · Cultural association",
@@ -465,19 +471,19 @@ export default function HomePage() {
                 ja: "ロールプレイング、ボードゲーム、ウォーゲーム、ミニチュアを楽しむラス・パルマスの文化協会のウェブサイト。イベント一覧、協賛店ディレクトリ、島内のテーブルトップ・コミュニティが集う場を提供します。",
               },
               tags: ["WordPress", "Eventos", "Comunidad"],
-              screenshots: ["/projects/alea/1.jpg", "/projects/alea/2.jpg", "/projects/alea/3.jpg"],
+              screenshots: ["/projects/alea/1.webp", "/projects/alea/2.webp", "/projects/alea/3.webp"],
               responsive: {
-                desktop: ["/projects/alea/desktop/1.jpg", "/projects/alea/desktop/2.jpg", "/projects/alea/desktop/3.jpg"],
-                tablet: ["/projects/alea/tablet/1.jpg", "/projects/alea/tablet/2.jpg", "/projects/alea/tablet/3.jpg"],
-                mobile: ["/projects/alea/mobile/1.jpg", "/projects/alea/mobile/2.jpg", "/projects/alea/mobile/3.jpg"],
+                desktop: ["/projects/alea/desktop/1.webp", "/projects/alea/desktop/2.webp", "/projects/alea/desktop/3.webp"],
+                tablet: ["/projects/alea/tablet/1.webp", "/projects/alea/tablet/2.webp", "/projects/alea/tablet/3.webp"],
+                mobile: ["/projects/alea/mobile/1.webp", "/projects/alea/mobile/2.webp", "/projects/alea/mobile/3.webp"],
               },
             },
             {
               n: "05",
               name: "Patri Santana Estética",
-              url: "echedeypatricia.com",
+              url: "patrisantanaestetica.com",
               year: "2026",
-              logo: "/projects/patrisantana.png",
+              logo: "/projects/patrisantana.webp",
               category: {
                 es: "Web institucional · Estética & Barbería",
                 en: "Institutional site · Beauty & Barbershop",
@@ -490,14 +496,14 @@ export default function HomePage() {
               },
               tags: ["Next.js", "SEO", "Reservas"],
               screenshots: [
-                "/projects/patri-santana/1.png",
-                "/projects/patri-santana/2.png",
-                "/projects/patri-santana/3.png",
+                "/projects/patri-santana/1.webp",
+                "/projects/patri-santana/2.webp",
+                "/projects/patri-santana/3.webp",
               ],
               responsive: {
-                desktop: ["/projects/patri-santana/desktop/1.jpg", "/projects/patri-santana/desktop/2.jpg", "/projects/patri-santana/desktop/3.jpg"],
-                tablet: ["/projects/patri-santana/tablet/1.jpg", "/projects/patri-santana/tablet/2.jpg", "/projects/patri-santana/tablet/3.jpg"],
-                mobile: ["/projects/patri-santana/mobile/1.jpg", "/projects/patri-santana/mobile/2.jpg", "/projects/patri-santana/mobile/3.jpg"],
+                desktop: ["/projects/patri-santana/desktop/1.webp", "/projects/patri-santana/desktop/2.webp", "/projects/patri-santana/desktop/3.webp"],
+                tablet: ["/projects/patri-santana/tablet/1.webp", "/projects/patri-santana/tablet/2.webp", "/projects/patri-santana/tablet/3.webp"],
+                mobile: ["/projects/patri-santana/mobile/1.webp", "/projects/patri-santana/mobile/2.webp", "/projects/patri-santana/mobile/3.webp"],
               },
             },
             {
@@ -505,7 +511,7 @@ export default function HomePage() {
               name: "RachaFit",
               url: "rachafit.com",
               year: "2026",
-              logo: "/projects/rachafit.png",
+              logo: "/projects/rachafit.webp",
               category: {
                 es: "App móvil · Fitness social",
                 en: "Mobile app · Social fitness",
@@ -518,15 +524,15 @@ export default function HomePage() {
               },
               tags: ["Mobile", "Social", "GPS"],
               screenshots: [
-                "/projects/rachafit/1.jpg",
-                "/projects/rachafit/2.jpg",
-                "/projects/rachafit/3.jpg",
-                "/projects/rachafit/4.jpg",
+                "/projects/rachafit/1.webp",
+                "/projects/rachafit/2.webp",
+                "/projects/rachafit/3.webp",
+                "/projects/rachafit/4.webp",
               ],
               responsive: {
-                desktop: ["/projects/rachafit/desktop/1.jpg", "/projects/rachafit/desktop/2.jpg", "/projects/rachafit/desktop/3.jpg"],
-                tablet: ["/projects/rachafit/tablet/1.jpg", "/projects/rachafit/tablet/2.jpg", "/projects/rachafit/tablet/3.jpg"],
-                mobile: ["/projects/rachafit/mobile/1.jpg", "/projects/rachafit/mobile/2.jpg", "/projects/rachafit/mobile/3.jpg"],
+                desktop: ["/projects/rachafit/desktop/1.webp", "/projects/rachafit/desktop/2.webp", "/projects/rachafit/desktop/3.webp"],
+                tablet: ["/projects/rachafit/tablet/1.webp", "/projects/rachafit/tablet/2.webp", "/projects/rachafit/tablet/3.webp"],
+                mobile: ["/projects/rachafit/mobile/1.webp", "/projects/rachafit/mobile/2.webp", "/projects/rachafit/mobile/3.webp"],
               },
             },
           ],
@@ -579,8 +585,8 @@ export default function HomePage() {
             {
               initials: "J",
               name: "Jesé Romero Arbelo",
-              photoSerious: "/team/01-serious.jpg",
-              photoFun: "/team/01-fun.jpg",
+              photoSerious: "/team/01-serious.webp",
+              photoFun: "/team/01-fun.webp",
               photoFunOffsetY: -100,
               objectPositionSerious: "50% 50%",
               objectPositionFun: "50% 50%",
@@ -610,8 +616,8 @@ export default function HomePage() {
             {
               initials: "A",
               name: "Adrián Mujica González",
-              photoSerious: "/team/02-serious.jpg",
-              photoFun: "/team/02-fun.jpg",
+              photoSerious: "/team/02-serious.webp",
+              photoFun: "/team/02-fun.webp",
               objectPositionSerious: "72% 35%",
               objectPositionFun: "55% 22%",
               role: { es: "Fundador · Arquitecto", en: "Founder · Architect", ja: "創業者 · アーキテクト" },
@@ -636,8 +642,8 @@ export default function HomePage() {
             {
               initials: "S",
               name: "Samuel Romero Arbelo",
-              photoSerious: "/team/03-serious.jpg",
-              photoFun: "/team/03-fun.jpg",
+              photoSerious: "/team/03-serious.webp",
+              photoFun: "/team/03-fun.webp",
               photoFunScale: 1.3,
               objectPositionSerious: "75% 35%",
               objectPositionFun: "52% 22%",
@@ -656,6 +662,84 @@ export default function HomePage() {
           ],
         }}
         node={stubNode("about", "team-grid")}
+      />
+
+      <FaqComponent
+        props={{
+          title: {
+            es: "Preguntas frecuentes.",
+            en: "Frequently asked questions.",
+            ja: "よくあるご質問。",
+          },
+          emphasis: { es: "frecuentes", en: "asked", ja: "ご質問" },
+          items: [
+            {
+              q: { es: "¿Qué es Kimox Studio?", en: "What is Kimox Studio?", ja: "Kimox Studioとは？" },
+              a: {
+                es: "Kimox Studio es un estudio independiente de software con base en Las Palmas de Gran Canaria. Diseñamos y desarrollamos webs, aplicaciones web y aplicaciones móviles a medida, sin plantillas, y ofrecemos consultoría de IA. Trabajamos en remoto con clientes de cualquier país.",
+                en: "Kimox Studio is an independent software studio based in Las Palmas de Gran Canaria. We design and build custom websites, web apps and mobile apps, with no templates, and we offer AI consulting. We work remotely with clients from any country.",
+                ja: "Kimox Studioは、ラス・パルマス・デ・グラン・カナリアを拠点とする独立系ソフトウェアスタジオです。テンプレートを使わず、ウェブサイト、ウェブアプリ、モバイルアプリをオーダーメイドで設計・開発し、AIコンサルティングも提供しています。世界中のお客様とリモートで仕事をしています。",
+              },
+            },
+            {
+              q: { es: "¿Cuánto cuesta una landing page?", en: "How much does a landing page cost?", ja: "ランディングページの料金は？" },
+              a: {
+                es: "Desde 80 €/mes o 500 € en pago único, sin IGIC. Son páginas hechas a mano, rápidas y optimizadas para SEO. Incluyen diseño a medida, SEO técnico y entrega en 2-3 semanas.",
+                en: "From €80/month or €500 as a one-off payment, excluding IGIC (Canary Islands tax). Pages are hand-crafted, fast and SEO-tuned. They include custom design, technical SEO and delivery in 2-3 weeks.",
+                ja: "月額80€から、または一括500€です（IGIC別）。手作りで高速、SEOに最適化されたページで、カスタムデザイン、テクニカルSEO、2〜3週間での納品が含まれます。",
+              },
+            },
+            {
+              q: { es: "¿Cuánto cuesta una aplicación web?", en: "How much does a web application cost?", ja: "ウェブアプリケーションの料金は？" },
+              a: {
+                es: "Desde 120 €/mes o desde 1.500 € en pago único, sin IGIC. El precio final depende de las funcionalidades. Son apps web completas con base de datos, autenticación y panel propio, con un stack moderno y escalable. Con cuota mensual el hosting va incluido; con pago único, el primer año.",
+                en: "From €120/month or from €1,500 as a one-off payment, excluding IGIC (Canary Islands tax). The final price depends on the feature set. These are full web apps with database, authentication and admin panel, on a modern, scalable stack. With the monthly plan hosting is included; with a one-off payment, the first year.",
+                ja: "月額120€から、または一括1,500€からです（IGIC別）。最終的な料金は機能によって変わります。データベース、認証、管理画面を備えた本格的なウェブアプリを、モダンでスケーラブルなスタックで構築します。月額プランではホスティング込み、一括払いでは初年度のホスティングが含まれます。",
+              },
+            },
+            {
+              q: { es: "¿Qué es «web y apps como servicio»?", en: "What is “web and apps as a service”?", ja: "「ウェブ・アプリの月額プラン」とは？" },
+              a: {
+                es: "Es tener tu web o tu app con una cuota mensual en lugar de un pago único: webs desde 80 €/mes y apps desde 120 €/mes, sin IGIC. La cuota incluye diseño y desarrollo, hosting, mantenimiento, soporte y evolución continua. Como la construimos desde cero, arrancamos con un compromiso mínimo; a partir de ahí, sigues mes a mes.",
+                en: "It means getting your site or app for a monthly fee instead of a one-off payment: websites from €80/month and apps from €120/month, excluding IGIC. The fee covers design and development, hosting, maintenance, support and continuous improvements. Since we build it from scratch, we start with a minimum commitment; after that, you carry on month to month.",
+                ja: "ウェブサイトやアプリを、一括払いではなく月額でご利用いただくプランです。ウェブサイトは月額80€から、アプリは月額120€からです（IGIC別）。月額にはデザイン・開発、ホスティング、保守、サポート、継続的な改善が含まれます。ゼロから構築するため、開始時に最低契約期間を設けており、その後は月単位でご継続いただけます。",
+              },
+            },
+            {
+              q: { es: "¿Ofrecéis consultoría de IA para empresas?", en: "Do you offer AI consulting for businesses?", ja: "企業向けのAIコンサルティングはありますか？" },
+              a: {
+                es: "Sí. Empezamos por tu trabajo de cada día y elegimos la herramienta después, en cuatro pasos: diagnóstico (dónde la IA ahorra tiempo o dinero y dónde no merece la pena), formación (talleres prácticos con las tareas reales de tu equipo), implantación (agentes, automatizaciones e integraciones con modelos de lenguaje en los sistemas que ya usas) y acompañamiento (seguimiento mensual para ajustar lo implantado y decidir qué toca después). No tiene precio cerrado porque se hace a medida, y la primera conversación es sin compromiso.",
+                en: "Yes. We start with your day-to-day work and choose the tool after that, in four steps: audit (where AI saves time or money, and where it isn't worth it), training (hands-on workshops built on your team's real tasks), implementation (agents, automations and LLM integrations in the systems you already use) and ongoing support (monthly follow-up to fine-tune what's live and plan what comes next). There's no fixed price because it's tailored to you, and the first conversation comes with no commitment.",
+                ja: "はい。まず日々の業務を拝見し、ツールはその後で選びます。進め方は4段階です。診断（AIで時間やコストを削減できる所と、そうでない所の見極め）、研修（チームの実際の業務を題材にしたワークショップ）、導入（エージェント、自動化、LLM連携を今お使いのシステムに組み込み）、伴走（毎月の調整と次の一手の検討）。料金は内容に合わせたオーダーメイドのため固定ではありません。最初のご相談に契約の義務はありません。",
+              },
+            },
+            {
+              q: { es: "¿Mantenéis proyectos que no habéis hecho vosotros?", en: "Do you maintain projects you didn't build?", ja: "他社が作ったプロジェクトの保守も依頼できますか？" },
+              a: {
+                es: "Sí. Además de proyectos nuevos, hacemos mantenimiento de proyectos existentes, migraciones de stack, auditorías SEO técnicas y refactor de código heredado.",
+                en: "Yes. Besides new projects, we do maintenance for existing projects, stack migrations, technical SEO audits and legacy code refactoring.",
+                ja: "はい。新規プロジェクトに加えて、既存プロジェクトの保守、スタック移行、テクニカルSEO監査、レガシーコードのリファクタに対応しています。",
+              },
+            },
+            {
+              q: { es: "¿Trabajáis solo en Canarias?", en: "Do you only work in the Canary Islands?", ja: "対応はカナリア諸島のみですか？" },
+              a: {
+                es: "No. Tenemos base en Las Palmas de Gran Canaria, pero trabajamos en remoto con clientes de cualquier país. Nuestra web está en español, inglés y japonés.",
+                en: "No. We are based in Las Palmas de Gran Canaria, but we work remotely with clients from any country. Our website is available in Spanish, English and Japanese.",
+                ja: "いいえ。拠点はラス・パルマス・デ・グラン・カナリアですが、世界中のお客様とリモートで仕事をしています。ウェブサイトはスペイン語、英語、日本語に対応しています。",
+              },
+            },
+            {
+              q: { es: "¿Cómo os contacto?", en: "How do I contact you?", ja: "どうすれば連絡できますか？" },
+              a: {
+                es: "Escríbenos a info@kimoxstudio.com o usa el formulario de contacto de esta página. Respondemos en menos de 24h con preguntas, ideas o un plan.",
+                en: "Email us at info@kimoxstudio.com or use the contact form on this page. We reply within 24h with questions, ideas, or a plan.",
+                ja: "info@kimoxstudio.com までメールいただくか、このページのお問い合わせフォームをご利用ください。24時間以内に質問・アイデア・計画でお返事します。",
+              },
+            },
+          ],
+        }}
+        node={stubNode("faq", "faq")}
       />
 
       <ContactSectionComponent
@@ -682,12 +766,14 @@ export default function HomePage() {
         node={stubNode("contact", "contact-section")}
       />
 
+      </main>
+
       <FooterWordmarkComponent
         props={{
           rights: {
-            es: "© 2026 Kimox Studio · Hecho a mano en España",
-            en: "© 2026 Kimox Studio · Handcrafted in Spain",
-            ja: "© 2026 Kimox Studio · スペインで手作り",
+            es: "© 2026 Kimox Studio · Hecho a mano en Las Palmas de Gran Canaria",
+            en: "© 2026 Kimox Studio · Handcrafted in Las Palmas de Gran Canaria",
+            ja: "© 2026 Kimox Studio · ラス・パルマス・デ・グラン・カナリアで手作り",
           },
           backToTop: { es: "Volver arriba ↑", en: "Back to top ↑", ja: "トップへ ↑" },
           blogLabel: { es: "Blog", en: "Blog", ja: "ブログ" },

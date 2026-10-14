@@ -3,9 +3,10 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { I18N as I } from '../lib/i18n';
 import { LANGS, t } from '../lib/lang';
-import { localePath } from '../lib/urls';
+import { localePath, switchLocalePath } from '../lib/urls';
 import ThemeToggle from './ThemeToggle';
 
 // Landing section ids the nav links point at, in document order. Used to mark
@@ -20,11 +21,11 @@ const SECTIONS = ['services', 'ai', 'work', 'about', 'contact'];
  */
 export default function Nav({
   lang,
-  setLang,
   mode = 'landing',
   activeBlog = false,
   hideLangSwitch = false,
 }) {
+  const pathname = usePathname();
   const [activeSection, setActiveSection] = React.useState(null);
   // Sections are rendered by sibling templates/islands, so they may not all be
   // in the DOM on the nav's first effect. Rescan a few times until they are.
@@ -203,6 +204,22 @@ export default function Nav({
       </Link>
     );
 
+  // A real link per language, pointing at this same page in that locale, so
+  // crawlers can follow it and the browser handles middle-click/new-tab. The
+  // language is the URL (see useLang), so navigating is all "switching" does.
+  const LangLink = ({ code, label, ...rest }) => (
+    <Link
+      href={switchLocalePath(pathname, code)}
+      hrefLang={code}
+      lang={code}
+      className={lang === code ? 'active' : ''}
+      aria-current={lang === code ? 'page' : undefined}
+      {...rest}
+    >
+      {label}
+    </Link>
+  );
+
   // Shared by Escape and every mobile link/lang-switch button: closes the
   // panel and moves focus off whatever's currently focused inside it, back
   // to the toggle button. Without this, clicking a mobile link leaves focus
@@ -286,17 +303,13 @@ export default function Nav({
         {!hideLangSwitch && (
           <div className="lang-switch">
             {LANGS.map((l) => (
-              <button
+              <LangLink
                 key={l.code}
-                className={lang === l.code ? 'active' : ''}
+                code={l.code}
+                label={l.label}
                 tabIndex={menuOpen ? undefined : -1}
-                onClick={() => {
-                  setLang(l.code);
-                  closeAndReturnFocus();
-                }}
-              >
-                {l.label}
-              </button>
+                onClick={closeAndReturnFocus}
+              />
             ))}
           </div>
         )}
@@ -337,13 +350,7 @@ export default function Nav({
             {!hideLangSwitch && (
               <div className="lang-switch">
                 {LANGS.map((l) => (
-                  <button
-                    key={l.code}
-                    className={lang === l.code ? 'active' : ''}
-                    onClick={() => setLang(l.code)}
-                  >
-                    {l.label}
-                  </button>
+                  <LangLink key={l.code} code={l.code} label={l.label} />
                 ))}
               </div>
             )}

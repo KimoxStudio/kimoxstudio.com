@@ -14,7 +14,7 @@ type Props = z.infer<typeof siteNavSchema>;
 // the smooth custom cursor that LandingClient used to own. Both read from the
 // shared client stores so the switcher/toggle drive every section template.
 export function SiteNavComponent(_props: TemplateRenderProps<Props>) {
-  const [lang, setLang] = useLang();
+  const [lang] = useLang();
   useSmoothCursor();
-  return <Nav lang={lang} setLang={setLang} mode="landing" />;
+  return <Nav lang={lang} mode="landing" />;
 }

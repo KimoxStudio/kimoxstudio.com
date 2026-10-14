@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import type { TemplateRenderProps } from "@/kx/template-types";
 import { kxField, resolveLocalized } from "@/kx/localized";
 import { useLang } from "@/lib/lang";
@@ -11,85 +11,80 @@ import type { mastheadSchema } from "./schema";
 
 type Props = z.infer<typeof mastheadSchema>;
 
-const HERO_SRC: Record<string, string> = {
-  light: "/hero/hero-light.png",
-  dark: "/hero/hero-dark.png",
-};
+const HERO_WIDTHS = [750, 1100, 1495] as const;
+const HERO_FULL_WIDTH = 1495;
+const HERO_HEIGHT = 1052;
 
-// Inline script mirroring `app/layout.jsx`'s pre-hydration theme script: it
-// runs synchronously as the browser's HTML parser reaches this point in the
-// document — before hydration, before the JS bundle even loads — and reads
-// the SAME `data-theme` attribute that script already set on <html> (single
-// source of truth for theme resolution; this script does not re-read
-// localStorage itself). It promotes whichever hero <img>'s `data-src` matches
-// the active theme to a real `src`, so the correct hero image is present in
-// the very first paint with zero dependency on React state or hydration
-// timing. It can't live in app/layout.jsx itself because the <html> script
-// runs before <body> — and these <img> elements — exist in the DOM; it has
-// to be colocated with the markup it targets.
-const HERO_PREHYDRATION_SCRIPT = `
-(function(){
-  try {
-    var theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-    var img = document.querySelector('#hero-bg img[data-theme-variant="' + theme + '"]');
-    if (img && !img.getAttribute('src')) img.setAttribute('src', img.getAttribute('data-src'));
-  } catch (e) {}
-})();
+const srcset = (theme: string, ext: string) =>
+  HERO_WIDTHS.map((w) => `/hero/hero-${theme}-${w}.${ext} ${w}w`).join(", ");
+
+// The box is object-fit: cover and taller than wide on phones, so the image is
+// laid out ~1000 CSS px wide there; 600px steers a phone to the 1100w file
+// instead of the largest one.
+const HERO_SIZES = "(max-width: 1024px) 600px, 112vw";
+
+// One <picture> per theme. Both are in the server HTML so the preload scanner
+// finds the hero without waiting for JS. Their <source>s carry
+// `prefers-color-scheme` media so, with no stored theme, only the matching one
+// is fetched; the other falls through to a transparent GIF. A stored manual
+// theme can disagree with the system one, so `applyHeroTheme` below rewrites
+// the media: the active theme's sources always match, the other's never do.
+const BLANK = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+
+const heroPicture = (theme: "light" | "dark") => `
+<picture data-hero-pic="${theme}">
+  <source type="image/avif" srcset="${srcset(theme, "avif")}" sizes="${HERO_SIZES}" media="(prefers-color-scheme: ${theme})">
+  <source type="image/webp" srcset="${srcset(theme, "webp")}" sizes="${HERO_SIZES}" media="(prefers-color-scheme: ${theme})">
+  <img data-hero-img src="${BLANK}" width="${HERO_FULL_WIDTH}" height="${HERO_HEIGHT}" alt="" aria-hidden="true" decoding="async" fetchpriority="high">
+</picture>`;
+
+// Used by the pre-hydration script (a string, so it can run inline in the
+// HTML). The theme effect in MastheadComponent mirrors this logic in TS and
+// must be kept in sync with it.
+const APPLY_HERO_THEME = `
+function applyHeroTheme(theme) {
+  document.querySelectorAll('#hero-bg picture[data-hero-pic]').forEach(function (pic) {
+    var active = pic.getAttribute('data-hero-pic') === theme;
+    pic.querySelectorAll('source').forEach(function (s) {
+      if (active) s.removeAttribute('media'); else s.setAttribute('media', 'not all');
+    });
+  });
+}`;
+
+// Runs synchronously while the HTML is parsed, right after the markup above,
+// and reads the `data-theme` that app/layout.jsx already resolved (single
+// source of truth). When it equals the system preference this changes
+// nothing the browser has not already chosen.
+const HERO_PREHYDRATION_SCRIPT = `${APPLY_HERO_THEME}
+try {
+  applyHeroTheme(document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+} catch (e) {}
 `;
 
-// Both hero <img> tags plus the script above are rendered as one opaque HTML
-// blob via `dangerouslySetInnerHTML` instead of as normal JSX children.
-// `suppressHydrationWarning` on the two <img> elements does NOT stop React's
-// hydration-mismatch warning for a `src` attribute that HERO_PREHYDRATION_SCRIPT
-// sets via direct DOM mutation before hydration runs — that prop only covers
-// mismatches React itself would produce by rendering different values server
-// vs. client, not a third-party mutation of the live DOM in between. Content
-// inside `dangerouslySetInnerHTML` is hydrated as an opaque string (React
-// only checks the container's own innerHTML, not each descendant's
-// attributes), so the same live DOM mutation no longer triggers a warning.
-const HERO_IMAGES_HTML = `
-<img data-hero-img data-theme-variant="light" data-src="${HERO_SRC.light}" alt="" aria-hidden="true" decoding="async">
-<img data-hero-img data-theme-variant="dark" data-src="${HERO_SRC.dark}" alt="" aria-hidden="true" decoding="async">
-<script>${HERO_PREHYDRATION_SCRIPT}</script>
-`;
+// Rendered as an opaque HTML blob: React hydrates `dangerouslySetInnerHTML`
+// content as a string, so the script's DOM edits to the sources do not raise
+// a hydration warning.
+const HERO_IMAGES_HTML = `${heroPicture("light")}${heroPicture("dark")}
+<script>(function(){${HERO_PREHYDRATION_SCRIPT}})();</script>`;
 
 export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
-  const [lang] = useLang() as [Lang, (next: Lang) => void];
+  const [lang] = useLang() as [Lang];
   const [hookTheme] = useTheme() as [string, (next: string) => void];
   const sectionRef = useRef<HTMLElement>(null);
-  // The hero image's initial `src` is no longer driven by React state at
-  // all (see HERO_PREHYDRATION_SCRIPT above, rendered into the page below) —
-  // that avoids depending on hydration timing entirely, closing the flash
-  // gap for good rather than just narrowing it. This effect only handles
-  // *subsequent* theme toggles: `useTheme()` is now backed by a shared
-  // external store (kx/stores.ts), so `hookTheme` here updates in lockstep
-  // with ThemeToggle's own instance — clicking the navbar toggle re-runs
-  // this effect directly, no DOM re-query needed. It lazily assigns `src`
-  // to whichever image doesn't have one yet, so switching theme for the
-  // first time in a session still fetches/shows the other variant. It's a
-  // no-op once both src values are already set, so it never re-triggers a
-  // fetch.
-  //
-  // `hookTheme` is kept as the dependency so this effect re-runs on every
-  // toggle (see lib/theme.js), but its render-time *value* is never read
-  // inside the effect body: `useSyncExternalStore` always renders with
-  // `getServerSnapshot()` (hardcoded 'dark') on the very first post-hydration
-  // render, regardless of what the client store resolved to — so for a
-  // first-time visitor whose real theme is 'light', `hookTheme` can still be
-  // stale ('dark') on the render that queues this effect. Reading
-  // `document.documentElement.getAttribute('data-theme')` directly here
-  // mirrors HERO_PREHYDRATION_SCRIPT's own DOM-as-source-of-truth approach,
-  // so the effect always acts on the true current theme at the moment it
-  // actually runs, not a possibly-stale snapshot value.
+  // Initial hero selection is done by HERO_PREHYDRATION_SCRIPT before paint.
+  // This effect only handles later theme toggles: it points the sources at the
+  // new theme (the DOM attribute is the source of truth, `hookTheme` can lag on
+  // the first post-hydration render), which makes the browser fetch that
+  // variant on first use. `hookTheme` is the dependency only to re-run it.
   useEffect(() => {
-    const activeVariant =
-      document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
-    const img = sectionRef.current?.querySelector<HTMLImageElement>(
-      `img[data-theme-variant="${activeVariant}"]`
-    );
-    if (img && !img.getAttribute("src")) {
-      img.setAttribute("src", HERO_SRC[activeVariant]);
-    }
+    const active = document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
+    sectionRef.current?.querySelectorAll<HTMLElement>("picture[data-hero-pic]").forEach((pic) => {
+      const isActive = pic.dataset.heroPic === active;
+      pic.querySelectorAll("source").forEach((src) => {
+        if (isActive) src.removeAttribute("media");
+        else src.setAttribute("media", "not all");
+      });
+    });
   }, [hookTheme]);
   const lines = resolveLocalized(props.h1, lang, "es") ?? [];
 
@@ -181,39 +176,34 @@ export function MastheadComponent({ props }: TemplateRenderProps<Props>) {
   return (
     <section className="hero" id="top" ref={sectionRef}>
       {/*
-        Dual-image parallax layer: two stacked <img data-hero-img> elements,
-        one per theme, absolutely positioned on top of each other. Which one
-        is *visible* is driven by the same [data-theme] attribute selector
-        the rest of the app uses (see .hero-bg-layer in app/landing.css).
-        Which one has actually *fetched* (has a real `src`, not just
-        `data-src`) is controlled by HERO_PREHYDRATION_SCRIPT below, which
-        runs synchronously before hydration — not by React — so the correct
-        image is present from the very first paint and the inactive variant
-        is never downloaded. The `useEffect` above only backfills `src` for
-        the *other* variant once the user actually toggles theme.
+        Two stacked <picture>s, one per theme (HERO_IMAGES_HTML). Which one is
+        *visible* follows the [data-theme] selector in app/landing.css; which
+        one is *fetched* is decided by the <source> media (see above), so the
+        hero is in the first HTML, eager, high priority, and the inactive
+        theme is not downloaded.
       */}
       <div id="hero-bg" className="hero-bg-layer" data-px="0.45" data-px-clamp="auto" role="presentation">
         <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: HERO_IMAGES_HTML }} />
         {/*
-          No-JS fallback: HERO_PREHYDRATION_SCRIPT and the useEffect above are
-          the only things that ever promote `data-src` to a real `src`, so
-          with JS disabled/blocked neither hero <img> above ever loads and
-          visitors would only see .hero-bg-layer's flat background-color
-          fill. <noscript> content is only parsed/rendered by the browser
-          when JS is unavailable, so this plain <img> never fetches (and
-          never double-fetches) for JS-enabled visitors.
+          No-JS fallback: without JS `data-theme` is never set, so the CSS
+          hides both pictures. <noscript> content is only rendered when JS is
+          unavailable, so this <img> never fetches for JS-enabled visitors.
         */}
         <noscript>
-          <img src={HERO_SRC.dark} alt="" aria-hidden="true" />
+          <img data-hero-img src={`/hero/hero-dark-${HERO_FULL_WIDTH}.webp`} width={HERO_FULL_WIDTH} height={HERO_HEIGHT} alt="" aria-hidden="true" />
         </noscript>
       </div>
       <div className="hero-blob" data-px="0.28" aria-hidden="true" />
       <div className="hero-col" data-px="-0.1">
         <h1>
           {lines.map((ln, i) => (
-            <span className="line" key={i} {...kxField(`h1.${lang}.${i}`)}>
-              {ln}
-            </span>
+            <Fragment key={i}>
+              {/* Lines are display:block, so this space is invisible but keeps the text content readable; Japanese has no word spaces. */}
+              {i > 0 && lang !== "ja" ? " " : null}
+              <span className="line" {...kxField(`h1.${lang}.${i}`)}>
+                {ln}
+              </span>
+            </Fragment>
           ))}
         </h1>
         <div className="bottom-grid">

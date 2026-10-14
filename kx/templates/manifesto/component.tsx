@@ -9,7 +9,7 @@ import type { manifestoSchema } from "./schema";
 type Props = z.infer<typeof manifestoSchema>;
 
 export function ManifestoComponent({ props }: TemplateRenderProps<Props>) {
-  const [lang] = useLang() as [Lang, (next: Lang) => void];
+  const [lang] = useLang() as [Lang];
   const title = (resolveLocalized(props.title, lang, "es") ?? "").replace(/(genérico|generic|汎用)/, (m) => `<em>${m}</em>`);
   return (
     <section className="poster-section manifesto" id="manifesto">

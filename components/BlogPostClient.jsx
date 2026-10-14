@@ -20,13 +20,14 @@ function dedent(s) {
 }
 
 export default function BlogPostClient({ post }) {
-  const [lang, setLang] = useLang();
+  const [lang] = useLang();
   useBlogCursor();
 
   return (
     <>
-      <Nav lang={lang} setLang={setLang} mode="post" activeBlog />
-      <article style={{ paddingBottom: 80 }}>
+      <Nav lang={lang} mode="post" activeBlog />
+      <main>
+      <article>
         <div className="wrap" style={{ paddingTop: 48, paddingBottom: 24 }}>
           <Link
             href={localePath(lang, '/blog')}
@@ -106,18 +107,19 @@ export default function BlogPostClient({ post }) {
             <ReactMarkdown>{dedent(t(post.body, lang) || post.content)}</ReactMarkdown>
           </div>
         </section>
-        <footer className="bot" style={{ marginTop: 100 }}>
-          <div className="wrap">
-            <div className="row">
-              <div>{t(I.footer.rights, lang)}</div>
-              <div style={{ display: 'flex', gap: 24 }}>
-                <a href={`mailto:${I.meta.email}`}>{I.meta.email}</a>
-                <Link href={localePath(lang, '/')}>← Home</Link>
-              </div>
+      </article>
+      </main>
+      <footer className="bot" style={{ marginTop: 100 }}>
+        <div className="wrap">
+          <div className="row">
+            <div>{t(I.footer.rights, lang)}</div>
+            <div style={{ display: 'flex', gap: 24 }}>
+              <a href={`mailto:${I.meta.email}`}>{I.meta.email}</a>
+              <Link href={localePath(lang, '/')}>← Home</Link>
             </div>
           </div>
-        </footer>
-      </article>
+        </div>
+      </footer>
     </>
   );
 }
