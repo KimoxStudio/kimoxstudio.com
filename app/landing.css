@@ -646,7 +646,7 @@
       color: var(--ink-3); white-space: nowrap;
     }
 
-    /* ── Work (card grid: screenshot carousel first, uniform 2-up grid) ─── */
+    /* ── Work (card grid: one screenshot first, uniform 2-up grid) ─── */
     .work .proj-list {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -664,143 +664,29 @@
     }
     .proj-row:hover { background: var(--bg-2); }
 
-    /* Screenshot preview — one stacked-card frame (the original treatment:
-       ::before/::after peeking behind) with three real thumbnails side by
-       side inside it. Click opens the full carousel (all screenshots) in
-       a modal. */
-    .proj-shots {
-      order: -1;
+    /* One screenshot per card, 16:10, cover-fit. The link is a pointer-only
+       duplicate of the "view more" CTA (aria-hidden, tabindex -1). */
+    .proj-shot {
       display: block;
-      width: 100%;
+      position: relative;
+      aspect-ratio: 16 / 10;
       margin: 0 0 24px;
-      padding: 0;
-      position: relative;
-      text-align: left;
-    }
-    .proj-shots::before, .proj-shots::after {
-      content: ""; position: absolute; inset: 0;
-      background: var(--bg-3);
-      border: 1px solid var(--rule-2);
-    }
-    .proj-shots::before { transform: rotate(-2deg) translateY(3px); z-index: 0; }
-    .proj-shots::after { transform: rotate(2deg) translateY(5px); z-index: -1; }
-    .shots-frame {
-      position: relative;
-      z-index: 1;
-      height: 200px; width: 100%;
       overflow: hidden;
       border: 1px solid var(--rule-2);
       background: var(--bg-2);
-      transition: transform .25s;
     }
-    .shots-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      height: 100%; width: 100%;
-      background: var(--rule-2);
-    }
-    .shots-grid img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .proj-shots:hover .shots-frame { transform: translateY(-3px); }
-    .proj-shots .shots-hint {
-      position: absolute;
-      right: 10px; bottom: 10px;
-      z-index: 2;
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
-      color: var(--ink);
-      background: var(--bg);
-      border: 1px solid var(--rule-2);
-      padding: 6px 10px;
-      opacity: 0;
-      transform: translateY(4px);
-      transition: opacity .2s, transform .2s, background .2s, color .2s, border-color .2s;
-    }
-    .proj-shots:hover .shots-hint {
-      opacity: 1;
-      transform: translateY(0);
-      background: var(--orange);
-      color: var(--bg);
-      border-color: var(--orange);
-    }
-    /* No hover on touch devices — show the hint by default instead of
-       waiting for a hover state that will never come. */
-    @media (hover: none) {
-      .proj-shots .shots-hint {
-        opacity: 1;
-        transform: translateY(0);
-        background: var(--orange);
-        color: var(--bg);
-        border-color: var(--orange);
-      }
+    .proj-shot .shot { position: absolute; inset: 0; }
+    @media (prefers-reduced-motion: no-preference) {
+      .proj-shot .shot > img { transition: opacity .25s cubic-bezier(.2,.7,.3,1), transform .4s cubic-bezier(.2,.7,.3,1); }
+      .proj-shot:hover .shot > img { transform: scale(1.04); }
     }
 
-    /* Screenshot modal */
-    .proj-modal {
-      position: fixed; inset: 0; z-index: 200;
-      background: rgba(8, 8, 10, 0.86);
-      display: flex; align-items: center; justify-content: center;
-      padding: 32px;
-      animation: proj-modal-in .2s ease;
-    }
-    .proj-modal-inner {
-      width: 100%; max-width: 1040px;
-      max-height: 100%;
-      background: var(--bg);
-      border: 1px solid var(--rule-2);
-      position: relative;
-      padding: 16px;
-    }
-    .proj-modal-close {
-      position: absolute; top: -14px; right: -14px;
-      z-index: 2;
-      width: 32px; height: 32px;
-      display: inline-flex; align-items: center; justify-content: center;
-      background: var(--ink); color: var(--bg);
-      border: 1px solid var(--bg);
-      border-radius: 50%;
-      font-size: 18px; line-height: 1;
-      transition: background .2s, color .2s;
-    }
-    .proj-modal-close:hover { background: var(--orange); }
-    /* Stage: fixed height, so switching device only resizes the frame
-       inside it, never the modal. */
-    .proj-modal-stage {
-      --stage-h: min(65vh, 760px);
-      height: var(--stage-h);
-      background: var(--bg-2);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .proj-modal-frame {
-      width: 100%; height: 100%;
-      overflow: hidden;
-      touch-action: pan-y;
-      cursor: grab;
-    }
-    .proj-modal-frame:active { cursor: grabbing; }
-    /* Device frame: width follows the device ratio (--ar = width/height),
-       capped by the stage height and by the stage width. */
-    .proj-modal-frame--device {
-      height: auto;
-      width: min(100%, calc(var(--stage-h) * var(--ar)));
-      border: 1px solid var(--rule-2);
-    }
-    .proj-modal-slide {
-      width: 100%; height: 100%;
-      transition: transform .3s cubic-bezier(.2,.7,.3,1);
-    }
-    .proj-modal-img { display: block; width: 100%; height: 100%; object-fit: contain; }
     /* Loading state: .shot keeps the box, .shot-ph is the placeholder. data-state is
        set after mount, so server HTML shows the image. The image stays at opacity 0
-       while loading or failed, then enters (slide + fade). */
+       while loading or failed, then fades in. */
     .shot { position: relative; display: block; width: 100%; height: 100%; overflow: hidden; }
-    .shot > img { transition: opacity .25s cubic-bezier(.2,.7,.3,1); }
+    .shot > img { display: block; width: 100%; height: 100%; object-fit: cover; transition: opacity .25s cubic-bezier(.2,.7,.3,1); }
     .shot:is([data-state="loading"], [data-state="error"]) > img { opacity: 0; }
-    .shot[data-state="loaded"] > .proj-modal-img { animation: proj-shot-in .25s cubic-bezier(.2,.7,.3,1); }
     .shot-ph {
       position: absolute; inset: 0;
       display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
@@ -820,7 +706,7 @@
       color: var(--ink-2);
     }
     .shot[data-state="error"] .shot-ph-label { display: block; }
-    /* Modal only: the loading label appears after 300ms so fast loads show no text. */
+    /* The loading label appears after 300ms so fast loads show no text. */
     .shot[data-state="loading"] .shot-ph-label {
       display: block; opacity: 0;
       animation: shot-label-in .2s linear .3s forwards;
@@ -847,47 +733,8 @@
       position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
       overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
     }
-    @keyframes proj-shot-in {
-      from { opacity: 0; transform: translateX(var(--from, 0px)); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    .proj-device-toggle { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-    .proj-device-toggle button:focus-visible,
-    .proj-modal-close:focus-visible,
-    .proj-modal-bar button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
-    .proj-modal-bar {
-      flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      gap: 20px;
-      padding-top: 16px;
-    }
-    .proj-modal-bar button {
-      width: 32px; height: 32px;
-      display: inline-flex; align-items: center; justify-content: center;
-      border: 1px solid var(--rule-2);
-      color: var(--ink-2);
-      font-size: 15px;
-      transition: color .2s, border-color .2s;
-    }
-    .proj-modal-bar button:hover { color: var(--orange); border-color: var(--orange); }
-    .proj-modal-count { white-space: nowrap; }
-    .proj-modal-meta {
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
-      color: var(--ink-3);
-    }
-    @keyframes proj-modal-in {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    .proj-modal-inner { animation: proj-modal-scale-in .22s cubic-bezier(.2,.7,.3,1); }
-    @keyframes proj-modal-scale-in {
-      from { opacity: 0; transform: scale(.97); }
-      to { opacity: 1; transform: scale(1); }
-    }
     @media (prefers-reduced-motion: reduce) {
-      .proj-modal, .proj-modal-inner, .shot[data-state="loaded"] > .proj-modal-img { animation: none; }
-      .proj-modal-slide, .shot > img, .shot-ph { transition: none; }
+      .shot > img, .shot-ph { transition: none; }
       .shot[data-state="loading"] .shot-ph-label { animation-duration: .01s; }
     }
 
@@ -918,18 +765,17 @@
       letter-spacing: -0.025em; line-height: 1;
       text-transform: uppercase;
       color: var(--ink);
-      transition: color .2s;
+      margin: 0;
     }
-    .proj-row .name-block .name:hover { color: var(--orange); }
     .proj-row .name-block .url {
       font-family: "IBM Plex Mono", monospace;
       font-size: 11px; color: var(--ink-3); letter-spacing: .04em;
     }
+    .proj-row .name-block .proj-ctas { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
     .proj-row .name-block .proj-cta {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      margin-top: 14px;
       padding: 8px 14px;
       font-family: "IBM Plex Mono", monospace;
       font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
@@ -937,14 +783,20 @@
       border: 1px solid var(--rule-2);
       border-radius: 999px;
       width: fit-content;
-      transition: background .2s, color .2s, border-color .2s, transform .2s;
+      transition: background .2s, color .2s, border-color .2s;
     }
     .proj-row .name-block .proj-cta:hover {
       background: var(--orange);
       color: var(--bg);
       border-color: var(--orange);
-      transform: translateX(4px);
     }
+    .proj-row .name-block .proj-cta:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+    @media (prefers-reduced-motion: no-preference) {
+      .proj-row .name-block .proj-cta { transition: background .2s, color .2s, border-color .2s, transform .2s; }
+      .proj-row .name-block .proj-cta:hover { transform: translateX(4px); }
+    }
+    .proj-row .name-block .proj-cta--primary { background: var(--orange); color: var(--bg); border-color: var(--orange); }
+    .proj-row .name-block .proj-cta--primary:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
     .proj-row .desc {
       font-size: 14px; line-height: 1.5;
       color: var(--ink-2); margin: 0 0 16px;
@@ -1456,18 +1308,15 @@
     .budget-chips button:hover { border-color: var(--orange); color: var(--orange); }
     .budget-chips button.active { background: var(--orange); color: var(--bg); border-color: var(--orange); }
     .billing-toggle { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
-    .billing-toggle button,
-    .proj-device-toggle button {
+    .billing-toggle button {
       padding: 9px 14px;
       border: 1px solid var(--rule-2); background: transparent; color: var(--ink-2);
       font-family: "IBM Plex Mono", monospace;
       font-size: 11px; letter-spacing: .04em; text-transform: uppercase;
       transition: background .2s, color .2s, border-color .2s;
     }
-    .billing-toggle button:hover,
-    .proj-device-toggle button:hover { border-color: var(--orange); color: var(--orange); }
-    .billing-toggle button[aria-pressed="true"],
-    .proj-device-toggle button[aria-pressed="true"] { background: var(--orange); color: var(--bg); border-color: var(--orange); }
+    .billing-toggle button:hover { border-color: var(--orange); color: var(--orange); }
+    .billing-toggle button[aria-pressed="true"] { background: var(--orange); color: var(--bg); border-color: var(--orange); }
     .billing-toggle button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
     .svc-note { margin: 16px 0 0; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--ink-3); }
     .submit-row {
@@ -1577,7 +1426,6 @@
       .svc-extras { gap: 8px; }
       .work .proj-list { grid-template-columns: 1fr; }
       .proj-row { padding: 28px; }
-      .shots-frame { height: 160px; }
       .steps { grid-template-columns: 1fr 1fr; }
       .step { min-height: 280px; }
       .team-stats { grid-template-columns: repeat(2, 1fr); }
@@ -1593,8 +1441,8 @@
       .web-service .ws-illu .wsi-draw { stroke-width: 2px; }
       .web-service .ws-illu { top: 8px; left: 8px; width: calc(100% - 16px); height: calc(100% - 16px); }
       .billing-toggle { gap: 8px; }
-      .billing-toggle button,
-      .proj-device-toggle button { min-height: 44px; }
+      .billing-toggle button { min-height: 44px; }
+      .proj-row .name-block .proj-cta { min-height: 44px; }
       .svc-note { font-size: 13px; }
       .svc-row .price-cell .alt { font-size: 13px; }
       .faq-item summary { min-height: 44px; padding: 18px 0; font-size: 19px; }
@@ -1618,10 +1466,4 @@
       .footer-big { font-size: clamp(56px, 16vw, 96px); padding: 64px 0 24px; }
       .poster-section { padding: 56px 0 56px; }
       .contact { padding: 64px 0 56px; }
-      .proj-modal { padding: 14px; }
-      .proj-modal-inner { padding: 10px; }
-      .proj-modal-stage { --stage-h: min(68vh, calc(100svh - 230px)); }
-      .proj-device-toggle { gap: 8px; }
-      .proj-modal-close { top: 6px; right: 6px; width: 44px; height: 44px; }
-      .proj-modal-bar button { width: 44px; height: 44px; flex-shrink: 0; }
     }

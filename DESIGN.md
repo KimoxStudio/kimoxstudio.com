@@ -174,13 +174,13 @@ Cell grids (projects, steps, stats, team) draw their dividers with 1 px `border-
 | 640 px | Hero centered; process to 1 col; section paddings reduced |
 | 480 px | Compact nav: logo text hidden and language selector narrowed |
 
-Capability media queries: `(hover: none), (pointer: coarse)` disables the custom cursor; `(hover: none)` always shows the screenshot hint.
+Capability media queries: `(hover: none), (pointer: coarse)` disables the custom cursor.
 
 ---
 
 ## 5. Components
 
-Default radius: **0**. Enumerated exceptions: `.proj-cta`, the photo reset button and the blog's "cargar más" with `999px`; `.proj-logo` with `8px`; modal close and cursor with `50%`. No `box-shadow` anywhere.
+Default radius: **0**. Enumerated exceptions: `.proj-cta`, the photo reset button and the blog's "cargar más" with `999px`; `.proj-logo` with `8px`; the cursor with `50%`. No `box-shadow` anywhere.
 
 ### Buttons
 
@@ -190,7 +190,7 @@ Default radius: **0**. Enumerated exceptions: `.proj-cta`, the photo reset butto
 | `.btn-secondary` | Same, with `border 1px --ink-2` | Transparent, text `--ink` | `bg --ink`, text `--bg` |
 | `.cta-pill` (nav) | Mono 12/600, `padding 10px 18px` | `bg --orange` | `bg --ink` |
 | `.ws-cta` / `.featured .read` | Mono 12, `padding 16px 24px` / `14px 22px` | `bg --orange` | `bg --ink` and the `gap` grows from 8 to 14 (or from 14 to 18) |
-| Icon (`.theme-toggle`, `.t-nav button`, modal) | 32×32 (`.t-nav`: 44×44), `border 1px --rule` | `--ink-2` | Border and color `--orange` (or `--orange` fill) |
+| Icon (`.theme-toggle`, `.t-nav button`) | 32×32 (`.t-nav`: 44×44), `border 1px --rule` | `--ink-2` | Border and color `--orange` (or `--orange` fill) |
 | `:disabled` | | `opacity .55; pointer-events: none` | |
 
 In the hero, the two CTAs share a row (`flex: 1 1 auto`, max 460 px, `padding 14px 18px`, 13 px). Arrows: `→` to navigate and `↗` to contact or link out.
@@ -224,11 +224,9 @@ Fixed at top (`z-index 50`), `--nav-bg` with `backdrop-filter: blur(14px)`, bott
 
 ### Project card (`.proj-row`)
 
-Cell with `padding 32px` (≤1100: 28). Order: screenshot frame (3 thumbnails in a 200 px frame, ≤1100: 160, with two fake sheets behind rotated ±2°; on `hover` it rises 3 px and the "ver" hint appears filled with `--orange`), 30 px logo with radius 8 and 32 px UPPERCASE name, URL and year in mono 11 `--ink-3`, "VISITAR →" pill (radius 999; on `hover` it fills with `--orange` and `translateX(4px)`), category in mono 10 `--orange`, 14 px description and tags at the bottom. Clicking opens a modal (`z-index 200`, overlay `rgba(8,8,10,.86)`, frame max 1040 px and `min(65vh,760px)`, `object-fit: contain`, horizontal drag).
+Cell with `padding 32px` (≤1100: 28). Order: one screenshot (`.proj-shot`, 16:10 box, `object-fit: cover`, `1px --rule-2`, square; `responsive.desktop[0]`, else `screenshots[0]`; on `hover` the image scales to 1.04, only under `prefers-reduced-motion: no-preference`), 30 px logo with radius 8 and 32 px UPPERCASE name (`h3`, not a link), URL and year in mono 11 `--ink-3`, two pills (radius 999, mono 11 uppercase): primary "VER MÁS →" (`--orange` fill, `hover` to `--ink`) to `/projects/<slug>` in the current locale, and secondary "VISITAR →" (outline, `hover` fills `--orange`; opens the site in a new tab, with a visually hidden note), category in mono 10 `--orange`, 14 px description and tags at the bottom. The `→` is `aria-hidden`; the `translateX(4px)` on pill `hover` only runs under `no-preference`; pills are 44 px tall at ≤640 and have a `2px --orange` `focus-visible` ring. The image links to the same detail page but is `aria-hidden` with `tabindex -1`, so the card has one "Ver más" tab stop.
 
-**Project modal gallery.** Photo change: the new image enters with `proj-shot-in` (`.25s`, runs when the image finishes loading, `.shot[data-state="loaded"]`; house curve, `opacity` 0→1 plus `translateX(±48px)` toward the direction of travel; device switch is a plain fade). Swipe: pointer events on `.proj-modal-frame` with `touch-action: pan-y`; the slide follows the finger, commit on more than 40 px or a flick (over 12 px at over 0.4 px/ms); `pointercancel` snaps back. Arrows (`‹ ›`, `←` `→`) keep working; on open the close button takes focus, Tab wraps inside the dialog and focus returns to the opener on close. Device selector (`.proj-device-toggle`, only when the item has `responsive` with 2+ non-empty devices): the `.billing-toggle` chip (mono 11 uppercase, `aria-pressed`, `--orange` fill when active, `focus-visible` ring, 44 px tall ≤640). Escritorio/Tablet/Móvil localized es/en/ja. The stage (`.proj-modal-stage`, `--bg-2`) keeps a fixed height; the frame inside takes the device ratio (16:10, 834:1194, 390:844) with `1px --rule-2`, square, no shadow, centred. Modal labels (open hint, dialog name, close, prev/next, alt) are localized es/en/ja (`MODAL_TEXT`); alt: `Captura N de <proyecto> · <dispositivo>` in es. Counter is `role="status" aria-atomic="true"`, two-digit padded, `nowrap`. A committed swipe snaps the slide to 0 with no transition so only the image entry animation moves; a cancelled drag snaps back over `.3s`. Only the primary pointer and left button start a drag. Under `prefers-reduced-motion` the image animation and the slide transition are off.
-
-**Image loading state** (`.shot` wrapper, used by the modal image and the `.proj-shots` thumbnails). The wrapper keeps the frame size; `.shot-ph` is a `--bg-3` placeholder with a 2 px `--orange` segment along its bottom edge (square, no shadow). `data-state` (`loading` / `loaded` / `error`) is set only after mount, so the server HTML has none and thumbnails are visible without JS; the hidden-image rule only applies to `loading` and `error`. Already-cached images are detected with `img.complete` before first paint, so they show no placeholder. While loading the segment sweeps (transform only, `1.4s`); under `prefers-reduced-motion: reduce` it is drawn static, so loading still differs from error without motion. The image fades in over `.25s` (the modal image also slides in via `proj-shot-in`) while the placeholder fades out; reduced motion turns the fades off. The modal placeholder shows a mono uppercase label (`MODAL_TEXT.loading`, es/en/ja) only after 300 ms (CSS `animation-delay`), in both motion modes, so fast loads show no text. Failure: the placeholder stays with a 24 px line-art broken-image glyph (1.25 px stroke, `--ink-3`, `aria-hidden`) in thumbnails and modal, plus the mono message (`MODAL_TEXT.failed`) in the modal; the broken image is `aria-hidden`. `.shot-ph` is always `aria-hidden`: the modal reports status up and the existing `role="status"` counter appends a visually hidden `· <failed>`. `aria-busy` is set on `.shot` while loading. While the modal is open the next and previous image of the current device are preloaded with `new Image()` (cancelled on cleanup).
+**Image loading state** (`.shot` wrapper, used by the project card image). The wrapper keeps the frame size; `.shot-ph` is a `--bg-3` placeholder with a 2 px `--orange` segment along its bottom edge (square, no shadow). `data-state` (`loading` / `loaded` / `error`) is set only after mount, so the server HTML has none and the image is visible without JS; the hidden-image rule only applies to `loading` and `error`. Already-cached images are detected with `img.complete` before first paint, so they show no placeholder. While loading the segment sweeps (transform only, `1.4s`); under `prefers-reduced-motion: reduce` it is drawn static, so loading still differs from error without motion. The image fades in over `.25s` while the placeholder fades out; reduced motion turns the fades off. The placeholder shows a mono uppercase label (`SHOT_LABELS.loading`, es/en/ja) only after 300 ms (CSS `animation-delay`), in both motion modes, so fast loads show no text. Failure: the placeholder stays with a 24 px line-art broken-image glyph (1.25 px stroke, `--ink-3`, `aria-hidden`) plus the mono message (`SHOT_LABELS.failed`); the broken image is `aria-hidden`. `.shot-ph` is always `aria-hidden`. `aria-busy` is set on `.shot` while loading.
 
 ### Process step (`.step`)
 
@@ -293,7 +291,7 @@ Instrument Serif quote mark at 200 px in `--orange`, large quote, meta with 48 p
 ## 6. Images and iconography
 
 - **Hero:** 3D illustration per theme (`public/hero/hero-<theme>-<750|1100|1495>.{avif,webp}`). Both themes are `<picture>`s in the server HTML; `<source>` media (`prefers-color-scheme`, rewritten from `data-theme` by an inline script) makes only the active one download, eager with `fetchpriority="high"`. Scroll parallax (`data-px="0.45"`) and a blue radial blob `.hero-blob`. At ≤1024 a gradient mask is applied so the text is readable.
-- **Projects:** real screenshots in `public/projects/<slug>/` as WebP (thumbnails 600w; modal desktop 1600w, tablet 1100w, mobile 600w; q78) plus a 30 px logo (96w WebP). Thumbnails and logos load lazily (`loading="lazy"`).
+- **Projects:** real screenshots in `public/projects/<slug>/` as WebP (`N.webp` 600w, the card fallback when `responsive.desktop` is empty; `desktop/` 1600w, `tablet/` 1100w, `mobile/` 600w; q78) plus a 30 px logo (96w WebP). The home card shows `desktop/1.webp`; the detail page uses all sizes. Images and logos load lazily (`loading="lazy"`).
 - **Team:** real photos in `public/team/` as WebP (≥760×950 cover size, serious and fun). The "serious" canvas image loads when the card is within 400 px of the viewport; names are `h3`.
 - **Blog covers:** no images. They are color blocks with a typographic word and `repeating-linear-gradient(45deg, …)` stripes. Keep that pattern and do not add stock photos.
 - **Icons:** almost none. Text glyphs are used (`→ ↗ ↓ ↑ ‹ › + ·`) and 14 px inline SVG only in the theme toggle and the photo reset button. Do not add an icon library.
@@ -309,11 +307,11 @@ Instrument Serif quote mark at 200 px in `--orange`, large quote, meta with 48 p
 | Color, background and border on `hover` | `.15s`–`.2s` | `ease` (default) |
 | Row and card background, `hover` shifts | `.25s` | `ease` |
 | Theme change (`body`) | `.3s` | `ease` |
-| Mobile panel, cursor ring, modal, photo tilt | `.22s`–`.5s` | `cubic-bezier(.2,.7,.3,1)` (the house curve) |
+| Mobile panel, cursor ring, photo tilt | `.22s`–`.5s` | `cubic-bezier(.2,.7,.3,1)` (the house curve) |
 | Marquee | `32s` | `linear infinite` |
 | Cursor | rAF lerp, factor 0.18 | JS (`lib/cursor.js`) |
 
-- On `hover`, the maximum shift is 3 to 8 px (`translateX`/`translateY`). No scaling on `hover`; only the modal enters from `scale(.97)`.
+- On `hover`, the maximum shift is 3 to 8 px (`translateX`/`translateY`). The only scaling on `hover` is the project card image (`scale(1.04)`, `.4s`, house curve, only under `prefers-reduced-motion: no-preference`).
 - Custom cursor: an 8 px dot in `--orange` and a 36 px ring that grows to 64 px over interactive elements (`a, button, input, textarea, [data-hover]`). Hidden on touch devices. On the home it is `#cursor-ring`; on the blog, `#cursor-trail`.
 
 ---
@@ -321,12 +319,12 @@ Instrument Serif quote mark at 200 px in `--orange`, large quote, meta with 48 p
 ## 8. Observed accessibility
 
 - **Focus:** there is no `:focus-visible` rule in the CSS. The keyboard shows the browser's default ring (verified: `outline: rgb(0, 95, 204) auto 1px` on nav links and on `.btn-primary`). On `--orange` or dark `--bg` it is barely visible. Inputs cancel the `outline` and only change the bottom border color.
-- **Reduced motion:** respected only in the hero parallax (JS, listens for live changes; `kx/templates/masthead/component.tsx:110`) and in the modal animations, including the gallery transition (`.proj-modal-img`, `.proj-modal-slide`). **Still active:** the infinite marquee, `scroll-behavior: smooth`, the inertial cursor, the 3D photo tilt and the `hover` shifts.
+- **Reduced motion:** respected in the hero parallax (JS, listens for live changes; `kx/templates/masthead/component.tsx:110`), the project card image zoom, the project pill `hover` shift and the `.shot` fades. **Still active:** the infinite marquee, `scroll-behavior: smooth`, the inertial cursor, the 3D photo tilt and the other `hover` shifts.
 - **Theme:** respects `prefers-color-scheme` the first time; after that the saved choice wins.
 - **Mobile menu:** when open, the rest of the page is `inert`, scroll is locked, and focus and Escape are handled (`components/Nav.jsx`).
-- **Touch targets:** the theme toggle (32×32), the hamburger (36×32), the language selector (about 28 px tall) and the modal desktop buttons (32×32) are below 44×44; at ≤640 the modal close and prev/next are 44×44 and the close sits inside the frame (`top/right 6px`). Only `.t-nav button` reaches 44.
+- **Touch targets:** the theme toggle (32×32), the hamburger (36×32) and the language selector (about 28 px tall) are below 44×44. Only `.t-nav button` and, at ≤640, the project card pills reach 44.
 - **Minimum text:** 10–11 px UPPERCASE mono is common for metadata and labels.
-- **Images:** project thumbnails and modal screenshots, `alt="Captura N de <proyecto>"` (localized); logos `alt=""` (the name sits next to them); the hero, `aria-hidden`.
+- **Images:** the project card screenshot is decorative (`alt=""`, inside an `aria-hidden` link; the name and "Ver más" carry the meaning); logos `alt=""` (the name sits next to them); the hero, `aria-hidden`.
 
 ---
 
@@ -339,7 +337,7 @@ Instrument Serif quote mark at 200 px in `--orange`, large quote, meta with 48 p
 - Structure with 1 px `--rule` rules and square corners. Highlight with `border-top: 3px solid var(--orange)` and `bg --bg-2`/`--bg-3`.
 - Put content inside `.wrap`. Use the existing breakpoints (1100, 1024, 640, 480) and the spacing values from §4.
 - Buttons: reuse `.btn-primary` or `.btn-secondary` (with `hover` to `--ink`) and add a `→` or `↗` arrow.
-- Transitions of `.2s` or `.25s`. For panel or modal entrances, `cubic-bezier(.2,.7,.3,1)`.
+- Transitions of `.2s` or `.25s`. For panel entrances, `cubic-bezier(.2,.7,.3,1)`.
 - Add `data-hover` to any clickable element that is not an `a` or `button`, so the custom cursor detects it.
 - For any new component: add a visible `:focus-visible` (e.g. `outline: 2px solid var(--orange); outline-offset: 2px`) and disable its animation with `prefers-reduced-motion: reduce`.
 
@@ -365,7 +363,6 @@ Instrument Serif quote mark at 200 px in `--orange`, large quote, meta with 48 p
 6. **Misleading name:** `--orange`, `--orange-2`, `--orange-tint`, `--orange-rgb` and `.orange-bit` are blue.
 7. **Hard-coded colors that bypass the tokens:**
    - `landing.css:48`: `.hero-blob` with `rgba(76,125,255,.28)` (the dark-theme blue also in light; should be `rgba(var(--orange-rgb), .28)`).
-   - `landing.css:573`: modal overlay `rgba(8,8,10,.86)`.
    - `landing.css:988`: photo reset button `rgba(14,12,10,.7)`, a warm black outside the palette.
    - `blog.css:139,201`: stripes `rgba(0,0,0,.08)`.
    - `kx/templates/page/component.tsx:23-24`: `#0a0a0a`, `#ffffff`, `#f5f5f5` (branch not used by the home, which passes `chrome: "none"`).

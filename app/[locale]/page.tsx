@@ -372,7 +372,8 @@ export default function HomePage() {
             en: "Projects we've delivered.",
             ja: "私たちが手がけたプロジェクト。",
           },
-          viewSite: { es: "Visitar →", en: "Visit →", ja: "訪問 →" },
+          viewSite: { es: "Visitar", en: "Visit", ja: "訪問" },
+          viewMore: { es: "Ver más", en: "View more", ja: "詳しく見る" },
           items: getAllProjects(),
         }}
         node={stubNode("work", "project-list")}
