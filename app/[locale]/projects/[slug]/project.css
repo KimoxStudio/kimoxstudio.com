@@ -13,7 +13,7 @@ html:has(main.pj) {
 .pj {
   --pj-h: max(420px, calc(100svh - var(--nav-h, 69px))); /* cover height: the whole first screen below the nav */
   --pj-pad: 56px; /* same inline padding as .wrap */
-  --pj-title: clamp(40px, 10vw, 144px);
+  --pj-title: clamp(36px, 10vw, 144px);
   position: relative;
   background: var(--bg);
   color: var(--ink-2);
@@ -167,8 +167,9 @@ html:has(main.pj) {
    the cover / stage parts also need a viewport at least 560px tall (on a
    short one the fixed cover and bar would leave no room for content).
    Outside the cover only opacity and transform are animated; the cover
-   animates height, background-color and object-position like the demo it
-   follows (a fixed element never changes the document height). */
+   animates height, background-color, object-position and the title's color
+   like the demo it follows (a fixed element never changes the document
+   height). */
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) {
 
@@ -204,21 +205,28 @@ html:has(main.pj) {
          height down: `padding-top` on .pj, as the demo does on body). The
          image pans to its bottom edge while the solid bar colour comes in
          under it (background-color, as in the demo) and the image fades out.
-         The big title only moves and scales (transform, so its line breaks
-         never change) while fading out as the bar's own title fades in. */
+         The title (the h1) only moves and scales into the bar (transform, so its
+         line breaks never change) and stays opaque; its colour flips at 75-76%. */
       .pj { padding-top: var(--pj-h); }
       .pj-cover {
         --pj-range: calc(var(--pj-h) - var(--pj-bar, 56px)); /* scroll distance of the collapse */
-        --pj-lead: 42px; /* logo (30px) + gap (12px): where the bar title starts */
+        --pj-lead: 42px; /* logo (30px) + gap (12px): where the title ends up */
         position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 10;
-        --pj-k: .3; /* end scale of the big title (set below to land at the bar title's size) */
+        --pj-k: .3; /* end scale of the title (set below to land at exactly 18px) */
+        --pj-ty: 32px; /* how far the title's bottom edge moves down: a compromise between centring one line (28px) and two (36px) */
         animation: pj-cover-shrink linear both, pj-cover-color linear both;
         animation-timeline: scroll(root), scroll(root);
         animation-range: 0px var(--pj-range), calc(var(--pj-range) * .35) calc(var(--pj-range) * .8);
       }
       @supports (transform: scale(tan(atan2(1px, 1px)))) {
-        /* --pj-title is clamp(40px, 10vw, 144px): scale it down to exactly 18px. */
-        .pj-cover { --pj-k: clamp(.125, calc(180 / tan(atan2(100vw, 1px))), .45); }
+        /* --pj-title is clamp(36px, 10vw, 144px): scale it down to exactly 18px. */
+        .pj-cover { --pj-k: clamp(.125, calc(180 / tan(atan2(100vw, 1px))), .5); }
+        /* Very narrow: names wrap to three lines, which only fit the 56px bar at a smaller size (.42).
+           The title stays at .52 (18.7px, still "large" text for contrast) through the colour flip at
+           75-76% and only then shrinks to .42. */
+        @media (max-width: 340px) {
+          .pj-cover { --pj-k: .42; --pj-ty: 34px; }
+        }
       }
       .pj-cover:not(:has(.pj-bar__logo)) { --pj-lead: 0px; }
       @keyframes pj-cover-shrink {
@@ -252,21 +260,31 @@ html:has(main.pj) {
         animation-timeline: scroll(root);
         animation-range: 0px var(--pj-range);
       }
+      /* The one title travels into the bar and stays opaque. Its colour flips from --ink to --bg at
+         75-76% of the range, where the backdrop (scrim, image and cover colour) is about as light as
+         it is dark, so both colours keep at least ~3.4:1 against the worst case (black or white image pixel). */
       @keyframes pj-title-away {
-        0%, 60% { opacity: 1; color: var(--ink); }
-        70% { opacity: 0; color: var(--bg); }
-        80%, 100% { opacity: 0; color: var(--bg); transform: translate(var(--pj-lead), 29px) scale(var(--pj-k)); }
+        0% { color: var(--ink); transform: none; }
+        75% { color: var(--ink); }
+        76% { color: var(--bg); }
+        80%, 100% { color: var(--bg); transform: translate(var(--pj-lead), var(--pj-ty)) scale(var(--pj-k)); }
+      }
+      @media (max-width: 340px) { .pj-title { animation-name: pj-title-away-narrow; } }
+      @keyframes pj-title-away-narrow {
+        0% { color: var(--ink); transform: none; }
+        75% { color: var(--ink); transform: translate(var(--pj-lead), calc(var(--pj-ty) * .94)) scale(.52); }
+        76% { color: var(--bg); transform: translate(var(--pj-lead), calc(var(--pj-ty) * .94)) scale(.52); }
+        80%, 100% { color: var(--bg); transform: translate(var(--pj-lead), var(--pj-ty)) scale(var(--pj-k)); }
       }
       .pj-bar {
         display: flex; align-items: center; gap: 12px;
         position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
         height: var(--pj-bar, 56px);
         padding-inline: max(var(--pj-pad), calc((100% - 1480px) / 2 + var(--pj-pad)));
-        color: var(--bg);
         opacity: 0;
         animation: pj-bar-in linear both;
         animation-timeline: scroll(root);
-        animation-range: calc(var(--pj-range) * .66) calc(var(--pj-range) * .8); /* short overlap with the big title's fade (60% to 70%): the two wrap differently, so a long cross-fade shows doubled text */
+        animation-range: calc(var(--pj-range) * .66) calc(var(--pj-range) * .8); /* logo and pill appear as the title settles (80%) */
       }
       @keyframes pj-bar-in { to { opacity: 1; } }
       /* The link is focusable only once the bar is at least 85% opaque, so Tab never lands on a faint
@@ -282,14 +300,8 @@ html:has(main.pj) {
         86%, 100% { visibility: visible; }
       }
       .pj-bar__logo { flex: none; object-fit: contain; border-radius: 8px; }
-      .pj-bar__name {
-        flex: 1; min-width: 0;
-        font-family: "Familjen Grotesk", sans-serif; font-weight: 700; text-transform: uppercase;
-        font-size: 18px; line-height: 1.05; letter-spacing: -0.045em;
-        display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; /* two lines, never clipped mid-line */
-      }
       /* On the solid bar the pill is inverted (accent on accent would vanish). */
-      .pj-bar .pj-pill { background: var(--bg); color: var(--ink); border-color: var(--bg); }
+      .pj-bar .pj-pill { margin-left: auto; background: var(--bg); color: var(--ink); border-color: var(--bg); }
       .pj-bar .pj-pill:hover { background: var(--bg-2); border-color: var(--bg-2); }
       .pj-bar a:focus-visible { outline-color: var(--bg); }
       /* Narrow screens: arrow-only pill, still a 44px target with the full accessible name. */
