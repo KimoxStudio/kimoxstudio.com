@@ -17,7 +17,8 @@ const BREADCRUMB = {
 
 const SUFFIX = ' — Kimox Studio';
 
-const pick = (field, locale) => field?.[locale] || field?.es || '';
+// Same fallback semantics as `t` in lib/lang.js: only a missing value falls back.
+const pick = (field, locale) => field?.[locale] ?? field?.es ?? '';
 
 export async function generateMetadata({ params }) {
   const { locale, slug } = await params;

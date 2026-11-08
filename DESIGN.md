@@ -19,7 +19,7 @@ Scope: home (`app/[locale]/page.tsx` → `kx/templates/*`), blog (`components/Bl
 
 ## 2. Color
 
-Source: `app/globals.css:2-45`. The theme is applied with `data-theme` on `<html>`; a pre-hydration script sets it (`app/[locale]/layout.jsx:113-124`). Precedence: `localStorage['kimox-theme']`, then `prefers-color-scheme`, and `dark` if all else fails. `ThemeToggle` changes it.
+Source: `app/globals.css:2-45`. The theme is applied with `data-theme` on `<html>`; a pre-hydration script sets it (`lib/theme-init.js`, inlined by `app/[locale]/layout.jsx`). Precedence: `localStorage['kimox-theme']`, then `prefers-color-scheme`, and `dark` if all else fails. `ThemeToggle` changes it.
 
 ### Tokens
 
@@ -72,7 +72,7 @@ Source: `app/globals.css:2-45`. The theme is applied with `data-theme` on `<html
 
 ## 3. Typography
 
-Loaded with a `<link>` to Google Fonts (`app/[locale]/layout.jsx:138`), not with `next/font`. The TTFs in `app/fonts/` (IBM Plex Mono) are used only by the OG images.
+Loaded with a `<link>` to Google Fonts (`app/[locale]/layout.jsx`), not with `next/font`. The TTFs in `app/fonts/` (IBM Plex Mono) are used only by the OG images.
 
 | Family | Weights loaded | Use |
 |---|---|---|
@@ -129,8 +129,8 @@ There are no spacing tokens. The recurring values (px) are: 4, 6, 8, 10, 12, 14,
 
 ### Container
 
-- `.wrap`: `max-width: 1480px; margin: 0 auto; padding: 0 56px` → `0 28px` at ≤1100 px (`globals.css:121-122`).
-- Nav: `height: 68px`, `padding: 0 clamp(20px,4vw,40px)` → `0 16px` at ≤480 px.
+- `.wrap`: `max-width: 1480px; margin: 0 auto; padding: 0 56px` → `0 28px` at ≤1100 px (`globals.css:122-123`).
+- Nav: `height: 68px` (69 px with its border, token `--nav-h` in `globals.css`), `padding: 0 clamp(20px,4vw,40px)` → `0 16px` at ≤480 px. It is sticky, so `html` has `scroll-padding-top: calc(var(--nav-h) + 16px)`, which keeps anchors and focused elements below it (no `scroll-margin-top`: it would stack on top); the project page overrides the padding (nav + bar + 16 px) with `html:has(main.pj)`.
 - Hero column: `--hero-col: min(38vw,600px)` → `min(66%,520px)` (≤1024) → `100%` (≤640, centered).
 - Reading measure: post body 780 px; paragraphs from 380 to 940 px depending on the block.
 
@@ -226,7 +226,7 @@ Fixed at top (`z-index 50`), `--nav-bg` with `backdrop-filter: blur(14px)`, bott
 
 `app/[locale]/projects/[slug]/page.jsx` + `project.css` (does not import `blog.css`) + `components/ProjectCursor.jsx` (runs `useBlogCursor`, because the site hides the native pointer). Pure CSS scroll-driven animation, no JS animation, no gallery. Only `opacity` and `transform` are animated (no `clip-path`). Every scroll-driven rule sits inside `@supports (animation-timeline: scroll())` and `@media (prefers-reduced-motion: no-preference)`; the cover and stage parts also need `(min-height: 560px)`. Outside that the page is a static, fully visible layout (no `opacity: 0` or translated leftovers, no sticky chrome, no bar).
 
-- **Sizes.** `--pj-nav` 69 px (`nav.top`: 68 px row + 1 px border), `--pj-bar` 56 px, both on `html:has(main.pj)`, which also sets `scroll-padding-top` (nav + 16 px; plus the bar when the sticky bar is active) so focus never lands under the sticky chrome.
+- **Sizes.** the nav is `--nav-h` (69 px, `globals.css`), `--pj-bar` is 56 px on `html:has(main.pj)`, which sets `scroll-padding-top` to nav + bar + 16 px when the sticky bar is active (the global nav + 16 px otherwise) so focus never lands under the sticky chrome.
 - **Cover to compact bar.** `.pj-cover` (desktop cover, portrait export at ≤700 px, `fetchpriority=high`) is `sticky` with `top: nav + bar - cover height`: it scrolls away normally until only its bottom 56 px strip is pinned under the nav, where `.pj-bar` (logo, name, "Visitar") fades in over the last 120 px. The title fades out first. The bar is `visibility: hidden` until it fades in (no invisible tab stop). Cover text: eyebrow in `--ink`, title in `--ink` over a `--bg` scrim (88 % at 45 %, clear at the top).
 - **Intro.** Category and year in mono, the body as a 20/24 px `--ink` lead, tags and the "Visitar" pill rise in with `view()` (`entry` range, offset 8 % per `--i`).
 - **Story** (3 sections from `lib/projects.js`: title, placeholder body, `alt` of the screenshot). ≥900 px: left column is a `sticky` stage (`.pj-stage__frame`, `--bg-2`, `1px --rule-2`, `aria-hidden`, empty `alt`) holding the three images (desktop, tablet, mobile); each text section declares `view-timeline: --sN block`, the common ancestor `timeline-scope: --s1…--s3`, and the matching stage image uses `animation-timeline: --sN` (cross-fade 10-45 % in, 55-90 % out, plus a slide / scale per image). <900 px, short viewports, or without `timeline-scope`: images are inline above each section and reveal with `view()` (opacity + translate). Static: single column, two columns per section from 900 px. Each section exposes its description once: the inline image `alt`, or `.pj-sec__desc` (screen-reader only) when the inline image is `display: none`.
@@ -319,7 +319,7 @@ Instrument Serif quote mark at 200 px in `--orange`, large quote, meta with 48 p
 | Row and card background, `hover` shifts | `.25s` | `ease` |
 | Theme change (`body`) | `.3s` | `ease` |
 | Mobile panel, cursor ring, photo tilt | `.22s`–`.5s` | `cubic-bezier(.2,.7,.3,1)` (the house curve) |
-| Marquee | `32s` | `linear infinite` |
+| Marquee | `32s` | `linear infinite` (not under `prefers-reduced-motion: reduce`, where one copy wraps; items and `+` stars alternate as siblings, only the first of the four copies is real content and carries hidden ", " separators) |
 | Cursor | rAF lerp, factor 0.18 | JS (`lib/cursor.js`) |
 
 - On `hover`, the maximum shift is 3 to 8 px (`translateX`/`translateY`). The only scaling on `hover` is the project card image (`scale(1.04)`, `.4s`, house curve, only under `prefers-reduced-motion: no-preference`).
@@ -329,8 +329,8 @@ Instrument Serif quote mark at 200 px in `--orange`, large quote, meta with 48 p
 
 ## 8. Observed accessibility
 
-- **Focus:** there is no `:focus-visible` rule in the CSS. The keyboard shows the browser's default ring (verified: `outline: rgb(0, 95, 204) auto 1px` on nav links and on `.btn-primary`). On `--orange` or dark `--bg` it is barely visible. Inputs cancel the `outline` and only change the bottom border color.
-- **Reduced motion:** respected in the hero parallax (JS, listens for live changes; `kx/templates/masthead/component.tsx:110`), the project card image zoom, the project pill `hover` shift and the `.shot` fades. **Still active:** the infinite marquee, `scroll-behavior: smooth`, the inertial cursor, the 3D photo tilt and the other `hover` shifts.
+- **Focus:** `:focus-visible` rings (`2px solid --orange`, offset 2 px) exist only for `.ws-feat`, `.faq-item summary`, `.billing-toggle button`, the project card pills, the project detail page links and the 404 links (`.nf .links a` in `not-found.css`). Everything else (nav links, `.btn-primary` and the rest) shows the browser's default ring (verified earlier: `outline: rgb(0, 95, 204) auto 1px` on nav links and on `.btn-primary`), which is barely visible on `--orange` or dark `--bg`. Inputs cancel the `outline` (`form input:focus` in `landing.css`) and only change the bottom border color.
+- **Reduced motion:** respected in the hero parallax (JS, listens for live changes; `kx/templates/masthead/component.tsx`), the marquee (stops and shows one wrapped copy of the items), `scroll-behavior: smooth` (only under `no-preference`), the project card image zoom, the project pill `hover` shift, the `.shot` fades and the whole scroll-driven layer of the project detail page. **Still active:** the inertial cursor, the 3D photo tilt and the other `hover` shifts.
 - **Theme:** respects `prefers-color-scheme` the first time; after that the saved choice wins.
 - **Mobile menu:** when open, the rest of the page is `inert`, scroll is locked, and focus and Escape are handled (`components/Nav.jsx`).
 - **Touch targets:** the theme toggle (32×32), the hamburger (36×32) and the language selector (about 28 px tall) are below 44×44. Only `.t-nav button` and, at ≤640, the project card pills reach 44.
@@ -367,23 +367,23 @@ Instrument Serif quote mark at 200 px in `--orange`, large quote, meta with 48 p
 ## 10. Detected inconsistencies
 
 1. **`.hero` collision between global sheets.** `app/landing.css:2` and `app/[locale]/blog/blog.css:6` define `.hero`, `.hero h1` and `.hero .sub`. Both are global CSS and stay loaded after client-side navigation. Verified: going from the blog to the home via the logo, the home hero gets `padding-top: 100px` from the blog and all its content drops about 27 px (`clientnav-blog-to-home-dark.png`).
-2. **`footer.bot` defined twice with different values:** `landing.css:1231` (`padding 56px 0 32px`, `.04em`, no rule) and `blog.css:350` (`40px 0 32px`, `.06em`, `border-top`). The `flex-wrap` rule is also duplicated (`landing.css:1245`, `blog.css:365`).
-3. **Duplicated eyebrow:** `.eyebrow` in `globals.css:125` and `.hero .eyebrow` in `blog.css:10`, with the same values copied.
-4. **Duplicated `.wrap` at ≤1100:** `globals.css:122` and `landing.css:1278`.
+2. **`footer.bot` defined twice with different values:** `landing.css` (`padding 56px 0 32px`, `.04em`, no rule) and `blog.css` (`40px 0 32px`, `.06em`, `border-top`). The `flex-wrap` rule is also duplicated.
+3. **Duplicated eyebrow:** `.eyebrow` in `globals.css` and `.hero .eyebrow` in `blog.css`, with the same values copied.
+4. **Duplicated `.wrap` at ≤1100:** `globals.css` and `landing.css`.
 5. **Dead tokens:** `--card`, `--orange-2` and `--hero-muted` (`globals.css:7,13,21,29,35,43`) have 0 uses. `--mute` has 1 (placeholder).
 6. **Misleading name:** `--orange`, `--orange-2`, `--orange-tint`, `--orange-rgb` and `.orange-bit` are blue.
 7. **Hard-coded colors that bypass the tokens:**
-   - `landing.css:48`: `.hero-blob` with `rgba(76,125,255,.28)` (the dark-theme blue also in light; should be `rgba(var(--orange-rgb), .28)`).
-   - `landing.css:988`: photo reset button `rgba(14,12,10,.7)`, a warm black outside the palette.
+   - `landing.css`: `.hero-blob` with `rgba(76,125,255,.28)` (the dark-theme blue also in light; should be `rgba(var(--orange-rgb), .28)`).
+   - `landing.css`: photo reset button `rgba(14,12,10,.7)`, a warm black outside the palette.
    - `blog.css:139,201`: stripes `rgba(0,0,0,.08)`.
    - `kx/templates/page/component.tsx:23-24`: `#0a0a0a`, `#ffffff`, `#f5f5f5` (branch not used by the home, which passes `chrome: "none"`).
 8. **Inline styles instead of classes:** `components/BlogPostClient.jsx:29-109` (post header, H1, meta and column with sizes and fonts repeated by hand) and `components/BlogClient.jsx:152-173` ("cargar más" button: `border 1.5px var(--ink)`, `borderRadius: 999`, Familjen 14/500. It is the only button with a 1.5 px border and a non-mono font).
-9. **Misaligned breakpoints:** the nav collapses at ≤1024 (`globals.css:199,271`), but `Nav.jsx:112` closes the panel with `min-width: 1101px`. Between 1025 and 1100 px, a menu opened before resizing stays hidden but keeps `inert` and the scroll lock (inferred from the code, not reproduced). The rest of the layout changes at 1100, not 1024.
-10. **Plex Mono 700 not loaded:** used in `landing.css:328,381` and `blog.css:323` (the `+` markers), but the `<link>` only requests 400;500;600 (`layout.jsx:138`), so the browser synthesizes the bold.
-11. **Inconsistent CTA weight:** `.ws-cta` (`landing.css:290`) does not declare `font-weight` (stays at 400), while the other CTAs use 600. Tracking `.08em` versus `.04em`.
-12. **Native cursors that contradict `cursor: none`:** `landing.css:612` (`grab`), `975` (`crosshair`) and `992` (`pointer`).
-13. **No focus styles** in the entire CSS (only `landing.css:1174`, which also removes the `outline`). See §8.
-14. **Partial `prefers-reduced-motion`:** only `landing.css:645` and the JS parallax. The marquee (`landing.css:150`) and `scroll-behavior: smooth` (`globals.css:49`) ignore it.
-15. **Insufficient contrast:** `--mute` placeholder (3.32 and 2.85); `--ink-3` on `--bg-2` in light (4.24); `.post.c-5` cover with `--ink` on `--orange` in light (2.85, `blog.css:195-196`); input border `--rule` (≈1.2:1).
-16. **Web-as-a-service panel on mobile:** `.ws-main` and `.ws-includes` keep `padding: 44px` at 390 px (`landing.css:253,305`; no override at ≤640). The text ends up in a column about 240 px wide (screenshot `hm-light-04.png`).
+9. **Misaligned breakpoints:** the nav collapses at ≤1024 (`max-width: 1024px` in `globals.css`), but `Nav.jsx` (`matchMedia('(min-width: 1101px)')`) closes the panel with `min-width: 1101px`. Between 1025 and 1100 px, a menu opened before resizing stays hidden but keeps `inert` and the scroll lock (inferred from the code, not reproduced). The rest of the layout changes at 1100, not 1024.
+10. **Plex Mono 700 not loaded:** used for the `+` markers in `landing.css` and `blog.css`, but the `<link>` in `layout.jsx` only requests 400;500;600, so the browser synthesizes the bold.
+11. **Inconsistent CTA weight:** `.web-service .ws-cta` (`landing.css`) does not declare `font-weight` (stays at 400), while the other CTAs use 600. Tracking `.08em` versus `.04em`.
+12. **Native cursors that contradict `cursor: none`:** `crosshair` and `pointer` in `landing.css` (the photo controls).
+13. **Focus styles are the exception.** Only a few components define `:focus-visible` (see §8); form inputs also remove the `outline`.
+14. **Partial `prefers-reduced-motion`:** the marquee, `scroll-behavior`, the project card and the project detail page are guarded (see §8); the inertial cursor, the 3D photo tilt and the other `hover` shifts are not.
+15. **Insufficient contrast:** `--mute` placeholder (3.32 and 2.85); `--ink-3` on `--bg-2` in light (4.24; the project card `hover` already uses `--ink-2` for it); `.post.c-5` cover with `--ink` on `--orange` in light (2.85, `blog.css:195-196`); input border `--rule` (≈1.2:1).
+16. **Web-as-a-service panel on mobile:** `.ws-main` and `.ws-includes` keep `padding: 44px 44px 40px` at 390 px (`landing.css`; no override at ≤640). The text ends up in a column about 240 px wide (screenshot `hm-light-04.png`).
 17. **Mixed font-family quoting:** single quotes in `globals.css` and `blog.css`, double in `landing.css`, and no quotes in the `style={{}}` values (`'IBM Plex Mono, monospace'`). It works, but it makes search and replace harder.

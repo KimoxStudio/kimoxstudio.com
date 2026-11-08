@@ -4,15 +4,14 @@
    bottom, so browsers without scroll-driven animations and users who ask for
    less motion get this layout untouched. */
 
-/* Sizes shared with the document (scroll-padding) and with .pj. Every use
-   carries a fallback, so the layout still works where :has() is missing. */
+/* Bar height shared with the document (scroll-padding) and with .pj. The nav
+   height is --nav-h (globals.css). Every use of --pj-bar carries a fallback,
+   so the layout still works where :has() is missing. */
 html:has(main.pj) {
-  --pj-nav: 69px;   /* nav.top: 68px row + 1px border */
   --pj-bar: 56px;   /* compact header the cover collapses into */
-  scroll-padding-top: calc(var(--pj-nav, 69px) + 16px); /* keep focused elements below the sticky nav */
 }
 .pj {
-  --pj-h: clamp(420px, calc(100svh - var(--pj-nav, 69px)), 840px); /* cover height */
+  --pj-h: clamp(420px, calc(100svh - var(--nav-h)), 840px); /* cover height */
   --pj-pad: clamp(20px, 4vw, 56px);
   position: relative;
   background: var(--bg);
@@ -190,7 +189,7 @@ html:has(main.pj) {
     }
 
     @media (min-height: 560px) {
-      html:has(main.pj) { scroll-padding-top: calc(var(--pj-nav, 69px) + var(--pj-bar, 56px) + 16px); }
+      html:has(main.pj) { scroll-padding-top: calc(var(--nav-h) + var(--pj-bar, 56px) + 16px); }
 
       /* Cover -> compact bar. The cover is sticky with a negative offset: it
          scrolls away normally until only its bottom --pj-bar strip is left,
@@ -198,7 +197,7 @@ html:has(main.pj) {
          clipped; the content below keeps pace with the cover's edge. */
       .pj-cover {
         position: sticky;
-        top: calc(var(--pj-nav, 69px) + var(--pj-bar, 56px) - var(--pj-h));
+        top: calc(var(--nav-h) + var(--pj-bar, 56px) - var(--pj-h));
         z-index: 10;
       }
       .pj-cover__txt {
@@ -243,8 +242,8 @@ html:has(main.pj) {
           .pj-stage { display: block; grid-column: 1; grid-row: 1; }
           .pj-sections { grid-column: 2; grid-row: 1; }
           .pj-stage__frame {
-            position: sticky; top: calc(var(--pj-nav, 69px) + var(--pj-bar, 56px) + 24px);
-            height: calc(100svh - var(--pj-nav, 69px) - var(--pj-bar, 56px) - 48px);
+            position: sticky; top: calc(var(--nav-h) + var(--pj-bar, 56px) + 24px);
+            height: calc(100svh - var(--nav-h) - var(--pj-bar, 56px) - 48px);
             margin: 24px 0;
             background: var(--bg-2); border: 1px solid var(--rule-2);
           }

@@ -46,7 +46,8 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
-html { scroll-behavior: smooth; overflow-x: clip; }
+html { overflow-x: clip; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 body {
   background: var(--bg);
   color: var(--ink);
@@ -133,6 +134,9 @@ button { font: inherit; cursor: none; border: 0; background: transparent; color:
 }
 
 /* ── Nav (shared across landing, blog, post) ── */
+/* Height of the sticky nav: 68px row + 1px border. Anchors and focus scroll below it. */
+:root { --nav-h: 69px; }
+html { scroll-padding-top: calc(var(--nav-h) + 16px); }
 nav.top {
   position: sticky; top: 0; z-index: 50;
   background: var(--nav-bg);

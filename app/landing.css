@@ -155,10 +155,16 @@
       text-transform: uppercase;
       color: var(--ink);
     }
-    .marquee-track .item:nth-child(4n) { color: var(--ink-3); }
-    .marquee-track .item:nth-child(4n+2) { color: var(--orange); }
     .marquee-track .star { color: var(--orange); align-self: center; font-size: 30px; }
     @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    /* Reduced motion: no scrolling. One copy of the items, wrapped and centred. */
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track { animation: none; flex-wrap: wrap; justify-content: center; gap: 8px 24px; white-space: normal; padding: 0 28px; }
+      .marquee-track .copy { display: none; }
+      .marquee-track .star:not(.copy):has(+ .copy) { display: none; } /* trailing + of the one real copy */
+      .marquee-track .star { font-size: 24px; }
+      @media (max-width: 640px) { .marquee-track { font-size: 28px; gap: 4px 16px; } .marquee-track .star { font-size: 20px; } }
+    }
 
     /* ── Section poster wrapper ── */
     .poster-section {
@@ -771,6 +777,9 @@
       font-family: "IBM Plex Mono", monospace;
       font-size: 11px; color: var(--ink-3); letter-spacing: .04em;
     }
+    /* --ink-3 on the hover surface (--bg-2) is 4.24:1 in the light theme: step up to --ink-2. */
+    .proj-row:hover .name-block .url,
+    .proj-row:hover .tags span { color: var(--ink-2); }
     .proj-row .name-block .proj-ctas { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
     .proj-row .name-block .proj-cta {
       display: inline-flex;
