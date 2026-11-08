@@ -221,12 +221,8 @@ html:has(main.pj) {
       @supports (transform: scale(tan(atan2(1px, 1px)))) {
         /* --pj-title is clamp(36px, 10vw, 144px): scale it down to exactly 18px. */
         .pj-cover { --pj-k: clamp(.125, calc(180 / tan(atan2(100vw, 1px))), .5); }
-        /* Very narrow: names wrap to three lines, which only fit the 56px bar at a smaller size (.42).
-           The title stays at .52 (18.7px, still "large" text for contrast) through the colour flip at
-           75-76% and only then shrinks to .42. */
-        @media (max-width: 340px) {
-          .pj-cover { --pj-k: .42; --pj-ty: 34px; }
-        }
+        /* Very narrow: names wrap to three lines, which only fit the 56px bar at a smaller size. */
+        @media (max-width: 340px) { .pj-cover { --pj-k: .42; --pj-ty: 34px; } }
       }
       .pj-cover:not(:has(.pj-bar__logo)) { --pj-lead: 0px; }
       @keyframes pj-cover-shrink {
@@ -262,18 +258,14 @@ html:has(main.pj) {
       }
       /* The one title travels into the bar and stays opaque. Its colour flips from --ink to --bg at
          75-76% of the range, where the backdrop (scrim, image and cover colour) is about as light as
-         it is dark, so both colours keep at least ~3.4:1 against the worst case (black or white image pixel). */
+         it is dark: against the worst case (a black or white image pixel) both colours keep at least
+         3.4:1. Until 79%, where the backdrop is solid enough for small text (4.7:1), the title is held
+         at 1.24x its end scale (18px -> ~22px) so it is still "large" text (>= 18.66px bold, 3:1 is
+         enough); it only shrinks to its end size between 79% and 80%. */
       @keyframes pj-title-away {
         0% { color: var(--ink); transform: none; }
-        75% { color: var(--ink); }
-        76% { color: var(--bg); }
-        80%, 100% { color: var(--bg); transform: translate(var(--pj-lead), var(--pj-ty)) scale(var(--pj-k)); }
-      }
-      @media (max-width: 340px) { .pj-title { animation-name: pj-title-away-narrow; } }
-      @keyframes pj-title-away-narrow {
-        0% { color: var(--ink); transform: none; }
-        75% { color: var(--ink); transform: translate(var(--pj-lead), calc(var(--pj-ty) * .94)) scale(.52); }
-        76% { color: var(--bg); transform: translate(var(--pj-lead), calc(var(--pj-ty) * .94)) scale(.52); }
+        75% { color: var(--ink); transform: translate(var(--pj-lead), calc(var(--pj-ty) * .94)) scale(calc(var(--pj-k) * 1.24)); }
+        76%, 79% { color: var(--bg); transform: translate(var(--pj-lead), calc(var(--pj-ty) * .94)) scale(calc(var(--pj-k) * 1.24)); }
         80%, 100% { color: var(--bg); transform: translate(var(--pj-lead), var(--pj-ty)) scale(var(--pj-k)); }
       }
       .pj-bar {
