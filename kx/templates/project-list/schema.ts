@@ -11,6 +11,7 @@ export const projectListSchema = z.object({
       z.object({
         n: z.string(),
         name: z.string(),
+        slug: z.string().optional().describe("URL segment of the project detail page (/projects/<slug>)"),
         url: z.string(),
         year: z.string(),
         logo: z.string().optional(),
