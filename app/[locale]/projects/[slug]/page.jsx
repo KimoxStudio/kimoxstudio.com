@@ -144,7 +144,8 @@ export default async function Page({ params }) {
             {project.logo && <img className="pj-bar__logo" src={project.logo} alt="" width={30} height={30} />}
             <span className="pj-bar__name" aria-hidden="true">{project.name}</span>
             <a className="pj-pill pj-pill--sm" href={siteHref} target="_blank" rel="noopener noreferrer">
-              <ArrowText>{pick(STR.visit, locale)}</ArrowText>
+              {/* The label is visually hidden on narrow screens (arrow only); it stays in the accessible name. */}
+              <span className="pj-bar__label">{pick(STR.visit, locale)}</span> <span aria-hidden="true">→</span>
               <span className="pj-sr"> · {project.name} {newTab}</span>
             </a>
           </div>
