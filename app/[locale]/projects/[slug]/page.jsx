@@ -7,6 +7,7 @@ import { BREADCRUMB_LABELS, breadcrumbJsonLd } from '@/lib/jsonld';
 import { SITE_NAME, buildMetadata } from '@/lib/metadata';
 import Nav from '@/components/Nav';
 import ProjectCursor from '@/components/ProjectCursor';
+import ProjectSection from '@/components/ProjectSection';
 
 // `{ es, en, ja }` field for the route's locale; missing values fall back to es, then to any defined locale.
 const pick = (field, locale) => resolveLocalized(field, locale, DEFAULT_LOCALE) ?? '';
@@ -31,7 +32,6 @@ export async function generateMetadata({ params }) {
 const STR = {
   visit: { es: 'Visitar', en: 'Visit', ja: '訪問' },
   visitSite: { es: 'Visitar sitio', en: 'Visit site', ja: 'サイトを訪問' },
-  shot: { es: 'Captura', en: 'Screenshot', ja: 'スクリーンショット' },
   newTab: { es: 'se abre en una pestaña nueva', en: 'opens in a new tab', ja: '新しいタブで開きます' },
   back: { es: 'Volver a proyectos', en: 'Back to projects', ja: 'プロジェクト一覧へ' },
   next: { es: 'Siguiente proyecto', en: 'Next project', ja: '次のプロジェクト' },
@@ -87,12 +87,12 @@ export default async function Page({ params }) {
       <ProjectCursor />
       <Nav lang={locale} mode="post" />
       <main className="pj">
-        <header className="pj-cover">
+        <header className="pj-hero">
           <picture>
-            {/* Portrait export on narrow screens: the tall cover would crop a landscape shot to its middle. */}
+            {/* Portrait export on narrow screens: a landscape shot would crop to its middle strip. */}
             <source media="(max-width: 700px)" srcSet={responsive.mobile[0]} />
             <img
-              className="pj-cover__img"
+              className="pj-hero__img"
               src={responsive.desktop[0]}
               alt=""
               width={SIZE.desktop.width}
@@ -101,33 +101,24 @@ export default async function Page({ params }) {
               decoding="async"
             />
           </picture>
-          <div className="pj-cover__txt wrap">
-            <p className="pj-eyebrow" aria-hidden="true">{pick(project.category, locale)}</p>
+          <div className="pj-hero__txt wrap">
             <h1 className="pj-title">{project.name}</h1>
-          </div>
-          <div className="pj-bar">
-            {project.logo && <img className="pj-bar__logo" src={project.logo} alt="" width={30} height={30} />}
-            <a className="pj-pill pj-pill--sm" href={siteHref} target="_blank" rel="noopener noreferrer">
-              {/* The label is visually hidden on narrow screens (arrow only); it stays in the accessible name. */}
-              <span className="pj-bar__label">{pick(STR.visit, locale)}</span> <span aria-hidden="true">→</span>
-              <span className="pj-sr"> · {project.name} {newTab}</span>
-            </a>
           </div>
         </header>
 
         <section className="pj-intro wrap">
-          <div className="pj-intro__meta pj-rise" style={{ '--i': 0 }}>
+          <div className="pj-intro__meta">
             <p className="pj-eyebrow">{pick(project.category, locale)}</p>
             <p className="pj-year">{project.year}</p>
           </div>
           <div className="pj-intro__main">
-            <p className="pj-lead pj-rise" style={{ '--i': 1 }}>{pick(project.body, locale)}</p>
-            <ul className="pj-tags pj-rise" style={{ '--i': 2 }}>
+            <p className="pj-lead">{pick(project.body, locale)}</p>
+            <ul className="pj-tags">
               {project.tags.map((tag) => (
                 <li key={tag}>{tag}</li>
               ))}
             </ul>
-            <p className="pj-rise" style={{ '--i': 3 }}>
+            <p>
               <a className="pj-pill" href={siteHref} target="_blank" rel="noopener noreferrer">
                 <ArrowText>{pick(STR.visit, locale)}</ArrowText>
                 <span className="pj-sr"> · {project.name} {newTab}</span>
@@ -137,47 +128,25 @@ export default async function Page({ params }) {
           </div>
         </section>
 
-        <div className="pj-story wrap">
-          {/* Sticky stage: decorative duplicate of the section images, shown only where
-              the scroll-driven layout runs (see project.css). Each section carries the
-              description, as an inline image or as .pj-sec__desc, never both. */}
-          <div className="pj-stage" aria-hidden="true">
-            <div className="pj-stage__frame">
-              {images.map((img, i) => (
-                <img
-                  key={i}
-                  className="pj-stage__img"
-                  src={img.src}
-                  alt=""
-                  width={SIZE[img.device].width}
-                  height={SIZE[img.device].height}
-                  loading="lazy"
-                  decoding="async"
-                />
-              ))}
-            </div>
-          </div>
-          <div className="pj-sections">
-            {sections.map((sec, i) => (
-              <section className="pj-sec" key={i} aria-labelledby={`pj-sec-${i}`}>
-                <img
-                  className={`pj-sec__fig${images[i].device === 'desktop' ? '' : ` pj-sec__fig--${images[i].device}`}`}
-                  src={images[i].src}
-                  alt={pick(sec.alt, locale)}
-                  width={SIZE[images[i].device].width}
-                  height={SIZE[images[i].device].height}
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className="pj-sec__txt">
-                  <p className="pj-num" aria-hidden="true">{pad2(i + 1)} / {pad2(sections.length)}</p>
-                  <h2 className="pj-h2" id={`pj-sec-${i}`}>{pick(sec.title, locale)}</h2>
-                  <p className="pj-body">{pick(sec.body, locale)}</p>
-                  <p className="pj-sec__desc pj-sr">{pick(STR.shot, locale)}{locale === 'ja' ? '：' : ': '}{pick(sec.alt, locale)}</p>
-                </div>
-              </section>
-            ))}
-          </div>
+        <div className="wrap">
+          {sections.map((sec, i) => (
+            <ProjectSection className="pj-sec" key={i} aria-labelledby={`pj-sec-${i}`}>
+              <div>
+                <p className="pj-num" aria-hidden="true">{pad2(i + 1)} / {pad2(sections.length)}</p>
+                <h2 className="pj-h2" id={`pj-sec-${i}`}>{pick(sec.title, locale)}</h2>
+                <p className="pj-body">{pick(sec.body, locale)}</p>
+              </div>
+              <img
+                className={`pj-sec__fig${images[i].device === 'desktop' ? '' : ` pj-sec__fig--${images[i].device}`}`}
+                src={images[i].src}
+                alt={pick(sec.alt, locale)}
+                width={SIZE[images[i].device].width}
+                height={SIZE[images[i].device].height}
+                loading="lazy"
+                decoding="async"
+              />
+            </ProjectSection>
+          ))}
         </div>
 
         <footer className="pj-end wrap">

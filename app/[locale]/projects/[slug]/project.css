@@ -1,19 +1,9 @@
 /* Project detail page.
-   Default (this part of the file) is a static, fully visible layout. Everything
-   scroll-driven lives in the @supports + prefers-reduced-motion block at the
-   bottom, so browsers without scroll-driven animations and users who ask for
-   less motion get this layout untouched. */
+   The default is a static, fully visible layout. The only motion is the
+   entrance of each story image (bottom of the file), played once when
+   ProjectSection marks the row `data-in`. */
 
-/* Bar height shared with the document (scroll-padding) and with .pj. The nav
-   height is --nav-h (globals.css). Every use of --pj-bar carries a fallback,
-   so the layout still works where :has() is missing. */
-html:has(main.pj) {
-  --pj-bar: 56px;   /* compact header the cover collapses into */
-}
 .pj {
-  --pj-h: max(420px, calc(100svh - var(--nav-h, 69px))); /* cover height: the whole first screen below the nav */
-  --pj-pad: 56px; /* same inline padding as .wrap */
-  --pj-title: clamp(36px, 10vw, 144px);
   position: relative;
   background: var(--bg);
   color: var(--ink-2);
@@ -49,38 +39,34 @@ html:has(main.pj) {
   transition: background .2s, border-color .2s;
 }
 .pj-pill:hover { background: var(--ink); border-color: var(--ink); }
-.pj-pill--sm { padding: 0 16px; }
 
-/* ── Cover ───────────────────────────────────────────────────────── */
-.pj-cover {
+/* ── Hero ────────────────────────────────────────────────────────── */
+.pj-hero {
   position: relative;
-  height: var(--pj-h);
+  height: clamp(360px, 60svh, 720px);
   overflow: hidden;
   background: var(--bg-2);
   border-bottom: 1px solid var(--rule);
 }
-.pj-cover__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
-.pj-cover::after { /* scrim: keeps the title readable over any screenshot */
+.pj-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.pj-hero::after { /* scrim: keeps the title readable over any screenshot */
   content: ""; position: absolute; inset: 0;
   background: linear-gradient(to top, var(--bg) 0%, color-mix(in srgb, var(--bg) 88%, transparent) 45%, transparent 100%);
 }
-.pj-cover .pj-eyebrow { color: var(--ink); }
-.pj-cover__txt {
+.pj-hero__txt {
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
   padding-bottom: 48px;
 }
 .pj-title {
-  margin: 12px 0 0;
+  margin: 0;
   font-family: "Familjen Grotesk", sans-serif;
   font-weight: 700; text-transform: uppercase;
-  font-size: var(--pj-title);
+  font-size: clamp(36px, 7vw, 96px);
   line-height: .9; letter-spacing: -0.045em;
   color: var(--ink);
   overflow-wrap: anywhere;
   text-wrap: balance;
 }
-.pj-bar { display: none; }
-@media (max-width: 1100px) { .pj { --pj-pad: 28px; } }
 
 /* ── Intro ───────────────────────────────────────────────────────── */
 .pj-intro {
@@ -108,26 +94,34 @@ html:has(main.pj) {
 }
 
 /* ── Story ───────────────────────────────────────────────────────── */
-.pj-stage { display: none; }
-.pj-sec { display: grid; gap: 24px; padding: 48px 0; border-top: 1px solid var(--rule); }
+.pj-sec {
+  display: grid; gap: 24px; padding: 48px 0;
+  border-top: 1px solid var(--rule);
+}
 .pj-sec__fig {
   display: block; width: 100%; height: auto; justify-self: center;
+  order: -1; /* text comes first in the DOM (heading navigation); stacked, the image sits above it */
   border: 1px solid var(--rule-2); background: var(--bg-2);
 }
 .pj-sec__fig--tablet { max-width: 480px; }
 .pj-sec__fig--mobile { max-width: 280px; }
 .pj-num { margin-bottom: 12px; }
-.pj-sec__desc { display: none; } /* screen-reader copy of the image description (.pj-sr), shown only with the stage layout below */
 .pj-h2 {
   margin: 0 0 16px;
   font-family: "Familjen Grotesk", sans-serif;
   font-weight: 700; text-transform: uppercase;
   font-size: clamp(32px, 6vw, 56px); line-height: 1; letter-spacing: -0.035em;
-  color: var(--ink);
+  color: var(--ink); overflow-wrap: anywhere;
 }
 .pj-body { margin: 0; font-size: 18px; line-height: 1.6; max-width: 36em; color: var(--ink-2); }
 @media (min-width: 900px) {
   .pj-sec { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 64px; padding: 64px 0; }
+  /* Rows alternate: image left (order -1), right (natural order), left. Narrow portrait
+     shots hug the text side so the gap stays near the 64px column gap. */
+  .pj-sec__fig { justify-self: end; }
+  .pj-sec:nth-child(even) .pj-sec__fig { order: 0; justify-self: start; }
+  .pj-sec__fig--tablet { max-width: 520px; }
+  .pj-sec__fig--mobile { max-width: 340px; }
 }
 
 /* ── End ─────────────────────────────────────────────────────────── */
@@ -162,196 +156,18 @@ html:has(main.pj) {
   .pj-links { grid-template-columns: 1fr 2fr; }
 }
 
-/* ── Scroll-driven layer ─────────────────────────────────────────────
-   Pure CSS, no JS. Gated on support AND on no reduced-motion preference;
-   the cover / stage parts also need a viewport at least 560px tall (on a
-   short one the fixed cover and bar would leave no room for content).
-   Outside the cover only opacity and transform are animated; the cover
-   animates height, background-color, object-position and the title's color
-   like the demo it follows (a fixed element never changes the document
-   height). */
-@supports (animation-timeline: scroll()) {
-  @media (prefers-reduced-motion: no-preference) {
-
-    /* Text blocks rise in as they enter the viewport, staggered by --i. */
-    .pj-rise {
-      animation: pj-rise linear both;
-      animation-timeline: view();
-      animation-range: entry calc(var(--i, 0) * 8%) entry calc(45% + var(--i, 0) * 8%);
-    }
-    @keyframes pj-rise {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: none; }
-    }
-
-    /* Mobile / tablet: the section image sits inline and reveals on entry. */
-    .pj-sec__fig {
-      animation: pj-fig-in linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 70%;
-    }
-    @keyframes pj-fig-in {
-      from { opacity: 0; transform: translateY(32px); }
-      to { opacity: 1; transform: none; }
-    }
-
-    @media (min-height: 560px) {
-      html:has(main.pj) { scroll-padding-top: calc(var(--nav-h) + var(--pj-bar, 56px) + 16px); }
-
-      /* Cover -> fixed header, after scroll-driven-animations.style/demos/cover-to-fixed-header:
-         the cover is `fixed` under the nav and its height shrinks from the full
-         first screen to the bar strip over the same scroll distance (so its
-         edge stays glued to the content coming up, which starts one cover
-         height down: `padding-top` on .pj, as the demo does on body). The
-         image pans to its bottom edge while the solid bar colour comes in
-         under it (background-color, as in the demo) and the image fades out.
-         The title (the h1) only moves and scales into the bar (transform, so its
-         line breaks never change) and stays opaque; its colour flips at 75-76%. */
-      .pj { padding-top: var(--pj-h); }
-      .pj-cover {
-        --pj-range: calc(var(--pj-h) - var(--pj-bar, 56px)); /* scroll distance of the collapse */
-        --pj-lead: 42px; /* logo (30px) + gap (12px): where the title ends up */
-        position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 10;
-        --pj-k: .3; /* end scale of the title (set below to land at exactly 18px) */
-        --pj-ty: 32px; /* how far the title's bottom edge moves down: a compromise between centring one line (28px) and two (36px) */
-        animation: pj-cover-shrink linear both, pj-cover-color linear both;
-        animation-timeline: scroll(root), scroll(root);
-        animation-range: 0px var(--pj-range), calc(var(--pj-range) * .35) calc(var(--pj-range) * .8);
-      }
-      @supports (transform: scale(tan(atan2(1px, 1px)))) {
-        /* --pj-title is clamp(36px, 10vw, 144px): scale it down to exactly 18px. */
-        .pj-cover { --pj-k: clamp(.125, calc(180 / tan(atan2(100vw, 1px))), .5); }
-        /* Very narrow: names wrap to three lines, which only fit the 56px bar at a smaller size. */
-        @media (max-width: 340px) { .pj-cover { --pj-k: .42; --pj-ty: 34px; } }
-      }
-      .pj-cover:not(:has(.pj-bar__logo)) { --pj-lead: 0px; }
-      @keyframes pj-cover-shrink {
-        from { height: var(--pj-h); }
-        to { height: var(--pj-bar, 56px); }
-      }
-      @keyframes pj-cover-color {
-        from { background-color: var(--bg); }
-        to { background-color: var(--orange); }
-      }
-      .pj-cover__img {
-        animation: pj-img-pan linear both, pj-fade-out linear both;
-        animation-timeline: scroll(root), scroll(root);
-        animation-range: 0px var(--pj-range), calc(var(--pj-range) * .35) calc(var(--pj-range) * .8);
-      }
-      @keyframes pj-img-pan { from { object-position: 50% 0; } to { object-position: 50% 100%; } }
-      @keyframes pj-fade-out { to { opacity: 0; } }
-      .pj-cover::after { /* scrim goes with the image */
-        animation: pj-fade-out linear both;
-        animation-timeline: scroll(root);
-        animation-range: calc(var(--pj-range) * .35) calc(var(--pj-range) * .8);
-      }
-      .pj-cover .pj-eyebrow {
-        animation: pj-fade-out linear both;
-        animation-timeline: scroll(root);
-        animation-range: 0px calc(var(--pj-range) * .35);
-      }
-      .pj-title {
-        transform-origin: left bottom;
-        animation: pj-title-away linear both;
-        animation-timeline: scroll(root);
-        animation-range: 0px var(--pj-range);
-      }
-      /* The one title travels into the bar and stays opaque. Its colour flips from --ink to --bg at
-         75-76% of the range, where the backdrop (scrim, image and cover colour) is about as light as
-         it is dark: against the worst case (a black or white image pixel) both colours keep at least
-         3.4:1. Until 79%, where the backdrop is solid enough for small text (4.7:1), the title is held
-         at 1.24x its end scale (18px -> ~22px) so it is still "large" text (>= 18.66px bold, 3:1 is
-         enough); it only shrinks to its end size between 79% and 80%. */
-      @keyframes pj-title-away {
-        0% { color: var(--ink); transform: none; }
-        75% { color: var(--ink); transform: translate(var(--pj-lead), calc(var(--pj-ty) * .94)) scale(calc(var(--pj-k) * 1.24)); }
-        76%, 79% { color: var(--bg); transform: translate(var(--pj-lead), calc(var(--pj-ty) * .94)) scale(calc(var(--pj-k) * 1.24)); }
-        80%, 100% { color: var(--bg); transform: translate(var(--pj-lead), var(--pj-ty)) scale(var(--pj-k)); }
-      }
-      .pj-bar {
-        display: flex; align-items: center; gap: 12px;
-        position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
-        height: var(--pj-bar, 56px);
-        padding-inline: max(var(--pj-pad), calc((100% - 1480px) / 2 + var(--pj-pad)));
-        opacity: 0;
-        animation: pj-bar-in linear both;
-        animation-timeline: scroll(root);
-        animation-range: calc(var(--pj-range) * .66) calc(var(--pj-range) * .8); /* logo and pill appear as the title settles (80%) */
-      }
-      @keyframes pj-bar-in { to { opacity: 1; } }
-      /* The link is focusable only once the bar is at least 85% opaque, so Tab never lands on a faint
-         control or focus ring. Only the link is hidden: the title and logo stay visible for the cross-fade. */
-      .pj-bar .pj-pill {
-        visibility: hidden;
-        animation: pj-pill-in linear both;
-        animation-timeline: scroll(root);
-        animation-range: calc(var(--pj-range) * .66) calc(var(--pj-range) * .8);
-      }
-      @keyframes pj-pill-in {
-        0%, 85% { visibility: hidden; }
-        86%, 100% { visibility: visible; }
-      }
-      .pj-bar__logo { flex: none; object-fit: contain; border-radius: 8px; }
-      /* On the solid bar the pill is inverted (accent on accent would vanish). */
-      .pj-bar .pj-pill { margin-left: auto; background: var(--bg); color: var(--ink); border-color: var(--bg); }
-      .pj-bar .pj-pill:hover { background: var(--bg-2); border-color: var(--bg-2); }
-      .pj-bar a:focus-visible { outline-color: var(--bg); }
-      /* Narrow screens: arrow-only pill, still a 44px target with the full accessible name. */
-      @media (max-width: 480px) {
-        .pj-bar .pj-pill { width: 44px; padding: 0; justify-content: center; }
-        .pj-bar__label {
-          position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
-          overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
-        }
-      }
-
-      /* Desktop: sticky stage on the left; each text section declares a named
-         view timeline and drives its own stage image. */
-      @supports (timeline-scope: --a) {
-        @media (min-width: 900px) {
-          .pj-story {
-            display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 64px;
-            timeline-scope: --s1, --s2, --s3;
-          }
-          .pj-stage { display: block; grid-column: 1; grid-row: 1; }
-          .pj-sections { grid-column: 2; grid-row: 1; }
-          .pj-stage__frame {
-            position: sticky; top: calc(var(--nav-h) + var(--pj-bar, 56px) + 24px);
-            height: calc(100svh - var(--nav-h) - var(--pj-bar, 56px) - 48px);
-            margin: 24px 0;
-            background: var(--bg-2); border: 1px solid var(--rule-2);
-          }
-          .pj-stage__img {
-            position: absolute; inset: 0; margin: auto;
-            max-width: calc(100% - 48px); max-height: calc(100% - 48px);
-            width: auto; height: auto;
-            border: 1px solid var(--rule-2);
-            opacity: 0;
-            animation-timing-function: linear;
-            animation-fill-mode: both;
-          }
-          .pj-sec { grid-template-columns: minmax(0, 1fr); align-content: center; min-height: 90svh; padding: 96px 0; border-top: 0; }
-          .pj-sec__fig { display: none; }
-          /* The stage is aria-hidden: the description moves to a screen-reader-only line. */
-          .pj-sec__desc { display: block; }
-
-          .pj-sec:nth-child(1) { view-timeline: --s1 block; }
-          .pj-sec:nth-child(2) { view-timeline: --s2 block; }
-          .pj-sec:nth-child(3) { view-timeline: --s3 block; }
-          .pj-stage__img:nth-child(1) { animation-name: pj-fade-first, pj-t1; animation-timeline: --s1, --s1; }
-          .pj-stage__img:nth-child(2) { animation-name: pj-fade, pj-t2; animation-timeline: --s2, --s2; }
-          .pj-stage__img:nth-child(3) { animation-name: pj-fade-last, pj-t3; animation-timeline: --s3, --s3; }
-
-          /* Opacity: cross-fade with the neighbouring sections. */
-          @keyframes pj-fade { 0%, 10% { opacity: 0; } 45%, 55% { opacity: 1; } 90%, 100% { opacity: 0; } }
-          @keyframes pj-fade-first { 0%, 55% { opacity: 1; } 90%, 100% { opacity: 0; } }
-          @keyframes pj-fade-last { 0%, 10% { opacity: 0; } 45%, 100% { opacity: 1; } }
-          /* Per-image treatment, played while the image comes in. */
-          @keyframes pj-t1 { 0% { transform: translateX(-32px); } 40%, 100% { transform: none; } }
-          @keyframes pj-t2 { 0% { transform: translateY(32px) scale(.96); } 40%, 100% { transform: none; } }
-          @keyframes pj-t3 { 0% { transform: scale(1.06); } 40%, 100% { transform: none; } }
-        }
-      }
-    }
+/* ── Entrance ────────────────────────────────────────────────────────
+   Each story image slides in from its own side and fades in once, when its row
+   first enters the viewport. ProjectSection arms (`data-armed`) only rows that
+   start below the fold, so nothing is ever hidden unless the script that will
+   reveal it is running: no JS or a failed hydration leaves every image visible.
+   Reduced motion never hides anything. */
+@media (prefers-reduced-motion: no-preference) {
+  .pj-sec[data-armed]:not([data-in]) .pj-sec__fig { opacity: 0; transform: translateX(-16px); }
+  .pj-sec[data-armed]:nth-child(even):not([data-in]) .pj-sec__fig { transform: translateX(16px); }
+  .pj-sec[data-in] .pj-sec__fig { transition: opacity .5s cubic-bezier(.2,.7,.3,1), transform .5s cubic-bezier(.2,.7,.3,1); }
+  @media (min-width: 900px) {
+    .pj-sec[data-armed]:not([data-in]) .pj-sec__fig { transform: translateX(-40px); }
+    .pj-sec[data-armed]:nth-child(even):not([data-in]) .pj-sec__fig { transform: translateX(40px); }
   }
 }
