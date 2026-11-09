@@ -89,7 +89,7 @@ export default async function Page({ params }) {
       <main className="pj">
         <header className="pj-hero">
           <picture>
-            {/* Portrait export on narrow screens: a landscape shot would crop to its middle strip. */}
+            {/* Portrait export on narrow screens (same breakpoint as `.pj-hero` in project.css). */}
             <source media="(max-width: 700px)" srcSet={responsive.mobile[0]} />
             <img
               className="pj-hero__img"
@@ -101,7 +101,7 @@ export default async function Page({ params }) {
               decoding="async"
             />
           </picture>
-          {/* The screenshot already shows the project name; the h1 names the page for assistive tech and SEO. */}
+          {/* The screenshot carries the project name visually; the h1 is visually hidden and names the page for assistive tech and SEO. */}
           <h1 className="pj-sr">{project.name}</h1>
         </header>
 
