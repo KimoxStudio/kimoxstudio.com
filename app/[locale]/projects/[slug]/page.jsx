@@ -89,8 +89,8 @@ export default async function Page({ params }) {
       <main className="pj">
         <header className="pj-hero">
           <picture>
-            {/* Portrait export on narrow screens (same breakpoint as `.pj-hero` in project.css). */}
-            <source media="(max-width: 700px)" srcSet={responsive.mobile[0]} />
+            {/* Portrait export on narrow portrait screens (same media query as `.pj-hero` in project.css); a short landscape viewport keeps the landscape shot. */}
+            <source media="(max-width: 700px) and (orientation: portrait)" srcSet={responsive.mobile[0]} />
             <img
               className="pj-hero__img"
               src={responsive.desktop[0]}
