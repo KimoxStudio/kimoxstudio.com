@@ -87,21 +87,17 @@ export default async function Page({ params }) {
       <ProjectCursor />
       <Nav lang={locale} mode="post" activeWork />
       <main className="pj">
-        <header className="pj-hero">
-          <picture>
-            {/* Portrait export on narrow portrait screens (same media query as `.pj-hero` in project.css); a short landscape viewport keeps the landscape shot. */}
-            <source media="(max-width: 700px) and (orientation: portrait)" srcSet={responsive.mobile[0]} />
-            <img
-              className="pj-hero__img"
-              src={responsive.desktop[0]}
-              alt=""
-              width={SIZE.desktop.width}
-              height={SIZE.desktop.height}
-              fetchPriority="high"
-              decoding="async"
-            />
-          </picture>
-          {/* The screenshot carries the project name visually; the h1 is visually hidden and names the page for assistive tech and SEO. */}
+        <header className="pj-hero" style={{ '--pj-hero-position': project.hero.position }}>
+          <img
+            className="pj-hero__img"
+            src={project.hero.src}
+            alt=""
+            width={project.hero.width}
+            height={project.hero.height}
+            fetchPriority="high"
+            decoding="async"
+          />
+          {/* The image carries the project visually; the h1 is visually hidden and names the page for assistive tech and SEO. */}
           <h1 className="pj-sr">{project.name}</h1>
         </header>
 

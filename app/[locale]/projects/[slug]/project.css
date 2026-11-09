@@ -41,24 +41,18 @@
 .pj-pill:hover { background: var(--ink); border-color: var(--ink); }
 
 /* ── Hero ────────────────────────────────────────────────────────── */
-/* The image fills the full width and its box takes the screenshot's own aspect
-   ratio, so it is never cropped and never letterboxed (no side bands) and the
-   space is reserved before it loads (no layout shift). On most screens that makes
-   the hero taller than the visible area: the visitor scrolls to see the rest.
-   The aspect-ratio values (1600/1000, 600/1298) must match `SIZE` in page.jsx,
-   and the portrait media query must match the <source>. */
+/* One box for every project: full width, aspect ratio 2000 / 610 (the Bonita Vida
+   banner), so all heroes have the same height and the space is reserved before the
+   image loads (no layout shift). The image covers the box (cropped, never stretched);
+   each project picks the visible band with `hero.position` in lib/projects.js. */
 .pj-hero {
+  box-sizing: content-box; /* the ratio applies to the image area; the 1px border below sits outside it, so there are no side bands */
   width: 100%;
-  aspect-ratio: 1600 / 1000;
+  aspect-ratio: 2000 / 610;
   background: var(--bg-2);
   border-bottom: 1px solid var(--rule);
 }
-.pj-hero picture { display: block; width: 100%; height: 100%; }
-.pj-hero__img { display: block; width: 100%; height: 100%; object-fit: contain; }
-/* Portrait export (matches the <source> in page.jsx). */
-@media (max-width: 700px) and (orientation: portrait) {
-  .pj-hero { aspect-ratio: 600 / 1298; }
-}
+.pj-hero__img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--pj-hero-position, 50% 50%); }
 
 /* ── Intro ───────────────────────────────────────────────────────── */
 .pj-intro {
