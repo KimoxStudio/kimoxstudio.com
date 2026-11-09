@@ -14,7 +14,7 @@ const nextConfig = {
   // Locale routing: pages live under app/[locale] (es/en/ja) so each
   // language is pre-rendered server-side, but Spanish — the default locale —
   // keeps the site's historical unprefixed URLs:
-  //   - rewrites serve the /es pages at /, /blog and /blog/<slug>
+  //   - rewrites serve the /es pages at /, /blog, /blog/<slug> and /projects/<slug>
   //   - redirects send any direct /es/* hit back to the unprefixed URL, so
   //     each Spanish page has exactly one public URL (no duplicate content).
   async redirects() {
@@ -28,6 +28,7 @@ const nextConfig = {
       { source: '/', destination: '/es' },
       { source: '/blog', destination: '/es/blog' },
       { source: '/blog/:path*', destination: '/es/blog/:path*' },
+      { source: '/projects/:path*', destination: '/es/projects/:path*' },
     ];
   },
 };

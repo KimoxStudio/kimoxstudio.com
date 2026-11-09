@@ -1,4 +1,5 @@
 import { getAllPosts } from '../lib/posts';
+import { getAllProjects } from '../lib/projects';
 import { LOCALES, languageAlternates, localeUrl } from '../lib/urls';
 
 // One entry per language variant of every page (es unprefixed, /en, /ja),
@@ -25,6 +26,12 @@ export default function sitemap() {
     ...posts.flatMap((post) =>
       perLocale(`/blog/${post.slug}`, {
         lastModified: post.date ? new Date(post.date) : undefined,
+        changeFrequency: 'yearly',
+        priority: 0.6,
+      })
+    ),
+    ...getAllProjects().flatMap((project) =>
+      perLocale(`/projects/${project.slug}`, {
         changeFrequency: 'yearly',
         priority: 0.6,
       })

@@ -1,0 +1,159 @@
+/* Project detail page.
+   The default is a static, fully visible layout. The only motion is the
+   entrance of each story image (bottom of the file), played once when
+   ProjectSection marks the row `data-in`. */
+
+.pj {
+  position: relative;
+  background: var(--bg);
+  color: var(--ink-2);
+}
+.pj a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+.pj-sr {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Shared type roles */
+.pj-eyebrow {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--orange);
+}
+.pj-year, .pj-url, .pj-num {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px; letter-spacing: .08em; color: var(--ink-3);
+}
+
+/* CTA pill (pills are reserved for CTAs, as on the home cards) */
+.pj-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 44px; padding: 0 24px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--bg); background: var(--orange);
+  border: 1px solid var(--orange); border-radius: 999px;
+  transition: background .2s, border-color .2s;
+}
+.pj-pill:hover { background: var(--ink); border-color: var(--ink); }
+
+/* ── Hero ────────────────────────────────────────────────────────── */
+/* One box for every project: full width, aspect ratio 2000 / 610 (the Bonita Vida
+   banner), so all heroes have the same height and the space is reserved before the
+   image loads (no layout shift). The image covers the box (cropped, never stretched);
+   each project picks the visible band with `hero.position` in lib/projects.js. */
+.pj-hero {
+  box-sizing: content-box; /* the ratio applies to the image area; the 1px border below sits outside it, so there are no side bands */
+  width: 100%;
+  aspect-ratio: 2000 / 610;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--rule);
+}
+.pj-hero__img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--pj-hero-position, 50% 50%); }
+
+/* ── Intro ───────────────────────────────────────────────────────── */
+.pj-intro {
+  display: grid; gap: 32px;
+  padding-top: 64px; padding-bottom: 64px;
+}
+.pj-intro__meta { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; }
+.pj-intro__main { display: grid; gap: 24px; justify-items: start; }
+.pj-intro__main > p { margin: 0; }
+.pj-lead {
+  font-size: 20px; font-weight: 500; line-height: 1.4; letter-spacing: -0.01em;
+  color: var(--ink); max-width: 36em;
+}
+.pj-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.pj-tags li {
+  padding: 4px 8px;
+  font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .04em;
+  color: var(--ink-2); border: 1px solid var(--rule-2);
+}
+.pj-url { margin-left: 16px; }
+@media (min-width: 900px) {
+  .pj-intro { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 64px; padding-top: 96px; padding-bottom: 96px; }
+  .pj-intro__meta { display: grid; align-content: start; gap: 8px; }
+  .pj-lead { font-size: 24px; }
+}
+
+/* ── Story ───────────────────────────────────────────────────────── */
+.pj-sec {
+  display: grid; gap: 24px; padding: 48px 0;
+  border-top: 1px solid var(--rule);
+}
+.pj-sec__fig {
+  display: block; width: 100%; height: auto; justify-self: center;
+  order: -1; /* text comes first in the DOM (heading navigation); stacked, the image sits above it */
+  border: 1px solid var(--rule-2); background: var(--bg-2);
+}
+.pj-sec__fig--tablet { max-width: 480px; }
+.pj-sec__fig--mobile { max-width: 280px; }
+.pj-num { margin-bottom: 12px; }
+.pj-h2 {
+  margin: 0 0 16px;
+  font-family: "Familjen Grotesk", sans-serif;
+  font-weight: 700; text-transform: uppercase;
+  font-size: clamp(32px, 6vw, 56px); line-height: 1; letter-spacing: -0.035em;
+  color: var(--ink); overflow-wrap: anywhere;
+}
+.pj-body { margin: 0; font-size: 18px; line-height: 1.6; max-width: 36em; color: var(--ink-2); }
+@media (min-width: 900px) {
+  .pj-sec { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 64px; padding: 64px 0; }
+  /* Rows alternate: image left (order -1), right (natural order), left. Narrow portrait
+     shots hug the text side so the gap stays near the 64px column gap. */
+  .pj-sec__fig { justify-self: end; }
+  .pj-sec:nth-child(even) .pj-sec__fig { order: 0; justify-self: start; }
+  .pj-sec__fig--tablet { max-width: 520px; }
+  .pj-sec__fig--mobile { max-width: 340px; }
+}
+
+/* ── End ─────────────────────────────────────────────────────────── */
+.pj-end { padding-top: 64px; padding-bottom: 96px; border-top: 1px solid var(--rule); }
+.pj-big {
+  display: inline-block;
+  padding: 8px 0; /* 44px+ target */
+  font-family: "Familjen Grotesk", sans-serif;
+  font-weight: 700; text-transform: uppercase;
+  font-size: clamp(28px, 3.5vw, 40px); line-height: 1; letter-spacing: -0.03em;
+  color: var(--ink); overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--orange);
+  transition: color .2s;
+}
+.pj-big:hover { color: var(--orange); }
+.pj-end .pj-url { margin: 12px 0 0; }
+.pj-links { display: grid; gap: 16px; margin-top: 64px; }
+.pj-link {
+  display: grid; gap: 12px; align-content: center;
+  min-height: 96px; padding: 24px;
+  border: 1px solid var(--rule-2);
+  transition: border-color .2s, background .2s;
+}
+.pj-link:hover { border-color: var(--orange); background: var(--bg-2); }
+.pj-link__name {
+  font-family: "Familjen Grotesk", sans-serif;
+  font-weight: 700; text-transform: uppercase;
+  font-size: clamp(20px, 3vw, 32px); line-height: 1; letter-spacing: -0.03em;
+  color: var(--ink);
+}
+@media (min-width: 900px) {
+  .pj-links { grid-template-columns: 1fr 2fr; }
+}
+
+/* ── Entrance ────────────────────────────────────────────────────────
+   Each story image slides in from its own side and fades in once, when its row
+   first enters the viewport. ProjectSection arms (`data-armed`) only rows that
+   start below the fold, so nothing is ever hidden unless the script that will
+   reveal it is running: no JS or a failed hydration leaves every image visible.
+   Reduced motion never hides anything. */
+@media (prefers-reduced-motion: no-preference) {
+  .pj-sec[data-armed]:not([data-in]) .pj-sec__fig { opacity: 0; transform: translateX(-16px); }
+  .pj-sec[data-armed]:nth-child(even):not([data-in]) .pj-sec__fig { transform: translateX(16px); }
+  .pj-sec[data-in] .pj-sec__fig { transition: opacity .5s cubic-bezier(.2,.7,.3,1), transform .5s cubic-bezier(.2,.7,.3,1); }
+  @media (min-width: 900px) {
+    .pj-sec[data-armed]:not([data-in]) .pj-sec__fig { transform: translateX(-40px); }
+    .pj-sec[data-armed]:nth-child(even):not([data-in]) .pj-sec__fig { transform: translateX(40px); }
+  }
+}
