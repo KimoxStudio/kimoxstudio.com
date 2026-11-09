@@ -17,12 +17,14 @@ const SECTIONS = ['services', 'ai', 'work', 'about', 'contact'];
  * Shared site nav.
  * `mode` — 'landing' uses in-page anchors (#section); anything else builds links to /#section.
  * `activeBlog` — adds `active` class on the Blog link.
+ * `activeWork` — adds `active` class on the Work link (the project detail page, which has no in-page section to observe).
  * `hideLangSwitch` — hides the ES/EN/JA switcher, for routes with no per-language content (e.g. legal pages).
  */
 export default function Nav({
   lang,
   mode = 'landing',
   activeBlog = false,
+  activeWork = false,
   hideLangSwitch = false,
 }) {
   const pathname = usePathname();
@@ -192,7 +194,8 @@ export default function Nav({
   const blogHref = localePath(lang, '/blog');
   const sectionLink = (section) =>
     mode === 'landing' ? `#${section}` : `${homeHref}#${section}`;
-  const sectionClass = (section) => (activeSection === section ? 'active' : undefined);
+  const sectionClass = (section) =>
+    activeSection === section || (section === 'work' && activeWork) ? 'active' : undefined;
   const HomeOrAnchor = ({ href, children, ...rest }) =>
     mode === 'landing' ? (
       <a href={href} {...rest}>

@@ -19,7 +19,7 @@ export const projectListSchema = z.object({
         category: localized(LANGS),
         body: localized(LANGS),
         tags: z.array(z.string()).default([]),
-        screenshots: z.array(z.string()).default([]).describe("Screenshot paths; the home card uses the first one when responsive.desktop is empty"),
+        screenshots: z.array(z.string()).default([]).describe("Plain screenshot paths; the home card falls back to the first one when responsive.desktop is empty"),
         responsive: z
           .object({
             desktop: z.array(z.string()),
@@ -27,7 +27,7 @@ export const projectListSchema = z.object({
             mobile: z.array(z.string()),
           })
           .optional()
-          .describe("Per-device screenshots; used by the project detail page"),
+          .describe("Per-device screenshots; the home card shows desktop[0]"),
       }),
     )
     .default([]),

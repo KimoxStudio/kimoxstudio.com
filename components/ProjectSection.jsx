@@ -27,7 +27,11 @@ export default function ProjectSection({ children, ...rest }) {
     );
     node.setAttribute('data-armed', '');
     io.observe(node);
-    return () => io.disconnect();
+    return () => {
+      io.disconnect();
+      // Never leave a row hidden (armed) with no observer left to reveal it.
+      if (!node.hasAttribute('data-in')) node.removeAttribute('data-armed');
+    };
   }, []);
 
   return (

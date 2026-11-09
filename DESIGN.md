@@ -2,7 +2,7 @@
 
 Site design rules, taken from the code (`app/globals.css`, `app/landing.css`, `app/[locale]/blog/blog.css`, `components/`, `kx/templates/`) and from real screenshots (home, blog and post; light and dark theme; 1440 px and 390 px; ES/EN/JA). All values are the ones in the code. If you change the code, update this document.
 
-Scope: home (`app/[locale]/page.tsx` → `kx/templates/*`), blog (`components/BlogClient.jsx`) and post (`components/BlogPostClient.jsx`). The generic templates in `kx/templates/` that the home does not import (`hero`, `card`, `entry`, `stack`, `two-column`, `carousel`, `contact-form`, `entry-list`) use their own inline styles and do **not** follow this system.
+Scope: home (`app/[locale]/page.tsx` → `kx/templates/*`), blog (`components/BlogClient.jsx`), post (`components/BlogPostClient.jsx`) and the project detail page (`app/[locale]/projects/[slug]/`). The generic templates in `kx/templates/` that the home does not import (`hero`, `card`, `entry`, `stack`, `two-column`, `carousel`, `contact-form`, `entry-list`) use their own inline styles and do **not** follow this system.
 
 ---
 
@@ -165,7 +165,7 @@ There are no spacing tokens. The recurring values (px) are: 4, 6, 8, 10, 12, 14,
 
 Cell grids (projects, steps, stats, team) draw their dividers with 1 px `border-right` and `border-bottom` plus `border-left` and `border-top` on the container, with `gap: 0`.
 
-### Breakpoints (`max-width` only)
+### Breakpoints (`max-width`; the project page also uses `min-width`)
 
 | Value | What changes |
 |---|---|
@@ -173,14 +173,16 @@ Cell grids (projects, steps, stats, team) draw their dividers with 1 px `border-
 | 1024 px | Nav: links and CTA are hidden; the hamburger and mobile panel appear. The hero changes mask and column |
 | 640 px | Hero centered; process to 1 col; section paddings reduced |
 | 480 px | Compact nav: logo text hidden and language selector narrowed |
+| `min-width` 900 px | Project detail page only (`project.css`): intro, story rows and end links go to two columns |
+| `max-width` 700 px | Project detail page only: the hero `<source>` switches to the portrait (`responsive.mobile[0]`) export |
 
-Capability media queries: `(hover: none), (pointer: coarse)` disables the custom cursor.
+Capability media queries: `(hover: none), (pointer: coarse)` disables the custom cursor; `(pointer: coarse), (max-width: 640px)` sets the 44 px floor on the home project card pills (touch at any width, not only ≤640).
 
 ---
 
 ## 5. Components
 
-Default radius: **0**. Enumerated exceptions: `.proj-cta`, the photo reset button and the blog's "cargar más" with `999px`; `.proj-logo` with `8px`; the cursor with `50%`. No `box-shadow` anywhere.
+Default radius: **0**. Enumerated exceptions: `.proj-cta`, `.pj-pill`, the photo reset button and the blog's "cargar más" with `999px`; `.proj-logo` with `8px`; the cursor with `50%`. No `box-shadow` anywhere.
 
 ### Buttons
 
@@ -197,7 +199,7 @@ In the hero, the two CTAs share a row (`flex: 1 1 auto`, max 460 px, `padding 14
 
 ### Links
 
-- Navigation: `--ink-2`, which turns `--orange` on `hover` and in `.active` (scrollspy on the home).
+- Navigation: `--ink-2`, which turns `--orange` on `hover` and in `.active` (scrollspy on the home; the Blog link on the blog; the Work link on the project detail page via `<Nav activeWork />`, without `aria-current` because it points to `/#work`).
 - Link inside the post body: `--orange` with `border-bottom 1px --orange`; on `hover`, `opacity .7`.
 - Footer and privacy note: `--ink-3` → `--orange`. The privacy note is underlined (`text-underline-offset: 2px`).
 - Block link (large email, service row): on `hover` it shifts with `padding-left 14px` or `gap` and turns `--orange`.
@@ -236,7 +238,7 @@ Sticky at top (`position: sticky`, `z-index 50`), `--nav-bg` with `backdrop-filt
 
 ### Project card (`.proj-row`)
 
-Cell with `padding 32px` (≤1100: 28). Order: one screenshot (`.proj-shot`, 16:10 box, `object-fit: cover`, `1px --rule-2`, square; `responsive.desktop[0]`, else `screenshots[0]`; on `hover` the image scales to 1.04, only under `prefers-reduced-motion: no-preference`), 30 px logo with radius 8 and 32 px UPPERCASE name (`h3`, not a link), URL and year in mono 11 `--ink-3`, two pills (radius 999, mono 11 uppercase): primary "VER MÁS →" (`--orange` fill, `hover` to `--ink`) to `/projects/<slug>` in the current locale, and secondary "VISITAR →" (outline, `hover` fills `--orange`; opens the site in a new tab, with a visually hidden note), category in mono 10 `--orange`, 14 px description and tags at the bottom. The `→` is `aria-hidden`; the `translateX(4px)` on pill `hover` only runs under `no-preference`; pills are 44 px tall at ≤640 and have a `2px --orange` `focus-visible` ring. The image links to the same detail page but is `aria-hidden` with `tabindex -1`, so the card has one "Ver más" tab stop.
+Cell with `padding 32px` (≤1100: 28). Order: one screenshot (`.proj-shot`, 16:10 box, `object-fit: cover`, `1px --rule-2`, square; `responsive.desktop[0]`, else `screenshots[0]`; on `hover` the image scales to 1.04, only under `prefers-reduced-motion: no-preference`), 30 px logo with radius 8 and 32 px UPPERCASE name (`h3`, not a link), URL and year in mono 11 `--ink-3`, two pills (radius 999, mono 11 uppercase): primary "VER MÁS →" (`--orange` fill, `hover` to `--ink`) to `/projects/<slug>` in the current locale, and secondary "VISITAR →" (outline, `hover` fills `--orange`; opens the site in a new tab, with a visually hidden note), category in mono 10 `--orange`, 14 px description and tags at the bottom. The `→` is `aria-hidden`; the `translateX(4px)` on pill `hover` only runs under `no-preference`; pills are 44 px tall on `(pointer: coarse)` or at ≤640, and have a `2px --orange` `focus-visible` ring. The image links to the same detail page but is `aria-hidden` with `tabindex -1`, so the card has one "Ver más" tab stop.
 
 **Image loading state** (`.shot` wrapper, used by the project card image). The wrapper keeps the frame size; `.shot-ph` is a `--bg-3` placeholder with a 2 px `--orange` segment along its bottom edge (square, no shadow). `data-state` (`loading` / `loaded` / `error`) is set only after mount, so the server HTML has none and the image is visible without JS; the hidden-image rule only applies to `loading` and `error`. Already-cached images are detected with `img.complete` before first paint, so they show no placeholder. While loading the segment sweeps (transform only, `1.4s`); under `prefers-reduced-motion: reduce` it is drawn static, so loading still differs from error without motion. The image fades in over `.25s` while the placeholder fades out; reduced motion turns the fades off. The placeholder shows a mono uppercase label (`SHOT_LABELS.loading`, es/en/ja) only after 300 ms (CSS `animation-delay`), in both motion modes, so fast loads show no text. Failure: the placeholder stays with a 24 px line-art broken-image glyph (1.25 px stroke, `--ink-3`, `aria-hidden`) plus the mono message (`SHOT_LABELS.failed`); the broken image is `aria-hidden`. `.shot-ph` is always `aria-hidden`. `aria-busy` is set on `.shot` while loading.
 
@@ -303,7 +305,7 @@ Instrument Serif quote mark at 200 px in `--orange`, large quote, meta with 48 p
 ## 6. Images and iconography
 
 - **Hero:** 3D illustration per theme (`public/hero/hero-<theme>-<750|1100|1495>.{avif,webp}`). Both themes are `<picture>`s in the server HTML; `<source>` media (`prefers-color-scheme`, rewritten from `data-theme` by an inline script) makes only the active one download, eager with `fetchpriority="high"`. Scroll parallax (`data-px="0.45"`) and a blue radial blob `.hero-blob`. At ≤1024 a gradient mask is applied so the text is readable.
-- **Projects:** real screenshots in `public/projects/<slug>/` as WebP (`N.webp` 600w, the card fallback when `responsive.desktop` is empty; `desktop/` 1600w, `tablet/` 1100w, `mobile/` 600w; q78) plus a 30 px logo (96w WebP). The home card shows `desktop/1.webp`; the detail page uses all sizes. Images and logos load lazily (`loading="lazy"`), except the detail page hero, which loads eagerly with `fetchpriority="high"`.
+- **Projects:** real screenshots in `public/projects/<slug>/` as WebP (`N.webp` 600w, the card fallback for a project with only plain `screenshots` (no `responsive.desktop`); `desktop/` 1600w, `tablet/` 1100w, `mobile/` 600w; q78) plus a 30 px logo (96w WebP). The home card shows `desktop/1.webp`; the detail page uses all sizes. Images and logos load lazily (`loading="lazy"`), except the detail page hero, which loads eagerly with `fetchpriority="high"`.
 - **Team:** real photos in `public/team/` as WebP (≥760×950 cover size, serious and fun). The "serious" canvas image loads when the card is within 400 px of the viewport; names are `h3`.
 - **Blog covers:** no images. They are color blocks with a typographic word and `repeating-linear-gradient(45deg, …)` stripes. Keep that pattern and do not add stock photos.
 - **Icons:** almost none. Text glyphs are used (`→ ↗ ↓ ↑ ‹ › + ·`) and 14 px inline SVG only in the theme toggle and the photo reset button. Do not add an icon library.
@@ -334,9 +336,9 @@ Instrument Serif quote mark at 200 px in `--orange`, large quote, meta with 48 p
 - **Reduced motion:** respected in the hero parallax (JS, listens for live changes; `kx/templates/masthead/component.tsx`), the marquee (stops and shows one wrapped copy of the items), `scroll-behavior: smooth` (only under `no-preference`), the project card image zoom, the project pill `hover` shift, the `.shot` fades and the story image entrance of the project detail page (images stay visible). **Still active:** the inertial cursor, the 3D photo tilt and the other `hover` shifts.
 - **Theme:** respects `prefers-color-scheme` the first time; after that the saved choice wins.
 - **Mobile menu:** when open, the rest of the page is `inert`, scroll is locked, and focus and Escape are handled (`components/Nav.jsx`).
-- **Touch targets:** the theme toggle (32×32), the hamburger (36×32) and the language selector (about 28 px tall) are below 44×44. Only `.t-nav button` and, at ≤640, the project card pills reach 44.
+- **Touch targets:** the theme toggle (32×32), the hamburger (36×32) and the language selector (about 28 px tall) are below 44×44. Reaching 44: `.t-nav button`, the home project card pills (`pointer: coarse` or ≤640), and on the project detail page `.pj-pill`, `.pj-big` (about 45 px with its padding) and `.pj-link` (96 px).
 - **Minimum text:** 10–11 px UPPERCASE mono is common for metadata and labels.
-- **Images:** the project card screenshot is decorative (`alt=""`, inside an `aria-hidden` link; the name and "Ver más" carry the meaning); logos `alt=""` (the name sits next to them); the hero, `aria-hidden`.
+- **Images:** the project card screenshot is decorative (`alt=""`, inside an `aria-hidden` link; the name and "Ver más" carry the meaning); logos `alt=""` (the name sits next to them); the project hero `<img>` has `alt=""` (decorative: the `h1` names the project); the hero, `aria-hidden`.
 
 ---
 
@@ -355,7 +357,7 @@ Instrument Serif quote mark at 200 px in `--orange`, large quote, meta with 48 p
 
 **Don't**
 - Do not use loose hex values in CSS or in `style={{}}`, and do not create new grays: `--ink-2`, `--ink-3`, `--rule` and `--rule-2` are more than enough.
-- Do not use `box-shadow`, decorative gradients (except the 45° stripes and the hero blob) or radii: pills are the exception and are all already listed.
+- Do not use `box-shadow`, decorative gradients (except the 45° stripes and the hero blob; the project hero scrim `linear-gradient` is functional, for title legibility) or radii: pills are the exception and are all already listed.
 - Do not use `--olive` on CTAs, links or errors. Do not add a third accent color.
 - Do not put text in `--mute` except placeholders, nor small `--ink-3` text on `--bg-2` in the light theme.
 - Do not use Plex Mono 700 or any Familjen weight other than 400/500/600/700.

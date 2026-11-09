@@ -85,7 +85,7 @@ export default async function Page({ params }) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumbs }} />
       <ProjectCursor />
-      <Nav lang={locale} mode="post" />
+      <Nav lang={locale} mode="post" activeWork />
       <main className="pj">
         <header className="pj-hero">
           <picture>

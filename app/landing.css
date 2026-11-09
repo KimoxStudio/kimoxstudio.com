@@ -804,6 +804,10 @@
       .proj-row .name-block .proj-cta { transition: background .2s, color .2s, border-color .2s, transform .2s; }
       .proj-row .name-block .proj-cta:hover { transform: translateX(4px); }
     }
+    /* 44px floor keyed on input type as well as width: touch tablets between 641 and 1024 px need it too. */
+    @media (pointer: coarse), (max-width: 640px) {
+      .proj-row .name-block .proj-cta { min-height: 44px; }
+    }
     .proj-row .name-block .proj-cta--primary { background: var(--orange); color: var(--bg); border-color: var(--orange); }
     .proj-row .name-block .proj-cta--primary:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
     .proj-row .desc {
@@ -1451,7 +1455,6 @@
       .web-service .ws-illu { top: 8px; left: 8px; width: calc(100% - 16px); height: calc(100% - 16px); }
       .billing-toggle { gap: 8px; }
       .billing-toggle button { min-height: 44px; }
-      .proj-row .name-block .proj-cta { min-height: 44px; }
       .svc-note { font-size: 13px; }
       .svc-row .price-cell .alt { font-size: 13px; }
       .faq-item summary { min-height: 44px; padding: 18px 0; font-size: 19px; }

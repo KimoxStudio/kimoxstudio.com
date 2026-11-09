@@ -374,7 +374,8 @@ export default function HomePage() {
           },
           viewSite: { es: "Visitar", en: "Visit", ja: "訪問" },
           viewMore: { es: "Ver más", en: "View more", ja: "詳しく見る" },
-          items: getAllProjects(),
+          // Cards never read `sections`; keep them out of the client payload.
+          items: getAllProjects().map(({ sections, ...card }) => card),
         }}
         node={stubNode("work", "project-list")}
       />

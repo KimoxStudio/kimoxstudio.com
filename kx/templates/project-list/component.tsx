@@ -31,13 +31,9 @@ type ShotStatus = "loading" | "loaded" | "error";
 // the image is visible without JS.
 function ShotImage({
   src,
-  alt,
-  lazy,
   labels,
 }: {
   src: string;
-  alt: string;
-  lazy?: boolean;
   labels: ShotLabels;
 }) {
   const [status, setStatus] = useState<ShotStatus | null>(null);
@@ -65,10 +61,10 @@ function ShotImage({
       <img
         ref={imgRef}
         src={src}
-        alt={alt}
+        alt=""
         aria-hidden={status === "error" || undefined}
         draggable={false}
-        loading={lazy ? "lazy" : "eager"}
+        loading="lazy"
         decoding="async"
         onLoad={() => setStatus("loaded")}
         onError={() => setStatus("error")}
@@ -101,7 +97,7 @@ export function ProjectListComponent({ props }: TemplateRenderProps<Props>) {
                   // Same destination as the "view more" link below: kept out of the tab order
                   // and the accessibility tree so keyboard and screen-reader users get one stop.
                   <a className="proj-shot" href={detailHref} tabIndex={-1} aria-hidden="true">
-                    <ShotImage src={shot} alt="" lazy labels={labels} />
+                    <ShotImage src={shot} labels={labels} />
                   </a>
                 )}
                 <div className="name-block">
