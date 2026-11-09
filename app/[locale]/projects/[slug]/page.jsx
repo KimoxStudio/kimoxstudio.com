@@ -101,9 +101,8 @@ export default async function Page({ params }) {
               decoding="async"
             />
           </picture>
-          <div className="pj-hero__txt wrap">
-            <h1 className="pj-title">{project.name}</h1>
-          </div>
+          {/* The screenshot already shows the project name; the h1 names the page for assistive tech and SEO. */}
+          <h1 className="pj-sr">{project.name}</h1>
         </header>
 
         <section className="pj-intro wrap">
