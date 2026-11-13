@@ -234,6 +234,7 @@ nav.top .right { display: flex; align-items: center; gap: 14px; }
   background: var(--bg);
   padding: clamp(20px, 4vw, 56px) clamp(20px, 5vw, 56px);
   overflow-y: auto;
+  overscroll-behavior: contain;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-12px);

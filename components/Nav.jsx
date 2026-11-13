@@ -144,8 +144,26 @@ export default function Nav({
         el.setAttribute('aria-hidden', 'true');
       }
     });
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    // Lock on <html>, not <body>: html has `overflow-x: clip`, so body's
+    // overflow isn't propagated to the viewport and `overflow: hidden` on
+    // body would turn body into its own scroll container. The sticky
+    // nav.top would then stick to body (scrolled to 0) instead of the
+    // viewport and jump off-screen whenever the menu opens mid-page.
+    const root = document.documentElement;
+    const prevOverflow = root.style.overflow;
+    root.style.overflow = 'hidden';
+    // iOS Safari still scrolls the page on touch drags despite
+    // `overflow: hidden`, so block touchmove outright unless it lands on
+    // the panel while the panel actually has content to scroll
+    // (`overscroll-behavior: contain` on .nav-mobile stops that scroll
+    // from chaining to the page at its edges).
+    const onTouchMove = (e) => {
+      const panel = menuPanelRef.current;
+      const panelScrolls =
+        panel && panel.contains(e.target) && panel.scrollHeight > panel.clientHeight;
+      if (!panelScrolls) e.preventDefault();
+    };
+    document.addEventListener('touchmove', onTouchMove, { passive: false });
     return () => {
       siblings.forEach((el) => {
         if (supportsInert) {
@@ -154,7 +172,8 @@ export default function Nav({
           el.removeAttribute('aria-hidden');
         }
       });
-      document.body.style.overflow = prevOverflow;
+      root.style.overflow = prevOverflow;
+      document.removeEventListener('touchmove', onTouchMove);
     };
   }, [menuOpen]);
 
