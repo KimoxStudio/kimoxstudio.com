@@ -107,6 +107,25 @@ export function ContactSectionComponent({ props }: TemplateRenderProps<Props>) {
               <span className="or" {...kxField(`or.${lang}`)}>{resolveLocalized(props.or, lang, "es")}</span>
               <span className="em">{props.email}</span>
             </a>
+            <div className="phone-big">
+              <span className="or" {...kxField(`phoneLabel.${lang}`)}>
+                {resolveLocalized(props.phoneLabel, lang, "es")}
+              </span>
+              <span className="em">{props.phoneDisplay}</span>
+              <div className="phone-actions">
+                <a
+                  href={`https://wa.me/${props.phone.replace(/\D/g, "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  {...kxField(`whatsappLabel.${lang}`)}
+                >
+                  {resolveLocalized(props.whatsappLabel, lang, "es")} ↗
+                </a>
+                <a href={`tel:${props.phone}`} {...kxField(`callLabel.${lang}`)}>
+                  {resolveLocalized(props.callLabel, lang, "es")} →
+                </a>
+              </div>
+            </div>
           </div>
           <form onSubmit={handleSubmit} noValidate>
             {/* Honeypot — hidden from real users, bots fill it. */}

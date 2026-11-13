@@ -8,4 +8,6 @@ export const footerWordmarkSchema = z.object({
   backToTop: localized(LANGS),
   blogLabel: localized(LANGS),
   email: z.string(),
+  phone: z.string(),
+  phoneDisplay: z.string(),
 });

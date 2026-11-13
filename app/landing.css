@@ -1424,6 +1424,31 @@
       color: var(--ink);
     }
     .contact .email-big:hover .em { color: var(--orange); }
+    .contact .phone-big {
+      display: flex; flex-direction: column; gap: 8px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .contact .phone-big .or {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink-3);
+    }
+    .contact .phone-big .em {
+      font-family: "Familjen Grotesk", sans-serif;
+      font-size: 28px; font-weight: 600; letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+    .contact .phone-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+    .contact .phone-actions a {
+      display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px;
+      border: 1px solid var(--rule); border-radius: 999px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--ink);
+      transition: color .25s, border-color .25s;
+    }
+    .contact .phone-actions a:hover { color: var(--orange); border-color: var(--orange); }
 
     form .field { margin-bottom: 24px; }
     form label {

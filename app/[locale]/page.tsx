@@ -1,5 +1,5 @@
 import "../landing.css";
-import { CONTACT_EMAIL, languageAlternates, localeUrl } from "@/lib/urls";
+import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_DISPLAY, languageAlternates, localeUrl } from "@/lib/urls";
 import type { PageNode } from "@/kx/template-types";
 import { PageComponent } from "@/kx/templates/page/component";
 import { SiteNavComponent } from "@/kx/templates/site-nav/component";
@@ -732,9 +732,9 @@ export default function HomePage() {
             {
               q: { es: "¿Cómo os contacto?", en: "How do I contact you?", ja: "どうすれば連絡できますか？" },
               a: {
-                es: "Escríbenos a info@kimoxstudio.com o usa el formulario de contacto de esta página. Respondemos en menos de 24h con preguntas, ideas o un plan.",
-                en: "Email us at info@kimoxstudio.com or use the contact form on this page. We reply within 24h with questions, ideas, or a plan.",
-                ja: "info@kimoxstudio.com までメールいただくか、このページのお問い合わせフォームをご利用ください。24時間以内に質問・アイデア・計画でお返事します。",
+                es: "Escríbenos a info@kimoxstudio.com, llámanos o escríbenos por WhatsApp al +34 618 41 03 78, o usa el formulario de contacto de esta página. Respondemos en menos de 24h con preguntas, ideas o un plan.",
+                en: "Email us at info@kimoxstudio.com, call or WhatsApp us at +34 618 41 03 78, or use the contact form on this page. We reply within 24h with questions, ideas, or a plan.",
+                ja: "info@kimoxstudio.com までメール、+34 618 41 03 78 まで電話またはWhatsApp、もしくはこのページのお問い合わせフォームをご利用ください。24時間以内に質問・アイデア・計画でお返事します。",
               },
             },
           ],
@@ -752,6 +752,11 @@ export default function HomePage() {
           },
           or: { es: "o escríbenos a", en: "or email us at", ja: "またはメールで" },
           email: CONTACT_EMAIL,
+          phone: CONTACT_PHONE,
+          phoneDisplay: CONTACT_PHONE_DISPLAY,
+          phoneLabel: { es: "o llámanos / WhatsApp", en: "or call / WhatsApp us", ja: "または電話 / WhatsApp" },
+          whatsappLabel: { es: "WhatsApp", en: "WhatsApp", ja: "WhatsApp" },
+          callLabel: { es: "Llamar", en: "Call", ja: "電話する" },
           fieldName: { es: "Tu nombre", en: "Your name", ja: "お名前" },
           fieldEmail: { es: "Tu email", en: "Your email", ja: "メールアドレス" },
           fieldBudget: { es: "Presupuesto aproximado", en: "Rough budget", ja: "おおよその予算" },
@@ -778,6 +783,8 @@ export default function HomePage() {
           backToTop: { es: "Volver arriba ↑", en: "Back to top ↑", ja: "トップへ ↑" },
           blogLabel: { es: "Blog", en: "Blog", ja: "ブログ" },
           email: CONTACT_EMAIL,
+          phone: CONTACT_PHONE,
+          phoneDisplay: CONTACT_PHONE_DISPLAY,
         }}
         node={stubNode("footer", "footer-wordmark")}
       />
