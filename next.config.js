@@ -28,6 +28,8 @@ const nextConfig = {
       { source: '/', destination: '/es' },
       { source: '/blog', destination: '/es/blog' },
       { source: '/blog/:path*', destination: '/es/blog/:path*' },
+      { source: '/diseno-web-las-palmas', destination: '/es/diseno-web-las-palmas' },
+      { source: '/desarrollo-apps-las-palmas', destination: '/es/desarrollo-apps-las-palmas' },
     ];
   },
 };

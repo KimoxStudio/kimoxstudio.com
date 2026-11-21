@@ -1,5 +1,6 @@
 import { getAllPosts } from '../lib/posts';
 import { LOCALES, languageAlternates, localeUrl } from '../lib/urls';
+import { SERVICE_PAGES } from '../lib/service-pages';
 
 // One entry per language variant of every page (es unprefixed, /en, /ja),
 // each carrying the full hreflang alternates map so the three variants
@@ -17,6 +18,12 @@ export default function sitemap() {
 
   return [
     ...perLocale('/', { changeFrequency: 'monthly', priority: 1 }),
+    // Spanish-only service pages: no /en or /ja variant, so no alternates.
+    ...SERVICE_PAGES.map(({ path }) => ({
+      url: localeUrl('es', path),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    })),
     ...perLocale('/blog', {
       lastModified: latestPostDate,
       changeFrequency: 'weekly',

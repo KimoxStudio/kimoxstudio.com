@@ -28,7 +28,10 @@ export function FooterWordmarkComponent({ props }: TemplateRenderProps<Props>) {
       <footer className="bot">
         <div className="wrap"><div className="row">
           <div {...kxField(`rights.${lang}`)}>{resolveLocalized(props.rights, lang, "es") ?? ""}</div>
-          <div style={{ display: 'flex', gap: 24 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 24px' }}>
+            {lang === "es" && props.serviceLinks.map((l) => (
+              <Link key={l.href} href={l.href}>{l.label}</Link>
+            ))}
             <a href={`mailto:${props.email}`}>{props.email}</a>
             <a href={`tel:${props.phone}`}>{props.phoneDisplay}</a>
             <Link href={localePath(lang, "/blog")} {...kxField(`blogLabel.${lang}`)}>{resolveLocalized(props.blogLabel, lang, "es") ?? ""}</Link>

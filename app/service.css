@@ -1,0 +1,116 @@
+/* Service landing pages (components/ServiceLanding.tsx). Builds on the
+   landing's tokens and .poster-section / .btn-* styles. */
+
+.svc-hero {
+  padding: clamp(56px, 9vw, 120px) 0 clamp(56px, 8vw, 110px);
+  border-bottom: 1px solid var(--rule);
+}
+.svc-crumbs {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: clamp(24px, 4vw, 44px);
+}
+.svc-crumbs a { color: var(--ink-3); text-decoration: underline; text-underline-offset: 3px; }
+.svc-crumbs a:hover { color: var(--orange); }
+.svc-hero h1 {
+  font-family: "Familjen Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: clamp(40px, 6.4vw, 104px);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 clamp(24px, 3vw, 36px);
+  max-width: 14ch;
+  overflow-wrap: break-word;
+}
+.svc-lede {
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.45;
+  color: var(--ink-2);
+  max-width: 640px;
+  margin: 0 0 36px;
+}
+.svc-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+.svc-price-hint {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0;
+}
+
+.svc-grid {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--rule);
+  border-left: 1px solid var(--rule);
+}
+.svc-grid li {
+  padding: 32px 28px 36px;
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.svc-grid h3, .svc-price-list h3, .svc-step-list h3 {
+  font-family: "Familjen Grotesk", sans-serif;
+  font-size: 24px; font-weight: 600; letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 0 12px;
+}
+.svc-grid p, .svc-price-list p, .svc-step-list p {
+  font-size: 16px; line-height: 1.5; color: var(--ink-2); margin: 0;
+}
+
+.svc-price-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.svc-price-list li {
+  display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: start;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.svc-price-list p { max-width: 560px; }
+.svc-price-amount { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; }
+.svc-price-amount .from,
+.svc-price-amount .alt {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-3);
+}
+.svc-price-amount .amount {
+  font-family: "Familjen Grotesk", sans-serif;
+  font-size: clamp(32px, 3.4vw, 48px); font-weight: 700; letter-spacing: -0.03em;
+  color: var(--orange);
+  line-height: 1;
+}
+.svc-price-note { font-size: 14px; color: var(--ink-3); margin: 20px 0 0; }
+
+.svc-step-list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+}
+.svc-step-list li { border-top: 1px solid var(--rule); padding-top: 20px; }
+.svc-step-list .n {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px; letter-spacing: .1em; font-weight: 600;
+  color: var(--orange);
+  margin-bottom: 14px;
+}
+
+.svc-local-body { max-width: 760px; }
+.svc-local-body p {
+  font-size: clamp(19px, 1.7vw, 24px);
+  line-height: 1.45;
+  color: var(--ink);
+  margin: 0 0 24px;
+}
+
+@media (max-width: 1024px) {
+  .svc-grid { grid-template-columns: repeat(2, 1fr); }
+  .svc-step-list { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .svc-grid, .svc-step-list { grid-template-columns: 1fr; }
+  .svc-price-list li { grid-template-columns: 1fr; gap: 16px; }
+  .svc-price-amount { align-items: flex-start; text-align: left; }
+  .svc-ctas > a { flex: 1 1 100%; justify-content: center; }
+}

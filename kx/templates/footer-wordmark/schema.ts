@@ -10,4 +10,5 @@ export const footerWordmarkSchema = z.object({
   email: z.string(),
   phone: z.string(),
   phoneDisplay: z.string(),
+  serviceLinks: z.array(z.object({ href: z.string(), label: z.string() })).default([]).describe("Spanish-only service pages, shown on es"),
 });
