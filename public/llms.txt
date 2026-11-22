@@ -42,6 +42,7 @@ No empezamos un proyecto buscando qué plantilla encaja. Primero entendemos el p
 
 Cuaderno del estudio: notas técnicas sobre desarrollo web, SEO, diseño de producto y migraciones. Índice: https://www.kimoxstudio.com/blog
 
+- [Cuánto cuesta una página web en Gran Canaria: precios reales y qué cambia el precio](https://www.kimoxstudio.com/blog/precio-pagina-web-gran-canaria): landing desde 500 € u 80 €/mes, web con base de datos y panel desde 1.500 € o 120 €/mes (sin IGIC), qué sube el precio y cómo se suma el IGIC.
 - [Cómo migramos una app de 8 años a Next.js sin perder un usuario](https://www.kimoxstudio.com/blog/migracion-nextjs): caso real de migración progresiva. Rutas espejo, redirecciones 301 y SEO al alza.
 - [SEO técnico para SaaS: 12 cosas que ningún plugin te va a hacer](https://www.kimoxstudio.com/blog/seo-tecnico-saas): el SEO como capa de arquitectura, decidido antes de la primera línea de código.
 - [Diseñar una API REST que no odies en 6 meses](https://www.kimoxstudio.com/blog/diseno-api-rest): versionado, paginación, errores legibles e idempotencia.
