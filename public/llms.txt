@@ -7,6 +7,8 @@ No empezamos un proyecto buscando qué plantilla encaja. Primero entendemos el p
 - Web: https://www.kimoxstudio.com/
 - Ubicación: Las Palmas de Gran Canaria (Islas Canarias, España). Estudio remoto, sin oficina abierta al público; trabajamos con clientes de cualquier país.
 - Email de contacto: info@kimoxstudio.com (respondemos en menos de 24h)
+- Teléfono y WhatsApp: +34 618 41 03 78 (https://wa.me/34618410378)
+- Horario: lunes a viernes, de 9:00 a 18:00 (hora de Canarias)
 - Equipo: Jesé Romero Arbelo (fundador · swiss-stack developer), Adrián Mujica González (fundador · arquitecto), Samuel Romero Arbelo (full-stack)
 
 ## Servicios
@@ -36,7 +38,7 @@ No empezamos un proyecto buscando qué plantilla encaja. Primero entendemos el p
 - ¿Ofrecéis consultoría de IA? Sí: diagnóstico, formación, implantación y acompañamiento mensual. Precio a medida; la primera conversación es sin compromiso.
 - ¿Mantenéis proyectos que no habéis hecho vosotros? Sí: mantenimiento de proyectos existentes, migraciones de stack, auditorías SEO técnicas y refactor de código heredado.
 - ¿Trabajáis solo en Canarias? No: remoto con clientes de cualquier país. La web está en español, inglés y japonés.
-- ¿Cómo os contacto? info@kimoxstudio.com o el formulario de la web; respondemos en menos de 24h.
+- ¿Cómo os contacto? info@kimoxstudio.com, WhatsApp o llamada al +34 618 41 03 78, o el formulario de la web; respondemos en menos de 24h.
 
 ## Blog
 
@@ -53,6 +55,10 @@ Cuaderno del estudio: notas técnicas sobre desarrollo web, SEO, diseño de prod
 
 ## Recursos
 
+- [Diseño web en Las Palmas de Gran Canaria](https://www.kimoxstudio.com/diseno-web-las-palmas): qué incluye una web, precios, cómo trabajamos y webs hechas para negocios de Las Palmas.
+- [Desarrollo de apps en Las Palmas de Gran Canaria](https://www.kimoxstudio.com/desarrollo-apps-las-palmas): aplicaciones web y móviles a medida, precios y apps publicadas.
+- [Perfil en Clutch](https://clutch.co/profile/kimox-studio)
+- [Ficha en Cylex](https://www.cylex.es/las-palmas-de-gran-canaria/kimox-studio-14673719.html)
 - [Sitemap](https://www.kimoxstudio.com/sitemap.xml): todas las URLs del sitio en los tres idiomas con sus alternates hreflang.
 - [Versión en inglés](https://www.kimoxstudio.com/en)
 - [Versión en japonés](https://www.kimoxstudio.com/ja)
