@@ -57,6 +57,7 @@ Cuaderno del estudio: notas técnicas sobre desarrollo web, SEO, diseño de prod
 
 - [Diseño web en Las Palmas de Gran Canaria](https://www.kimoxstudio.com/diseno-web-las-palmas): qué incluye una web, precios, cómo trabajamos y webs hechas para negocios de Las Palmas.
 - [Desarrollo de apps en Las Palmas de Gran Canaria](https://www.kimoxstudio.com/desarrollo-apps-las-palmas): aplicaciones web y móviles a medida, precios y apps publicadas.
+- [Página en LinkedIn](https://www.linkedin.com/company/kimox-studio/)
 - [Perfil en Clutch](https://clutch.co/profile/kimox-studio)
 - [Ficha en Cylex](https://www.cylex.es/las-palmas-de-gran-canaria/kimox-studio-14673719.html)
 - [Sitemap](https://www.kimoxstudio.com/sitemap.xml): todas las URLs del sitio en los tres idiomas con sus alternates hreflang.
