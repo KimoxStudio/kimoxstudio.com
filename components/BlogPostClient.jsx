@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import { I18N as I } from '../lib/i18n';
 import { useLang, t } from '../lib/lang';
 import { localePath } from '../lib/urls';
+import { SERVICE_PAGES } from '../lib/service-pages';
 import { useBlogCursor } from '../lib/cursor';
 import Nav from './Nav';
 
@@ -106,6 +107,19 @@ export default function BlogPostClient({ post }) {
           <div className="post-body">
             <ReactMarkdown>{dedent(t(post.body, lang) || post.content)}</ReactMarkdown>
           </div>
+          {/* The service pages are Spanish-only, so only Spanish posts link to them. */}
+          {lang === 'es' && (
+            <nav className="post-services" aria-label="Servicios de Kimox Studio">
+              <p>¿Necesitas una web o una app para tu negocio?</p>
+              <ul>
+                {SERVICE_PAGES.map(({ path, label }) => (
+                  <li key={path}>
+                    <Link href={path}>{label} →</Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
         </section>
       </article>
       </main>

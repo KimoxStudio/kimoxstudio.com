@@ -240,6 +240,28 @@
 }
 .post:hover .read-more { color: var(--orange); transform: translateX(4px); }
 
+/* ── Links to the service pages under Spanish posts ── */
+.post-services {
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+}
+.post-services p {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 12px;
+}
+.post-services ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 28px; }
+.post-services a {
+  font-family: 'Familjen Grotesk', sans-serif;
+  font-size: 20px; font-weight: 600; letter-spacing: -0.01em;
+  color: var(--ink);
+  border-bottom: 1px solid var(--orange);
+  transition: color .2s;
+}
+.post-services a:hover { color: var(--orange); }
+
 /* ── Post body (markdown) ── */
 .post-body p {
   margin: 0 0 1.4em;
