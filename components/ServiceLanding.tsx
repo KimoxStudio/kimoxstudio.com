@@ -24,6 +24,7 @@ export type ServiceContent = {
   includes: { title: string; body: string }[];
   prices: { name: string; body: string; oneOff: string; monthly: string }[];
   priceNote?: string;
+  priceLink?: { href: string; label: string };
   steps: { title: string; body: string }[];
   local: { title: string; paragraphs: string[] };
   projectsTitle: string;
@@ -128,6 +129,11 @@ export default function ServiceLanding({ content: c }: { content: ServiceContent
             <p className="svc-price-note">
               Precios sin IGIC. {c.priceNote ?? ""} Te decimos el precio final antes de empezar.
             </p>
+            {c.priceLink && (
+              <p className="svc-price-link">
+                <a href={c.priceLink.href}>{c.priceLink.label} →</a>
+              </p>
+            )}
           </div>
         </section>
 

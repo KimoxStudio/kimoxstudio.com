@@ -57,6 +57,7 @@ const CONTENT: ServiceContent = {
     },
   ],
   priceNote: "El precio de una web con base de datos y panel depende de sus funcionalidades finales.",
+  priceLink: { href: "/blog/precio-pagina-web-gran-canaria", label: "Cuánto cuesta una página web en Gran Canaria: precios reales y qué cambia el precio" },
   steps: [
     { title: "Entendemos el problema", body: "Nos cuentas tu negocio y a quién quieres llegar. Respondemos en menos de 24 h." },
     { title: "Decidimos cómo funciona", body: "Qué páginas hacen falta, qué tiene que encontrar tu cliente y qué tiene que hacer después." },

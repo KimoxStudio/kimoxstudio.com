@@ -82,6 +82,9 @@
   line-height: 1;
 }
 .svc-price-note { font-size: 14px; color: var(--ink-3); margin: 20px 0 0; }
+.svc-price-link { margin: 12px 0 0; font-size: 16px; }
+.svc-price-link a { color: var(--orange); border-bottom: 1px solid var(--orange); transition: opacity .2s; }
+.svc-price-link a:hover { opacity: .7; }
 
 .svc-step-list {
   list-style: none; margin: 0; padding: 0;
