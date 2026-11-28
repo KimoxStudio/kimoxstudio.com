@@ -62,7 +62,20 @@ export async function generateMetadata({ params }) {
   };
 }
 
+// The list only renders these fields; passing whole posts would ship every
+// body in every language to the client (~96 KB of unused RSC payload).
+const card = (p) =>
+  p && {
+    slug: p.slug,
+    date: p.date,
+    read_time: p.read_time,
+    glyph: p.glyph,
+    category: p.category,
+    title: p.title,
+    excerpt: p.excerpt,
+  };
+
 export default function Page() {
   const { featured, others } = getFeaturedAndOthers();
-  return <BlogClient featured={featured} others={others} />;
+  return <BlogClient featured={card(featured)} others={others.map(card)} />;
 }
