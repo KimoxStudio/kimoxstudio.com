@@ -72,7 +72,7 @@ Source: `app/globals.css:2-45`. The theme is applied with `data-theme` on `<html
 
 ## 3. Typography
 
-Loaded with a `<link>` to Google Fonts (`app/[locale]/layout.jsx:138`), not with `next/font`. The TTFs in `app/fonts/` (IBM Plex Mono) are used only by the OG images.
+Self-hosted: `app/fonts.css` declares the latin and latin-ext subsets as `@font-face` with the original family names, served from `public/fonts/` (downloaded once from Google Fonts). Both root layouts import it and preload Familjen Grotesk 700 and IBM Plex Mono 400; no request goes to fonts.googleapis.com. The TTFs in `app/fonts/` (IBM Plex Mono) are used only by the OG images.
 
 | Family | Weights loaded | Use |
 |---|---|---|

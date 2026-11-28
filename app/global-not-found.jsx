@@ -1,6 +1,7 @@
 // Localized 404 for URLs that match no route. Rendered outside
 // app/[locale]/layout.jsx (whose [locale] segment cannot resolve here), so it
 // is a full document that repeats the layout's theme script and fonts.
+import './fonts.css';
 import './globals.css';
 import NotFoundContent, { LOCALE_BOOT_SCRIPT } from '@/components/NotFoundContent';
 import { BASE_URL } from '@/lib/urls';
@@ -18,12 +19,9 @@ export default function GlobalNotFound() {
     <html lang="es" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
-          rel="stylesheet"
-        />
+        {/* Self-hosted fonts (app/fonts.css); preload the two used above the fold. */}
+        <link rel="preload" href="/fonts/familjen-grotesk-700-latin.woff2" as="font" type="font/woff2" crossOrigin="" />
+        <link rel="preload" href="/fonts/ibm-plex-mono-400-latin.woff2" as="font" type="font/woff2" crossOrigin="" />
       </head>
       <body>
         <script dangerouslySetInnerHTML={{ __html: LOCALE_BOOT_SCRIPT }} />

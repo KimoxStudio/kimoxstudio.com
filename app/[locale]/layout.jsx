@@ -1,3 +1,4 @@
+import '../fonts.css';
 import '../globals.css';
 import { Analytics } from '@vercel/analytics/next';
 import LangProvider from '@/components/LangProvider';
@@ -109,12 +110,9 @@ export default async function RootLayout({ children, params }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(siteGraph(locale)) }}
         />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
-          rel="stylesheet"
-        />
+        {/* Self-hosted fonts (app/fonts.css); preload the two used above the fold. */}
+        <link rel="preload" href="/fonts/familjen-grotesk-700-latin.woff2" as="font" type="font/woff2" crossOrigin="" />
+        <link rel="preload" href="/fonts/ibm-plex-mono-400-latin.woff2" as="font" type="font/woff2" crossOrigin="" />
       </head>
       <body>
         <div id="cursor-ring" />
